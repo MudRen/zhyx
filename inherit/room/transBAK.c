@@ -1,7 +1,7 @@
 // trans.c
 // by doing
 
-#pragma save_binary
+// #pragma save_binary
 
 #include <room.h>
 #include <ansi.h>
@@ -173,7 +173,7 @@ int do_goto(string arg)
 
                 pay /= 10;
                 pay *= 10;
-                if (pay < 10) pay = 10; 
+                if (pay < 10) pay = 10;
                 write(CYN "马夫无奈道：“好吧，好吧，那就" + MONEY_D->price_str(pay) +
                       CYN "算了。”\n" NOR);
         }
@@ -245,4 +245,3 @@ void reset()
         ::reset();
         init_connections();
 }
-

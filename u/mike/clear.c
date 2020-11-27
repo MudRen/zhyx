@@ -1,5 +1,5 @@
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -24,7 +24,7 @@ void create()
         seteuid(ROOT_UID);
         set("channel_id", "系统精灵");
         CHANNEL_D->do_channel( this_object(), "sys", "系统清理精灵已经启动。");
-  
+
         call_out("auto_clear",10);
 }
 
@@ -53,7 +53,7 @@ void auto_clear()
                 }
                 if (num)
                         CHANNEL_D->do_channel( this_object(), "sys",
-                               sprintf("系统自动清除 %d " + garbage[i]->query("unit") + 
+                               sprintf("系统自动清除 %d " + garbage[i]->query("unit") +
                                garbage[i]->name(1) + "。", num));
         }
        //少林方丈室内清除多余人头
@@ -75,5 +75,5 @@ void auto_clear()
            if (base_name(list[i]) == "/clone/misc/head")
               destruct(list[i]);
        }
-      
+
 }

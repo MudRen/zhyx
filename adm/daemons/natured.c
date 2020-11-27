@@ -1,7 +1,7 @@
 // natured.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <localtime.h>
@@ -269,7 +269,7 @@ string game_time()
 
         lt = query_localtime(time());
 
-        return sprintf("%s年%s%s月%s日%s时", 
+        return sprintf("%s年%s%s月%s日%s时",
                        chinese_number(lt[LT_YEAR]),
                        ms[((lt[LT_MON]) % 12) / 3],
                        chinese_number(lt[LT_MON]),

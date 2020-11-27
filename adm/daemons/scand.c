@@ -1,5 +1,5 @@
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -32,17 +32,17 @@ void destruct_invalid_login()
 
         list = children("/clone/user/login");
         number = sizeof(list);
-   
+
         reset_eval_cost();
-        
+
         if (number)
 	{
               	for (i = 0; i < number; i++)
 		{
                         if (objectp(list[i]))
-                             if (! list[i]->query("id") 
-                                 || list[i]->query("id") == "a" 
-                                 || sizeof(list[i]->query("id")) < 3)destruct(list[i]);                        
+                             if (! list[i]->query("id")
+                                 || list[i]->query("id") == "a"
+                                 || sizeof(list[i]->query("id")) < 3)destruct(list[i]);
                }
        }
        return;
@@ -55,7 +55,7 @@ void scan_voting()
         if (! POLL_D->query_now_voting_target())
                 return;
 
-	message("vision", HIW "【系统提示】：目前正在对 " HIR + 
+	message("vision", HIW "【系统提示】：目前正在对 " HIR +
                           POLL_D->query_now_voting_target() + HIW
                         " 进行投票，请用 " HIY "poll now" HIW " 查"
                         "看！\n" NOR, all_interactive());
@@ -67,13 +67,13 @@ void scan_msg()
 {
         int i, nMsg, msg_all;
         object *obs;
-        
+
         call_out("scan_msg", 1500 + random(600));
-        
+
         CHANNEL_D->do_channel( this_object(), "sys", "扫描精灵正在扫描玩家短信息。");
 
         obs = filter_array(all_interactive(), (: ! $1->query("doing") :));
-        
+
         for (i = 0; i < sizeof(obs); i ++)
         {
               if (! objectp(obs[i]))continue;
@@ -82,7 +82,7 @@ void scan_msg()
               if (msg_all <= 0)continue;
 
               for (nMsg = 1; nMsg <= msg_all; nMsg ++)
-              {     
+              {
                      if (obs[i]->query("message/msg" + nMsg + "/is_new"))
                      {
                            tell_object(obs[i], HIG "你有新的消息，请注意查收" HIY " msg read all " HIG "。\n" NOR);
@@ -92,4 +92,3 @@ void scan_msg()
               }
        }
 }
-

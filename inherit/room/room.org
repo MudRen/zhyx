@@ -2,7 +2,7 @@
 // Updated by Doing for optimize
 // The apply/long & short has been canceled
 
-#pragma save_binary
+// #pragma save_binary
 
 #include <dbase.h>
 #include <room.h>
@@ -95,7 +95,7 @@ void reset()
                 if (obs[i]->is_character() ||
                     obs[i]->query("no_get") ||
                     obs[i]->is_head() ||
-                    obs[i]->is_corpse()) 
+                    obs[i]->is_corpse())
                         continue;
                 meminfo += memory_info(obs[i]);
                 destruct(obs[i]);
@@ -108,7 +108,7 @@ void reset()
 
         //
         // Check loaded objects to match the objects specified in "objects"
-        // while query("objects") is 
+        // while query("objects") is
         // ([ <object filename>: <amount>, ..... ])
         // and query_temp("objects") is
         // ([ <object filename>: ({ob1, ob2, ...}), .... ])
@@ -116,7 +116,7 @@ void reset()
         set("no_clean_up", 0);
         ob_list = query("objects");
         if (! mapp(ob_list)) return;
-        
+
         if (! mapp(ob = query_temp("objects")))
                 ob = allocate_mapping(sizeof(ob_list));
         list = keys(ob_list);
@@ -158,7 +158,7 @@ void reset()
                         }
                 }
         }
-        
+
         set_temp("objects", ob);
 }
 
@@ -378,4 +378,3 @@ varargs string long()
        return query("long");
 }
 #endif
-

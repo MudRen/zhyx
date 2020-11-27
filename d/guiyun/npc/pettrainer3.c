@@ -1,4 +1,4 @@
-#pragma save_binary
+// #pragma save_binary
 
 
 // Tie@fy
@@ -21,7 +21,7 @@ void create()
 }
 
 void init()
-{	
+{
         object ob;
         ::init();
         if( interactive(ob = this_player()) && !is_fighting() ) {
@@ -67,7 +67,7 @@ int do_train(string arg)
 	case 2: which = "per"; break;
         case 3: which = "dex"; break;
         case 4: which = "str"; break;
-			}	
+			}
 //okey we identified the target, now the cost:
 	cost = (int) pet->query(which) ;
 	cost *= cost;

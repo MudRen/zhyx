@@ -2,7 +2,7 @@
 // create chat room
 // by Doing
 
-#pragma save_binary
+// #pragma save_binary
 
 #include <ansi.h>
 #include <room.h>
@@ -236,4 +236,3 @@ void add_all_action()
         add_action("do_help", "help");
         add_action("do_clean", "clean");
 }
-

@@ -4,8 +4,8 @@
 
 #include <ansi.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_SAVE;
 inherit F_DBASE;
@@ -365,7 +365,7 @@ public void create_party(string fname, int base, object *obs)
 	{
 		info = ({ obs[i]->query("party/right"), obs[i]->query("name"), 0 });
 		players += ([ obs[i]->query("id") : info ]);
-		
+
 	}
         set(fname, ([ "member" : players,
         	      "money"  : 0,

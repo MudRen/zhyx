@@ -5,8 +5,8 @@
 #include <getconfig.h>
 #include <net/socket.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 inherit F_SAVE;

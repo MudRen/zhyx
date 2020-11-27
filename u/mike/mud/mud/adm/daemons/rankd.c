@@ -1,7 +1,7 @@
 // rankd.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 
@@ -809,7 +809,7 @@ string query_rude(object ob)
                 return str;
 
         if ((string)ob->query("id") == "yuchang")
-                return HIR "【万岁爷】"NOR; 
+                return HIR "【万岁爷】"NOR;
 
         age = ob->query("age");
         switch (ob->query("gender"))
@@ -1026,4 +1026,3 @@ varargs string query_self_close(mixed ob, mixed me, int a1, int a2)
                         return "小弟我";
         }
 }
-

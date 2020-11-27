@@ -1,8 +1,8 @@
 // combatd.c
 // Update by Doing for HELL
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <skill.h>
@@ -244,15 +244,15 @@ string status_msg(int ratio)
 }
 
 // 以下为特殊装备增加的一个函数 oukaya
-varargs void report_status(object ob, int effective)    
+varargs void report_status(object ob, int effective)
 {
-    if( effective ) 
+    if( effective )
         message_vision( "( $N" + eff_status_msg(
                     (int)ob->query("eff_qi") * 100 /(1+(int)ob->query("max_kee")) )
                    + " )\n", ob);
     else
         message_vision( "( $N" + status_msg(
-                   (int)ob->query("qi") * 100/(1+(int)ob->query("max_kee")) ) 
+                   (int)ob->query("qi") * 100/(1+(int)ob->query("max_kee")) )
                    + " )\n", ob);
 }
 
@@ -368,13 +368,13 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
 
 	object env_me;
 	object env_v;
-	
+
 	// 以下为特殊装备增加的变量定义 yuchang
 				int wdamage,damage_spells,defence,ratio;
 				string spells_kind;
 				mapping armor=([]);
 				object armor1;
-	
+
 
         if (environment(me)->query("no_fight"))
         {
@@ -450,7 +450,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
         if (me->query_temp("action_flag") == 0)
                 result = "\n" + action["action"] + "！\n" NOR;
         else
-                result = "\n" NOR + HIW "紧跟着" NOR + action["action"] + "！\n" NOR; 
+                result = "\n" NOR + HIW "紧跟着" NOR + action["action"] + "！\n" NOR;
 
         //
         // (2) Prepare AP, DP for checking if hit.
@@ -704,7 +704,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
                                                 damage += foo["damage"];
                                         }
                                 }
-        
+
                                 if (damage < 1) break;
 
                                 // Let attack skill take its special effort.
@@ -749,7 +749,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
                         }
 
 
-// 以下为特殊装备增加的魔法攻击的内容      yuchang                  
+// 以下为特殊装备增加的魔法攻击的内容      yuchang
         if (weapon&&time()>=me->query_temp("weapon_start")+1)
         {
         	me->set_temp("weapon_start",time());
@@ -769,9 +769,9 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
         	}else if (me->query_temp("apply/wind_attack"))//风系魔法：打精神或加命中
         	{
         		spells_kind="wind_attack";
-        	}          	
+        	}
         	if (spells_kind !="") attack_spells(me,victim,weapon,spells_kind);
-       	
+
         }
 
 
@@ -830,8 +830,8 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
                                 }
 
 // 以下为特殊装备增加的魔法攻击的内容  yuchang
-// 高级毒系魔法武器减对方甲 
-                                ratio=0;                                
+// 高级毒系魔法武器减对方甲
+                                ratio=0;
          	              if(  weapon && weapon->query("grade") && victim->query_temp("noduck/poison") )
             		        {
 	                        wdamage=weapon->query("weapon_prop/damage");
@@ -862,10 +862,10 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
                         if (foo_after_hit)
                                 damage_info += foo_after_hit;
                 }
-        } 
+        }
 
 
-//加入武器的耐久度消耗 ，默认为100  yuchang		
+//加入武器的耐久度消耗 ，默认为100  yuchang
       	if (weapon  && !weapon->query("owner_id") && weapon->query("type")!="dazao") {
       	    if(weapon->query("consistence")){
       		if (random(20)==1) weapon->add("consistence",-1);
@@ -875,13 +875,13 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
            	    	message_vision(HIM+"$N的"+weapon->query("name")+HIM+"不能用了。\n"+NOR,me, victim );
            	    }else {
            	    	message_vision(HIM+"$N的"+weapon->query("name")+HIM+"损坏了。\n"+NOR,me, victim );
-           	    	destruct(weapon);           	    		
+           	    	destruct(weapon);
            	    }
       		}
       	    }else {
             	weapon->set("consistence",100);
             }
-	}            
+	}
 
         //加入防具的耐久度损耗,默认为100 且不可修理
         armor=victim->query_temp("armor");
@@ -896,15 +896,15 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
            	    	message_vision(HIM+"$N的"+armor1->query("name")+HIM+"不能用了。\n"+NOR,me, victim );
            	    }else {
            	    	message_vision(HIM+"$N的"+armor1->query("name")+HIM+"损坏了。\n"+NOR,me, victim );
-           	    	destruct(armor1);           	    		
-           	    }           	     		    
+           	    	destruct(armor1);
+           	    }
        		}
-       		
+
               }else {
             	armor1->set("consistence",100);
-              }	
+              }
             }
-        } 
+        }
 
 
         result = replace_string(result, "$l", limb);
@@ -925,7 +925,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
         if (damage > 0)
 	{
                 if (victim->is_busy()) victim->interrupt_me(me, 8 + random(4));
-                if ((! me->is_killing(your["id"])) && 
+                if ((! me->is_killing(your["id"])) &&
                     (! victim->is_killing(my["id"])) &&
                     ! victim->query("not_living") &&
                     your["qi"] * 3 <= your["max_qi"])
@@ -1100,7 +1100,7 @@ varargs string do_damage(object me, object target, mixed type,
                         } else
                         {
                                 damage_bonus = jiali * damage / 300;
-        
+
                                 // check special force effort
                                 skill = target->query_skill_mapped("force");
                                 if (stringp(skill))
@@ -1217,8 +1217,8 @@ void fight(object me, object victim)
         if (askill && random(me->query_dex()) >= 8)
                 double_attack = (sizeof(prepare) >= 2 && ! weapon) ||
 				SKILL_D(askill)->double_attack();
-				
-				
+
+
 //魔法攻击对yinshen有效 yuchang
 			if( !me->visible(victim)
     && (random(100 + (int)me->query_skill("perception")) < 100) )
@@ -1284,7 +1284,7 @@ void auto_fight(object me, object obj, string type)
                 return;
 
         // Because most of the cases that we cannot start a fight cannot be checked
-        // before we really call the kill_ob(), so we just make sure we have no 
+        // before we really call the kill_ob(), so we just make sure we have no
         // aggressive callout wating here.
         if (me->query_temp("looking_for_trouble")) return;
         me->set_temp("looking_for_trouble", 1);
@@ -1583,7 +1583,7 @@ void winner_reward(object winner, object victim)
 
                 // 清除该玩家的死亡保护
                 winner->clear_condition("die_guard");
-                winner->delete("quest_count"); 
+                winner->delete("quest_count");
 
                 if (temp == MAX_KILL_TIMES_PERMAN)
                 {
@@ -1691,7 +1691,7 @@ void killer_reward(object killer, object victim)
                                 if (shen_delta < -300)
                                         shen_delta = (shen_delta + 300) / 3 - 300;
                         }
-                                        
+
                         ks["shen"] += shen_delta;
                 }
 
@@ -1919,7 +1919,7 @@ void hit_with_poison(object me, object victim, object ob)
                 ap["level"] = p["level"] * 9 / 10 + 1;
         else
                 ap["level"] = p["level"] * 8 / 10 + 1;
-                
+
         ap["id"]       = p["id"];
         ap["name"]     = p["name"];
         ap["duration"] = 1;
@@ -1974,7 +1974,7 @@ void hit_with_poison(object me, object victim, object ob)
                         victim->set_temp("has_announce/defense3", 1);
                         victim->start_call_out(bind((: call_other,
                                 __FILE__, "clear_announce", victim :), victim), 15);
-                        msg += "。\n" NOR HIC "$n" HIC "长笑道：好家伙，居然" + 
+                        msg += "。\n" NOR HIC "$n" HIC "长笑道：好家伙，居然" +
                                (ob == me ? "在身上淬毒" : "使用淬毒兵器") +
                                "，这些下三滥的手段也敢到我面前卖弄？\n" NOR;
                 } else
@@ -2021,7 +2021,7 @@ void hit_poison(object me, object victim, object ob)
         // affect parameter
         ap = allocate_mapping(4);
         ap["level"]    = p["level"] * 7 / 10 + 1;
-                
+
         ap["id"]       = p["id"];
         ap["name"]     = p["name"];
         ap["duration"] = 1;
@@ -2136,7 +2136,7 @@ void check_quest(object killer,object victim)
                       "pot" : pot,
                       "score" : score,
                       "weiwang" : weiwang,
-                      "prompt": "在铲除外来敌人" + victim->name() + HIG "的过程中，经过锻炼" 
+                      "prompt": "在铲除外来敌人" + victim->name() + HIG "的过程中，经过锻炼"
                    ]);
 
                QUEST_D->delay_bonus(killer, b);
@@ -2259,7 +2259,7 @@ void check_quest(object killer,object victim)
               }
               return;
        }
-       
+
 }
 
 string base_dir(object obj)
@@ -2270,14 +2270,14 @@ string base_dir(object obj)
         filename = base_name(obj);
         at = strsrch(filename,"/",-1);
         filename = filename[0..at];
-        return filename; 
+        return filename;
 }
 
 //此函数直接调动魔法攻击  yuchang
 //yuchang 2006/5
 int do_attack_spells(object me,object victim,object weapon,string spells_kind)
 {
-      weapon=me->query_temp("weapon");	
+      weapon=me->query_temp("weapon");
       if (weapon&&time()>=me->query_temp("weapon_start")+1)
         {
         	me->set_temp("weapon_start",time());
@@ -2297,9 +2297,9 @@ int do_attack_spells(object me,object victim,object weapon,string spells_kind)
         	}else if (me->query_temp("apply/wind_attack"))//风系魔法：打法力或增加攻击
         	{
         		spells_kind="wind_attack";
-        	}          	
+        	}
         	if (spells_kind !="") attack_spells(me,victim,weapon,spells_kind);
-       	
+
          }
 }
 
@@ -2307,13 +2307,13 @@ int do_attack_spells(object me,object victim,object weapon,string spells_kind)
 int attack_spells(object me,object victim,object weapon,string spells_kind)
 {
 	int damage_spells,i,j,damage,defence,k,grade;
-	
+
 	damage=weapon->query("weapon_prop/damage");
 	grade=weapon->query("grade",1);
 	k=random(grade)+1;
 	if( k>6 )  //封存武器终极招式，需要等级  yuchang 2004/11
 	k=6;
-	
+
 	for (i=0;i<=random(me->query_temp("apply/luck")+1);i++)
 	{
 	   switch(spells_kind)
@@ -2339,7 +2339,7 @@ int attack_spells(object me,object victim,object weapon,string spells_kind)
  	                if (wizardp(me) && me->query("env/combat_test"))
                             tell_object(me, sprintf(HIM+"damage: %d\n"NOR,damage_spells/2));
            		report_status(victim);
-           		     	
+
         	}else
         	{
                     if(k<4) message_vision(HIW+"$N"+HIW+"手中的"+weapon->query("name")+HIW+"飘出漫天飞雪，直奔$n"+HIW+"而去。\n"+NOR, me, victim );
@@ -2362,7 +2362,7 @@ int attack_spells(object me,object victim,object weapon,string spells_kind)
         		}
         	}
         	break;
-        			
+
 	     case "fire_attack"://火系魔法：打气血或气血上限
 	     	damage_spells  = me->query_temp("apply/fire_attack")*damage;
         	defence=victim->query_temp("apply/fire_defence");
@@ -2386,7 +2386,7 @@ int attack_spells(object me,object victim,object weapon,string spells_kind)
                          tell_object(me, sprintf(HIM+"damage: %d\n"NOR,damage_spells));
                 report_status(victim);
            	break;
-		
+
 	     case "lightning_attack"://电系魔法：打精神或精神上限
 	        damage_spells  = me->query_temp("apply/lightning_attack")*damage;
         	defence=victim->query_temp("apply/lightning_defence");
@@ -2410,7 +2410,7 @@ int attack_spells(object me,object victim,object weapon,string spells_kind)
                          tell_object(me, sprintf(HIM+"damage: %d\n"NOR,damage_spells));
            	report_status(victim);
            	break;
-		
+
 	     case "poison_attack"://毒系魔法：打内力或者降防御
 	     	damage_spells  = me->query_temp("apply/poison_attack")*damage;
         	defence=victim->query_temp("apply/poison_defence");
@@ -2432,7 +2432,7 @@ int attack_spells(object me,object victim,object weapon,string spells_kind)
                else         message_vision(MAG+"$N"+NOR+MAG+"运用手中的"+weapon->query("name")+NOR+MAG+"竟然使出失传已久的封存技五毒迷，漫天浓香的五彩雾气越来越浓把$n"+NOR+MAG+"团团围住。\n$n"+NOR+MAG+"失去躲闪意识，只觉醉生梦死，已然完全失去了戒备之心。\n"+NOR, me, victim );
                   }
            	break;
-           	
+
              case "wind_attack"://风系魔法：打法力或者加命中
 	     	damage_spells  = me->query_temp("apply/wind_attack")*damage;
         	defence=victim->query_temp("apply/wind_defence");
@@ -2457,7 +2457,7 @@ int attack_spells(object me,object victim,object weapon,string spells_kind)
            }
 	}
 	//魔法升级
-	
+
 	if (userp(me)&&weapon->query("weapon_prop"+"/"+spells_kind)<weapon->query(spells_kind+"/"+"max_level")
 	       &&victim->query("combat_exp")>me->query("combat_exp")/1.5)
       	{
@@ -2467,14 +2467,14 @@ int attack_spells(object me,object victim,object weapon,string spells_kind)
                 a=base_name(victim)[0..strsrch(base_name(victim),"/",-1)];
 
       		if (member_array(a,file)!=-1)
-      		{	
+      		{
       		   weapon->add(spells_kind+"/"+"exp",1);
 	           if (wizardp(me) && me->query("env/combat_test"))
                          tell_object(me, sprintf(HIM+weapon->query("name")+HIM+"的威力在战斗中提升了！\n" NOR));
                    if (weapon->query(spells_kind+"/"+"exp")>=(weapon->query("weapon_prop"+"/"+spells_kind)+1)*1000)
       		   {
       		   	weapon->unequip();
-      			weapon->set(spells_kind+"/"+"exp",0);	
+      			weapon->set(spells_kind+"/"+"exp",0);
       			weapon->add("weapon_prop"+"/"+spells_kind,1);
       			weapon->wield();
 	                if (wizardp(me) && me->query("env/combat_test"))

@@ -1,12 +1,12 @@
 // questd.c 处理任务的守护进程
 // 包括师门任务函数载体和系统注册任务(SYSREG_QUEST)
-// Updated by Vin for heros.cn 
+// Updated by Vin for heros.cn
 
 #include <ansi.h>
 #include <quest.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -557,14 +557,14 @@ int ask_quest(object me, object who)
                         tell_object(who, HIY "看来还是的加强自己的江湖威望才行。\n" NOR);
                         return 1;
                 }
-        
+
                 if (who->is_bad() && me->is_good())
                 {
                         message_vision(CYN "$N" CYN "大怒道：岂有此理！你居然已经误"
                                        "入歧途，还敢来见我！\n" NOR, me, who);
                         return 1;
                 }
-        
+
                 if (who->is_good() && me->is_bad())
                 {
                         message_vision(CYN "$N" CYN "大怒道：岂有此理！才几天不见，"
@@ -578,7 +578,7 @@ int ask_quest(object me, object who)
                 message_vision(HIG "系统文件更新中，暂时取消杀人任务，送信任务保留。\n" NOR, me,who);
                                who->start_busy(1);
                 return 1;
-                
+
                 */
 
                 level = who->query_temp("quest/next_level");
@@ -758,7 +758,7 @@ int accept_object(object me, object who, object ob)
                 }
 
                 message_vision(CYN "$N" CYN "瞪着$n" CYN "道：干什么？交给你"
-                               "的活你不打算干了？\n" NOR, me, who);        
+                               "的活你不打算干了？\n" NOR, me, who);
                 return -1;
         }
 
@@ -811,7 +811,7 @@ int accept_object(object me, object who, object ob)
         {
                 if (! mapp(q) || ! ob->is_corpse() && ! ob->is_head())
                         return 0;
-        
+
                 if (! stringp(ob->query("owner_id")))
                 {
                         message_vision(CYN "$N" CYN "捂着鼻子看了看" + ob->name()
@@ -826,7 +826,7 @@ int accept_object(object me, object who, object ob)
                                        "拿走。\n" NOR, me);
                         return 0;
                 }
-        
+
                 if (ob->query("owner_id") != q["id"])
                         return 0;
 
@@ -1138,7 +1138,7 @@ int accept_object(object me, object who, object ob)
         who->add("gongxian", gongxian);
 
         // 随机停止发送任务，必须等完成一定数量的freequest才能继续。
-        if (random(70) == 1 && quest_count >= 30 && ! who->query_temp("wiz_test")) 
+        if (random(70) == 1 && quest_count >= 30 && ! who->query_temp("wiz_test"))
                 who->add("quest/freequest", 1 + random(3));
 
         return 1;
@@ -1154,7 +1154,7 @@ int cancel_quest(object me, object who)
         int g;
 
         dbase = who->query_entire_dbase();
-              
+
         if (! mapp(q = dbase["quest"]) ||
             q["master_id"] != me->query("id"))
                 return notify_fail("我没给你什么任务啊？\n");
@@ -1267,13 +1267,13 @@ int cancel_quest(object me, object who)
     任务对象的自动机器：
 
                                       消息收集完全
-            <原生态> -> 人物生成态 -----------+ 
+            <原生态> -> 人物生成态 -----------+
                            /                  |
                  <Timeout>/    <Timeout>      |
                    -------<---------------\   |
                  /                         \  v
             <结束态>   <--------------- 人物出现态
-                            杀死该人             
+                            杀死该人
 
 <原生态>和<结束态>是系统规定的状态，<Timeout> 是系统原先保留
 的事件。而人物生成态和人物出现态是该任务特有的状态，另外消息
@@ -1786,4 +1786,3 @@ public void bonus(object who, mapping b, int flag)
         who->add("score", score);
         who->add("weiwang", weiwang);
 }
-

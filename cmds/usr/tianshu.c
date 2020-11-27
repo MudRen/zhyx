@@ -1,4 +1,4 @@
-#pragma save_binary
+// #pragma save_binary
 
 
 //begin select xiansuo renwu wanchen status bigreward
@@ -134,7 +134,7 @@ void select(object me)
 
 void get_num(string arg,object me)
 {
-        string s; 
+        string s;
        	if (arg == "" )
 	{
                 write("请选择（0，1，2，3．．．）：");
@@ -207,7 +207,7 @@ void xiansuo(object me)
 		file=read_file(XIANSUOO+me->query("tianfile"));
         	lines=explode(file,"\n");
 
-	        if (! me->query("xiansuo")) 
+	        if (! me->query("xiansuo"))
                 {
                		xiansuo=lines[random(sizeof(lines))];
                		words=explode(xiansuo,"/");
@@ -238,7 +238,7 @@ void xiansuo(object me)
 
 	if (j<0)
 	        tell_object(me,"目前似乎"+me->query("xiansuo")+"那儿有些线索。\n");
-	else 
+	else
         {
        		if (me->query("told"))
 		{
@@ -251,7 +251,7 @@ void xiansuo(object me)
 	               	me->set_temp("giverenwu",1);
 			me->set("told",1);
 		}
-        }               
+        }
 	return;
 }
 
@@ -265,7 +265,7 @@ void renwu(object me)
         if (!me->query_temp("renwu"))
 		return;
 
-	if (!me->query_temp("giverenwu")) 
+	if (!me->query_temp("giverenwu"))
 	{
         	sss=me->query("心愿");
 	        if (sss)
@@ -304,7 +304,7 @@ void renwu(object me)
 			return;
 		}
 
-		if (me->query("特殊")) 
+		if (me->query("特殊"))
        	        {
         	        words=me->query("特殊");
        	        	switch(words[1])
@@ -440,7 +440,7 @@ void nextstep(object me)
         int exp;
         string file,*lines,xiansuo,*words;
         object ob;
-        if (me->query("bu")>=random(3)+9) 
+        if (me->query("bu")>=random(3)+9)
                 {
 me->set("end_time",time());
                 tell_object(me,me->query("xiansuo")+"说道：我这儿有一本旧书，对你可能有用，这就给你吧。\n");
@@ -454,11 +454,11 @@ if (me->query(me->query("tianshu")+"s")) me->add(me->query("tianshu")+"s",1);
                 me->delete("told");
 exp=400 + me->query("combat_exp")/3000+random(me->query("combat_exp")/3000);
 if (exp<300) exp=300;
-reward(exp,me);         
+reward(exp,me);
                 ob=new("/obj/tianshu/"+me->query("tianfile"));
                 ob->set("endname",me);
                 ob->move(me);
-}       
+}
                 else {
 if (me->query("combat_exp")>10000000&&!random(4))
 //if (me->query("combat_exp")<2000000)
@@ -482,7 +482,7 @@ else{
                         }
 }
 void check(object me)
-{       
+{
         mapping renwu;
         if (!me->query_temp("jiaochai")) return;
 if (!me->query("心愿")) {tell_object(me,"你目前并无任务，你还是先找找线索。\n");return;}
@@ -612,7 +612,7 @@ if (j<0)        {tell_object(me,"你应该把"+me->query("target")+"送给"+renwu["nam
 if (!wu) {
         tell_object(me,"你把东西弄到哪儿去了？\n");return;
 }
-        if (wu->query("name")==me->query("target")) 
+        if (wu->query("name")==me->query("target"))
         {
         tell_object(me,renwu["name"]+"笑了笑，说到：谢谢你！\n");
         tell_object(me,"你的任务完成了，回去交差吧。\n");
@@ -635,7 +635,7 @@ if(exp>300){
     me->add("score",score);
     tell_object(me,HIW"你被奖励了：\n" +
         chinese_number(exp) + "点实战经验\n"+
-        chinese_number(pot) + "点潜能\n"+ 
+        chinese_number(pot) + "点潜能\n"+
         chinese_number(score) + "点评价\n"NOR);
 }
 else{
@@ -661,19 +661,19 @@ void status(object me)
                         " 射雕英雄传：\t%s\t\t倚天屠龙记：\t%s\n"
                         " 白马啸西风：\t%s\t\t碧血剑：\t%s\n"
                         " 鹿鼎记：\t%s\t\t鸳鸯刀：\t%s\n",
-                        wan(me->query("飞狐外传")),     
-                        wan(me->query("笑傲江湖")),     
-                        wan(me->query("雪山飞狐")),     
-                        wan(me->query("书剑恩仇录")),   
-                        wan(me->query("连城决")),       
-                        wan(me->query("神雕侠侣")),     
-                        wan(me->query("天龙八部")),     
-                        wan(me->query("侠客行")),       
-                        wan(me->query("射雕英雄传")),   
-                        wan(me->query("倚天屠龙记")),   
-                        wan(me->query("白马啸西风")),   
-                        wan(me->query("碧血剑")),       
-                        wan(me->query("鹿鼎记")),       
+                        wan(me->query("飞狐外传")),
+                        wan(me->query("笑傲江湖")),
+                        wan(me->query("雪山飞狐")),
+                        wan(me->query("书剑恩仇录")),
+                        wan(me->query("连城决")),
+                        wan(me->query("神雕侠侣")),
+                        wan(me->query("天龙八部")),
+                        wan(me->query("侠客行")),
+                        wan(me->query("射雕英雄传")),
+                        wan(me->query("倚天屠龙记")),
+                        wan(me->query("白马啸西风")),
+                        wan(me->query("碧血剑")),
+                        wan(me->query("鹿鼎记")),
                         wan(me->query("鸳鸯刀")));
         write(line);
         return;
@@ -691,7 +691,7 @@ void bigreward(object me)
         object obj;
         if (me->query("飞狐外传")&&
         me->query("笑傲江湖")&&
-        me->query("雪山飞狐")&& 
+        me->query("雪山飞狐")&&
         me->query("书剑恩仇录")&&
         me->query("连城决")&&
         me->query("神雕侠侣")&&
@@ -702,7 +702,7 @@ void bigreward(object me)
         me->query("白马啸西风")&&
         me->query("碧血剑")&&
         me->query("鹿鼎记")&&
-        me->query("鸳鸯刀")) 
+        me->query("鸳鸯刀"))
                 {
                 obj=new("/obj/tianshu/hongbao");
                 obj->move(me);
@@ -710,7 +710,7 @@ void bigreward(object me)
                 tell_object(me,HIY"你得到一个额外奖励。\n"NOR);
         me->delete("飞狐外传");
         me->delete("笑傲江湖");
-        me->delete("雪山飞狐"); 
+        me->delete("雪山飞狐");
         me->delete("书剑恩仇录");
         me->delete("连城决");
         me->delete("神雕侠侣");
@@ -721,14 +721,14 @@ void bigreward(object me)
         me->delete("白马啸西风");
         me->delete("碧血剑");
         me->delete("鹿鼎记");
-        me->delete("鸳鸯刀"); 
+        me->delete("鸳鸯刀");
         me->set_temp("bigreward",1);
                 }
 }
 int help(object me)
 {
   this_player()->start_more(@HELP
-天书命令有三种格式：tianshu 、tianshu begin 、tianshu select 
+天书命令有三种格式：tianshu 、tianshu begin 、tianshu select
 相关指令：dating 打听、renwu 任务、jiaochai 交差、status 状态
 更详细的使用见下面天书任务的过程：
 > ask nanxian about tianshu
@@ -738,7 +738,7 @@ int help(object me)
 
                 ０．飞１．雪２．连３．天４．射５．白．６．鹿
                 ７．笑８．书９．神ａ．侠ｂ．倚ｃ．碧．ｄ．鸳
-                
+
 请选择（0，1，2，3．．．）：1
 你决定开始做雪山飞狐了。
 > accept

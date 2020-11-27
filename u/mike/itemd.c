@@ -1,8 +1,8 @@
 // itemd.c
 // Update by Vin for Heros.cn
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <command.h>
@@ -108,7 +108,7 @@ int receive_summon(object me, object item)
         {
               message_sort(HIM "\nÖ»¼ûËÄÖÜ½ð¹âÉ¢²¼£¬ÏéÔÆ¶ä¶ä£¬Ô¶´¦ÓÐ·ï»ËÅÌÈÆ£¬÷è÷ëÖðÏ·¡£¶ú±ß"
                            "´«À´ÕóÕóèóÒô¡£$N" HIM "Ò»Éù³¤Ð¥£¬" + item->query("name") + HIM
-                           "ÆÆ¿Õ¶øÀ´ ¡­¡­¡£\n\n" NOR, me); 
+                           "ÆÆ¿Õ¶øÀ´ ¡­¡­¡£\n\n" NOR, me);
         }
         else
 
@@ -625,7 +625,7 @@ mixed weapon10lv_hit_ob(object me, object victim, object weapon, int damage_bonu
         resistance = 0;
         //jingjia = me->query("jiajing");
         jingjia = me->query("jiali") / 3;
-      
+
         switch (magic["type"])
         {
         case "lighting":

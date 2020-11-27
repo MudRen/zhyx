@@ -1,4 +1,4 @@
-#pragma save_binary
+// #pragma save_binary
 
 
 // Smallfish@Jdmr
@@ -21,7 +21,7 @@ set("long","´ô°áÊÇÒ»¸öºÜ¶ÀÌØµÄÅ®º¢£¬ÉúĞÔ¹ÑÆ§£¬×¨ÃÅÓë¶¯ÎïÎªÎé£¬ÉÃ³¤Ñ±ÊŞ£¨xunlian£
 }
 
 void init()
-{	
+{
         object ob;
         ::init();
         if( interactive(ob = this_player()) && !is_fighting() ) {

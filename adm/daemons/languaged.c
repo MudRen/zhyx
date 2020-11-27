@@ -3,8 +3,8 @@
 //
 
 
-#pragma save_binary
-#pragma optimize
+// #pragma save_binary
+// #pragma optimize
 //inherit F_CLEAN_UP;
 
 #define B2G_TAB     CONFIG_DIR+"language/btog.tab"
@@ -129,7 +129,7 @@ string Big52GB(string src)
 
 	for (int i=0; i<len;)
         {
-                reset_eval_cost(); 
+                reset_eval_cost();
 		if (is_B51(str[i]) && is_B52(str[i+1]))
 		{
 			int *code=b2g(str[i], str[i+1]);
@@ -158,7 +158,7 @@ string input(string str, object me)
 {
     	if (! str || ! me)
         	return str;
-        	
+
     	if (me->query_temp("big5"))
     	{
                 return toGB(str);

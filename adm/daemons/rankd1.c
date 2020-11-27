@@ -1,8 +1,8 @@
 // rankd.c
 // 1996-02-15 dts ranking related to "shen"
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 
@@ -20,15 +20,15 @@ string query_rank(object ob)
         int i;
 
         toplist = COMPETE_D->query_tops();
-        
+
         if (sizeof(toplist))
         {
                 for (i = 0;i < sizeof(toplist);i ++)
                         if (toplist[i]["id"] == ob->query("id"))
-                                return HIW + "【天下第" + NOR + HIY + 
+                                return HIW + "【天下第" + NOR + HIY +
                                        chinese_number(i + 1) + NOR + HIW + "】" + NOR;
         }
-                
+
         if (ob->is_ghost())
                 return HIB "【 鬼  魂 】" NOR;
 
@@ -1040,4 +1040,3 @@ varargs string query_self_close(mixed ob, mixed me, int a1, int a2)
                         return "小弟我";
         }
 }
-

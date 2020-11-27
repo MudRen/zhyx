@@ -4,8 +4,8 @@
 #include <ansi.h>
 #include <getconfig.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_SAVE;
 inherit F_DBASE;
@@ -214,8 +214,8 @@ void done_post(object me, mapping note, int n, string text)
         tell_object(me, "新闻发布完毕。\n");
 
         save();
-        message("system", BLINK HIM "\n【新闻精灵】有了最新新闻！各位玩家请用 news 查看。\n\n" NOR,     
-                users()); 
+        message("system", BLINK HIM "\n【新闻精灵】有了最新新闻！各位玩家请用 news 查看。\n\n" NOR,
+                users());
 }
 
 // post a news
@@ -436,16 +436,16 @@ void do_search(object me, string arg)
                 tell_object(me, "目前没有任何新闻。\n");
                 return;
         }
-        
+
         if (! arg)
         {
                 tell_object(me, "你想搜索那一条新闻？\n");
                 return;
         }
-        
+
         if (sscanf(arg, "%s %s", topic, arg) != 2)
         {
-                tell_object(me, "你只能搜索标题(title)、作者(author)、内容(document)。\n");   
+                tell_object(me, "你只能搜索标题(title)、作者(author)、内容(document)。\n");
                 return;
         } else
         {
@@ -456,26 +456,26 @@ void do_search(object me, string arg)
                 if (topic == "document") note = "内容";
                 else
                 {
-                        tell_object(me, "你只能搜索标题(title)、作者(author)、内容(document)。\n");  
+                        tell_object(me, "你只能搜索标题(title)、作者(author)、内容(document)。\n");
                         return;
                 }
         }
-                             
+
         last_time_read = me->query("last_read_news");
         i = sizeof(notes);
 
-        msg = sprintf("根据 " HIY "%s" NOR " 搜索 " HIY "%s" NOR " 得到如下符合条件新闻：\n"           
+        msg = sprintf("根据 " HIY "%s" NOR " 搜索 " HIY "%s" NOR " 得到如下符合条件新闻：\n"
                       WHT "-------------------------------------------------------------------------------\n" NOR,
-                      arg, note); 
-                     
+                      arg, note);
+
         while (i--)
         {
                 if (topic == "document")
                 {
                         if (strsrch(notes[i]["msg"], arg) == -1)
                                 continue;
-                } else  
-                {                      
+                } else
+                {
                         if (strsrch(notes[i][topic], arg) == -1)
                                 continue;
                 }
@@ -484,20 +484,20 @@ void do_search(object me, string arg)
                                "s %s (%s)\n",
                                (notes[i]["time"] > last_time_read ? HIY : ""),
                                i + 1, notes[i]["title"],
-                               notes[i]["author"], ctime(notes[i]["time"])[0..15]);  
- 
-                find = 1;             
-        }  
+                               notes[i]["author"], ctime(notes[i]["time"])[0..15]);
+
+                find = 1;
+        }
 
         if (! find)
         {
                 tell_object(me, "根据 " HIY + arg + NOR " 搜索 " HIY + note + NOR " 没有找到符合条件的新闻。\n");
                 return;
-        } 
+        }
 
         msg += WHT "-------------------------------------------------------------------------------\n" NOR;
 
-        me->start_more(msg);  
-}      
-        
+        me->start_more(msg);
+}
+
 string query_save_file() { return DATA_DIR "newsd"; }

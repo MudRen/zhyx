@@ -3,7 +3,7 @@
 // Modified by Xiang@XKX (12/15/95)
 // Updated by Doing for HELL (2K)
 
-#pragma optimize
+// #pragma optimize
 
 #include <command.h>
 #include <dbase.h>
@@ -191,12 +191,12 @@ nomask void enable_player()
 
 nomask void disable_player(string type)
 {
- 
+
         object env;
 
         if (! is_root(previous_object()) &&
                 previous_object() != this_object()) return;
-            
+
         /*
         set("disable_type", type);
         if (enabled)
@@ -206,7 +206,5 @@ nomask void disable_player(string type)
         }
         */
         set("disable_type", type);
-        set_temp("disable_inputs", 1);        
+        set_temp("disable_inputs", 1);
 }
-
-

@@ -3,8 +3,8 @@
 // Modified by Xiang@XKX
 // Updated by Doing
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #define HUMAN_RACE "/adm/daemons/race/human"
 #define MONSTER_RACE "/adm/daemons/race/monster"
@@ -14,14 +14,14 @@
 #define FISH_RACE "/adm/daemons/race/fish"
 #define SNAKE_RACE "/adm/daemons/race/snake"
 #define INSECT_RACE "/adm/daemons/race/insect"
- 
+
 void create() { seteuid(getuid()); }
- 
+
 void setup_char(object ob)
 {
         string race;
         mapping my;
- 
+
         if (! stringp(race = ob->query("race")))
         {
                 race = "人类";
@@ -68,33 +68,33 @@ void setup_char(object ob)
                 default:
                         error("Chard: undefined race " + race + ".\n");
         }
- 
+
         if (undefinedp(my["jing"]))
                 my["jing"] = my["max_jing"];
         if (undefinedp(my["qi"]))
                 my["qi"] = my["max_qi"];
- 
+
         if (undefinedp(my["eff_jing"]) || my["eff_jing"] > my["max_jing"])
                 my["eff_jing"] = my["max_jing"];
         if (undefinedp(my["eff_qi"]) || my["eff_qi"] > my["max_qi"])
                 my["eff_qi"] = my["max_qi"];
- 
+
         if (undefinedp(my["shen_type"])) my["shen_type"] = 0;
- 
+
         if (undefinedp(my["shen"]))
         {
-                if (userp(ob))        
+                if (userp(ob))
                         my["shen"] = 0;
                 else
                         my["shen"] = my["shen_type"] * my["combat_exp"] / 10;
         }
- 
+
         if (! ob->query_max_encumbrance())
                 ob->set_max_encumbrance(ob->query_str() * 5000);
- 
+
         ob->reset_action();
 }
- 
+
 varargs object make_corpse(object victim, object killer)
 {
         int i;
@@ -114,7 +114,7 @@ varargs object make_corpse(object victim, object killer)
         //add by rama 给corpse死前记录。
         corpse->set_name( victim->name(1) + "的尸体", ({ "corpse" }) );
         corpse->set("long", victim->long()
-                + "然而，" + gender_pronoun(victim->query("gender")) 
+                + "然而，" + gender_pronoun(victim->query("gender"))
                 + "已经死了，只剩下一具尸体静静地躺在这里。\n");
         corpse->set("age", victim->query("age"));
         corpse->set("gender", victim->query("gender"));

@@ -2,8 +2,8 @@
 // by Annihilator@ES
 // modified by Xiang@XKX
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <localtime.h>
 
@@ -60,7 +60,7 @@ string chinese_number(int i)
 			return c_num[i / 100] + c_digit[2] +
 			c_num[1] + chinese_number(i % 100);
 		else
-			return c_num[i / 100] + c_digit[2] + 
+			return c_num[i / 100] + c_digit[2] +
 			chinese_number(i % 100);
 	}
 	if (i < 10000) {
@@ -69,7 +69,7 @@ string chinese_number(int i)
 		else if (i % 1000 < 100)
 			return c_num[i / 1000] + c_digit[3] +
 			c_num[0] + chinese_number(i % 1000);
-		else 
+		else
 			return c_num[i / 1000] + c_digit[3] +
 			chinese_number(i % 1000);
 	}
@@ -89,7 +89,7 @@ string chinese_number(int i)
 		else if (i % 100000000 < 1000000)
 			return chinese_number(i / 100000000) + c_digit[5] +
 			c_num[0] + chinese_number(i % 100000000);
-		else 
+		else
 			return chinese_number(i / 100000000) + c_digit[5] +
 			chinese_number(i % 100000000);
 	}
@@ -132,10 +132,10 @@ void dump_translate()
 {
 	string *k, str;
 	int i;
-	
+
 	str = "";
 	k = keys(dict);
-	for (i = 0; i < sizeof(k); i++) 
+	for (i = 0; i < sizeof(k); i++)
 		str += sprintf("%-30s %s\n", k[i], dict[k[i]]);
 	write_file("/CHINESE_DUMP", str);
 }
@@ -146,13 +146,13 @@ string chinese_date(int date)
 
 	if (date <=0) date=1;
 	local = localtime(date);
-	
+
 	return sprintf("%s%s年%s月%s日%s时%s刻",
                 sym_tian[local[LT_YEAR] % 10], sym_di[local[LT_YEAR] % 12],
                 chinese_number(local[LT_MON] + 1),
                 chinese_number(local[LT_MDAY] + (local[LT_HOUR] > 23 ? 1 : 0)),
                 sym_di[((local[LT_HOUR] + 1) % 24) / 2],
-                chinese_number((local[LT_MIN]+1) % 2 * 2 + 
+                chinese_number((local[LT_MIN]+1) % 2 * 2 +
 		local[LT_MIN] / 30 + 1) );
 }
 

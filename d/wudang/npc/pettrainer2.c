@@ -1,4 +1,4 @@
-#pragma save_binary
+// #pragma save_binary
 
 
 // Tie@fy
@@ -21,7 +21,7 @@ void create()
 }
 
 void init()
-{	
+{
         object ob;
         ::init();
         if( interactive(ob = this_player()) && !is_fighting() ) {
@@ -62,7 +62,7 @@ int do_train(string arg)
 	switch (random(2)){
 	case 0: which = "max_jing"; break;
 	case 1: which = "max_qi"; break;
-			}	
+			}
 //okey we identified the target, now the cost:
 	cost = (int) pet->query(which) / 10;
 	cost *= cost;

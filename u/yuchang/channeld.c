@@ -3,8 +3,8 @@
 //          By ken@XAJH & fuyo@XAJH
 // Updated by Doing for HELL
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <mudlib.h>
@@ -48,19 +48,19 @@ mapping channels = ([
                         "omit_log" : 1,
                         "filter"   : (: $1["MUDLIB"] == MUDLIB_NAME :)
                 ]),
-        "gwiz": ([      "msg_speak": HIY "〖网际巫师〗%s：%s\n" NOR, 
-          "msg_emote": HIY "〖网际巫师〗%s" NOR, 
-          "msg_color": HIY, 
-          "name"     : "网际巫师", 
-          "only"     : "wiz", 
-          "name_raw" : 1, 
-          "intermud" : GCHANNEL, 
-          "intermud_emote"   : 1, 
-          "intermud_channel" : "gwiz", 
-          "omit_address": 0, 
-          "omit_log" : 1, 
-          "filter"   : (: $1["MUDLIB"] == MUDLIB_NAME || $1["MUDTYPE"] == MUD_TYPE:) 
-       ]), 
+        "gwiz": ([      "msg_speak": HIY "〖网际巫师〗%s：%s\n" NOR,
+          "msg_emote": HIY "〖网际巫师〗%s" NOR,
+          "msg_color": HIY,
+          "name"     : "网际巫师",
+          "only"     : "wiz",
+          "name_raw" : 1,
+          "intermud" : GCHANNEL,
+          "intermud_emote"   : 1,
+          "intermud_channel" : "gwiz",
+          "omit_address": 0,
+          "omit_log" : 1,
+          "filter"   : (: $1["MUDLIB"] == MUDLIB_NAME || $1["MUDTYPE"] == MUD_TYPE:)
+       ]),
         // 97-10-18 this channel add for display debug message by ken@XAJH
         "debug":([      "msg_speak": HIW "【调试信息】%s：%s\n" NOR,
                         "msg_emote": HIW "【调试信息】%s" NOR,
@@ -360,15 +360,15 @@ varargs int do_channel(object me, string verb, string arg, int emote)
                         case 4:
                                 fname = "【 " + fname[0..1] + "  " + fname[2..3] + " 】";
                                 break;
-        
+
                         case 6:
                                 fname = "【 " + fname + " 】";
                                 break;
-        
+
                         case 8:
                                 fname = "【" + fname + "】";
                                 break;
-        
+
                         case 10:
                                 fname = "【" + fname[0..7] + "】";
                                 break;
@@ -382,12 +382,12 @@ varargs int do_channel(object me, string verb, string arg, int emote)
         if (verb == "shout")
         {
             	if (! arg) return notify_fail("你想要大叫什么？\n");
-            
+
                 if (! wizardp(me) && userp(me))
                 {
                         if (me->query("neili") < 500)
                                 return notify_fail("你的内力太差，无法喊出那么大的声音。\n");
-                    
+
                         me->add("neili", - (random(200) + 300));
                 }
 
@@ -460,12 +460,12 @@ varargs int do_channel(object me, string verb, string arg, int emote)
                 else
                         arg = EMOTE_D->do_emote(me, vb, emote_arg, 1,
                                         0, channels[verb]["msg_color"]);
-        
+
                 if (! arg && emote == 2)
                 	arg = (channels[verb]["anonymous"] ? channels[verb]["anonymous"]
                                                            : me->name(channels[verb]["name_raw"])) +
                                                              vb + "\n";
-        
+
                 if (! arg)
 			return 0;
         }

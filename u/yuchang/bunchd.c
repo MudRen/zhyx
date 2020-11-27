@@ -1,12 +1,12 @@
 // Copyright (C) 2003, by Lonely. All rights reserved.
-// This software can not be used, copied, or modified 
+// This software can not be used, copied, or modified
 // in any form without the written permission from authors.
 // bunchd.c
 
 #include <ansi.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_SAVE;
 inherit F_DBASE;
@@ -72,7 +72,7 @@ nosave mapping citys = ([
 void create()
 {
         mapping data;
-        
+
         seteuid(getuid());
         restore();
         set_heart_beat(3600); // 二个小时
@@ -107,17 +107,17 @@ private void heart_beat()
                 last_bunch_fame = ([ ]);
 
                 foreach (fam in all_fam)
-                        last_bunch_fame[fam] = bunch_fame[fam];                                   
+                        last_bunch_fame[fam] = bunch_fame[fam];
         }
         set("last_check", t);
         all_fam = keys(bunch_fame) - ({ 0 });
         foreach (fam in all_fam)
         {
-                if (query(fam + "/war_endtime") && 
+                if (query(fam + "/war_endtime") &&
                     time() > query(fam + "/war_endtime"))
                         war_stop_time(fam);
         }
-        
+
         // 这里作地盘盘点处理
         check_areas();
 
@@ -127,87 +127,87 @@ private void heart_beat()
 
 public mixed check_areas()
 {
-        string  bunch_name, bad_area, *item, *all_area, 
+        string  bunch_name, bad_area, *item, *all_area,
                 *all_bunch, *lost, str;
         object  room, player, npc;
         int     weiwang, jizhi, kaifa, zhongcheng, count, i;
         int     area_money, bad_money, rest_money, npc_money, cost;
         mapping data = ([ ]);
-                
-        all_area = keys(area_fame) - ({ 0 });   
-        
+
+        all_area = keys(area_fame) - ({ 0 });
+
         if (! arrayp(all_area) || ! sizeof(all_area))
-                return;  
+                return;
 
         if (random(sizeof(all_area)) > 10)
         {
                 bad_area = all_area[random(sizeof(all_area))];
-                
+
                 if (undefinedp(area_fame[bad_area]["ziyuan"]))
                         bad_area = "";
         }
         else
                 bad_area = "";
-                        
+
         foreach (string area in all_area)
         {
                 reset_eval_cost();
- 
-                bunch_name = area_fame[area]["bunch_name"];  
-                      
+
+                bunch_name = area_fame[area]["bunch_name"];
+
                 if (bunch_name == "独立中")
                         continue;
-                
+
                 if (! (room = get_object(area)))
                         continue;
-                        
+
                 // 盘点时候帮派 NPC 不在时候则无收入
                 if (undefinedp(area_fame[area]["npc_id"]) ||
                     ! objectp(npc = present(area_fame[area]["npc_id"], room)))
                         continue;
-                
+
                 if (! mapp(query(bunch_name)))
                 {
                         message("channel:rumor", HIM"【中华帮会】由于帮派瓦解，" +
-                                room->query("short") + "宣布脱离帮会" + "「" + bunch_name + 
-                                "」" + "的控制！\n" NOR, users()); 
-                                
-                        npc->delete("bunch"); 
-                        area_fame[area]["bunch_name"] = "独立中";                                                                                                                                                                                                                
+                                room->query("short") + "宣布脱离帮会" + "「" + bunch_name +
+                                "」" + "的控制！\n" NOR, users());
+
+                        npc->delete("bunch");
+                        area_fame[area]["bunch_name"] = "独立中";
                         continue;
                 }
 #ifdef LONELY_IMPROVED
                 if (count_lt(area_fame[area]["money"], -1000000) ||
                     count_lt(query(bunch_name + "/money"), -100000000))
-#else                                
+#else
                 if (area_fame[area]["money"] < -1000000 ||
                     query(bunch_name + "/money") < -100000000)
 #endif
                 {
                         message("channel:rumor", HIM"【中华帮会】由于经营不善，" +
-                                room->query("short") + "宣布脱离帮会" + "「" + bunch_name + 
-                                "」" + "的控制！\n" NOR, users());   
-                        
+                                room->query("short") + "宣布脱离帮会" + "「" + bunch_name +
+                                "」" + "的控制！\n" NOR, users());
+
                         // 调整帮派威望
                         weiwang = bunch_fame[bunch_name];
                         weiwang -= 1000;
                         if (weiwang < 0) weiwang = 0;
                         bunch_fame[bunch_name] = weiwang;
-                        
+
                         npc->delete("bunch");
                         area_fame[area]["bunch_name"] = "独立中";
                         continue;
-                }         
-                        
+                }
+
                 zhongcheng = area_fame[area]["zhongcheng"];
-                if (! intp(zhongcheng) || zhongcheng < 10) 
+                if (! intp(zhongcheng) || zhongcheng < 10)
                         zhongcheng = 10;
-                
+
                 zhongcheng -= random(2);
-                                                     
+
                 if (zhongcheng >= 100)
                         zhongcheng = 100;
-                
+
                 npc->set("bunch/zhongcheng", zhongcheng < 10 ? 10 : zhongcheng);
                 area_fame[area]["zhongcheng"] = (zhongcheng < 10 ? 10 : zhongcheng);
 
@@ -215,100 +215,100 @@ public mixed check_areas()
                 kaifa = area_fame[area]["kaifa"];
                 jizhi += random(2);
                 kaifa -= random(2);
-            
+
                 area_money = area_fame[area]["money"];
-                if (! stringp(area_money) && ! intp(area_money)) 
+                if (! stringp(area_money) && ! intp(area_money))
                         area_money = 0;
-                
-                if (! intp(jizhi) || jizhi < 6) 
+
+                if (! intp(jizhi) || jizhi < 6)
                         jizhi = 6;
-                else if (jizhi > 60) 
+                else if (jizhi > 60)
                         jizhi = 60;
-                
-                if (! intp(kaifa) || kaifa < 20) 
+
+                if (! intp(kaifa) || kaifa < 20)
                         kaifa = 20;
-                else if (kaifa > 100) 
+                else if (kaifa > 100)
                         kaifa = 100;
-                        
+
                 area_fame[area]["kaifa"] = kaifa;
-                area_fame[area]["jizhi"] = jizhi;              
-                
-                if (area == bad_area)   
+                area_fame[area]["jizhi"] = jizhi;
+
+                if (area == bad_area)
                 {
-                        if (jizhi && kaifa < 80)    
+                        if (jizhi && kaifa < 80)
                         {
-                                bad_money = kaifa * jizhi * 1000;   
+                                bad_money = kaifa * jizhi * 1000;
                                 area_money -= bad_money;
                         } else
                         { // 开发度高的，一般来说自然灾害影响不大
-                                bad_area = "";                            
-                                area_money += (kaifa / 2) * (jizhi / 2) * 100;                             
+                                bad_area = "";
+                                area_money += (kaifa / 2) * (jizhi / 2) * 100;
                         }
                 } else
                         area_money += (kaifa / 2) * (jizhi / 2) * 200;
 
-                rest_money = area_money - 1000000;  
-                if (rest_money < 0) 
+                rest_money = area_money - 1000000;
+                if (rest_money < 0)
                         rest_money = 0;
-                
-                area_fame[area]["money"] = area_money - rest_money;                
-                area_fame[area]["last_money"] = rest_money;                 
-                
+
+                area_fame[area]["money"] = area_money - rest_money;
+                area_fame[area]["last_money"] = rest_money;
+
                 data[bunch_name] += rest_money;
-        }         
-        
-        all_bunch = keys(bunch_fame);       
-        
+        }
+
+        all_bunch = keys(bunch_fame);
+
         if (! arrayp(all_bunch) || ! sizeof(all_bunch))
-                return;         
-                
+                return;
+
         lost = ({ });
-        foreach (string bunch in all_bunch)   
+        foreach (string bunch in all_bunch)
         {
                 reset_eval_cost();
-                
-                npc_money = query(bunch + "/npc_money"); 
+
+                npc_money = query(bunch + "/npc_money");
                 set(bunch + "/last_npc_money", npc_money);
-                set(bunch + "/npc_money", 0);  
-                
-                set(bunch + "/last_area_money", data[bunch]); 
-                
-                data[bunch] += npc_money; 
+                set(bunch + "/npc_money", 0);
+
+                set(bunch + "/last_area_money", data[bunch]);
+
+                data[bunch] += npc_money;
                 if (data[bunch] < 0) data[bunch] = 0;
-                
+
                 data[bunch] /= 2;
 #ifdef LONELY_IMPROVED
                 set(bunch + "/money", count_add(query(bunch + "/money"), data[bunch]));
-#else                                    
-                if (query(bunch + "/money") < 2000000000)                
+#else
+                if (query(bunch + "/money") < 2000000000)
                         add(bunch + "/money", data[bunch]);
-#endif                        
+#endif
                 cost = 200 * (sizeof(BUNCH_D->query_bunch_areas(bunch)) * 2 +
                               sizeof(query(bunch + "/member")));
 
 #ifdef LONELY_IMPROVED
                 set(bunch + "/money", count_sub(query(bunch + "/money"), cost));
-#else                          
+#else
                 add(bunch + "/money", -cost);
-#endif                
+#endif
                 data[bunch] /= 2;
-                
+
                 add(bunch + "/bangzhu_money", data[bunch]);
                 set(bunch + "/last_bangzhu_money", data[bunch]);
 
 #ifdef LONELY_IMPROVED
                 if (count_lt(query(bunch + "/money"), -100000000))
-#else                
-                if (query(bunch + "/money") < -100000000) 
+#else
+                if (query(bunch + "/money") < -100000000)
 #endif
                 {
-                        message("channel:rumor", HIW "【中华帮会】由于帮派资产长期严重亏损，帮会「" + 
-                                                 bunch + "」无法维持日常开支，土崩瓦解了！\n" NOR, users()); 
+                        message("channel:rumor", HIW "【中华帮会】由于帮派资产长期严重亏损，帮会「" +
+                                                 bunch + "」无法维持日常开支，土崩瓦解了！\n" NOR, users());
                         lost += ({ bunch });
                         map_delete(data, bunch);
                 }
         }
-        
+
         if (arrayp(lost) && sizeof(lost) > 0)
         {
                 foreach (bunch_name in lost)
@@ -316,69 +316,69 @@ public mixed check_areas()
         }
         lost = ({ });
 
-        if (! arrayp(users()) || ! sizeof(users())) 
+        if (! arrayp(users()) || ! sizeof(users()))
                 return;
-                
+
         // give all online player banghui's money
         item = keys(data);
-        
-        for (i = 0; i < sizeof(item); i++)     
+
+        for (i = 0; i < sizeof(item); i++)
         {
                 reset_eval_cost();
-                
+
                 count = 0;
-                
+
                 foreach (player in users())
                 {
                         reset_eval_cost();
-                        
+
                         if (! playerp(player)) continue;
-                        
+
                         if (! player->query("bunch/bunch_name") ||
                             player->query("bunch/bunch_name") != item[i])
                                 continue;
-                        
+
                         count++;
                 }
-                               
+
                 if (count == 0) count = 1;
                 data[item[i]] /= count;
         }
-        
+
         foreach (player in users())
         {
                 reset_eval_cost();
-                
+
                 if (! playerp(player)) continue;
-                
+
                 if (! player->query("bunch/bunch_name")) continue;
-                
+
                 if (! data[player->query("bunch/bunch_name")]) continue;
-                
+
                 tell_object(player, HIG "帮派「" + player->query("bunch/bunch_name") + "」" + "发饷，你的存款增加了" +
                                     MONEY_D->money_str(data[player->query("bunch/bunch_name")]) + "！\n" NOR);
-                
-#ifndef LONELY_IMPROVED 
-                if ((int)player->query("balance") > 2000000000)  
+
+#ifndef LONELY_IMPROVED
+                if ((int)player->query("balance") > 2000000000)
                         tell_object(player, RED "你在钱庄的钱已达到二十万两黄金，快点花吧！\n" NOR);
-                else                
+                else
 #endif
                         player->add("balance", data[player->query("bunch/bunch_name")]);
         }
-        
-        if (bad_area == "")     
-                message("channel:rumor", HIM "【帮派盘点】某人：各地盘收入良好，请各位帮主速来钱庄转帐！\n" NOR, 
+
+        if (bad_area == "")
+                message("channel:rumor", HIM "【帮派盘点】某人：各地盘收入良好，请各位帮主速来钱庄转帐！\n" NOR,
                         users());
-        else 
+        else
         {
                 str = bad_weather[random(sizeof(bad_weather))];
                 str = replace_string(str, "$N", bad_area);
-                
+
                 message("channel:rumor", HIM "【帮派盘点】某人：" + str +
                                          MONEY_D->money_str(bad_money) + "！\n" NOR, users());
-        }     
-        save();           
-}       
+        }
+        save();
+}
 
 // 返回帮派声望：如果参数为空，返回mapping类型，包含了所有同
 // 盟的声望；如果参数是人物， 则返回该人物所在的那个帮派的声
@@ -505,13 +505,13 @@ public void bunch_kill(object killer, object victim)
         {
                 if (! killer->is_killing(victim->query("id")))
                         // 失手所杀，不予理会
-                        return;                
+                        return;
                 // 同盟帮派内残杀？直接扣除帮派和个人1/20威望。
                 add_bunch_fame(kfam, -bunch_fame[kfam] / 20);
                 killer->add("weiwang", -killer->query("weiwang") / 20);
                 return;
         }
-        
+
         if (kexp < vexp * 3 && vexp >= 100000)
         {
                 // 杀手的经验不是远远的大于对方，并且被杀的
@@ -644,16 +644,16 @@ public void remove_hatred(string id)
 public mixed valid_new_build(object ob, string id, string name)
 {
         object env;
-        
+
         if (! env = environment(ob))
                 return "好象出现了点问题，请和巫师联系！\n";
-                
+
         if (! env->is_create_bunch_room())
                 return "这里不可以用来建设帮派总坛，请另选地点。\n";
-                
+
         if (env->query_room_id(id) || env->query_room_name(name))
                 return "这里已经有个房间使用了这个代号了。\n";
-        
+
         if (file_size(BUNCH_HOME + id + "/center.c") > 0)
                 return "已经有别的帮派使用了这个ID代号了。\n";
         // ......
@@ -665,10 +665,10 @@ public mixed valid_new_bunch(string fname)
 {
         if (query(fname + "/member"))
                 return "人家早就有叫这个的啦，你就别凑热闹了。\n";
-       
+
         if (member_array(fname, npc_bunch) != -1)
                 return "江湖上早有这个现成的帮派，你还想做什么？\n";
-              
+
         if (! undefinedp(FAMILY_D->query_family_fame(fname))
                 || ! undefinedp(LEAGUE_D->query_league_fame(fname)))
                 return "江湖上已经有" + fname + "了，你还想做什么？\n";
@@ -683,38 +683,38 @@ public void create_bunch(string fname, string id, string type, int base, object 
         string *channels;
         string master, zone, entry, center, quester;
         object ob, env, creater;
-        string code, city, position;        
+        string code, city, position;
 
         bunch_fame[fname] = base;
         if (! mapp(last_bunch_fame))
                 last_bunch_fame = ([ fname : base ]);
         else
                 last_bunch_fame[fname] = base;
-        
+
         foreach (ob in obs)
         {
                 data = ([ "time"  : time(),
                           "bunch_name"  : fname,
                           "bunch_id"  : id,
                           "type"  : type  ]);
-                          
+
                 if (ob->is_team_leader())
                 {
                         creater = ob;
                         master = ob->query("id");
                         position = base_name(env = environment(ob));
                         zone = domain_file(position);
-                        
+
                         data += ([ "level" : 9,
                                    "title" : "帮主" ]);
                 } else
                 {
                         data += ([ "level" : 1,
-                                   "title" : "帮众" ]);                        
-                } 
-                
+                                   "title" : "帮众" ]);
+                }
+
                 ob->set("bunch", data);
-                        
+
                 channels = ob->query("channels");
                 if (! arrayp(channels) || ! sizeof(channels))
                         channels = ({ "party" });
@@ -725,7 +725,7 @@ public void create_bunch(string fname, string id, string type, int base, object 
                 ob->set("channels", channels);
                 ob->save();
         }
-        
+
         quester = BUNCH_HOME + id + "/npc/quester.c";
         assure_file(quester);
 
@@ -741,33 +741,33 @@ public void create_bunch(string fname, string id, string type, int base, object 
                 case "dali": city = "dl"; break;
                 default: city = "yz"; break;
         }
-        
-        code = @CODE   
+
+        code = @CODE
 // Create by BUNCH_D written by Lonely
 // quester.c
-   
+
 #include <ansi.h>
 inherit NPC;
 CODE;
         code += "#define PLACE          \"" + city + "\"\n";
-        code += "#define TYPE           \"" + type + "\"\n"; 
+        code += "#define TYPE           \"" + type + "\"\n";
         code += "#define WAIT_TIME      60\n\n";
 
         if (type == "bad")
         {
                 code += sprintf("mapping bunch_bad = ([\n\t\"bunch_name\" : \"%s\",\n\t\"id\" : \"%s\",\n\t" +
                                 "\"place\" : \"%s\",\n\t\"boss\" : \"%s\",\n\t\"place_name\" : \"%s\",\n\t" +
-                                "\"type\"  : \"%s\",\n\t]);\n", fname, id, 
+                                "\"type\"  : \"%s\",\n\t]);\n", fname, id,
                                 city, creater->name(), citys[city], type);
         } else
-        {    
+        {
                 code += sprintf("mapping bunch_good = ([\n\t\"bunch_name\" : \"%s\",\n\t\"id\" : \"%s\",\n\t" +
                                 "\"place\" : \"%s\",\n\t\"boss\" : \"%s\",\n\t\"place_name\" : \"%s\",\n\t" +
-                                "\"type\"  : \"%s\",\n\t]);\n", fname, id, 
+                                "\"type\"  : \"%s\",\n\t]);\n", fname, id,
                                 city, creater->name(), citys[city], type);
         }
         code += @CODE
-        
+
 void create()
 {
         set_name("任务使者", ({ "quester" }));
@@ -788,12 +788,12 @@ CODE;
         set("shen_type", 1);
 CODE;
         }
-        code += @CODE              
+        code += @CODE
         set("per", 29);
         set("combat_exp", 1000000);
 
         set("attitude", "peaceful");
-        
+
         set_skill("unarmed", 20);
         set_skill("dodge", 20);
         set_temp("apply/attack", 10);
@@ -804,14 +804,14 @@ CODE;
         add_money("silver", 2);
 }
 
-CODE;  
-        if (type == "bad") 
+CODE;
+        if (type == "bad")
                 code += "#include <boss_bad.h>\n";
         else
-                code += "#include <boss_good.h>\n";     
-        
-        write_file(quester, code, 1); 
-                        
+                code += "#include <boss_good.h>\n";
+
+        write_file(quester, code, 1);
+
         center = BUNCH_HOME + id + "/center.c";
         assure_file(center);
 
@@ -822,20 +822,20 @@ CODE;
 #include <ansi.h>
 #include <room.h>
 inherit ROOM;
-CODE;                                                                                     
+CODE;
         code += "#define PLACE   \"" + city + "\"\n";
-        code += "#define TYPE    \"" + type + "\"\n"; 
-        
+        code += "#define TYPE    \"" + type + "\"\n";
+
         code += @CODE
 
 // int is_bunch_room() { return 1; }
-int sort_by_id(mapping quest1, mapping quest2); 
+int sort_by_id(mapping quest1, mapping quest2);
 
-void create() 
+void create()
 {
 CODE;
         code += sprintf("\tset(\"short\", \"%s总坛\");\n", fname);
-        
+
         code += sprintf("\tset(\"long\", \"房间的墙上有一块牌子(paizi)。加入帮派" +
                         "%s的玩家，可以在这里选择任务去完成。\\n\");\n", fname);
 
@@ -843,13 +843,13 @@ CODE;
         code += "\tset(\"exits\", ([\n\t\t\"south\" : __DIR__\"room9\", \n\t]));\n";
         code += "\n\tsetup();\n}\n\n";
         // code += "\treplace_program(ROOM);\n}\n";
-        code += sprintf("#include <bang_%s.h>\n", type); 
+        code += sprintf("#include <bang_%s.h>\n", type);
 
         write_file(center, code, 1);
 
         entry = BUNCH_HOME + id + "/entry.c";
         assure_file(entry);
-        
+
         code = @CODE
 // Create by BUNCH_D written by Lonely
 // entry.c
@@ -858,33 +858,33 @@ CODE;
 #include <room.h>
 inherit ROOM;
 
-int is_bunch_room() { return 1; } 
+int is_bunch_room() { return 1; }
 
 void create()
 {
 	set("short", "空房间 - 请使用 cshort 来编辑标题");
 	set("long", "这是一间什么也没有的空房间，请利用 clong 来编辑房间叙述。\n");
-        
+
         set("exits", ([
                 "north" : __DIR__"room0",
-CODE;   
-        code += sprintf("\t\t\"out\" : \"%s\", \n\t]));\n", base_name(env)); 
+CODE;
+        code += sprintf("\t\t\"out\" : \"%s\", \n\t]));\n", base_name(env));
         code += "\n\tsetup();\n}\n\n";
-        
+
         write_file(entry, code, 1);
-             
+
         env->create_room(fname, id, entry);
-        
+
         CP_CMD->copy_dir("/d/room/bunch/", BUNCH_HOME + id + "/");
-        
-        message("vision", creater->name() + "找了一堆工人来在" + env->query("short") + 
+
+        message("vision", creater->name() + "找了一堆工人来在" + env->query("short") +
                 "敲敲打打的，建造出一些房间。\n", env);
-                                              
+
         data = ([
                 "bunch_id"      : id,                // 帮派代号
                 "bunch_name"    : fname,             // 帮派名称
                 "time"          : time(),            // 帮派成立时间
-                "master"        : master,            // 帮派帮主                
+                "master"        : master,            // 帮派帮主
                 "color"         : NOR,               // 帮派颜色
                 "money"         : 10000000,          // 帮派资金
                 "member"        : obs->query("id"),  // 帮派成员
@@ -908,7 +908,7 @@ CODE;
                 "war_win"       : 0,                 // 帮派战争胜利次数
                 "war_lose"      : 0,                 // 帮派战争失败次数
         ]);
-        set(fname, data);       
+        set(fname, data);
 
         save();
 }
@@ -928,7 +928,7 @@ public void dismiss_bunch(string fname)
         ids = query(fname + "/member");
         dir = query(fname + "/room_id");
         pos = query(fname + "/room_position");
-        
+
         if (arrayp(ids))
         {
                 // 帮派中还有玩家，清除他们的信息
@@ -941,7 +941,7 @@ public void dismiss_bunch(string fname)
         }
 
         ids = BUNCH_D->query_bunch_areas(fname);
-        
+
         if (arrayp(ids))
         {
                 // 帮派中还有地盘，清除他们的信息
@@ -950,15 +950,15 @@ public void dismiss_bunch(string fname)
                         // 处理中
                         reset_eval_cost();
                         area_fame[id]["bunch_name"] = "独立中";
-                                
+
                         ob = get_object(id);
                         if (! ob) continue;
-                                
+
                         if (objectp(npc = present(area_fame[id]["npc_id"], ob)))
-                                npc->delete("bunch");              
+                                npc->delete("bunch");
                 }
-        } 
-            
+        }
+
         RM_CMD->rm_dir(BUNCH_HOME + dir);
 
         if (stringp(pos))
@@ -974,13 +974,13 @@ public void dismiss_bunch(string fname)
                         room->save();
                 }
         }
-        
+
         // 清除帮派的所有信息
         delete(fname);
         save();
 }
 
-// 查询帮派中的弟兄 
+// 查询帮派中的弟兄
 public string *query_bunch_members(mixed ob)
 {
         string *member;
@@ -1013,7 +1013,7 @@ public string *query_bunch_areas(mixed ob)
                 fname = ob;
         else
                 fname = 0;
-        
+
         aname = keys(area_fame);
         areas = ({ });
         foreach (afile in aname)
@@ -1049,27 +1049,27 @@ public mixed query_area_info(string afile, string info)
 {
         if (! stringp(afile) || ! stringp(info))
                 return 0;
-        
+
         if (! mapp(area_fame) || ! sizeof(area_fame))
                 return 0;
-                
+
         if (undefinedp(area_fame[afile]))
                 return 0;
-        
+
         if (info == "dbase")
                 return area_fame[afile];
-                
+
         return area_fame[afile][info];
 }
 
-// 查询帮派的信息        
+// 查询帮派的信息
 public mixed query_bunch_info(string fname, string info)
 {
         if (stringp(fname) && stringp(info))
         {
                 if (info == "dbase")
                         return query(fname);
-                        
+
                 return query(fname + "/" + info);
         }
         else
@@ -1078,10 +1078,10 @@ public mixed query_bunch_info(string fname, string info)
 
 // 在帮派中变动其他参数，例如帮派资产、帮主等。
 public void add_bunch_info(string fname, string info, mixed n)
-{  
+{
         if (! mapp(query(fname)))
                 return;
-                
+
         if (intp(n))
                 add(fname + "/" + info, n);
         else
@@ -1094,21 +1094,21 @@ public void add_bunch_info(string fname, string info, mixed n)
 // 改变地盘中的参数值
 public void add_area_info(string afile, string info, mixed value)
 {
-        if (undefinedp(area_fame[afile])) 
+        if (undefinedp(area_fame[afile]))
                 return;
-        
+
         if (intp(value))
-                area_fame[afile][info] += value;  
+                area_fame[afile][info] += value;
         else
         if (stringp(value))
-                area_fame[afile][info] = value;        
+                area_fame[afile][info] = value;
         else
                 area_fame[afile][info] = value;
 }
 
 public void set_area_info(string afile, string info, mixed value)
 {
-        if (undefinedp(area_fame[afile])) 
+        if (undefinedp(area_fame[afile]))
                 return;
 
         area_fame[afile][info] = value;
@@ -1123,12 +1123,12 @@ public void remove_area_from_areas(string area_file)
 public varargs void remove_member_from_bunch(mixed fname, string id)
 {
         mapping bunch;
-        string *member;    
+        string *member;
         string *areas;
         string area;
         object room, npc;
         string dir, pos;
-        
+
         if (objectp(fname))
         {
                 // fname is user object
@@ -1142,7 +1142,7 @@ public varargs void remove_member_from_bunch(mixed fname, string id)
 
         if (! mapp(bunch = query(fname)) ||
             ! arrayp(member = bunch["member"]))
-                // no such bunch or no member in the 
+                // no such bunch or no member in the
                 return 0;
 
         member -= ({ id, 0 });
@@ -1150,14 +1150,14 @@ public varargs void remove_member_from_bunch(mixed fname, string id)
         {
                 CHANNEL_D->do_channel(this_object(), "rumor",
                         "听说" + fname + "人才凋零，昔日帮众尽皆散去，从此江湖再无此帮派了。");
-                
+
                 map_delete(bunch_fame, fname);
                 if (mapp(last_bunch_fame)) map_delete(last_bunch_fame, fname);
-        
+
                 dir = query(fname + "/room_id");
                 pos = query(fname + "/room_position");
                 areas = BUNCH_D->query_bunch_areas(fname);
-        
+
                 if (arrayp(areas))
                 {
                         // 帮派中还有地盘，清除他们的信息
@@ -1166,15 +1166,15 @@ public varargs void remove_member_from_bunch(mixed fname, string id)
                                 // 处理中
                                 reset_eval_cost();
                                 area_fame[area]["bunch_name"] = "独立中";
-                                
+
                                 room = get_object(area);
                                 if (! room) continue;
-                                
+
                                 if (objectp(npc = present(area_fame[area]["npc_id"], room)))
-                                        npc->delete("bunch/bunch_name");                
+                                        npc->delete("bunch/bunch_name");
                         }
-                }  
-                
+                }
+
                 RM_CMD->rm_dir(BUNCH_HOME + dir);
 
                 if (stringp(pos))
@@ -1189,8 +1189,8 @@ public varargs void remove_member_from_bunch(mixed fname, string id)
                                 room->destroy_room(dir);
                                 room->save();
                         }
-                } 
-                     
+                }
+
                 delete(fname);
         } else
                 bunch["member"] = member;
@@ -1216,46 +1216,46 @@ public void add_member_into_bunch(string fname, string id)
 public void add_area_into_bunch(string fname, string afile, string aname, object ob)
 {
         string bname;
-        mapping data;  
-        string *areas;      
+        mapping data;
+        string *areas;
 
         areas = keys(area_fame);
         if (member_array(afile, areas) == -1)
         {
-                data = ([ 
+                data = ([
                         "area_name"  : aname,
                         "bunch_name" : fname,
                         "npc_id"     : ob->query("id"),
                         "npc_name"   : ob->query("name"),
                         "kaifa"      : 10,
                         "zijin"      : 10,
-                        "zhongcheng" : 10,                            
+                        "zhongcheng" : 10,
                         "money"      : 0,
-                        "last_money" : 0,                    
+                        "last_money" : 0,
                 ]);
-                  
+
                 area_fame[afile] = data;
         } else
         {
-                bname = area_fame[afile]["bunch_name"];         
-                if (bname != "独立中")                 
+                bname = area_fame[afile]["bunch_name"];
+                if (bname != "独立中")
                         message("channel:rumor",  HIM "【帮派传闻】某人：" + aname +
                                 "宣布脱离帮派「" + bname + "」的控制！\n" NOR, users());
                 area_fame[afile]["bunch_name"] = fname;
                 area_fame[afile]["zhongcheng"] = 10;
         }
-                
+
         ob->set("bunch/bunch_name", fname);
         ob->set("bunch/zhongcheng", 10);
         ob->set("bunch/max_zhongcheng", 100);
-        
+
         message("channel:rumor", HIM "【帮派传闻】某人：" + ob->query("name") +
                 "加入帮派「" + fname + "」！\n" NOR, users());
-                
+
         message("channel:rumor", HIM "【帮派传闻】某人：" + aname +
-                "被帮派「" + fname + "」吞并！\n" NOR, users());     
-                
-        return;                                        
+                "被帮派「" + fname + "」吞并！\n" NOR, users());
+
+        return;
 }
 
 // 查询两个帮派是否为同盟
@@ -1263,29 +1263,29 @@ public int bunch_is_league(mixed ob1, mixed ob2)
 {
         string *lea;
         string bun1, bun2;
-        
+
         if (stringp(ob1)) bun1 = ob1;
         else
-        if (objectp(ob1))        
+        if (objectp(ob1))
                 bun1 = ob1->query("bunch/bunch_name");
-                
+
         if (stringp(ob2)) bun2 = ob2;
         else
-        if (objectp(ob2))  
+        if (objectp(ob2))
                 bun2 = ob2->query("bunch/bunch_name");
-        
+
         if (! stringp(bun1) || ! stringp(bun2))
                 return 0;
-                
+
         lea = query(bun1 + "/league");
-        
+
         if (! arrayp(lea) || sizeof(lea) < 1)
                 return 0;
-        
+
         foreach (string bun in lea)
                 if (bun = bun2)
                         return 1;
-                       
+
         return 0;
 }
 
@@ -1294,84 +1294,84 @@ public int add_league_into_bunch(mixed ob1, mixed ob2)
 {
         string *lea;
         string bun1, bun2;
-        
+
         if (stringp(ob1)) bun1 = ob1;
         else
-        if (objectp(ob1))        
+        if (objectp(ob1))
                 bun1 = ob1->query("bunch/bunch_name");
-                
+
         if (stringp(ob2)) bun2 = ob2;
         else
-        if (objectp(ob2))  
+        if (objectp(ob2))
                 bun2 = ob2->query("bunch/bunch_name");
 
         if (! stringp(bun1) || ! stringp(bun2))
-                return 0;        
+                return 0;
 
-        lea = query(bun1 + "/league");  
-        
+        lea = query(bun1 + "/league");
+
         if (! arrayp(lea))
-                lea = ({ bun2 }); 
+                lea = ({ bun2 });
         else
         if (member_array(bun2, lea) == -1)
-                lea += ({ bun2 });     
-                
+                lea += ({ bun2 });
+
         set(bun1 + "/league", lea);
-        
-        lea = query(bun2 + "/league"); 
-         
+
+        lea = query(bun2 + "/league");
+
         if (! arrayp(lea))
-                lea = ({ bun1 }); 
+                lea = ({ bun1 });
         else
         if (member_array(bun1, lea) == -1)
-                lea += ({ bun1 });     
-                
+                lea += ({ bun1 });
+
         set(bun2 + "/league", lea);
 
         return 1;
 }
-              
+
 // 移除一个同盟帮派
 public int remove_league_from_bunch(mixed ob1, mixed ob2)
 {
         string *lea;
         string bun1, bun2;
-        
+
         if (stringp(ob1)) bun1 = ob1;
         else
-        if (objectp(ob1))        
+        if (objectp(ob1))
                 bun1 = ob1->query("bunch/bunch_name");
-                
+
         if (stringp(ob2)) bun2 = ob2;
         else
-        if (objectp(ob2))  
+        if (objectp(ob2))
                 bun2 = ob2->query("bunch/bunch_name");
 
         if (! stringp(bun1) || ! stringp(bun2))
-                return 0;        
+                return 0;
 
-        lea = query(bun1 + "/league");  
-        
+        lea = query(bun1 + "/league");
+
         if (! arrayp(lea) || sizeof(lea) < 1)
                 return 0;
-                
+
         if (member_array(bun2, lea) == -1)
                 return 0;
-                
-        lea -= ({ bun2 });     
-                
+
+        lea -= ({ bun2 });
+
         set(bun1 + "/league", lea);
-        
-        lea = query(bun2 + "/league"); 
-         
+
+        lea = query(bun2 + "/league");
+
         if (! arrayp(lea) || sizeof(lea) < 1)
                 return 0;
 
         if (member_array(bun1, lea) == -1)
                 return 0;
-        
-        lea -= ({ bun1 });     
-                
+
+        lea -= ({ bun1 });
+
         set(bun2 + "/league", lea);
 
         return 1;
@@ -1382,7 +1382,7 @@ public int announce_war_start(string fname, string bname)
 {
         message("channel:rumor", HIR "\n\t轰动武林～～惊动万教～～\n\t"
                 HIC + fname + HIR "与" HIM + bname + HIR "的帮派矛盾激化，开始全面开战……\n" NOR, users());
-                
+
         set(fname + "/war_target", bname);
         set(bname + "/war_target", fname);
         set(fname + "/war_endtime", time() + 3600);
@@ -1395,26 +1395,26 @@ public int war_stop_time(string fname)  // 第一种停止模式-时间到
 {
         int kill_1, kill_2, money;
         string bname, wname, lname;
-        
+
         bname = query_bunch_info(fname, "war_target");
-        
+
         kill_1 = query_bunch_info(fname, "war_kill");
         kill_2 = query_bunch_info(bname, "war_kill");
-        
-        if (kill_1 > kill_2)    
+
+        if (kill_1 > kill_2)
         {
                 wname = fname;
                 lname = bname;
                 money = kill_1 * 10000 + 100000;
         }
-        else 
-        if (kill_1 < kill_2)    
+        else
+        if (kill_1 < kill_2)
         {
                 wname = bname;
                 lname = fname;
                 money = kill_2 * 10000 + 100000;
         }
-        else    
+        else
         {
                 message("channel:rumor", HIR "\n\t轰动武林～～惊动万教～～\n\t"
                         HIC + fname + HIR "与" HIM + bname + HIR "的帮派对决终于结束……\n\t"
@@ -1426,16 +1426,16 @@ public int war_stop_time(string fname)  // 第一种停止模式-时间到
 
                 return 1;
         }
-        
+
         message("channel:rumor", HIR "\n\t轰动武林～～惊动万教～～\n\t"
                 HIC + wname + HIR "与" HIM + lname + HIR "的帮派对决终于结束……\n\t"
                 HIC + wname + HIR "总共杀掉" HIM + lname + HIG " " + CHINESE_D->chinese_number(kill_1) + HIR "位帮众，\n\t"
                 HIM + lname + HIC "总共杀掉" HIC + wname + HIG " " + CHINESE_D->chinese_number(kill_2) + HIR "位帮众，\n\t"
-                HIM + lname + HIC "战败，必须赔偿" HIC + wname + HIY " " + 
+                HIM + lname + HIC "战败，必须赔偿" HIC + wname + HIY " " +
                 CHINESE_D->chinese_number(money) + HIR "两黄金。\n" NOR, users());
 
                 end_bunch_war(wname, lname, money);
-                
+
                 return 1;
 }
 
@@ -1449,11 +1449,11 @@ public int war_stop_kill(string fname)   // 第二种停止模式..帮主被作掉......
         number = query_bunch_info(bname, "war_kill");
         money = number * 1000 + 100000;
 
-        message("channel:rumor", HIC "\t号外!!号外!!轰动武林的" + HIG + bname + HIC "和" HIG + fname + HIC "的帮派对决总于有了结果了!!!!\n" 
+        message("channel:rumor", HIC "\t号外!!号外!!轰动武林的" + HIG + bname + HIC "和" HIG + fname + HIC "的帮派对决总于有了结果了!!!!\n"
                 HIG "       " + bname + HIC "杀掉了" HIG + fname + HIC "帮派帮主:" HIG + master + HIC "\n" +
                 "\t一时之间" + HIG + fname + HIC + "因为帮主被做掉，以致军心大乱!!!一路败退!!!\n" + HIC +
                 "\t最后判定::" + HIG + fname + HIC + "必须要付出" + CHINESE_D->chinese_number(money) + "两的赔偿金!!!\n" NOR, users());
-                
+
 
         end_bunch_war(bname, fname, money);
         return 1;
@@ -1462,16 +1462,16 @@ public int war_stop_kill(string fname)   // 第二种停止模式..帮主被作掉......
 public int war_stop_money(string lname, int money)   // 第三种停止模式..求和......
 {
         string wname, master;
-        
+
         wname = query_bunch_info(lname, "war_target");
         master = query_bunch_info(lname, "master");
-        
+
         message("channel:rumor", HIC "\t号外!!号外!!轰动武林的" + HIG + wname + HIC "和" + HIG + lname + HIC + "的帮派对决总于有了结果了!!!!\n" + HIG +
          "   " + wname + HIC + "愿接受" + HIG + lname + HIC + "的帮主" + HIG + master + HIC + "求和!!!双方同意结束战斗状态!!!\n" + HIC +
          "\t最后" + HIG + lname + HIC + "愿给予" + HIG + wname + HIC + "共" + CHINESE_D->chinese_number(money) + "两的求和金!!!\n" NOR, users());
-        
+
         end_bunch_war(wname, lname, money);
-        
+
         return 1;
 }
 
@@ -1480,26 +1480,26 @@ public int end_bunch_war(string wname, string lname, int gold)
         if (! query(wname + "/member") ||
             ! query(lname + "/member"))
                 return 0;
-                
+
         if (intp(gold) && gold > 0)
         {
                 add(wname + "/war_win", 1);
                 add(lname + "/war_lose", 1);
                 add(wname + "/money", gold);
-                add(lname + "/money", -gold);       
-        }    
-                
+                add(lname + "/money", -gold);
+        }
+
         set(wname + "/war_kill", 0);
         set(lname + "/war_kill", 0);
         set(wname + "/war_endtime", 0);
         set(lname + "/war_endtime", 0);
         set(wname + "/war_target", "NULL");
-        set(lname + "/war_target", "NULL");   
-                
+        set(lname + "/war_target", "NULL");
+
         save();
         return 1;
-}        
-            
+}
+
 // 排序：升序
 private int sort_hatred(string id1, string id2, mapping hatred)
 {

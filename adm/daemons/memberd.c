@@ -11,8 +11,8 @@
 
                                                         Create by yuchang for HERO JUN 2005
 *****************************************************************************************/
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <localtime.h>
@@ -36,7 +36,7 @@ inherit F_DBASE;
 #define SNFFIR           "######中华会员注册码######"
 #define SNFHISFIR        "#####中华英雄会员注册码历史文件######"
 #define PASSWD           "#####FORYHONLINEIS2003MADEBYRCWIZ#####"
-#define VERSION          "V 1.00   "                         
+#define VERSION          "V 1.00   "
 #define PERCENT          3 / 100
 
 public string bjtime(int seconds, int format);
@@ -45,16 +45,16 @@ public int get_end_time(string id);
 void create()
 {
         seteuid(getuid());
-        set("channel_id", "会员系统");           
-        set("no_clean_up", 1);     
-        CHANNEL_D->do_channel(this_object(), "sys", "会员系统已经启动。");      
+        set("channel_id", "会员系统");
+        set("no_clean_up", 1);
+        CHANNEL_D->do_channel(this_object(), "sys", "会员系统已经启动。");
         remove_call_out("backup_data");
         call_out("backup_data", 10);
 }
 
 /************************会员档案备份***********************
   备份最近15天的档案
-**********************************************************/  
+**********************************************************/
 public void backup_data()
 {
         mixed *file;
@@ -67,39 +67,39 @@ public void backup_data()
 
         file = get_dir(MDATA_DIR, -1);
         if (! sizeof(file))return;
-        
+
         format_time = bjtime(time(), 0);
         t = explode(format_time, ":");
-        
+
         // 一天只备份一次
-        if (file_size(DEST_DIR + "-" + t[0] + "-" + t[1] + "-" + t[2]) != -1)   
+        if (file_size(DEST_DIR + "-" + t[0] + "-" + t[1] + "-" + t[2]) != -1)
                 return;
 
         // 北京时间每天晚上22:00 -- 0:00间备份
         if (t[3] != "22" && t[3] != "23")return;
-        
+
         message_system(HIW "系统正在对会员档案进行备份，请稍后 ...\n" NOR);
-        
+
         // 删除大于15天的档案
-        file = get_dir(MBACKUP_DIR, -1);        
+        file = get_dir(MBACKUP_DIR, -1);
         if (sizeof(file))
         {
                 for (iCount = 0; iCount < sizeof(file); iCount ++)
-                {       
+                {
                         if (time() - file[iCount][2] >= SAVE_DAYS * 86400 )
                                 "/cmds/wiz/rm"->rm_dir(MBACKUP_DIR + file[iCount][0]);
                 }
         }
 
         // 备份会员数据
-        "/cmds/wiz/cp"->copy_dir(SOURCE_DIR, 
-                                 DEST_DIR + "-" + t[0] + 
+        "/cmds/wiz/cp"->copy_dir(SOURCE_DIR,
+                                 DEST_DIR + "-" + t[0] +
                                  "-" + t[1] + "-" + t[2],
                                  0);
-                                 
+
         message_system(HIW "系统备份完毕！\n" NOR);
-                
-        return; 
+
+        return;
 }
 /******************************************************
   子功能调用：用于读取注册码和注册码历史文件
@@ -110,7 +110,7 @@ public mixed get_sn(int flag, string passwd)
       string strtmpSn;
       string *sn, *snhistory;
       int lenth = SNLEN + 1;
-      
+
       if (passwd != PASSWD)
            return "无效的验证码！\n";
 
@@ -123,7 +123,7 @@ public mixed get_sn(int flag, string passwd)
       if (flag) // 读取注册码
       {
           while (strtmpSn = read_file(SNF, nCount, 1))
-          {              
+          {
                strtmpSn = strtmpSn[0..lenth];
                sn += ({ strtmpSn });
                strtmpSn = "";
@@ -155,7 +155,7 @@ public mixed get_sn(int flag, string passwd)
   子功能调用：用于检查是否为会员
 ******************************************************/
 public int is_member(string id)
-{    
+{
       if (file_size(MDATA_DIR + id) == -1)
               return 0;
 
@@ -175,7 +175,7 @@ public int is_valib_member(string id)
       if (end_time - time() > 0)return 1;
 
       return 0;
-      
+
 }
 
 /******************************************************
@@ -189,22 +189,22 @@ public string bjtime(int seconds, int format)
      mixed t;
 
      t = localtime(seconds);
- 
+
      if (format)
      {
          result = sprintf("%d-%02d-%02d %02d:%02d:%02d",
-                          t[LT_YEAR], 
+                          t[LT_YEAR],
                           t[LT_MON] + 1,
                           t[LT_MDAY],
                           t[LT_HOUR],
                           t[LT_MIN],
                           t[LT_SEC]);
-                          
+
          return result;
      }
 
      result = sprintf("%d:%02d:%02d:%02d:%02d:%02d",
-                      t[LT_YEAR], 
+                      t[LT_YEAR],
                       t[LT_MON] + 1,
                       t[LT_MDAY],
                       t[LT_HOUR],
@@ -251,7 +251,7 @@ public int get_yhb(string id)
           return 0;
      }
      if(! strtmp = read_file(MDATA_DIR + "YHB" + id, 2, 1))
-     {    
+     {
           write("会员档案出错！\n");
           return 0;
      }
@@ -266,22 +266,22 @@ public int get_yhb(string id)
 public int new_msg(object me)
 {
      int iNew, msg_all, i;
-      
+
      msg_all = sizeof(me->query("message"));
-        
+
      if (msg_all == 0)return 0;
 
      iNew = 0;
      for (i = 1; i <= msg_all; i ++)
           if (me->query("message/msg" + i + "/is_new"))iNew ++;
-     
+
      return iNew;
 }
 
 /******************** 产生注册码 *******************************
 产生一个15位长的注册码用于会员充值，产生注册码前须指定产生个数
 count、系统将产生count个与SNF文件和SNFHIS内注册码不重复且曾经
-未使用过的的注册码，然后将其写入文件SNF 
+未使用过的的注册码，然后将其写入文件SNF
 ****************************************************************/
 public int make_sn(int snc, string passwd)
 {
@@ -294,10 +294,10 @@ public int make_sn(int snc, string passwd)
                "A", "B", "C", "D", "E", "F", "G", "H", "I",
                "J", "K", "L", "M", "N", "O", "P", "Q", "R",
                "S", "T", "U", "V", "W", "X", "Y", "Z",
-               "a", "b", "c", "d", "e", "f", "g", "h", "i", 
-               "j", "k", "l", "m", "n", "o", "p", "q", "r", 
-               "s", "t", "u", "v", "w", "x", "y", "z",               
-               "0", "1", "2", "3", "4", "5", "6", "7", "8", 
+               "a", "b", "c", "d", "e", "f", "g", "h", "i",
+               "j", "k", "l", "m", "n", "o", "p", "q", "r",
+               "s", "t", "u", "v", "w", "x", "y", "z",
+               "0", "1", "2", "3", "4", "5", "6", "7", "8",
                "9"
       });
 
@@ -344,9 +344,9 @@ public int make_sn(int snc, string passwd)
 
                   return 1;
             }
-            
+
             // 产生一个注册码
-            strtmpSn = SNFIR;            
+            strtmpSn = SNFIR;
             for(i = 0; i < SNLEN; i ++)
             {
                   strtmpSn += codes[random(sizeof(codes))];
@@ -358,7 +358,7 @@ public int make_sn(int snc, string passwd)
             {
                   // 产生的注册码序列也不能相同
                   if (! sizeof(makecodes))
-                  {                      
+                  {
                        if (! write_file(SNF, "\n" + strtmpSn, 0))
                        {
                             write("注册码写入失败。\n");
@@ -392,7 +392,7 @@ public int make_sn(int snc, string passwd)
                   if (sizeof(sn))
                   {
                        if (! sizeof(makecodes))
-                       {                    
+                       {
                             if (member_array(strtmpSn, sn) != -1)
                             {
                                   strtmpSn = "";
@@ -428,12 +428,12 @@ public int make_sn(int snc, string passwd)
                             nCount ++;
                             continue;
                        }
-                       
+
                   }
                   if (sizeof(snhistory))
                   {
                        if (! sizeof(makecodes))
-                       {                    
+                       {
                             if (member_array(strtmpSn, snhistory) != -1)
                             {
                                   strtmpSn = "";
@@ -481,9 +481,9 @@ public string read_sn(string passwd)
 {
       string str;
       int lenth;
-      
+
       if (passwd != PASSWD)return "无效的验证码！\n";
-      
+
       lenth = SNLEN + 1;
       if (str = read_file(SNF, 2, 1))
       {
@@ -525,17 +525,17 @@ public int pay(object me, string str)
       {
            write("未找到注册码文件，请妥善保管好您的注册码，并尽快与ADMIN联系。\n");
            return 0;
-           
+
       }
       if (file_size(SNFHIS) == -1)
       {
            write("未找到历史注册码文件，请妥善保管好您的注册码，并尽快与ADMIN联系。\n");
            return 0;
       }
-      
+
       // 校验注册码
       sn = get_sn(1, PASSWD);
-      
+
       if (sizeof(str) != SNLEN + 2)
       {
             return 0;
@@ -548,9 +548,9 @@ public int pay(object me, string str)
       // 保存充值记录
       if (file_size(MLOG_PAY_DIR + me->query("id")) == -1)
       {
-           write_file(MLOG_PAY_DIR + me->query("id"), 
-                      sprintf("%s(%s)于%s准备用充值码 %s 进行充值！\n", 
-                              me->name(1), 
+           write_file(MLOG_PAY_DIR + me->query("id"),
+                      sprintf("%s(%s)于%s准备用充值码 %s 进行充值！\n",
+                              me->name(1),
                               me->query("id"),
                               bjtime(time(), 1),
                               str),
@@ -558,9 +558,9 @@ public int pay(object me, string str)
       }
       else
       {
-          write_file(MLOG_PAY_DIR + me->query("id"), 
-                     sprintf("%s(%s)于%s准备用充值码 %s 进行充值！\n", 
-                             me->name(1), 
+          write_file(MLOG_PAY_DIR + me->query("id"),
+                     sprintf("%s(%s)于%s准备用充值码 %s 进行充值！\n",
+                             me->name(1),
                              me->query("id"),
                              bjtime(time(), 1),
                              str),
@@ -573,8 +573,8 @@ public int pay(object me, string str)
       if (! write_file(SNF, SNFFIR, 1))
       {
           write("重新创建注册码文件时失败，请与本站ADMIN联系！\n");
-          write_file(MLOG_PAY_DIR + me->query("id"), 
-                     sprintf("↑此次充值由于无法创建注册码文件而失败！\n", 
+          write_file(MLOG_PAY_DIR + me->query("id"),
+                     sprintf("↑此次充值由于无法创建注册码文件而失败！\n",
                      me->name(1),
                      me->query("id"),
                      bjtime(time(), 1),
@@ -589,8 +589,8 @@ public int pay(object me, string str)
           if (! write_file(SNF, "\n" + sn[i], 0))
           {
                write("写入注册码档案失败，请与本站ADMIN联系！\n");
-               write_file(MLOG_PAY_DIR + me->query("id"), 
-                          sprintf("↑此次充值由于写入注册码档案错误而失败！\n", 
+               write_file(MLOG_PAY_DIR + me->query("id"),
+                          sprintf("↑此次充值由于写入注册码档案错误而失败！\n",
                           me->name(1),
                           me->query("id"),
                           bjtime(time(), 1),
@@ -604,8 +604,8 @@ public int pay(object me, string str)
       if (! write_file(SNFHIS, "\n" + str, 0))
       {
           write("写入注册码到注册码历史文件时失败，请与本站ADMIN联系！\n");
-          write_file(MLOG_PAY_DIR + me->query("id"), 
-                     sprintf("↑此次充值由于写入注册码到历史注册码文件错误而失败！\n", 
+          write_file(MLOG_PAY_DIR + me->query("id"),
+                     sprintf("↑此次充值由于写入注册码到历史注册码文件错误而失败！\n",
                      me->name(1),
                      me->query("id"),
                      bjtime(time(), 1),
@@ -615,7 +615,7 @@ public int pay(object me, string str)
       }
 
       // 修改会员档案
-      
+
       // 第一次成为会
       if (! is_member(me->query("id")))
       {
@@ -626,8 +626,8 @@ public int pay(object me, string str)
             {
                     write("写入档案失败，请与本站ADMIN联系！\n");
 
-                    write_file(MLOG_PAY_DIR + me->query("id"), 
-                               sprintf("↑此次充值由于写入档案错误而失败！\n", 
+                    write_file(MLOG_PAY_DIR + me->query("id"),
+                               sprintf("↑此次充值由于写入档案错误而失败！\n",
                                me->name(1),
                                me->query("id"),
                                bjtime(time(), 1),
@@ -643,10 +643,10 @@ public int pay(object me, string str)
             me->add("member/pay_times", 1);
             me->set("member/buy_times", 0);
             me->set("member/last_paytime", time());
-            
-            write_file(MLOG_PAY_DIR + me->query("id"), 
-                       sprintf("↑此次充值成功！\n", 
-                       me->name(1), 
+
+            write_file(MLOG_PAY_DIR + me->query("id"),
+                       sprintf("↑此次充值成功！\n",
+                       me->name(1),
                        me->query("id"),
                        bjtime(time(), 1),
                        str),
@@ -654,7 +654,7 @@ public int pay(object me, string str)
 
             // 为其建立炎黄货币存放文件
             write_file(MDATA_DIR + "YHB" + me->query("id"), "0", 1);
-            
+
             call_out("show_member_info", 1, me->query("id"), "info", me);
             return 1;
       }
@@ -669,9 +669,9 @@ public int pay(object me, string str)
             {
                     write("写入档案失败，请与本站ADMIN联系！\n");
 
-                    write_file(MLOG_PAY_DIR + me->query("id"), 
-                               sprintf("↑此次充值由于写入档案错误而失败！\n", 
-                               me->name(1), 
+                    write_file(MLOG_PAY_DIR + me->query("id"),
+                               sprintf("↑此次充值由于写入档案错误而失败！\n",
+                               me->name(1),
                                me->query("id"),
                                bjtime(time(), 1),
                                str),
@@ -685,14 +685,14 @@ public int pay(object me, string str)
             me->add("member/pay_times", 1);
             me->set("member/last_paytime", time());
 
-            write_file(MLOG_PAY_DIR + me->query("id"), 
-                       sprintf("↑此次充值成功！\n", 
-                       me->name(1), 
+            write_file(MLOG_PAY_DIR + me->query("id"),
+                       sprintf("↑此次充值成功！\n",
+                       me->name(1),
                        me->query("id"),
                        bjtime(time(), 1),
                        str),
             0);
-            
+
             call_out("show_member_info", 1, me->query("id"), "info", me);
             return 1;
       }
@@ -701,8 +701,8 @@ public int pay(object me, string str)
       if (file_size(MDATA_DIR + me->query("id")) == -1)
       {
             write("未找到档案，请与本站ADMIN联系！\n");
-            write_file(MLOG_PAY_DIR + me->query("id"), 
-                       sprintf("↑此次充值由于未找到档案而失败！\n", 
+            write_file(MLOG_PAY_DIR + me->query("id"),
+                       sprintf("↑此次充值由于未找到档案而失败！\n",
                        me->name(1),
                        me->query("id"),
                        bjtime(time(), 1),
@@ -713,9 +713,9 @@ public int pay(object me, string str)
       if (! strtmpSn = read_file(MDATA_DIR + me->query("id"), 2, 1))
       {
             write("读取档案出错，请与本站ADMIN联系！\n");
-            write_file(MLOG_PAY_DIR + me->query("id"), 
-                       sprintf("↑此次充值由于读取档案错误而失败！\n", 
-                       me->name(1), 
+            write_file(MLOG_PAY_DIR + me->query("id"),
+                       sprintf("↑此次充值由于读取档案错误而失败！\n",
+                       me->name(1),
                        me->query("id"),
                        bjtime(time(), 1),
                        str),
@@ -732,9 +732,9 @@ public int pay(object me, string str)
       if (! write_file(MDATA_DIR + me->query("id"), strtmpSn, 1))
       {
             write("写入档案出错，请与本站ADMIN联系！\n");
-            write_file(MLOG_PAY_DIR + me->query("id"), 
-                       sprintf("↑此次充值由于写入档案错误而失败！\n", 
-                       me->name(1), 
+            write_file(MLOG_PAY_DIR + me->query("id"),
+                       sprintf("↑此次充值由于写入档案错误而失败！\n",
+                       me->name(1),
                        me->query("id"),
                        bjtime(time(), 1),
                        str),
@@ -744,9 +744,9 @@ public int pay(object me, string str)
       end_time -= time();
       end_time = (int)(end_time / 86400);
       me->add("member/pay_times", 1);
-      write_file(MLOG_PAY_DIR + me->query("id"), 
-                 sprintf("↑此次充值成功！\n", 
-                 me->name(1), 
+      write_file(MLOG_PAY_DIR + me->query("id"),
+                 sprintf("↑此次充值成功！\n",
+                 me->name(1),
                  me->query("id"),
                  bjtime(time(), 1),
                  str),
@@ -804,15 +804,15 @@ public void show_member_info(string id, string arg, object me)
                      i ++;
                 }
                 break;
-                
+
            // 面板
            case "info":
                 write(BBLU + HIW "\t\t    中华英雄史会员系统面板\t\t  " + VERSION + "\n" NOR);
                 write(HIW "≡---------------------------------------------------------------≡\n" NOR);
                 write(HIY "WELCOME TO JOIN IN THE MEMBERS OF YHHERO AND HOPE YOU ALL GOES WELL.\n\n" NOR);
-                write(sprintf(HIC "  会员代号：%-25s有效时间：%s\n" NOR, 
+                write(sprintf(HIC "  会员代号：%-25s有效时间：%s\n" NOR,
                               id, bjtime(get_end_time(id), 1)));
-                write(sprintf(HIC "  入会时间：%-25s充值次数：%d\n" NOR, 
+                write(sprintf(HIC "  入会时间：%-25s充值次数：%d\n" NOR,
                               bjtime(me->query("member/join_time"), 1),
                               me->query("member/pay_times")));
                 write(sprintf(HIC "  购买累计：%-25s购买次数：%d\n" NOR,
@@ -833,7 +833,7 @@ public void show_member_info(string id, string arg, object me)
                               me->query("member/last_buyvalue"):"0"));
 
                 write(sprintf(HIY "\n  炎黄货币：%d YHB\n  累计赚取：%d YHB\n" NOR,
-                              get_yhb(id), 
+                              get_yhb(id),
                               get_yhb(id) + me->query("member/buy_value") +
                               me->query("member/virement_value") +
                               me->query("member/virement_value") * PERCENT));
@@ -845,13 +845,13 @@ public void show_member_info(string id, string arg, object me)
                           me->query("member/virement_value") +
                           me->query("member/virement_value") * PERCENT) / hours;
                 yhb_avg = (float)(yhb_avg * 24.0);
-                
+
                 write(sprintf(HIY "  平均增长：%.1f YHB / 日 |  预计 %.1f YHB / 月\n" NOR,
                               yhb_avg, (float)(yhb_avg * 30)));
 
                 write(sprintf(HIW "\n  新短消息：%s\n" NOR,
-                              new_msg(me) > 0 ? 
-                              new_msg(me) + " 条  ○请使用 msg read new 读取" 
+                              new_msg(me) > 0 ?
+                              new_msg(me) + " 条  ○请使用 msg read new 读取"
                               : new_msg(me) + " 条  ○请使用 help msg 查看短消息系统使用方法"));
 
                 write(HIG "\n  *请使用" HIR " member show info " HIG "      打开中华会员系统面板。\n" NOR);
@@ -866,13 +866,13 @@ public void show_member_info(string id, string arg, object me)
                 write(HIY "                (" HIR"YΨH" HIY ").YHHERO WIZARD GROUP http://yhhero."
                       "vicp.net\n" NOR);
                 write(HIW "≡---------------------------------------------------------------≡\n" NOR);
-              
+
                 break;
            // 物品清单
            case "goods":
                 GOODS_D->show_goods();
                 break;
-    
+
            // 转帐记录
            case "zhuaninfo":
                 if (file_size(MLOG_PAY_DIR + "ZZYHB" + id) == -1)
@@ -887,7 +887,7 @@ public void show_member_info(string id, string arg, object me)
                      write(BBLU + HIY + strtmpSn + NOR);
                      i ++;
                 }
-                break;                
+                break;
            default:
                 break;
       }
@@ -903,11 +903,11 @@ public int add_yhb(string id, int amount, string passwd)
       string strtmp;
 
       if (passwd != PASSWD)
-      {   
+      {
            write("非法的验证码！\n");
            return 0;
       }
-      
+
       if (file_size(MDATA_DIR + "YHB" + id) == -1)
       {
            write("未找到指定文件，请与本站ADMIN联系！\n");
@@ -927,7 +927,7 @@ public int add_yhb(string id, int amount, string passwd)
             return 0;
       }
 
-      return 1;      
+      return 1;
 }
 /**********************转帐YHB**********************************
    只能为有效会员间转帐，
@@ -989,18 +989,18 @@ public int virement_yhb(string me_id, string tar_id, int amount, object me)
                 // 写入转帐记录
                 if (file_size(MLOG_PAY_DIR + "ZZYHB" + me_id) == -1)flag = 1;
                 else flag = 0;
-     
+
                 me->add("member/virement_value", amount);
                 me->add("member/virement_times", 1);
                 write_file(MLOG_PAY_DIR + "ZZYHB" + me_id,
-                           sprintf("%s(%s) 于 %s 将 %d YHB 转入 %s 帐户。\n", 
+                           sprintf("%s(%s) 于 %s 将 %d YHB 转入 %s 帐户。\n",
                            me->name(1),
                            me_id,
                            bjtime(time(), 1),
                            amount,
                            tar_id,
                            flag));
-                
+
                 return 1;
           }
 
@@ -1039,25 +1039,25 @@ public mixed show_all_members(int flag)
       }
 
       if (flag)return members;
-       
+
       write(HIM "以下是中华英雄史的所有会员列表：\n" NOR);
       write(HIW "≡-------------------------------------------------------------------≡\n" NOR);
-           
-      write(sprintf(HIR "%-18s%-18s%-26s%-20s\n\n" NOR, 
+
+      write(sprintf(HIR "%-18s%-18s%-26s%-20s\n\n" NOR,
                     "姓  名", "帐  号", "入会时间", "状  况"));
 
       for (nCount = 0; nCount < sizeof(members); nCount ++)
       {
              if (ob = find_player(members[nCount]))
-             {        
-                  if (ob->query("doing"))status = HIY "计划中" NOR;          
-                  else if (interactive(ob) && query_idle(ob) > 120)status = HIM "发呆" NOR;                  
+             {
+                  if (ob->query("doing"))status = HIY "计划中" NOR;
+                  else if (interactive(ob) && query_idle(ob) > 120)status = HIM "发呆" NOR;
                   else if (is_valib_member(members[nCount]))status = HIW "在线" NOR;
                   else status = HIR "过期" NOR;
                                 name = ob->name(1);
                                 join_time = bjtime(ob->query("member/join_time"), 1);
              }
-             else 
+             else
              {
                   if (is_valib_member(members[nCount]))status = NOR + WHT "离线" NOR;
                   else status = HIR "过期" NOR;
@@ -1072,7 +1072,7 @@ public mixed show_all_members(int flag)
                            status));
 
              m ++; // 过滤掉转帐记录文件，实际会员数
-                                    
+
       }
       write(HIY "\n总共有 " + m + " 名注册会员。\n" NOR);
       write(HIW "≡-------------------------------------------------------------------≡\n\n" NOR);
@@ -1105,5 +1105,3 @@ public int remove_member(string id)
       write("成功删除会员 " + id + " 。\n");
       return 1;
 }
-
-

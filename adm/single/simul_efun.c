@@ -1,5 +1,5 @@
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include "/adm/simul_efun/atoi.c"

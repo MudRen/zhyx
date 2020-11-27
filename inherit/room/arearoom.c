@@ -1,9 +1,9 @@
 // Copyright (C) 2003, by Lonely. All rights reserved.
-// This software can not be used, copied, or modified 
+// This software can not be used, copied, or modified
 // in any form without the written permission from authors.
 // arearoom.c
 
-#pragma save_binary
+// #pragma save_binary
 
 #include <ansi.h>
 
@@ -50,8 +50,8 @@ void remove()
 mixed save_dbase_data()
 {
         mapping data;
-        
-        data = ([ "bunch" : query("bunch") ]);                  
+
+        data = ([ "bunch" : query("bunch") ]);
 
         return data;
 }
@@ -78,9 +78,9 @@ string long()
         desc = query("long");
         ziyuan = query("area/ziyuan");
         bunch = query("bunch/bunch_name");
-        
+
         if (! ziyuan) return desc;
-        
+
         if (! bunch || ! stringp(bunch))
                 desc += "    这里" + ziyuan + "资源丰富可利用之做出一番事业！\n";
         else
@@ -99,4 +99,3 @@ string query_save_file()
         if (! file || ! sscanf(file, "/d/%s", arg)) return 0;
         return DATA_DIR + file;
 }
-

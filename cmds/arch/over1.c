@@ -1,6 +1,6 @@
 // overview.c
 
-#pragma save_binary
+// #pragma save_binary
 
 inherit F_CLEAN_UP;
 
@@ -12,11 +12,11 @@ int main(object me, string arg)
 
         msg = "";
         file = ({ });
-        
+
         if (! SECURITY_D->valid_grant(me, "(arch)"))
                 return 0;
-        
-        switch (arg) 
+
+        switch (arg)
         {
                 case "user"  :
                         ob = users();
@@ -32,11 +32,11 @@ int main(object me, string arg)
                                         num = sizeof(children(base_name(ob[i])));
                                         file += ({base_name(ob[i])});
                                         msg += base_name(ob[i]) + "@@@" + num + "\n";
-                                        
-                                        if (sizeof(children(base_name(ob[i]))) > 5) 
+
+                                        if (sizeof(children(base_name(ob[i]))) > 5)
                                                 write(base_name(ob[i]) + "\n");
                                 }
-                                
+
                         }
                           write_file("/u/mike/report.txt", msg, 1);
                         break;
@@ -77,7 +77,7 @@ int main(object me, string arg)
                         {
                                 msg += base_name(ob[i]) + "\n";
                                 if (me->query("env/delroom") && base_name(ob[i]) != "/clone/misc/void")
-                                destruct(ob[i]);        
+                                destruct(ob[i]);
                         }
                           write_file("/u/mike/room.txt", msg, 1);
                         if (me->query("env/delroom")) return 1;
@@ -100,7 +100,7 @@ int main(object me, string arg)
                         printf("共有 %d 个物件被载入　\n", sizeof(ob));
                         for (i = 0; i < sizeof(ob); i++)
                         {
-                                reset_eval_cost(); 
+                                reset_eval_cost();
                                 if (member_array(base_name(ob[i]), file) == -1)
                                 {
                                         file += ({base_name(ob[i])});
@@ -128,7 +128,7 @@ int help()
 指令格式：overview <主题>
 
 TEXT
-        
+
         );
         return 1;
 }

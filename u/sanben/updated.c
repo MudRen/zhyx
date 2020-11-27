@@ -3,8 +3,8 @@
 // because a user may does much association with others,
 // so I must assure all the data keep consistant
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <room.h>
@@ -86,7 +86,7 @@ void check_user(object ob)
 	if (! mapp(skill_status = ob->query_skills())) return;
 	sname  = keys(skill_status);
 
-	for (i = 0; i < sizeof(skill_status); i++) 
+	for (i = 0; i < sizeof(skill_status); i++)
 	{
 		level = skill_status[sname[i]];
                 if (file_size(SKILL_D(sname[i]) + ".c") == -1)
@@ -100,7 +100,7 @@ void check_user(object ob)
             		while (level &&
 			       (level - 1) * (level -1 ) * (level - 1) / 10 > combat_exp)
             		       level--;
-        
+
             		ob->set_skill(sname[i], level);
                 }
 	}

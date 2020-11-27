@@ -1,7 +1,7 @@
 // char.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <action.h>
 #include <ansi.h>
@@ -97,11 +97,11 @@ void heart_beat()
 		prompt = my["env"]["prompt"];
                 if ((prompt == "time" || prompt == "mud" || prompt == "hp") &&
 		    is_waiting_command() && ! me->is_attach_system())
-                    
+
                 {
                         write_prompt();
                 }
-                
+
         }
 
         // If we're dying or falling unconcious?

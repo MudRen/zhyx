@@ -3,8 +3,8 @@
 
 inherit F_DBASE;
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <command.h>

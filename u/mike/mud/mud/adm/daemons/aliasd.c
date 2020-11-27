@@ -1,7 +1,7 @@
 // aliasd.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 mapping global_alias = ([
 	"l":		"look",
@@ -33,7 +33,7 @@ string process_global_alias(string arg)
 
         switch (arg[0])
         {
-     //取消此alias是为了防止有人用 '~{ 顶格输出来搞别人机器人  
+     //取消此alias是为了防止有人用 '~{ 顶格输出来搞别人机器人
      /*   case '\'':
 	        return "say " + arg[1..strlen(arg) - 1]; */
 

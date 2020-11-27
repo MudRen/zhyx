@@ -1,7 +1,7 @@
 // rankd.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 
@@ -1026,4 +1026,3 @@ varargs string query_self_close(mixed ob, mixed me, int a1, int a2)
                         return "ะกตÜฮา";
         }
 }
-

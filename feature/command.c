@@ -4,7 +4,7 @@
 // Updated by Doing for HELL (2K)
 // Modified by Mike@txwd for TXWD
 
-#pragma optimize
+// #pragma optimize
 
 #include <command.h>
 #include <dbase.h>
@@ -200,6 +200,3 @@ nomask void disable_player(string type)
         enabled = 0;                            //È¡ÏûÊ§Ð§
         }
 }
-
-
-

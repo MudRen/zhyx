@@ -8,8 +8,8 @@
 // updated by Doing Lu for hell (2K)
 // Modify By Linux@lxtx for yh 2003.3
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <config.h>
 #include <localtime.h>
@@ -21,7 +21,7 @@ object connect()
 {
         object login_ob;
         mixed err;
-   
+
         err = catch(login_ob = new(LOGIN_OB));
 
         if (err)
@@ -61,7 +61,7 @@ static void crash(string error, object command_giver, object current_object)
 #endif
         mixed cmds;
         int i;
-        
+
         efun::shout("系统核心发出一声惨叫：哇—哩—咧—\n");
         efun::shout("系统核心告诉你：要当机了，自己保重吧！\n");
         log_file("static/CRASHES", MUD_NAME + " crashed on: " + ctime(time()) +
@@ -71,14 +71,14 @@ static void crash(string error, object command_giver, object current_object)
                 log_file("static/CRASHES",
                          sprintf("this_player: %O\n", command_giver));
                 cmds = command_giver->query_commands();
-                for (i = 0; i < sizeof(cmds); i++) 
+                for (i = 0; i < sizeof(cmds); i++)
                 {
                         if (cmds[i][2] == command_giver) continue;
                         log_file("static/CRASHES",
                                  sprintf("%-15s  %2d %O\n", cmds[i][0], cmds[i][1], cmds[i][2]));
                 }
                 if (environment(command_giver))
-                        log_file("static/CRASHES", 
+                        log_file("static/CRASHES",
                                  sprintf("in where: %s(%s)。\n", environment(command_giver)->query("short"),
                                          base_name(environment(command_giver))));
                 log_file("static/CRASHES",
@@ -177,14 +177,14 @@ void log_error(string file, string message)
 */
 void log_error(string file, string message)
 {
-        string name, home; 
+        string name, home;
         if( find_object(SIMUL_EFUN_OB) )
-                name = file_owner(file); 
+                name = file_owner(file);
         if (name) home = user_path(name);
-        else home = LOG_DIR; 
-        if(this_player(1)) efun::write("编译时段错误：" + message+"\n"); 
+        else home = LOG_DIR;
+        if(this_player(1)) efun::write("编译时段错误：" + message+"\n");
        efun::write_file(home + "log", message);
-} 
+}
 
 // save_ed_setup and restore_ed_setup are called by the ed to maintain
 // individual options settings. These functions are located in the master
@@ -192,7 +192,7 @@ void log_error(string file, string message)
 int save_ed_setup(object who, int code)
 {
         string file;
-  
+
         if (! intp(code))
                 return 0;
 
@@ -207,7 +207,7 @@ int retrieve_ed_setup(object who)
 {
         string file;
             int code;
-  
+
         file = user_path(getuid(who)) + ".edrc";
         if (file_size(file) <= 0)
                 return 0;
@@ -350,10 +350,10 @@ void report_error(mapping error)
        CHANNEL_D->do_channel(this_object(), "wiz",
                sprintf("%s 第 %i 行，物件：%s\n        %s",
                (undefinedp(error["program"])?
-	       "(none)":error["program"]), 
+	       "(none)":error["program"]),
 	       error["line"],
                ( (undefinedp(error["object"]) || !error["object"])?
-	       "(none)":file_name(error["object"])), 
+	       "(none)":file_name(error["object"])),
     	       error["error"]));
 }
 
@@ -456,7 +456,7 @@ int valid_save_binary(string filename)
 }
 
 // valid_write: write privileges; called with the file name, the object
-//   initiating the call, and the function by which they called it. 
+//   initiating the call, and the function by which they called it.
 int valid_write(string file, mixed user, string func)
 {
         object ob;

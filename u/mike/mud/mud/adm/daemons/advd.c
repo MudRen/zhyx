@@ -1,8 +1,8 @@
 #include <ansi.h>
 #include <getconfig.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_SAVE;
 inherit F_DBASE;
@@ -18,7 +18,7 @@ void create()
         restore();
         set("channel_id", "广告精灵");
         CHANNEL_D->do_channel( this_object(), "sys", "广告系统已经启动。\n");
-        
+
         ready_to_start();
 }
 
@@ -35,18 +35,18 @@ void start_adv()
         string msg;
 
         ready_to_start();
-	
+
 	notes = query("notes");
 	//如果没有广告就返回
         if (! pointerp(notes) || ! sizeof(notes))
                 return;
-	
+
 	index = random(sizeof(notes));
         msg = WHT + LOCAL_MUD_NAME() + "的新闻广告时间到了：\n"
               HIC "≡" HIY "──────────────────────────────────────" HIC "≡\n" NOR
               + notes[index]["msg"] +
               HIC "≡" HIY "──────────────────────────────────────" HIC "≡\n" NOR;
-	
+
         CHANNEL_D->do_channel(this_object(), "sys", "广告系统开始播送广告。\n");
         message( "adv",  msg, users() );
         //CHANNEL_D->do_channel(this_object(), "chat", msg);
@@ -54,7 +54,7 @@ void start_adv()
 
 void stop_adv()
 {
-	remove_call_out("start_adv");	
+	remove_call_out("start_adv");
         CHANNEL_D->do_channel(this_object(), "sys", "广告系统停止播送广告。\n");
 }
 
@@ -88,9 +88,9 @@ void show_advs(object me, int raw)
                 tell_object(me, WHT + LOCAL_MUD_NAME() + "总共发布过" HIY +
                                 chinese_number(sizeof(notes)) + NOR +
                                 WHT "条广告。\n" NOR);
-                return;	
+                return;
 	}
-	
+
         msg = WHT "目前"+ LOCAL_MUD_NAME() + "中的广告如下。\n"
               HIC "≡" HIY "───────────────────"
               "───────────────────" HIC "≡\n" NOR;
@@ -125,7 +125,7 @@ void done_post(object me, mapping note, int n, string text)
 
         note["msg"] = text;
         notes = query("notes");
-        
+
         if (! pointerp(notes) || ! sizeof(notes))
                 notes = ({ note });
         else
@@ -261,4 +261,3 @@ void do_discard(object me, string arg)
 
 
 string query_save_file() { return DATA_DIR "advd"; }
-

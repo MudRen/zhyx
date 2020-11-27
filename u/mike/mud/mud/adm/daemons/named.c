@@ -2,8 +2,8 @@
 
 #include <ansi.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_SAVE;
 inherit F_DBASE;
@@ -220,7 +220,7 @@ public varargs string change_name(object me, string new_name, int force)
                 dbase = me->query_entire_dbase();
                 dbase["name"] = new_name;
         }
-        
+
         map_name(me->name(1), me->query("id"));
         return result;
 }

@@ -1,6 +1,6 @@
-#pragma optimize
+// #pragma optimize
 
-#pragma save_binary
+// #pragma save_binary
 
 
 
@@ -1965,6 +1965,3 @@ HELP
         return 1;
 
 }
-
-
-

@@ -1,5 +1,5 @@
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -20,10 +20,10 @@ void create()
         //call_out("auto_relaim1", 1);
         call_out("auto_relaim", 30);
 }
-//Timer reboot added by mike 
+//Timer reboot added by mike
 void auto_relaim()
 {
-        int i;      
+        int i;
                 int t;
                 int x;
                 int RBday=20;   //设定重起的天数RBday
@@ -57,13 +57,13 @@ void auto_relaim()
 
 
         __DIR__"qdeld"->qdel();
-        
+
 }
 /*
 void auto_relaim1()
 {
-        int x;      
-    
+        int x;
+
         if (x = reclaim_objects())
                 CHANNEL_D->do_channel( this_object(), "sys",
                         sprintf("系统自动清除 %d 个变量。", x));
@@ -72,5 +72,3 @@ void auto_relaim1()
                   call_out("auto_relaim1", 30);
 }
 */
-
-

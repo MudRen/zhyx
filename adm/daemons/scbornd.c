@@ -2,15 +2,15 @@
 created by yuchang for ZHYX
 *******************************************************************************/
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
 #include <ansi.h>
 #include <localtime.h>
 
-#define MEMBER_D                        "/adm/daemons/memberd" 
+#define MEMBER_D                        "/adm/daemons/memberd"
 
 int change_data(object me, string specials);
 
@@ -43,7 +43,7 @@ string get_special_name(string arg)
 int check_data(object me)
 {
        if (wizardp(me))return 1;
-       
+
        if (me->query("scborn/ok"))
        {
               write("你已经转过世了！\n");
@@ -73,10 +73,10 @@ int check_data(object me)
        {
               write("既然你对今生已无所留恋，那就尽快给你同盟的义士们告别吧！\n");
               write(HIR "看来你得先脱离你的同盟！\n" NOR);
-        
+
               return 0;
        }
-       
+
        return 1;
 }
 /***************************************************************************
@@ -88,12 +88,12 @@ int check_data(object me)
 int check_data2(object me)
 {
        if (wizardp(me))return 1;
-       
+
        if (me->query("scborn/ok"))
        {
               write("你已经转过世了！\n");
               return 0;
-       }       
+       }
        if (! ultrap(me))
        {
               write("你还没有成为武学大宗师！\n");
@@ -134,23 +134,23 @@ int start_scborn(object me)
        string spe, user, login;
 
        specials = keys(special2);
-      
+
        user =  me->query("id");
-       login = user;       
+       login = user;
        user = "/data/user/" + user[0..0] + "/" + user + ".o";
        login = "/data/login/" + user[0..0] + "/" + user + ".o";
-       
+
        // 备份数据
        mkdir("/data/scborn/" + user);
        cp(user, "/data/scborn/" + me->query("id") + ".u"); // user.o
        cp(user, "/data/scborn/" + me->query("id") + ".l"); // login.o
 
-       // 随机选取一个转世技能 
+       // 随机选取一个转世技能
        while(1)
        {
                spe = specials[random(sizeof(specials))];
                if (spe == "wushuang")continue;
-               
+
                break;
        }
 
@@ -170,7 +170,7 @@ int change_data(object me, string specials)
        int i;
        mixed sdata, klist, newdata;
        mapping special_sk, skills, old_sk;
-       
+
        if (! me)me = this_player();
 
        sdata = me->query_entire_dbase();
@@ -238,10 +238,10 @@ int change_data(object me, string specials)
        newdata += ([ "shen_type"   :   0 ]);
        newdata += ([ "title"       :   "普通百姓" ]);
        // 天赋
-       newdata += ([ "str"         :   me->query("str") ]); 
+       newdata += ([ "str"         :   me->query("str") ]);
        newdata += ([ "con"         :   me->query("con") ]);
-       newdata += ([ "int"         :   me->query("int") ]); 
-       newdata += ([ "dex"         :   me->query("dex") ]); 
+       newdata += ([ "int"         :   me->query("int") ]);
+       newdata += ([ "dex"         :   me->query("dex") ]);
        newdata += ([ "per"         :   30 ]);
 
 
@@ -268,7 +268,7 @@ int change_data(object me, string specials)
        {
                me->delete_skill(klist[i]);
        }
-        
+
        // 设置新数据
        klist = 0;
        klist = keys(newdata);
@@ -311,13 +311,10 @@ int change_data(object me, string specials)
 
        me->save();
 
-       log_file("static/scborn", sprintf("%s(%s) scborn at %s", 
+       log_file("static/scborn", sprintf("%s(%s) scborn at %s",
                                  me->name(),
                                  me->query("id"),
                                  ctime(time())));
-                                       
+
        return 1;
 }
-
-
-

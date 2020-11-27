@@ -1,10 +1,10 @@
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
 #include <ansi.h>
-inherit F_CLEAN_UP; 
+inherit F_CLEAN_UP;
 #include <mudlib.h>
 #include <getconfig.h>
 #include <command.h>
@@ -25,7 +25,7 @@ call_out("recordmem", 1);
 void recordmem()
 {
         string memcost, uptime;
-       
+
         remove_call_out("protect");
           call_out("recordmem", 300);
 
@@ -34,7 +34,7 @@ void recordmem()
           uptime = "/cmds/usr/uptime"->main("-r");
 
 ;log_file( "meminfo",  sprintf("\n运行时间：%s消耗内存:%s :载入物件数目:%d\n",uptime,memcost,sizeof(objects())));
-       
+
 }
 
 string memory_expression(int m)

@@ -1,8 +1,8 @@
 // punish the berays user
 #include <ansi.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -175,4 +175,3 @@ void family_punish()
                 }
         }
 }
-

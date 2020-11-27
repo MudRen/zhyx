@@ -1,11 +1,11 @@
 // Copyright (C) 2003, by yuchang. All rights reserved.
-// This software can not be used, copied, or modified 
+// This software can not be used, copied, or modified
 // in any form without the written permission from authors.
 
 #include <ansi.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_SAVE;
 inherit F_DBASE;
@@ -77,12 +77,12 @@ private void heart_beat()
                 last_bunch_fame = ([ ]);
 
                 foreach (fam in all_fam)
-                        last_bunch_fame[fam] = bunch_fame[fam];                                   
+                        last_bunch_fame[fam] = bunch_fame[fam];
         }
         set("last_check", t);
-        
+
         // 这里作地盘盘点处理
-        manage_all_area();     
+        manage_all_area();
 
         // 保存帮派的最新信息
         save();
@@ -91,7 +91,7 @@ private void heart_beat()
 public mixed manage_all_area()
 {
         mapping data = ([ ]);
-        string *area_npc, *item;        
+        string *area_npc, *item;
         string *all_area, *all_bunch;
         string area, bunch, bunch_name, str;
         string *lost;
@@ -100,92 +100,92 @@ public mixed manage_all_area()
         object npc;
         int weiwang, jizhi, kaifa, zhongcheng, count, i;
         int area_money, bad_money, rest_money, npc_money, cost;
-        
-        all_area = keys(area_fame) - ({ 0 });   
-        
+
+        all_area = keys(area_fame) - ({ 0 });
+
         if (! arrayp(all_area) || sizeof(all_area) < 1)
-                return;  
+                return;
 
         if (random(sizeof(all_area)) > 10)
         {
                 bad_area = area_fame[all_area[random(sizeof(all_area))]];
                 room = get_object(bad_area);
                 if (! room->query("area/ziyuan"))
-                        bad_area = "";   
+                        bad_area = "";
         }
         else
                 bad_area = "";
-                        
+
         foreach (area in all_area)
         {
                 reset_eval_cost();
-              
+
                 room = get_object(area);
-                
-                if (! stringp(bunch = room->query("bunch/bunch_name"))) 
+
+                if (! stringp(bunch = room->query("bunch/bunch_name")))
                         continue;
-                        
+
                 if (! stringp(file = room->query("bunch/npc_file")))
                         continue;
-                
+
                 // 盘点时候帮派 NPC 不在时候则无收入
                 if (! stringp(room->query("bunch/npc_id")) ||
                     ! objectp(npc = present(room->query("bunch/npc_id"), room)))
                         continue;
-                
+
                 if (! mapp(query(bunch)))
                 {
                         message("channel:rumor", HIM"【帮会系统】由于帮派瓦解，" +
-                                room->query("short") + "宣布脱离帮会" + "「" + bunch + 
-                                "」" + "的控制！\n" NOR, users()); 
-                                
+                                room->query("short") + "宣布脱离帮会" + "「" + bunch +
+                                "」" + "的控制！\n" NOR, users());
+
                         room->delete("bunch");
-                        npc->delete("bunch"); 
-                        room->save();                                                                                        
+                        npc->delete("bunch");
+                        room->save();
                         continue;
                 }
-                                
+
                 if (room->query("bunch/money") < -1000000 ||
                     query(bunch + "/money") < -100000000)
                 {
                         message("channel:rumor", HIM"【帮会系统】由于经营不善，" +
-                                room->query("short") + "宣布脱离帮会" + "「" + bunch + 
-                                "」" + "的控制！\n" NOR, users());   
-                        
-                        if (! arrayp(area_npc = query(bunch + "/area")))   
+                                room->query("short") + "宣布脱离帮会" + "「" + bunch +
+                                "」" + "的控制！\n" NOR, users());
+
+                        if (! arrayp(area_npc = query(bunch + "/area")))
                                 area_npc = ({ });
-                        else     
-                                area_npc -= ({ area, 0 });                                      
-                        set(bunch + "/area", area_npc);     
-                        
+                        else
+                                area_npc -= ({ area, 0 });
+                        set(bunch + "/area", area_npc);
+
                         if (! arrayp(area_npc = query(bunch + "/npc")))
                                 area_npc = ({ });
                         else
                                 area_npc -= ({ file, 0 });
                         set(bunch + "/npc", area_npc);
-                        
+
                         // 调整帮派威望
                         weiwang = bunch_fame[bunch];
                         weiwang -= 1000;
                         if (weiwang < 0) weiwang = 0;
                         bunch_fame[bunch] = weiwang;
-                        
+
                         room->delete("bunch");
                         npc->delete("bunch");
                         room->save();
                         save();
                         continue;
-                }         
-                        
+                }
+
                 zhongcheng = room->query("bunch/zhongcheng");
-                if (! intp(zhongcheng) || zhongcheng < 10) 
+                if (! intp(zhongcheng) || zhongcheng < 10)
                         zhongcheng = 10;
                 if (zhongcheng > npc->query("bunch/max_zhongcheng"))
-                        zhongcheng = npc->query("bunch/max_zhongcheng");         
+                        zhongcheng = npc->query("bunch/max_zhongcheng");
                 zhongcheng -= 1;
                 npc->set("bunch/zhongcheng", zhongcheng < 10 ? 10 : zhongcheng);
                 room->set("bunch/zhongcheng", zhongcheng < 10 ? 10 : zhongcheng);
-                
+
                 if (! room->query("area/ziyuan"))
                 {
                         room->save();
@@ -196,88 +196,88 @@ public mixed manage_all_area()
                 kaifa = room->query("bunch/kaifa");
                 jizhi += random(2);
                 kaifa -= random(2);
-                
+
                 area_money = room->query("bunch/money");
                 if (! intp(area_money)) area_money = 0;
                 if (! intp(jizhi) || jizhi < 6) jizhi = 6;
                 if (jizhi > 60) jizhi = 60;
                 if (! intp(kaifa) || kaifa < 20) kaifa = 20;
                 room->set("bunch/kaifa", kaifa);
-                room->set("bunch/jizhi", jizhi);              
-                
-                if (area_fame[area] == bad_area)   
+                room->set("bunch/jizhi", jizhi);
+
+                if (area_fame[area] == bad_area)
                 {
-                        if (jizhi && kaifa < 80)    
+                        if (jizhi && kaifa < 80)
                         {
                                 bad_money = kaifa * jizhi * 1000;
                                 area_money -= bad_money;
                         } else
                         { // 开发度高的，一般来说自然灾害影响不大
-                                bad_area = ""; 
+                                bad_area = "";
                                 area_money += (kaifa / 2) * (jizhi / 2) * 100;
                         }
                 } else
                         area_money += (kaifa / 2) * (jizhi / 2) * 200;
-                
+
                 room->set("bunch/money", area_money);
-                
-                rest_money = area_money - 1000000;  
+
+                rest_money = area_money - 1000000;
                 if (rest_money < 0) rest_money = 0;
-                
+
                 room->add("bunch/money", -rest_money);
-                room->set("bunch/last_money", rest_money);                 
-                
-                room->save();       
+                room->set("bunch/last_money", rest_money);
+
+                room->save();
                 data[bunch] += rest_money;
-        }         
-        
-        all_bunch = keys(bunch_fame);       
-        
+        }
+
+        all_bunch = keys(bunch_fame);
+
         if (! arrayp(all_bunch) || sizeof(all_bunch) < 1)
-                return;         
-                
+                return;
+
         lost = ({ });
-        foreach (bunch in all_bunch)   
+        foreach (bunch in all_bunch)
         {
                 reset_eval_cost();
-                
-                npc_money = query(bunch + "/npc_money"); 
+
+                npc_money = query(bunch + "/npc_money");
                 set(bunch + "/last_npc_money", npc_money);
-                set(bunch + "/npc_money", 0);  
-                
-                set(bunch + "/last_area_money", data[bunch]); 
-                
-                data[bunch] += npc_money; 
+                set(bunch + "/npc_money", 0);
+
+                set(bunch + "/last_area_money", data[bunch]);
+
+                data[bunch] += npc_money;
                 if (data[bunch] < 0) data[bunch] = 0;
-                
+
                 data[bunch] /= 2;
-                
-                if (query(bunch + "/money") < 2000000000)                
+
+                if (query(bunch + "/money") < 2000000000)
                         add(bunch + "/money", data[bunch]);
-                        
-                cost = 100 * (sizeof(query(bunch + "/npc")) + 
-                                sizeof(query(bunch + "/area")) + 
+
+                cost = 100 * (sizeof(query(bunch + "/npc")) +
+                                sizeof(query(bunch + "/area")) +
                                 sizeof(query(bunch + "/member")));
-                          
+
                 add(bunch + "/money", -cost);
-                
+
                 data[bunch] /= 2;
-                
+
                 add(bunch + "/bangzhu_money", data[bunch]);
                 set(bunch + "/last_bangzhu_money", data[bunch]);
-                
-                if (query(bunch + "/money") < -100000000) 
+
+                if (query(bunch + "/money") < -100000000)
                 {
-                        message("channel:rumor", HIW "【帮会系统】由于帮派资产长期严重亏损，帮会「" + 
-                                                 bunch + "」无法维持日常开支，土崩瓦解了！\n" NOR, users()); 
+                        message("channel:rumor", HIW "【帮会系统】由于帮派资产长期严重亏损，帮会「" +
+                                                 bunch + "」无法维持日常开支，土崩瓦解了！\n" NOR, users());
                         lost += ({ bunch });
                         // bunch = 0;
                         map_delete(data, bunch);
                 }
-                                
+
                 save();
         }
-        
+
         // all_bunch -= ({ 0 });
         if (arrayp(lost) && sizeof(lost) > 0)
         {
@@ -287,64 +287,64 @@ public mixed manage_all_area()
         lost = ({ });
 
         if (! arrayp(users()) || ! sizeof(users())) return;
-                
+
         // give all online player banghui's money
         item = keys(data);
-        
-        for (i = 0; i < sizeof(item); i++)     
+
+        for (i = 0; i < sizeof(item); i++)
         {
                 reset_eval_cost();
-                
+
                 count = 0;
-                
+
                 foreach (player in users())
                 {
                         reset_eval_cost();
-                        
+
                         if (! playerp(player)) continue;
-                        
+
                         if (! player->query("bunch/bunch_name") ||
                             player->query("bunch/bunch_name") != item[i])
                                 continue;
-                        
+
                         count++;
                 }
-                               
+
                 if (count == 0) count = 1;
                 data[item[i]] /= count;
         }
-        
+
         foreach (player in users())
         {
                 reset_eval_cost();
-                
+
                 if (! playerp(player)) continue;
-                
+
                 if (! player->query("bunch/bunch_name")) continue;
-                
+
                 if (! data[player->query("bunch/bunch_name")]) continue;
-                
+
                 tell_object(player, HIG "帮派「" + player->query("bunch/bunch_name") + "」" + "发饷，你的存款增加了" +
                                     MONEY_D->money_str(data[player->query("bunch/bunch_name")]) + "！\n" NOR);
-                
-                if ((int)player->query("balance") > 2000000000)  
+
+                if ((int)player->query("balance") > 2000000000)
                         tell_object(player, RED "你在钱庄的钱已达到二十万两黄金，快点花吧！\n" NOR);
-                else                
+                else
                         player->add("balance", data[player->query("bunch/bunch_name")]);
         }
-        
-        if (bad_area == "")     
-                message("channel:rumor", HIM "【帮派盘点】某人：各地盘收入良好，请各位帮主速来钱庄转帐！\n" NOR, 
+
+        if (bad_area == "")
+                message("channel:rumor", HIM "【帮派盘点】某人：各地盘收入良好，请各位帮主速来钱庄转帐！\n" NOR,
                         users());
-        else 
+        else
         {
                 str = bad_weather[random(sizeof(bad_weather))];
                 str = replace_string(str, "$N", bad_area);
-                
+
                 message("channel:rumor", HIM "【帮派盘点】某人：" + str +
                                          MONEY_D->money_str(bad_money) + "！\n" NOR, users());
-        }                
-}       
+        }
+}
 
 public mixed query_area_fame(mixed ob)
 {
@@ -353,8 +353,8 @@ public mixed query_area_fame(mixed ob)
         if (objectp(ob) || stringp(ob))
                 return BUNCH_D->query_areas(ob);
 
-        all_area = keys(area_fame) - ({ 0 });   
-        
+        all_area = keys(area_fame) - ({ 0 });
+
         return all_area;
 }
 
@@ -637,9 +637,9 @@ public void create_bunch(string fname, int base, object *obs)
         else
                 last_bunch_fame[fname] = base;
 
-        data = ([ "member" : obs->query("id"),    
-                  "money"  : 100000000,                 
-                  "time"   : time() ]);                     
+        data = ([ "member" : obs->query("id"),
+                  "money"  : 100000000,
+                  "time"   : time() ]);
 
         foreach (ob in obs)
         {
@@ -653,11 +653,11 @@ public void create_bunch(string fname, int base, object *obs)
                 } else
                 {
                         bunch += ([ "party/right" : 5 ]);
-                        bunch += ([ "title" : "帮众" ]);                        
-                } 
-                
+                        bunch += ([ "title" : "帮众" ]);
+                }
+
                 ob->set("bunch", bunch);
-                        
+
                 channels = ob->query("channels");
                 if (! arrayp(channels) || ! sizeof(channels))
                         channels = ({ "party" });
@@ -668,7 +668,7 @@ public void create_bunch(string fname, int base, object *obs)
                 ob->set("channels", channels);
                 ob->save();
         }
-        
+
         set(fname, data);
 	save();
 }
@@ -699,7 +699,7 @@ public void dismiss_bunch(string fname)
         }
 
         ids = query(fname + "/area");
-        
+
         if (arrayp(ids))
         {
                 // 帮派中还有地盘，清除他们的信息
@@ -713,12 +713,12 @@ public void dismiss_bunch(string fname)
                         if (stringp(ob->query("bunch/npc_id")) &&
                             objectp(npc = present(ob->query("bunch/npc_id"), ob)))
                                 npc->delete("bunch/bunch_name");
-                                            
+
                         ob->delete("bunch");
-                        ob->save();                       
+                        ob->save();
                 }
-        }        
-        
+        }
+
         // 清除帮派的所有信息
         delete(fname);
 }
@@ -787,11 +787,11 @@ public string *query_npcs(mixed ob)
 public varargs void remove_member_from_bunch(mixed fname, string id)
 {
         mapping bunch;
-        string *member;    
+        string *member;
         string *areas;
         string area;
         object room, npc;
-        
+
         if (objectp(fname))
         {
                 // fname is user object
@@ -805,7 +805,7 @@ public varargs void remove_member_from_bunch(mixed fname, string id)
 
         if (! mapp(bunch = query(fname)) ||
             ! arrayp(member = bunch["member"]))
-                // no such bunch or no member in the 
+                // no such bunch or no member in the
                 return 0;
 
         member -= ({ id, 0 });
@@ -813,12 +813,12 @@ public varargs void remove_member_from_bunch(mixed fname, string id)
         {
                 CHANNEL_D->do_channel(this_object(), "rumor",
                         "听说" + fname + "人才凋零，昔日帮众尽皆散去，从此江湖再无此帮派了。");
-                
+
                 map_delete(bunch_fame, fname);
                 if (mapp(last_bunch_fame)) map_delete(last_bunch_fame, fname);
 
                 areas = query(fname + "/area");
-        
+
                 if (arrayp(areas))
                 {
                         // 帮派中还有地盘，清除他们的信息
@@ -832,11 +832,11 @@ public varargs void remove_member_from_bunch(mixed fname, string id)
                                 if (stringp(room->query("bunch/npc_id")) &&
                                     objectp(npc = present(room->query("bunch/npc_id"), room)))
                                         npc->delete("bunch/bunch_name");
-                                            
+
                                 room->delete("bunch");
-                                room->save();                       
+                                room->save();
                         }
-                }        
+                }
                 delete(fname);
         } else
                 bunch["member"] = member;
@@ -862,39 +862,39 @@ public void add_member_into_bunch(string fname, string id)
 public void remove_area_into_bunch(string fname, string id, object ob)
 {
         mapping bunch;
-        string *area;        
+        string *area;
         string *npc;
         string file;
         object room;
-                
+
         if (! mapp(bunch = query(fname)) ||
             ! arrayp(area = bunch["area"]))
-                // no such bunch or no area in the 
-                return 0;              
+                // no such bunch or no area in the
+                return 0;
 
         area -= ({ id, 0 });
-        
+
         if (sizeof(area) < 1)
                 delete(fname + "/area");
-        else        
-                bunch["area"] = area;                
+        else
+                bunch["area"] = area;
 
-        room = get_object(id);        
+        room = get_object(id);
         if (stringp(room->query("bunch/npc_id")) &&
             room->query("bunch/npc_id") == ob->query("id"))
                 ob->delete("bunch/bunch_name");
-        
-        file = base_name(ob);        
+
+        file = base_name(ob);
         if (room->query("bunch/npc_file") != file)
                 file = room->query("bunch/npc_file");
-                                        
+
         if (arrayp(npc = query(fname + "/npc")))
-                npc -= ({ file, 0 });        
-        bunch[npc] = npc; 
+                npc -= ({ file, 0 });
+        bunch[npc] = npc;
 
         message("channel:rumor",  HIM "【帮会系统】某人：" + room->short() +
                 "宣布脱离帮会「" + fname + "」的控制！\n" NOR, users());
-                        
+
         room->delete("bunch");
         room->save();
         save();
@@ -904,34 +904,34 @@ public void remove_area_into_bunch(string fname, string id, object ob)
 public void add_area_into_bunch(string fname, string id, object ob)
 {
         mapping bunch;
-        string *area;        
+        string *area;
         string *npc;
         string file;
         object room;
 
         if (! arrayp(area = query(fname + "/area")))
                 area = ({ });
-         
+
         if (member_array(id, area) != -1)
                 return 0;
-                
+
         area += ({ id });
-        
+
         set(fname + "/area", area);
-        
+
         room = get_object(id);
-        
+
         area_fame[id] = room->short(); // 地盘数据 file : short
 
         file = base_name(ob);
- 
+
         bunch = ([ "bunch_name" : fname,
-                   "npc_id"     : ob->query("id"),  
+                   "npc_id"     : ob->query("id"),
                    "npc_name"   : ob->query("name"),
                    "npc_file"   : file,
                    "zhongcheng" : 10,
                    "money"      : 0 ]);
-        room->delete("bunch");                
+        room->delete("bunch");
         room->set("bunch", bunch);
         room->save();
         ob->set("bunch/bunch_name", fname);
@@ -939,22 +939,22 @@ public void add_area_into_bunch(string fname, string id, object ob)
         ob->set("bunch/max_zhongcheng", 100);
 
         if (! arrayp(npc = query(fname + "/npc")))
-        {       
+        {
                 npc = ({ file });
         } else
         {
                 if (member_array(file, npc) == -1)
                         npc += ({ file });
-        } 
-                        
+        }
+
         set(fname + "/npc", npc);
 
         message("channel:rumor", HIM "【帮会系统】某人：" + ob->query("name") +
                 "加入帮会「" + fname + "」！\n" NOR, users());
-                
+
         message("channel:rumor", HIM "【帮会系统】某人：" + room->short() +
                 "被帮会「" + fname + "」吞并！\n" NOR, users());
-                                
+
         save();
 }
 
@@ -963,7 +963,7 @@ public void add_info_into_bunch(string fname, string info, mixed n)
 {
         if (! mapp(query(fname)))
                 return;
-                
+
         if (intp(n))
                 add(fname + "/" + info, n);
         else

@@ -1,8 +1,8 @@
 // combatd.c
 // Update by Doing for HELL
 //zhyx
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <skill.h>
@@ -71,10 +71,10 @@ void create()
         set("channel_id", "战斗精灵");
 }
 
-int absolute_value(int x) { 
-    if(x>-1) return x; 
-    else return -x; 
-} 
+int absolute_value(int x) {
+    if(x>-1) return x;
+    else return -x;
+}
 
 
 // message after damage info
@@ -444,7 +444,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
         if (me->query_temp("action_flag") == 0)
                 result = "\n" + action["action"] + "！\n" NOR;
         else
-                result = "\n" NOR + HIW "紧跟着" NOR + action["action"] + "！\n" NOR; 
+                result = "\n" NOR + HIW "紧跟着" NOR + action["action"] + "！\n" NOR;
 
         //
         // (2) Prepare AP, DP for checking if hit.
@@ -698,7 +698,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
                                                 damage += foo["damage"];
                                         }
                                 }
-        
+
                                 if (damage < 1) break;
 
                                 // Let attack skill take its special effort.
@@ -782,7 +782,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
                                 if (damage > 200)
                                         damage = (damage - 200) / 2 + 200;
 
-                                /* 开放转世技能后取消damage加成      
+                                /* 开放转世技能后取消damage加成
                                 if (me->query("reborn")==1)
                                 	 damage=damage*3/2;  */
 
@@ -809,10 +809,10 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
                         if (foo_after_hit)
                                 damage_info += foo_after_hit;
                 }
-        } 
+        }
 
         result = replace_string(result, "$l", limb);
- //改动...........      
+ //改动...........
 
  if (objectp(weapon))
                 result = replace_string(result, "$w", weapon->name());
@@ -831,7 +831,7 @@ varargs int do_attack(object me, object victim, object weapon, int attack_type)
         if (damage > 0)
 	{
                 if (victim->is_busy()) victim->interrupt_me(me, 8 + random(4));
-                if ((! me->is_killing(your["id"])) && 
+                if ((! me->is_killing(your["id"])) &&
                     (! victim->is_killing(my["id"])) &&
                     ! victim->query("not_living") &&
                     your["qi"] * 3 <= your["max_qi"])
@@ -1006,7 +1006,7 @@ varargs string do_damage(object me, object target, mixed type,
                         } else
                         {
                                 damage_bonus = jiali * damage / 300;
-        
+
                                 // check special force effort
                                 skill = target->query_skill_mapped("force");
                                 if (stringp(skill))
@@ -1042,7 +1042,7 @@ varargs string do_damage(object me, object target, mixed type,
                 else
                 if (damage > 500)
                         damage = (damage - 500) / 2 + 500;
-                /* 开放转世技能后取消damage加成         
+                /* 开放转世技能后取消damage加成
                 if (me->query("reborn")==1)
                         damage=damage*3/2; */
 
@@ -1182,7 +1182,7 @@ void auto_fight(object me, object obj, string type)
                 return;
 
         // Because most of the cases that we cannot start a fight cannot be checked
-        // before we really call the kill_ob(), so we just make sure we have no 
+        // before we really call the kill_ob(), so we just make sure we have no
         // aggressive callout wating here.
         if (me->query_temp("looking_for_trouble")) return;
         me->set_temp("looking_for_trouble", 1);
@@ -1481,7 +1481,7 @@ void winner_reward(object winner, object victim)
 
                 // 清除该玩家的死亡保护
                 winner->clear_condition("die_guard");
-               // winner->delete("quest_count"); 
+               // winner->delete("quest_count");
 
                 if (temp == MAX_KILL_TIMES_PERMAN)
                 {
@@ -1589,7 +1589,7 @@ void killer_reward(object killer, object victim)
                                 if (shen_delta < -300)
                                         shen_delta = (shen_delta + 300) / 3 - 300;
                         }
-                                        
+
                         ks["shen"] += shen_delta;
                 }
 				//为鼓励pk，经验差在50W内的玩家pk，胜方获得败方1%的exp奖励
@@ -1823,7 +1823,7 @@ void hit_with_poison(object me, object victim, object ob)
                 ap["level"] = p["level"] * 9 / 10 + 1;
         else
                 ap["level"] = p["level"] * 8 / 10 + 1;
-                
+
         ap["id"]       = p["id"];
         ap["name"]     = p["name"];
         ap["duration"] = 1;
@@ -1878,7 +1878,7 @@ void hit_with_poison(object me, object victim, object ob)
                         victim->set_temp("has_announce/defense3", 1);
                         victim->start_call_out(bind((: call_other,
                                 __FILE__, "clear_announce", victim :), victim), 15);
-                        msg += "。\n" NOR HIC "$n" HIC "长笑道：好家伙，居然" + 
+                        msg += "。\n" NOR HIC "$n" HIC "长笑道：好家伙，居然" +
                                (ob == me ? "在身上淬毒" : "使用淬毒兵器") +
                                "，这些下三滥的手段也敢到我面前卖弄？\n" NOR;
                 } else
@@ -1925,7 +1925,7 @@ void hit_poison(object me, object victim, object ob)
         // affect parameter
         ap = allocate_mapping(4);
         ap["level"]    = p["level"] * 7 / 10 + 1;
-                
+
         ap["id"]       = p["id"];
         ap["name"]     = p["name"];
         ap["duration"] = 1;

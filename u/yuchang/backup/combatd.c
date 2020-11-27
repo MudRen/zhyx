@@ -5,7 +5,7 @@
 三、do_attack()进行了整理。
 */
 
-#pragma optimize all
+// #pragma optimize all
 #include <ansi.h>
 #include <skill.h>
 #include <weapon.h>
@@ -581,5 +581,3 @@ void winner_reward(object killer, object victim)
 {
         killer->defeated_enemy(victim);
 }
-
-

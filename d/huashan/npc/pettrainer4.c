@@ -1,4 +1,4 @@
-#pragma save_binary
+// #pragma save_binary
 
 
 // Tie@fy
@@ -20,7 +20,7 @@ void create()
 }
 
 void init()
-{	
+{
         object ob;
         ::init();
         if( interactive(ob = this_player()) && !is_fighting() ) {

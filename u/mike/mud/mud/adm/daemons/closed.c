@@ -1,7 +1,7 @@
 // closed.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #define CLOSED_CMD              "/cmds/skill/closed"
 #define BREAKUP_CMD             "/cmds/skill/breakup"
@@ -133,7 +133,7 @@ void load_all_users()
                                 log_file("log", sprintf("closed：没有玩家(%s)。\n", u));
                                 continue;
                         }
-        
+
                         user_ob = LOGIN_D->make_body(login_ob);
                         if (! user_ob)
                         {
@@ -142,7 +142,7 @@ void load_all_users()
                                 log_file("log", sprintf("closed：无法生成玩家(%s)。\n", u));
                                 continue;
                         }
-        
+
                         if (! user_ob->restore())
                         {
                                 destruct(login_ob);
@@ -168,7 +168,7 @@ void load_all_users()
                         continue;
 
                 continue_doing(user_ob);
- 
+
                 // continue to examine next user
         }
 }

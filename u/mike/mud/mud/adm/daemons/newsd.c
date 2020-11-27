@@ -4,8 +4,8 @@
 #include <ansi.h>
 #include <getconfig.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_SAVE;
 inherit F_DBASE;
@@ -182,7 +182,7 @@ void done_post(object me, mapping note, int n, string text)
         set("notes", notes);
         tell_object(me, "新闻发布完毕。\n");
 
-      //shout(HIR "【江湖传闻】" NOR + HIW + "中华英雄有所更新，请大家使用news new查看更新。\n" NOR); 
+      //shout(HIR "【江湖传闻】" NOR + HIW + "中华英雄有所更新，请大家使用news new查看更新。\n" NOR);
 
         shout(HIR "【江湖传闻】" NOR + WHT + me->name() + WHT "[" +
               me->query("id") + WHT "]发布了一条新闻。\n" NOR);
@@ -376,25 +376,25 @@ void auto_notice(object me)
 }
 //搜索功能
 void search_content(object me , string content)
-{		
+{
 		int i;
 		mapping *notes;
 		string answer;
 		string reply="";
 		notes = query("notes");
-		
+
 		if (! content)
 return;
-		
+
 		if (! objectp(me))
         	return;
-        
+
     	if (! pointerp(notes) || ! sizeof(notes))
     	{
     		tell_object(me, "目前没有任何新闻，无法搜索。\n");
         		return;
-   		 }	
-    
+   		 }
+
     	 answer = "您搜索的内容为" + HIY + "“" + content + "”" + NOR + "结果如下：\n"
 			 HIC "≡" HIY "───────────────────"
               "───────────────────" HIC "≡\n" NOR;
@@ -408,7 +408,7 @@ return;
                                "s %s" WHT "『 " CYN "%s" NOR + WHT " 』" NOR "\n",
                                HIY,i + 1, notes[i]["title"],
                                notes[i]["author"], ctime(notes[i]["time"])[0..9]);
-    				
+
     				}
     					else
     						continue;
@@ -418,7 +418,7 @@ return;
 			tell_object(me, "对不起，新闻内容中没有" + HIG + "“" +  content + "”" + NOR "，请重新搜索。\n");
 			return;
 		}
-		
+
 			answer+= reply;
 			answer+= HIC "≡" HIY "───────────────────"
               "───────────────────" HIC "≡\n" NOR;
@@ -426,4 +426,3 @@ return;
     		return;
 }
 string query_save_file() { return DATA_DIR "newsd"; }
-

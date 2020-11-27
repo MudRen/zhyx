@@ -1,7 +1,7 @@
 // globals.h
 // this file will be automatically included by the driver
 
-#pragma save_binary
+// #pragma save_binary
 
 //新增趣味任务主文件路径
 #define XQUEST          "/u/sanben/xquest/xquest.c"
@@ -24,7 +24,7 @@
 #define SHOP_DIR        "/clone/shop/"
 #define STORY_DIR       "/adm/daemons/story/"
 #define TEMP_DIR        "/temp/"
-#define TEXT2PIC_D      "/adm/daemons/text2pic_d" 
+#define TEXT2PIC_D      "/adm/daemons/text2pic_d"
 
 // Daemons
 #define ALIAS_D         "/adm/daemons/aliasd"
@@ -193,7 +193,7 @@
 
 // Profiling switches
 //
-// If you changed any of these defines, you'll need reboot to make it 
+// If you changed any of these defines, you'll need reboot to make it
 // in effect.
 
 

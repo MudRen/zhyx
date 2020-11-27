@@ -1,7 +1,7 @@
 // securityd.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <login.h>
 #include <ansi.h>
@@ -26,7 +26,7 @@ string query_save_file()
 // wizardp() and interactive() efun.
 // The parenthesis is nessessary to prevend players naming themself "admin"
 // to hack the security system.
-// 
+//
 // 01/14/95 Annihilator - wiz_status are defined outside this daemon in the
 //                        WIZLIST file.
 // Modified by Xiang for XKX
@@ -43,7 +43,7 @@ private static string *wiz_levels = ({
 	"(admin)"
 });
 
-//by baqukq          
+//by baqukq
 private static string *exclude_write_imp_filenames=({
 "/adm/daemons/securityd.c",
 "/clone/user/user.c",
@@ -65,7 +65,7 @@ private static string *exclude_read_imp_filenames=({
 private static int seq = 0;
 
 // A valid write attempt must pass 2 checks: your uid or status must not be
-// "excluded" and must be "trusted" on that directory in order to write in 
+// "excluded" and must be "trusted" on that directory in order to write in
 // that directory. The directories containing the file is searched backward
 // from the current directory to root. And exclude is checked prior than
 // trusted.
@@ -144,7 +144,7 @@ int restore()
 
                         for (i = 0; i < strlen(item) && i < 32; i++)
                                 sum[i] = ((sum[i] - 48 + item[i]) & 0x7F) + 48;
-        
+
                         for (i = 0; i < strlen(val) && i < 32; i++)
                                 sum[i] = ((sum[i] - 48 + val[i]) & 0x7F) + 48;
                 }
@@ -362,7 +362,7 @@ string *query_wizlist() { return keys(wiz_status); }
 string get_status(mixed ob)
 {
 	string euid;
-	
+
 	if (objectp(ob))
         {
 		euid = geteuid(ob);
@@ -399,7 +399,7 @@ int set_status(mixed ob, string status)
 	if (objectp(ob))        uid = getuid(ob);
 	else if (stringp(ob))   uid = ob;
 	else return 0;
-	
+
 	if (wizhood(ob) == status)
 		return 1;
 	if (status == "(player)")
@@ -451,8 +451,8 @@ int valid_write(string file, mixed user, string func)
 		        error("TRUST_D->valid_write: Invalid argument type of user.\n");
         } else
                 euid = geteuid(user);
-// by baqukq                
-if(member_array(file,exclude_write_imp_filenames)!=-1&&euid!="sanben"&&euid!="ribba"&&euid!="kasumi") 
+// by baqukq
+if(member_array(file,exclude_write_imp_filenames)!=-1&&euid!="sanben"&&euid!="ribba"&&euid!="kasumi")
 return 0;
 
 	if (sscanf(file, LOG_DIR + "%*s") && func=="write_file") return 1;
@@ -572,9 +572,9 @@ int valid_read(string file, mixed user, string func)
 		        error("TRUST_D->valid_read: Invalid argument type of user.\n");
         } else
                 euid = geteuid(user);
-//by baqukq                
-if(member_array(file,exclude_read_imp_filenames)!=-1&&euid!="sanben"&&euid!="ribba"&&euid!="kasumi") 
-return 0;              
+//by baqukq
+if(member_array(file,exclude_read_imp_filenames)!=-1&&euid!="sanben"&&euid!="ribba"&&euid!="kasumi")
+return 0;
 
 	// Let user save their save file
 	if (func == "restore_object")

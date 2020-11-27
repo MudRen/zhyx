@@ -3,8 +3,8 @@
 
 inherit F_DBASE;
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <command.h>
@@ -148,13 +148,13 @@ string *good_msg3=({
 });
 
 string *search_msg=({
-        "根据我们密探发现的线索，",       
-        "我们的间谍发回最新消息，",       
-        "通过四方打听，",       
-        "我们的兄弟连续三天三夜对他追查，",       
-        "根据四方得来的最新消息，",       
-        "有兄弟从丐帮套到了消息，",       
-        "有消息灵通人士透露，",       
+        "根据我们密探发现的线索，",
+        "我们的间谍发回最新消息，",
+        "通过四方打听，",
+        "我们的兄弟连续三天三夜对他追查，",
+        "根据四方得来的最新消息，",
+        "有兄弟从丐帮套到了消息，",
+        "有消息灵通人士透露，",
 });
 
 mapping levels = ([
@@ -763,7 +763,7 @@ static mapping place = ([
                         "/d/beijing/di_dajie2","/d/beijing/di_anmen",
                         "/d/beijing/qingmu_dating",
                      }),
-        "扬州城"   : ({ 
+        "扬州城"   : ({
                         "/d/city/zuixianlou2","/d/city/zuixianlou3",
                         "/d/city/zuixianlou","/d/city/beidajie2",
                         "/d/city/beimen","/d/city/beidajie1",
@@ -872,7 +872,7 @@ static mapping place = ([
                         "/d/hangzhou/dadao1","/d/hangzhou/xilingqiao",
                         "/d/hangzhou/road9","/d/hangzhou/baoshishan",
                         "/d/hangzhou/yuelang","/d/hangzhou/liuzhuang1",
-                        "/d/hangzhou/huagang","/d/hangzhou/hupaoquan", 
+                        "/d/hangzhou/huagang","/d/hangzhou/hupaoquan",
                         "/d/hangzhou/yuhuangsd","/d/hangzhou/yuhuangshan",
                         "/d/hangzhou/shanlu6","/d/hangzhou/shanlu7",
                         "/d/hangzhou/yuhuangsj","/d/hangzhou/road18",
@@ -919,7 +919,7 @@ static mapping place = ([
                         "/d/xiangyang/westgate2","/d/xiangyang/northgate1",
                         "/d/xiangyang/eastgate1","/d/xiangyang/southgate2",
                         "/d/xiangyang/walls2","/d/xiangyang/walle3",
-                        "/d/xiangyang/walln4","/d/xiangyang/juyilang", 
+                        "/d/xiangyang/walln4","/d/xiangyang/juyilang",
                         "/d/xiangyang/northgate2","/d/xiangyang/northjie",
                         "/d/xiangyang/bingying1","/d/xiangyang/chaguan",
                         "/d/xiangyang/northroad2","/d/xiangyang/xiaorong2",
@@ -977,7 +977,7 @@ static mapping place = ([
                         "/d/dali/luwang", "/d/dali/gudao",
                         "/d/dali/biluoxueshan", "/d/dali/zhenxiong",
                         "/d/dali/yixibu", "/d/dali/cangshanzhong",
-                        "/d/dali/wumeng", "/d/dali/hongsheng", 
+                        "/d/dali/wumeng", "/d/dali/hongsheng",
                         "/d/dali/tusifu","/d/dali/tusimentang",
                         "/d/dali/tusiyishi","/d/dali/dahejiewest",
                         "/d/dali/dahejieeast","/d/dali/baiyiziguan",
@@ -1029,7 +1029,7 @@ varargs mixed query_city_quest(string arg,string type,string bh)
         if (!arg) return bang_city_quest;
 
         bang_quest = bang_city_quest[arg];
-        
+
         if (type)
                 bang_quest = filter_array(bang_quest,(: is_the_bang($1,$2) :),type);
 
@@ -1040,7 +1040,7 @@ varargs mixed query_city_quest(string arg,string type,string bh)
                                 return bang_quest[i];
                 return 0;
         }
-        
+
         return bang_quest;
 }
 
@@ -1050,7 +1050,7 @@ varargs mixed query_zhuisha_quest(string type,string bh)
         int i;
         mapping *bang_quest = ({});
         bang_quest = bang_zs;
-        
+
         if (type)
                 bang_quest = filter_array(bang_quest,(: is_the_bang($1,$2) :),type);
 
@@ -1073,15 +1073,15 @@ void ready_to_start()
         object *all_user;
         remove_call_out("start_quest");
         all_user = users();
-        all_user = filter_array(all_user,(: interactive($1) && 
-                                !wizardp($1) && 
+        all_user = filter_array(all_user,(: interactive($1) &&
+                                !wizardp($1) &&
                                 $1->query("combat_exp") >= $2 &&
                                 $1->query("combat_exp") <= $3 &&
                                 environment($1) &&
                                 !$1->is_ghost() &&
                                 !$1->in_prison() &&
                                 ($1->query("bang_good") || $1->query("bang_bad")) :),10000,600000);
-        
+
         num = 300 - sizeof(all_user);	//符合条件的玩家越多，则特殊任务产生速度越高
         if (num < MIN_IDLE) num = MIN_IDLE;
         call_out("start_quest", num);
@@ -1159,8 +1159,8 @@ void start_quest()
         ready_to_start();
         all_user = users();
         //再次确定泥巴中符合条件的玩家数目
-        all_user = filter_array(all_user,(: interactive($1) && 
-                                !wizardp($1) && 
+        all_user = filter_array(all_user,(: interactive($1) &&
+                                !wizardp($1) &&
                                 $1->query("combat_exp") >= $2 &&
                                 $1->query("combat_exp") <= $3 &&
                                 environment($1) &&
@@ -1187,7 +1187,7 @@ void start_quest()
         bang_quest["place"]=ob->query("place");
         bang_quest["difficult"]=check_difficult(ob->query("lvl"));
         bang_quest["reward"]=check_reward(ob->query("lvl"));
-               
+
         if (random(2))	//黑道追杀
         {
                 ob->set("shen", ob->query("combat_exp") / 2000);
@@ -1202,7 +1202,7 @@ void start_quest()
 
                                             "〗兄弟朝你急急忙忙地说：“黑道同盟发下追杀令了！\n"NOR+
                                             bang_quest["msg"] + "”\n");
-                                tell_object(all_user[i],"说完又是一抱拳道：“兄弟还有要务在身，先行告辞！\n");   
+                                tell_object(all_user[i],"说完又是一抱拳道：“兄弟还有要务在身，先行告辞！\n");
                         }
                 else destruct(ob);
         }
@@ -1221,7 +1221,7 @@ void start_quest()
                                             "〗弟兄朝你猛招手并擦着满脸的汗水悄声道：“白道联盟"+
                                             "发下通缉令啦！\n"NOR+
                                             bang_quest["msg"] + "”\n");
-                                tell_object(all_user[i],"说完又是一抱拳道：“在下还有要务在身，先行告辞！\n");   
+                                tell_object(all_user[i],"说完又是一抱拳道：“在下还有要务在身，先行告辞！\n");
                         }
                 else destruct(ob);
         }
@@ -1257,7 +1257,7 @@ int get_bianhao(string arg)
                                         continue;
                                 } else break;
                         }
-                        break; 
+                        break;
                 default:
                         for (;;)
                         {
@@ -1272,9 +1272,9 @@ int get_bianhao(string arg)
                                         continue;
                                 } else break;
                         }
-                        break; 
+                        break;
         }
-        return bh;          
+        return bh;
 }
 
 // random move
@@ -1476,7 +1476,7 @@ void heart_beat()
         //检查各个城市的任务
         remove_call_out("check_city_quest");
         call_out("check_city_quest",0);
- 
+
         set_heart_beat(2);
 }
 
@@ -1528,7 +1528,7 @@ void check_xuncheng()
                         the_place = all_map[random(sizeof(all_map))];
                         xc_map += ({ the_place });
                         all_map -= ({ the_place });
-                }                
+                }
 
                 xc_quest = ([]);
 
@@ -1558,7 +1558,7 @@ void check_city_quest()
         string *city_id;
         mapping *bang_quest,*bang_quest_good,*bang_quest_bad;
         mixed new_quest;
-        
+
         city_id = keys(city);
         for (i = 0;i < sizeof(city_id);i++)
         {
@@ -1600,7 +1600,7 @@ void check_city_quest()
                                         bang_city_quest[city_id[i]] = bang_quest;
                                 }
                         }
-                
+
                 //检查黑道任务是否充足
                 bang_quest_bad = filter_array(bang_quest,(: is_the_bang($1,"bad") :));
 
@@ -1662,7 +1662,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         {
                                                 control ++;
                                                 continue;
-                                        } else break;                                       
+                                        } else break;
                                 }
                                 if (objectp(npc))
                                 {
@@ -1697,7 +1697,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                                         new_quest["reward"] = "高";
                                                         break;
                                         }
-                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() + 
+                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() +
                                                           "找到" + new_quest["obj_name"];
                                         new_quest["msg"]=room->short() + "的" + npc->name() +
                                                           "需要" + new_quest["obj_name"] +
@@ -1735,12 +1735,12 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                 new_quest["num"]=get_bianhao(the_city);
                                 new_quest["id"]=the_city+(string)new_quest["num"];
                                 new_quest["bonus"]=npc->query("bonus");
-                                new_quest["name"]="铲除来我们" + city[the_city] + 
+                                new_quest["name"]="铲除来我们" + city[the_city] +
                                                   "作恶的" + npc->name();
                                 new_quest["place"]=npc->query("place");
                                 new_quest["difficult"]=check_difficult(npc->query("lvl"));
                                 new_quest["reward"]=check_reward(npc->query("lvl"));
-                                new_quest["msg"]=npc->name() + "危害江湖日久，今日来到了我们" + 
+                                new_quest["msg"]=npc->name() + "危害江湖日久，今日来到了我们" +
                                                  city[the_city] + "地界，不知道意图何为。\n想来不是" +
                                                  "来干什么好事的，根据最新消息他在" + new_quest["place"] +
                                                  "附近出现。\n找到他，把他给铲除了！";
@@ -1764,7 +1764,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         {
                                                 control ++;
                                                 continue;
-                                        } else break;                                       
+                                        } else break;
                                 }
                                 if (objectp(npc))
                                 {
@@ -1800,11 +1800,11 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                                         break;
                                         }
 
-                                        new_quest["name"]="帮" + city[other_city]+ room->short() + 
-                                                          "的" + npc->name() + 
+                                        new_quest["name"]="帮" + city[other_city]+ room->short() +
+                                                          "的" + npc->name() +
                                                           "找到" + new_quest["obj_name"];
 
-                                        new_quest["msg"]=city[other_city] + room->short() + 
+                                        new_quest["msg"]=city[other_city] + room->short() +
                                                           "的" + npc->name() +
                                                           "需要" + new_quest["obj_name"] +
                                                           "，你去把它找到并送过去。";
@@ -1826,7 +1826,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         {
                                                 control ++;
                                                 continue;
-                                        } else break;                                       
+                                        } else break;
                                 }
                                 if (objectp(npc))
                                 {
@@ -1871,7 +1871,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                                     "去年从我这里拿走了" + new_quest["obj_name"] +
                                                     "到现在还没有还给我！");
                                         new_quest["ob"]=jiufen_npc;
-                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() + 
+                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() +
                                                           "调解纠纷";
                                         new_quest["msg"]=room->short() + "的" + npc->name() +
                                                           "和" + jiufen_npc->name() + "发生了纠纷，你去" +
@@ -1899,7 +1899,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         {
                                                 control ++;
                                                 continue;
-                                        } else break;                                       
+                                        } else break;
                                 }
                                 if (objectp(npc))
                                 {
@@ -1934,7 +1934,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                                         new_quest["reward"] = "高";
                                                         break;
                                         }
-                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() + 
+                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() +
                                                           "找到" + new_quest["obj_name"];
                                         new_quest["msg"]=room->short() + "的" + npc->name() +
                                                           "需要" + new_quest["obj_name"] +
@@ -1972,13 +1972,13 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                 new_quest["num"]=get_bianhao(the_city);
                                 new_quest["id"]=the_city+(string)new_quest["num"];
                                 new_quest["bonus"]=npc->query("bonus");
-                                new_quest["name"]="铲除来我们" + city[the_city] + 
+                                new_quest["name"]="铲除来我们" + city[the_city] +
                                                   "挑衅的" + npc->name();
                                 new_quest["place"]=npc->query("place");
                                 new_quest["difficult"]=check_difficult(npc->query("lvl"));
                                 new_quest["reward"]=check_reward(npc->query("lvl"));
                                 new_quest["msg"]=npc->name() + "素然自命正派人士，老是跟我们黑道弟兄"+
-                                                 "作对，今日来到了我们" + city[the_city] + 
+                                                 "作对，今日来到了我们" + city[the_city] +
                                                  "地界。\n看他趾高气扬的样子，来者不善！"+
                                                  "根据最新消息，他在" + new_quest["place"] +
                                                  "附近出现。\n找到他，把他给宰了！";
@@ -2002,7 +2002,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         {
                                                 control ++;
                                                 continue;
-                                        } else break;                                       
+                                        } else break;
                                 }
                                 if (objectp(npc))
                                 {
@@ -2017,11 +2017,11 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         new_quest["id"]=the_city+(string)new_quest["num"];
                                         new_quest["type"] = "传口信";
                                         new_quest["send_msg"] = need_send_msg[random(sizeof(need_send_msg ))];
-                                        new_quest["name"]="向" + city[other_city]+ room->short() + 
-                                                          "的" + npc->name() + 
+                                        new_quest["name"]="向" + city[other_city]+ room->short() +
+                                                          "的" + npc->name() +
                                                           "传一个口信";
 
-                                        new_quest["msg"]=city[other_city] + room->short() + 
+                                        new_quest["msg"]=city[other_city] + room->short() +
                                                           "的" + npc->name() +
                                                           "也是我们黑道的兄弟，现在需要你传个口信给" +
                                                           ((npc->query("gender")=="女性")?"她":"他") +
@@ -2044,7 +2044,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         {
                                                 control ++;
                                                 continue;
-                                        } else break;                                       
+                                        } else break;
                                 }
                                 if (objectp(npc))
                                 {
@@ -2089,7 +2089,7 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                                     "去年从我这里拿走了" + new_quest["obj_name"] +
                                                     "到现在还没有还给我！");
                                         new_quest["ob"]=jiufen_npc;
-                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() + 
+                                        new_quest["name"]="帮" + room->short() + "的" + npc->name() +
                                                           "调解纠纷";
                                         new_quest["msg"]=room->short() + "的" + npc->name() +
                                                           "和" + jiufen_npc->name() + "发生了纠纷，你去" +
@@ -2140,7 +2140,7 @@ varargs void delete_city_quest(string arg,string type,string bh)
                                 if (bang_quest[i]["id"] == "xc")
                                         bang_quest[i]["enable"] = 0;
                 } else
-                {        
+                {
                         for (i = 0;i < sizeof(bang_quest);i++)
                                 if (bang_quest[i]["id"] == bh)
                                         bang_quest[i] = 0;

@@ -1,6 +1,6 @@
  //add by fudan fy wizard_group
 //for we want add a new method for player
-//#pragma optimize
+//// #pragma optimize
 #include <ansi.h>
 mapping *quests,quests_fin=([]);
 mapping *read_table(string file);
@@ -32,7 +32,7 @@ void create()
         }
 
       file = read_file("/quest/dynamic_location");
-      roomlines = explode(file,"\n"); 
+      roomlines = explode(file,"\n");
         //CRON_D->set_last_hard_dis_npc();
         auto_reset_quest(100);
         //init_dynamic_quest(1);
@@ -47,10 +47,10 @@ int quest_reward(object me, object quest_item)
         if( quest_item->query("killer") != me ) return 0;
         if( !quest = quest_item->query("dynamic_npc_quest")) return 0;
 //      if(base_name(who) != quest["owner_name"]) return 0;
-        
+
         id=quest["file_name"];
         if(     quests_fin[id]) return 0;
-        quests_fin[id]=1;       
+        quests_fin[id]=1;
         if(me->query("combat_exp")>800000){
         exp=1000+random(100)*random(100)/4;
         pot=exp/8+random(exp/8)+random(exp/12)+random(exp/12);
@@ -71,7 +71,7 @@ int quest_reward(object me, object quest_item)
 //      if( !undefinedp(quest["fin_func"]))
 //      call_other(this_object(),quest["fin_func"], me, quest_item);
         return 1;
-} 
+}
 varargs void init_dynamic_quest(int hard)
 {
         int i;
@@ -80,25 +80,25 @@ varargs void init_dynamic_quest(int hard)
         {
             spread_quest(quests[i],hard);
         }
-        message("system", HIG "．．．但看鹿死谁手。\n" NOR,users());  
+        message("system", HIG "．．．但看鹿死谁手。\n" NOR,users());
 }
 void auto_reset_quest(int count) {
         int delay;
-   
+
         if(count >= 8) {
                 message("system", HIY "\n\n所有NPC使命将在一分钟后重新分布！\n\n" NOR, users());
                 EVENT_D->add_event(time()+60, this_object(), (: init_dynamic_quest, 1 :));
                 count = 0;
-                delay = time() + 900 + random(1800);            
+                delay = time() + 900 + random(1800);
         } else if(count >= 6) {
                 message("system", HIY "\n\n所有NPC使命将在" + chinese_number(9-count) + "分钟后重新分布！\n\n" NOR, users());
                 delay = time() + 60;
         } else {
-                init_dynamic_quest(0);                  
+                init_dynamic_quest(0);
                 delay = time() + 900 + random(1800);
         }
         count++;
-        EVENT_D->add_event(delay, this_object(), (: auto_reset_quest, count :)); 
+        EVENT_D->add_event(delay, this_object(), (: auto_reset_quest, count :));
 }
 varargs int spread_quest(mapping quest, int hard)
 {
@@ -112,11 +112,11 @@ varargs int spread_quest(mapping quest, int hard)
         int i;
         string location;
         string id;
-              // if(already_spreaded(quest["file_name"],hard)) return 0; 
-               
+              // if(already_spreaded(quest["file_name"],hard)) return 0;
+
         reset_eval_cost();
         location = TASK_D->random_room();
-        
+
         obj0=find_object(location);
         if(obj0)
                 obj0->reset();
@@ -125,7 +125,7 @@ varargs int spread_quest(mapping quest, int hard)
         cur_obj =obj0;
         if(cur_obj)
         {
-        	
+
         	      quest["completed"]=0;
                 ob_list = children(quest["file_name"]);
                 if( sizeof(ob_list) )
@@ -140,9 +140,9 @@ varargs int spread_quest(mapping quest, int hard)
                 quests_fin[ id ]=0;
                 tar->move(cur_obj);
         }
-       
+
         return 1;
-} 
+}
 string dyn_quest_list()
 {
         string title, nickname,id;
@@ -175,9 +175,9 @@ string dyn_quest_list()
         output = sprintf("%s%s%s（%s）〔已完成〕\n", title,nickname,item->query("name"),item->query("id")) + output;
         }
         destruct(item);
-        
+
         }
-        
+
         return (output);
 }
 string locate_obj(object me,string strr)
@@ -245,7 +245,7 @@ string locate_obj(object me,string strr)
                 }
                 }
         }
-        else 
+        else
         if(wizardp(me) || me->query("class") == "official")
         {
         tmpobj = find_player(strr);
@@ -284,7 +284,7 @@ string locate_obj(object me,string strr)
         return output;
         }
         }
-                return ""; 
+                return "";
 }
 varargs int already_spreaded(mixed filename,int hard)
 {
@@ -296,7 +296,7 @@ varargs int already_spreaded(mixed filename,int hard)
 //              write (id);
                 if( quests_fin[filename] ) return 0;
                 return 1;
-} 
+}
 object find_env(object ob)
 {
         while(ob)
@@ -310,7 +310,7 @@ mapping *read_table(string file)
 {
         string *line, *field, *format;
         mapping *data;
-        int i, rn, fn; 
+        int i, rn, fn;
         line = explode(read_file(file), "\n");
         data = ({});
         for(i=0; i<sizeof(line); i++) {
@@ -324,7 +324,7 @@ mapping *read_table(string file)
                         continue;
                 }
                 break;
-        } 
+        }
         for( rn = 0, fn = 0; i<sizeof(line); i++) {
                 if( line[i]=="" || line[i][0]=='#' ) continue;
                 if( !fn ) data += ({ allocate_mapping(sizeof(field)) });
@@ -337,8 +337,8 @@ mapping *read_table(string file)
 void big_reward(object me, object who, object item)
 {
         tell_object(me,"你真行！！\n");
-} 
+}
 void execute_accept_object(object me, object who, object item)
 {
         who->accept_object(me,item);
-}  
+}

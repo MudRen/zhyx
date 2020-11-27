@@ -1,7 +1,7 @@
 // char.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <action.h>
 #include <ansi.h>
@@ -96,11 +96,11 @@ void heart_beat()
                 prompt = my["env"]["prompt"];
                 if ((prompt == "time" || prompt == "mud" || prompt == "hp") &&
                     is_waiting_command() && ! me->is_attach_system())
-                    
+
                 {
                         write_prompt();
                 }
-                
+
         }
 
         // If we're dying or falling unconcious?
@@ -257,7 +257,7 @@ int visible(object ob)
                         return 1;
         }
 
-        lvl = wiz_level(this_object());       
+        lvl = wiz_level(this_object());
 
         if (lvl && lvl >= wiz_level(ob)) return 1;
 
@@ -285,9 +285,9 @@ varargs string short(int raw)
         {
                 str = query("name") + "(" + query("id") + ")";
                 if (! stringp(title = query_temp("title")))
-               
+
                 title = query("title");
-/*          
+/*
                 // ÏÔÊ¾Í¬ÃË
                 if (me->query("league/league_name"))
                 {

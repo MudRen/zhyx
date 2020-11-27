@@ -3,14 +3,14 @@
              The Voting System For Yhonline(HERO) By Rcwiz On 1 June 2003
 
 This System can gain the result that players decided.
-All Public functions in this file ard called by command which defined in 
-"/cmds/std/poll.c" and the result of the Voting will be loged in the 
+All Public functions in this file ard called by command which defined in
+"/cmds/std/poll.c" and the result of the Voting will be loged in the
 "/log/voting/log", so you can view the history of voting using command "poll history"
 
 *********************************************************************************/
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -78,7 +78,7 @@ public int start_voting(object me, string target, string kind)
               voting += ([ kinds[i] : "init" ]);
         }
 
-	message("vision", HIW "【系统提示】：有新的投票内容，请用 " HIY 
+	message("vision", HIW "【系统提示】：有新的投票内容，请用 " HIY
                 "poll now" HIW " 查看！\n" NOR, all_interactive());
 
         return 1;
@@ -99,16 +99,16 @@ public int end_voting(object me)
         if (sizeof(voting))
         {
               write("OK\n");
-              message("vision", HIW "【系统提示】：当前投票 " HIR + voting["target"] + 
-                      HIW " 结束了！以后请使用 " HIY "poll history" HIW 
+              message("vision", HIW "【系统提示】：当前投票 " HIR + voting["target"] +
+                      HIW " 结束了！以后请使用 " HIY "poll history" HIW
                       " 查看！\n" NOR, all_interactive());
 
               kinds = explode(voting["kind"], ":");
               str = "";
               for (i = 0; i < sizeof(kinds); i ++)
               {
-                      str += kinds[i] + "  " + (string)(voting[kinds[i]] == "init" ? 
-                                                0 : voting[kinds[i]]) + " 票 | ";                      
+                      str += kinds[i] + "  " + (string)(voting[kinds[i]] == "init" ?
+                                                0 : voting[kinds[i]]) + " 票 | ";
               }
 
               log_file("voting/log", sprintf(HIC "%-20s：    %-20s\n" NOR, voting["target"], str));
@@ -116,7 +116,7 @@ public int end_voting(object me)
               return 1;
         }
 
-        else 
+        else
         {
               write("当前没有投票。\n");
               return 0;
@@ -129,7 +129,7 @@ public int query_now_voting_class(string kind)
         {
              if (voting[kind] == "init" || voting[kind] > 0)
                      return 1;
- 
+
              else return 0;
         }
 
@@ -198,7 +198,7 @@ public int show_voting(object me, string para)
              for (nKinds = 0; nKinds < sizeof(kinds); nKinds ++)
              {
                      nCount = (voting[kinds[nKinds]] == "init" ? 0 : voting[kinds[nKinds]]);
-                     write(sprintf(HIR "%-20s  %-20s  %-2d\n",  
+                     write(sprintf(HIR "%-20s  %-20s  %-2d\n",
                            kinds[nKinds], show_process(nCount),nCount));
              }
              write(HIG "\n请使用" HIY + "poll shot<种类>" + HIG "进行投票！\n" NOR);
@@ -208,7 +208,7 @@ public int show_voting(object me, string para)
 }
 
 public int shot_target(object me, string kind)
-{       
+{
         string *user_list, *ips, my_ip;
 
         if (wizardp(me) && wiz_level(me) < 5)
@@ -267,6 +267,6 @@ private string show_process(int i)
 
        for (nCount = 0; nCount <= i; nCount ++)
                s += " ";
-       
+
        return BBLU + s + NOR;
 }

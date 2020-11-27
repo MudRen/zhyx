@@ -3,8 +3,8 @@
 // by Xiang@XKX (95/12/22)
 // Update by Doing for Hell
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 string money_str(int amount)
 {
@@ -114,7 +114,7 @@ int player_pay(object who, int amount)
 		cc = c_ob->query_amount();
 	else
 		cc = 0;
-	
+
 	v = cc + sc * 100 + gc * 10000;
 	if (amount < 100000 && v < amount)
 	{
@@ -125,7 +125,7 @@ int player_pay(object who, int amount)
 	}
 
 	v += tc * 100000;
-	if (v < amount) 
+	if (v < amount)
 		return 0;
 	else {
 		left = v - amount;
@@ -189,4 +189,3 @@ int player_carry(object ob)
         if (coin_ob)   gold += coin_ob->query_amount() / 10000;
         return gold;
 }
-

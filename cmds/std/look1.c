@@ -1,5 +1,5 @@
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <room.h>
 #include <ansi.h>
@@ -26,7 +26,7 @@ BLU"不堪一击"NOR,BLU"毫不足虑"NOR,BLU"不知所以"NOR,BLU"新学乍练"NOR,BLU"勉勉强强
 BLU"初窥门径"NOR,BLU"初出茅庐"NOR,BLU"略知一二"NOR,BLU"普普通通"NOR,BLU"平平淡淡"NOR,
 
 HIB"平淡无奇"NOR,HIB"粗通皮毛"NOR,HIB"半生不熟"NOR,HIB"马马虎虎"NOR,HIB"略有小成"NOR,
-HIB"已有小成"NOR,HIB"渐入佳境"NOR,HIB"登堂入室"NOR,HIB"挥洒自如"NOR,HIB"融会贯通"NOR, 
+HIB"已有小成"NOR,HIB"渐入佳境"NOR,HIB"登堂入室"NOR,HIB"挥洒自如"NOR,HIB"融会贯通"NOR,
 
 CYN"心领神会"NOR,CYN"炉火纯青"NOR,CYN"了然於胸"NOR,CYN"略有大成"NOR,CYN"已有大成"NOR,
 CYN"豁然贯通"NOR,CYN"出类拔萃"NOR,CYN"无可匹敌"NOR,CYN"技冠群雄"NOR,CYN"神乎其技"NOR,
@@ -46,7 +46,7 @@ string *heavy_level_desc= ({
         "不重",
         "不轻",
         "很重",
-        "极重"  
+        "极重"
 });
 void create() { seteuid(getuid()); }
 
@@ -89,7 +89,7 @@ int main(object me, string arg)
 
                         if (! obj)
                                 return notify_fail("那里没有这样东西。\n");
-                }        
+                }
 
                 if( obj || (obj = present(arg, environment(me))) || (obj = present(arg, me)) )
                 {
@@ -114,7 +114,7 @@ int look_room(object me, object env, int brief)
 
         if( !brief )
         {
-       str = sprintf( HIC + "%s" + NOR + "%s\n    %s%s" + NOR, 
+       str = sprintf( HIC + "%s" + NOR + "%s\n    %s%s" + NOR,
                         env->query("short"),
                         wizardp(me)? file_name(env)+sprintf(" - (%d,%d,%d)",env->query("coor/x"),
                                         env->query("coor/y"),env->query("coor/z")): "",
@@ -146,7 +146,7 @@ int look_room(object me, object env, int brief)
 
         str += look_all_inventory_of_room(me, env, RETURN_RESULT);
         tell_object(me, str);
-        
+
         return 1;
 }
 
@@ -166,7 +166,7 @@ string desc_of_objects(object *obs)
                 str = "";
                 count   = ([]);
                 unit    = ([]);
-    
+
                 for (i = 0; i < sizeof(obs); i++)
                 {
                         if (stringp(league_name = obs[i]->query("league/league_name")))
@@ -182,7 +182,7 @@ string desc_of_objects(object *obs)
                         else
                                 count[short_name] += 1;
                 }
-    
+
                 dk = sort_array(keys(count), 1);
                 for (i = 0; i < sizeof(dk); i++)
                 {
@@ -458,7 +458,7 @@ string description(object obj)
             if (obj->query("special_skill/youth")) age = 14;
             if ((string) obj->query("gender") == "男性" || (string) obj->query("gender") == "无性")
             {
-                    if (per >=80) 
+                    if (per >=80)
                         return HIG"现在一派神人气度，仙风道骨，举止出尘。\n"NOR;
                 if (per <= 50 && (per > 40))
                         return HIG"现在神清气爽，骨格清奇，宛若仙人。\n"NOR;
@@ -523,7 +523,7 @@ string description(object obj)
                                    return "长得有点对不住别人。\n";
             } else
             {
-               if (per >=40) 
+               if (per >=40)
                         return HIW"现在宛如玉雕冰塑，似梦似幻，已不再是凡间人物\n"NOR;
                 if (per <= 39 && (per > 38))
                         return HIG"现在美若天仙，不沾一丝烟尘。\n"NOR;
@@ -627,7 +627,7 @@ int look_living(object me, object obj)
                 message("vision", me->name() + "正盯著你看，不知道在打"
 			"什么主意。\n", obj);
 		message("vision", me->name() + "盯着" + obj->name() +
-			"看了一会儿，不知道在打什么主意。\n", 
+			"看了一会儿，不知道在打什么主意。\n",
 			environment(me), ({ me, obj }));
 	}
 
@@ -909,4 +909,3 @@ HELP
 );
         return 1;
 }
-

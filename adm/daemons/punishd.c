@@ -1,8 +1,8 @@
 // punish the berays user
 #include <ansi.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -62,7 +62,7 @@ mapping family_punishers = ([
         "玄冥谷" : ({ CLASS_D("misc") + "/xuanming" }),
         "镇远镖局" : ({ CLASS_D("misc") + "/zhenyuan" }),
         "铁掌帮" : ({ CLASS_D("misc") + "/tiezhang" }),
-        	
+
 ]);
 
 void monitor()
@@ -90,8 +90,8 @@ void monitor()
         CHANNEL_D->do_channel(this_object(), "sys",
                               "各大门派扫描所有在线玩家。");
 
-	//to fix the bug of phonix suit 
-        obs = filter_array(users(), 
+	//to fix the bug of phonix suit
+        obs = filter_array(users(),
 			(: $1->query("combat_exp") >= 10000 &&
 		           $1->query_skill("count") &&
 			   $1->query("family/family_name") != "桃花岛" &&
@@ -211,4 +211,3 @@ void family_punish()
                 }
         }
 }
-

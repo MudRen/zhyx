@@ -1,6 +1,6 @@
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <mudlib.h>
@@ -137,7 +137,7 @@ mapping channels = ([
                         "only"     : "is_member",
                         "omit_log" : 1,
                 ]),
-       
+
 ]);
 
 void create()
@@ -347,15 +347,15 @@ varargs int do_channel(object me, string verb, string arg, int emote)
                         case 4:
                                 fname = "【 " + fname[0..1] + "  " + fname[2..3] + " 】";
                                 break;
-        
+
                         case 6:
                                 fname = "【 " + fname + " 】";
                                 break;
-        
+
                         case 8:
                                 fname = "【" + fname + "】";
                                 break;
-        
+
                         case 10:
                                 fname = "【" + fname[0..7] + "】";
                                 break;
@@ -369,12 +369,12 @@ varargs int do_channel(object me, string verb, string arg, int emote)
         if (verb == "shout")
         {
                 if (! arg) return notify_fail("你想要大叫什么？\n");
-            
+
                 if (! wizardp(me) && userp(me))
                 {
                         if (me->query("neili") < 500)
                                 return notify_fail("你的内力太差，无法喊出那么大的声音。\n");
-                    
+
                         me->add("neili", - (random(200) + 300));
                 }
 
@@ -447,12 +447,12 @@ varargs int do_channel(object me, string verb, string arg, int emote)
                 else
                         arg = EMOTE_D->do_emote(me, vb, emote_arg, 1,
                                         0, channels[verb]["msg_color"]);
-        
+
                 if (! arg && emote == 2)
                         arg = (channels[verb]["anonymous"] ? channels[verb]["anonymous"]
                                                            : me->name(channels[verb]["name_raw"])) +
                                                              vb + "\n";
-        
+
                 if (! arg)
                         return 0;
         }
@@ -576,5 +576,3 @@ string remove_addresses(string msg, int all)
                 if (tmp[1][i] == 0) msg += tmp[0][i];
         return msg;
 }
-
-

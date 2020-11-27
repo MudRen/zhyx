@@ -13,7 +13,7 @@
 // query_room_name:将返回具有该名字的房屋的代号。
 // query_room_id  :将返回具有该代号的房屋的名字。
 
-#pragma save_binary
+// #pragma save_binary
 
 #include <ansi.h>
 
@@ -158,9 +158,9 @@ int destroy_room(string room_id)
         object ob;
 
         ob = previous_object();
-       
+
         if (ob && getuid(ob) != ROOT_UID)
-                return 0; 
+                return 0;
 
         delete("private_room/" + room_id);
         delete("exits/" + room_id);
@@ -216,4 +216,3 @@ string query_save_file()
         if (! file || ! sscanf(file, "/d/%s", arg)) return 0;
         return DATA_DIR + file;
 }
-

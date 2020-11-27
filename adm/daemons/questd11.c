@@ -4,8 +4,8 @@
 #include <ansi.h>
 #include <quest.h>
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 inherit F_DBASE;
 
@@ -249,7 +249,7 @@ int ask_quest(object me, object who)
                         message_vision("$N一脸怒容对$n道：“我不是让你" +
                                        CHINESE_D->chinese_monthday(q["limit"]) +
                                        "之前杀了" HIR + q["name"] + NOR "的吗？现
-在是" + 
+在是" +
                                        CHINESE_D->chinese_monthday(time()) +
                                        "，他的人头呢？”\n", me, who);
                         break;
@@ -257,7 +257,7 @@ int ask_quest(object me, object who)
                         message_vision("$N一脸怒容对$n道：“我不是让你" +
                                        CHINESE_D->chinese_monthday(q["limit"]) +
                                        "之前把信送到" HIC + q["name"] + NOR "那里
-的吗？现在是" + 
+的吗？现在是" +
                                        CHINESE_D->chinese_monthday(time()) +
                                        "，他的回执呢？”\n", me, who);
                         break;
@@ -358,14 +358,14 @@ ho);
                         tell_object(me, "看来还是的加强自己的江湖威望才行。\n");
                         return 1;
                 }
-        
+
                 if (who->is_bad() && me->is_good())
                 {
                         message_sort("$N大怒道：“岂有此理！你居然已经误"
                                      "入歧途，还敢来见我！”\n", me, who);
                         return 1;
                 }
-        
+
                 if (who->is_good() && me->is_bad())
                 {
                         message_sort("$N大怒道：“岂有此理！几天不见，你"
@@ -556,7 +556,7 @@ d"])
 
                 message_vision("$N瞪着$n道：“干什么？交给你的活你不打算干了？”
 \n",
-                               me, who);        
+                               me, who);
                 return -1;
         }
 
@@ -607,7 +607,7 @@ by"))
         {
                 if (! mapp(q) || ! ob->is_corpse() && ! ob->is_head())
                         return 0;
-        
+
                 if (! stringp(ob->query("owner_id")))
                 {
                         message_vision("$N捂着鼻子看了看" + ob->name() + "，道"
@@ -615,7 +615,7 @@ by"))
 ;
                         return 0;
                 }
-        
+
                 if (ob->query("owner_id") != q["id"])
                         return 0;
 
@@ -959,13 +959,13 @@ ase["experience"]) * 2 / 3;
     任务对象的自动机器：
 
                                       消息收集完全
-            <原生态> -> 人物生成态 -----------+ 
+            <原生态> -> 人物生成态 -----------+
                            /                  |
                  <Timeout>/    <Timeout>      |
                    -------<---------------\   |
                  /                         \  v
             <结束态>   <--------------- 人物出现态
-                            杀死该人             
+                            杀死该人
 
 <原生态>和<结束态>是系统规定的状态，<Timeout> 是系统原先保留
 的事件。而人物生成态和人物出现态是该任务特有的状态，另外消息
@@ -1421,4 +1421,3 @@ wer)) :));
 
         return 0;
 }
-

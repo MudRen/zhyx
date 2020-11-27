@@ -3,8 +3,8 @@
 
 inherit F_DBASE;
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <ansi.h>
 #include <command.h>
@@ -137,7 +137,7 @@ static mapping place = ([
                         "/d/beijing/di_dajie2","/d/beijing/di_anmen",
                         "/d/beijing/qingmu_dating",
                      }),
-        "扬州城"   : ({ 
+        "扬州城"   : ({
                         "/d/city/zuixianlou2","/d/city/zuixianlou3",
                         "/d/city/zuixianlou","/d/city/beidajie2",
                         "/d/city/beimen","/d/city/beidajie1",
@@ -246,7 +246,7 @@ static mapping place = ([
                         "/d/hangzhou/dadao1","/d/hangzhou/xilingqiao",
                         "/d/hangzhou/road9","/d/hangzhou/baoshishan",
                         "/d/hangzhou/yuelang","/d/hangzhou/liuzhuang1",
-                        "/d/hangzhou/huagang","/d/hangzhou/hupaoquan", 
+                        "/d/hangzhou/huagang","/d/hangzhou/hupaoquan",
                         "/d/hangzhou/yuhuangsd","/d/hangzhou/yuhuangshan",
                         "/d/hangzhou/shanlu6","/d/hangzhou/shanlu7",
                         "/d/hangzhou/yuhuangsj","/d/hangzhou/road18",
@@ -293,7 +293,7 @@ static mapping place = ([
                         "/d/xiangyang/westgate2","/d/xiangyang/northgate1",
                         "/d/xiangyang/eastgate1","/d/xiangyang/southgate2",
                         "/d/xiangyang/walls2","/d/xiangyang/walle3",
-                        "/d/xiangyang/walln4","/d/xiangyang/juyilang", 
+                        "/d/xiangyang/walln4","/d/xiangyang/juyilang",
                         "/d/xiangyang/northgate2","/d/xiangyang/northjie",
                         "/d/xiangyang/bingying1","/d/xiangyang/chaguan",
                         "/d/xiangyang/northroad2","/d/xiangyang/xiaorong2",
@@ -351,7 +351,7 @@ static mapping place = ([
                         "/d/dali/luwang", "/d/dali/gudao",
                         "/d/dali/biluoxueshan", "/d/dali/zhenxiong",
                         "/d/dali/yixibu", "/d/dali/cangshanzhong",
-                        "/d/dali/wumeng", "/d/dali/hongsheng", 
+                        "/d/dali/wumeng", "/d/dali/hongsheng",
                         "/d/dali/tusifu","/d/dali/tusimentang",
                         "/d/dali/tusiyishi","/d/dali/dahejiewest",
                         "/d/dali/dahejieeast","/d/dali/baiyiziguan",
@@ -538,7 +538,7 @@ void start_quest(int num)
                         all_enemy = all;
                         all_killer = ({});
                         the_nation = nations[random(sizeof(nations))];
-                        title = HIW + the_nation + NOR + " " + HIY + 
+                        title = HIW + the_nation + NOR + " " + HIY +
                                 foreigner[random(sizeof(foreigner))] +NOR;
                         for (i = 0;i < all;i ++)
                         {
@@ -551,13 +551,13 @@ void start_quest(int num)
                                 ob->random_move();
                                 ob->random_move();
                         }
-                        message("story",HIR "【外敌入侵】" NOR+WHT "据说一批来自" + NOR + HIY + 
+                        message("story",HIR "【外敌入侵】" NOR+WHT "据说一批来自" + NOR + HIY +
                                   the_nation + NOR + WHT +
-                                  "的侵略者来到了中国！\n" NOR,users() ); 
+                                  "的侵略者来到了中国！\n" NOR,users() );
                         message("story",HIR "【外敌入侵】" NOR+WHT "根据前线最新报告，这批入侵者目前在" +
-                                  NOR + HIY + p + NOR + WHT + "出没频繁！\n" NOR,users() ); 
+                                  NOR + HIY + p + NOR + WHT + "出没频繁！\n" NOR,users() );
                         message("story",HIR "【外敌入侵】" NOR+WHT "各位同胞，让我们团结起来，紧握手中" +
-                                  "武器，奋勇杀敌，给胆敢侵犯我们中华的敌人狠狠的打击！\n" NOR,users() ); 
+                                  "武器，奋勇杀敌，给胆敢侵犯我们中华的敌人狠狠的打击！\n" NOR,users() );
                         break;
                 case 3:
                         CHANNEL_D->do_channel( this_object(), "task", "群组任务系统开始产生门派入侵任务。");
@@ -572,7 +572,7 @@ void start_quest(int num)
                                 if (!sizeof(all_user)) continue;	//该门派没有玩家在线
                                 fam_map += ([ p:sizeof(all_user) ]);
                         }
-                        if (!sizeof(fam_map)) return;		//MUD中没有属于任何一个门派的玩家                                
+                        if (!sizeof(fam_map)) return;		//MUD中没有属于任何一个门派的玩家
                         kp = keys(fam_map);
                         p = kp[random(sizeof(kp))];
                         all = fam_map[p];
@@ -582,7 +582,7 @@ void start_quest(int num)
                         all_killer = ({});
                         the_nation = "中国";
                         the_enemy = chinese[random(sizeof(chinese))];
-                        title = HIY + p + NOR + HIW + "仇家" + NOR + " " + HIY + 
+                        title = HIY + p + NOR + HIW + "仇家" + NOR + " " + HIY +
                                 the_enemy + NOR;
                         for (i = 0;i < all;i ++)
                         {
@@ -595,13 +595,13 @@ void start_quest(int num)
                                 ob->random_move();
                                 ob->random_move();
                         }
-                        message("story",HIR "【门派入侵】" NOR+WHT "据说" + NOR + HIY + 
-                                  the_enemy + NOR + WHT + 
-                                  "最近又重新出现在江湖，个个携带了武器，一副要找茬的样子！\n" NOR,users() ); 
-                        message("story",HIR "【门派入侵】" NOR+WHT "根据这些人私下漏出的口风，他们这次是冲着" + 
-                                  NOR + HIY + p + NOR + WHT + "来的！\n" NOR ,users()); 
+                        message("story",HIR "【门派入侵】" NOR+WHT "据说" + NOR + HIY +
+                                  the_enemy + NOR + WHT +
+                                  "最近又重新出现在江湖，个个携带了武器，一副要找茬的样子！\n" NOR,users() );
+                        message("story",HIR "【门派入侵】" NOR+WHT "根据这些人私下漏出的口风，他们这次是冲着" +
+                                  NOR + HIY + p + NOR + WHT + "来的！\n" NOR ,users());
                         message("story",HIR "【门派入侵】" NOR+WHT "士可杀不可辱，" + NOR + HIY + p + NOR + WHT +
-                                  "还不一起行动起来，把来敌统统打回老家？\n" NOR,users()); 
+                                  "还不一起行动起来，把来敌统统打回老家？\n" NOR,users());
                         break;
                 default:
                         CHANNEL_D->do_channel( this_object(), "task", "群组任务系统开始产生帮派挑衅任务。");
@@ -617,7 +617,7 @@ void start_quest(int num)
                                         party_map[p] = 1;
                                 else
                                         party_map[p] += 1;
-                        }                                
+                        }
                         kp = keys(party_map);
                         for (i = 0;i < sizeof(kp);i++)
                                 if (party_map[kp[i]] < 3)
@@ -632,7 +632,7 @@ void start_quest(int num)
                         all_killer = ({});
                         the_nation = "中国";
                         the_enemy = chinese[random(sizeof(chinese))];
-                        title = HIY + p + NOR + HIW + "仇家" + NOR + " " + HIY + 
+                        title = HIY + p + NOR + HIW + "仇家" + NOR + " " + HIY +
                                 the_enemy + NOR;
                         kp = keys(place);
                         pp = kp[random(sizeof(kp))];
@@ -648,13 +648,13 @@ void start_quest(int num)
                                 ob->random_move();
                         }
                         message("story",HIR "【帮派挑衅】" NOR+WHT "据说" + NOR + HIY + the_enemy + NOR + WHT +
-                                  "最近又重新出现在江湖，个个携带了武器，一副要找茬的样子！\n" NOR,users() ); 
+                                  "最近又重新出现在江湖，个个携带了武器，一副要找茬的样子！\n" NOR,users() );
                         message("story",HIR "【帮派挑衅】" NOR+WHT "江湖中有人见到他们正在" + NOR + HIY + pp + NOR + WHT +
-                                  "集结，气势汹汹，目空一切的样子！\n" NOR,users() ); 
-                        message("story",HIR "【帮派挑衅】" NOR+WHT "根据这些人私下漏出的口风，他们这次打定注意要铲平" + 
-                                  NOR + HIY + p + NOR + WHT + "！\n" NOR,users() ); 
-                        message("story",HIR "【帮派挑衅】" NOR+WHT "真是岂有此理，区区跳梁小丑，" + NOR + HIY + p + 
-                                  NOR + WHT + "难道就真的怕了他们不成？\n" NOR ,users() ); 
+                                  "集结，气势汹汹，目空一切的样子！\n" NOR,users() );
+                        message("story",HIR "【帮派挑衅】" NOR+WHT "根据这些人私下漏出的口风，他们这次打定注意要铲平" +
+                                  NOR + HIY + p + NOR + WHT + "！\n" NOR,users() );
+                        message("story",HIR "【帮派挑衅】" NOR+WHT "真是岂有此理，区区跳梁小丑，" + NOR + HIY + p +
+                                  NOR + WHT + "难道就真的怕了他们不成？\n" NOR ,users() );
                         break;
         }
 }
@@ -693,7 +693,7 @@ varargs void place_npc(object ob,string arg,string the_type,int lvl,string pp)
                                                         the_type, startroom));
                         ob->set("place", pp);
                         break;
-                        
+
         }
 
         switch (lvl)
@@ -710,7 +710,7 @@ varargs void place_npc(object ob,string arg,string the_type,int lvl,string pp)
                         ob->set("nickname","普通成员");
                         ob->set("bonus",200);
                         break;
-                case 7: 
+                case 7:
                 case 8:
                 case 9:
                         ob->set("nickname","小头目");
@@ -737,7 +737,7 @@ varargs void place_npc(object ob,string arg,string the_type,int lvl,string pp)
                         ob->set("bonus",1500);
                         break;
         }
-                        
+
         ob->move(pos);
         ob->set("startroom", startroom);
         ob->set_temp("moved", ({ }));

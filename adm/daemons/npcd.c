@@ -1,7 +1,7 @@
 // npcd.c
 
-#pragma optimize
-#pragma save_binary
+// #pragma optimize
+// #pragma save_binary
 
 #include <command.h>
 #include <npc/name.h>
@@ -259,13 +259,13 @@ void set_from_me(object tob, object fob, int scale)
         my["eff_jing"]   = my["max_jing"];
         my["jing"]       = my["max_jing"];
         my["max_neili"]  = hp_status["max_neili"]* scale / 100;
-        my["jiali"]      = tob->query_skill("force") / 3;       
+        my["jiali"]      = tob->query_skill("force") / 3;
         my["neili"]      = my["max_neili"] * 2;
 
         tob->set_from_me(fob, scale);
 }
 
-// select a random 
+// select a random
 
 string random_place(string *not_place)
 {
@@ -387,5 +387,3 @@ object *query_ultra_master()
                   get_object(KUIHUA_TAIJIAN),
                   get_object(HUO_SHAN) });
 }
-
-
