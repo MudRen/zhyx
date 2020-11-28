@@ -34,7 +34,7 @@ int valid_leave(object me, string dir)
 {
 	// me = this_player();
 
-	if (!me->query_temp("marks/jinniu_paied") && (dir == "up" || dir == "down"))
+	if (interactive(me) && !me->query_temp("marks/jinniu_paied") && (dir == "up" || dir == "down"))
 		return notify_fail(CYN "马五德笑道: 那是本馆弟子才能进去的。\n" NOR);
 
 	return ::valid_leave(me, dir);

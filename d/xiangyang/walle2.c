@@ -26,7 +26,7 @@ int valid_leave(object me, string dir)
     int c_skill;
 
     // me = this_player();
-    if (sscanf(dir, "%*sup") == 1)
+    if (interactive(me) && sscanf(dir, "%*sup") == 1)
     {
         c_skill = me->query_skill("dodge", 1);
         if (me->query("qi") > 40)

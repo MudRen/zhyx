@@ -117,7 +117,7 @@ void unconcious()
 
 int do_get(string arg)
 {
-        object obj, env, ding;
+        object obj, env;
         string what, where;
 
         if (! arg)
@@ -143,4 +143,3 @@ int do_get(string arg)
         }
         return 0;
 }
-

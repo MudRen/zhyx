@@ -34,17 +34,18 @@ LONG);
         ]));
 //        set("no_clean_up", 0);
         set("coor/x",200);
-	set("coor/y",-380);
-	set("coor/z",0);
-	setup();
+        set("coor/y",-380);
+        set("coor/z",0);
+        setup();
 }
+
 int valid_leave(object me, string dir)
 {
-        me=this_player();
-        if (dir == "west")
-        if((int)me->query_temp("marks/ouyezi"))
-        {
-           return notify_fail("铁匠对你道：哎，这位客官，拿了兵器再走！\n");
-        }
+        // me = this_player();
+        if (dir == "west" && interactive(me))
+                if ((int)me->query_temp("marks/ouyezi"))
+                {
+                        return notify_fail("铁匠对你道：哎，这位客官，拿了兵器再走！\n");
+                }
         return 1;
 }
