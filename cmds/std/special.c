@@ -4,6 +4,8 @@
 
 inherit F_CLEAN_UP;
 
+#define SPECIAL_CUT_D(x) ("/kungfu/special_cut/" + x)
+
 int main(object me, string arg)
 {
         string  msg;
@@ -51,7 +53,7 @@ int main(object me, string arg)
         {
                 if (file_size(SPECIAL_D(skill) + ".c") < 0)
                 {
-                        write("不存在技能：" + skill + "\n");
+                        write("无效技能：" + SPECIAL_CUT_D(skill)->name() + "\n");
                         continue;
                 }
                 msg += SPECIAL_D(skill)->name() + "(" YEL + skill + NOR ")\n";
