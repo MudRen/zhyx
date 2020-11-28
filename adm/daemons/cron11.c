@@ -8,7 +8,6 @@
 //                      * Create to replace cron.c and all scheduled events.
 // #pragma optimize
 #include <ansi.h>
-#include <globals.h>
 #include <net/daemons.h>
 mapping action_list = ([]);
 int last_time;

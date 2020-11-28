@@ -93,7 +93,7 @@ int cloud_goto(string arg)
         string msg;
         mme=this_player();
         if( !arg ) return notify_fail("你要去哪里？\n");
-        if( mme->query("age")=14 ) return notify_fail("你的书已经失效了！\n");
+        if( mme->query("age")>14 ) return notify_fail("你的书已经失效了！\n");
 
         if( sscanf(arg, "-i %s", arg) ) goto_inventory = 1;
 
@@ -126,7 +126,7 @@ int cloud_goto(string arg)
 // 恢复
 int body_recover()
 {
-        
+
          object mme;
 
      mme=this_player();

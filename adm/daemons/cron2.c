@@ -1,6 +1,5 @@
 #include <ansi.h>
 #include <command.h>
-#include <globals.h>
 #include <net/daemons.h>
 #include <net/macros.h>
 
@@ -31,9 +30,9 @@ void init_cron()
 // every 45 mins, autosave every player
         if ( !((local[1])%55)) autosave();
 // On average tasks get renewed every 30 mins
-        if ( !random(16)) 
+        if ( !random(16))
       TASK_D->init_dynamic_quest();
-        
+
 
 //How long the system will refresh all tasks. Added by FY@SH-Morrison
 //--------------------------------------------------------------------
@@ -48,11 +47,11 @@ void init_cron()
 //above is add by Morrison
 // Check pets that's lost heartbeat
 
-        if( !(local[1]%20)) 
+        if( !(local[1]%20))
        if(!find_object(VOID_OB))
                 call_other(VOID_OB,"???");
         check_pets();
-        call_out("init_cron", 60);      
+        call_out("init_cron", 60);
 }
 void autosave()
 {
@@ -60,9 +59,9 @@ void autosave()
  int i;
          user = users();
         message("channel:chat", HIY "\n【系统消息】:"+NOR+HIR+" 系统正准备记录你的档案。\n"NOR, users());
-        for(i=0; i<sizeof(user); i++) 
+        for(i=0; i<sizeof(user); i++)
         user[i]->save();
-        message("channel:chat", HIY "\n【系统消息】:"+NOR+HIG+" 你的档案已经被记录了。 \n" NOR, users()); 
+        message("channel:chat", HIY "\n【系统消息】:"+NOR+HIG+" 你的档案已经被记录了。 \n" NOR, users());
 }
 void check_dns()
 {
@@ -97,10 +96,10 @@ return;
 private void countdown(int min)
 {
         min--;
-        if( min ) 
+        if( min )
         {
                 call_out("countdown", 60, min);
-        } 
+        }
         else {
      message("system",HIR "。。。。。。。。。。。重新分布所有使命。。。。。。。。。。。" NOR,users());
             TASK_D->init_dynamic_quest(1);

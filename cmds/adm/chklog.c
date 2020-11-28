@@ -11,12 +11,12 @@ string *leixing = ({"int", "string", "object", "mapping", "mixed", "float", "buf
 int check(int s);
 int check1();
 int clean();
-int isdata(string s); //å¯¹è¿™ä¸€è¡Œç®€å•åˆ†æ,åˆ¤æ–­æ˜¯å¦æ˜¯æ•°æ®å®šä¹‰è¡Œ
-int peidui(string s); //å¯¹è¿™ä¸€è¡Œç®€å•åˆ†æ,åˆ¤æ–­([{}])æ˜¯å¦æ®‹ç¼º
+int isdata(string s); //¶ÔÕâÒ»ĞĞ¼òµ¥·ÖÎö,ÅĞ¶ÏÊÇ·ñÊÇÊı¾İ¶¨ÒåĞĞ
+int peidui(string s); //¶ÔÕâÒ»ĞĞ¼òµ¥·ÖÎö,ÅĞ¶Ï([{}])ÊÇ·ñ²ĞÈ±
 
 int main(object me, string arg)
 {
-    string *founded; //å·²ç»å‡ºç°è¿‡çš„é”™è¯¯
+    string *founded; //ÒÑ¾­³öÏÖ¹ıµÄ´íÎó
 
     unusedvar = "";
     new_f_line = "";
@@ -24,51 +24,51 @@ int main(object me, string arg)
         arg = "/log/log";
     if (file_size(arg) == -1)
     {
-        write(arg + "æ–‡ä»¶ä¸å­˜åœ¨ã€‚\n");
+        write(arg + "ÎÄ¼ş²»´æÔÚ¡£\n");
         return 0;
     }
     if (!file = read_file(arg) || sizeof(file) == 0)
     {
-        write("æ— æ³•è¯»å–è¯¥æ–‡ä»¶ï¼š" + arg + "\n");
+        write("ÎŞ·¨¶ÁÈ¡¸ÃÎÄ¼ş£º" + arg + "\n");
         return 0;
     }
 
     f_line = explode(file, "\n");
     write_file(arg, "", 1);
     founded = ({});
-    lastw = "";             //ä¸Šä¸€ä¸ªé”™è¯¯æ–‡ä»¶å
+    lastw = "";             //ÉÏÒ»¸ö´íÎóÎÄ¼şÃû
     foreach (chk in f_line) //chk log file each line
     {
         if (sscanf(chk, "%s line %d: Warning: Unused local variable '%s'", filename, line_n, argv_name) == 3)
         {
             //  unusedvar+=chk+"\n";
-            if (file_size(filename) == -1) //ç‰¹åˆ«çš„updateå¼•èµ·çš„æ£€æŸ¥ï¼Œä¸€èˆ¬ä¸éœ€è¦
+            if (file_size(filename) == -1) //ÌØ±ğµÄupdateÒıÆğµÄ¼ì²é£¬Ò»°ã²»ĞèÒª
             {
-                write(filename + "æ–‡ä»¶ä¸å­˜åœ¨ã€‚\n");
+                write(filename + "ÎÄ¼ş²»´æÔÚ¡£\n");
                 continue;
             }
 
             if (member_array(chk, founded) != -1)
                 continue; //this mistake have be treated
             founded += ({chk});
-            if (lastw != filename) //æ–°æ–‡ä»¶æœ‰é”™
+            if (lastw != filename) //ĞÂÎÄ¼şÓĞ´í
             {
                 if (lastw != "")
                 {
-                    write_file(lastw, implode(wf_line, "\n"), 1); //å…ˆä¿å­˜ä¿®æ”¹è€æ–‡ä»¶
+                    write_file(lastw, implode(wf_line, "\n"), 1); //ÏÈ±£´æĞŞ¸ÄÀÏÎÄ¼ş
                     unusedvar += "----write_file name==" + lastw + " end.....\n\n";
                 }
                 lastw = filename;
                 unusedvar += chk + "\n";          ////
-                if (!wfile = read_file(filename)) //å†è¯»æ–°æ–‡ä»¶
+                if (!wfile = read_file(filename)) //ÔÙ¶ÁĞÂÎÄ¼ş
                 {
-                    write("æ— æ³•è¯»å–è¯¥æ–‡ä»¶ï¼š" + filename + "ï¼Œå¯èƒ½æ˜¯ä¸´æ—¶æ–‡ä»¶\n");
+                    write("ÎŞ·¨¶ÁÈ¡¸ÃÎÄ¼ş£º" + filename + "£¬¿ÉÄÜÊÇÁÙÊ±ÎÄ¼ş\n");
                     continue;
                 }
                 wf_line = explode(wfile, "\n"); //wrong file lines
 
-            } //å¦åˆ™æ¥ç€ä¿®æ”¹åˆšæ‰çš„æ–‡ä»¶ï¼Œä»¥å…é‡å¤æ‰“å¼€ä¿®æ”¹å­˜ç›˜åŒä¸€æ–‡ä»¶
-            unusedvar += "â”" + filename + " @line=" + line_n + ", Unused variable=" + argv_name + "\n";
+            } //·ñÔò½Ó×ÅĞŞ¸Ä¸Õ²ÅµÄÎÄ¼ş£¬ÒÔÃâÖØ¸´´ò¿ªĞŞ¸Ä´æÅÌÍ¬Ò»ÎÄ¼ş
+            unusedvar += "©³" + filename + " @line=" + line_n + ", Unused variable=" + argv_name + "\n";
 
             while (line_n > 0)
             {
@@ -78,7 +78,7 @@ int main(object me, string arg)
                 if (isdata(wf_line[line_n]))
                 { //write("line_n number=="+(line_n+1)+"    argv_name is "+argv_name +"\n");
                     start = 0;
-                    if (check(start)) //æ‰¾åˆ°å¹¶ä¿®æ”¹æˆåŠŸ
+                    if (check(start)) //ÕÒµ½²¢ĞŞ¸Ä³É¹¦
                         break;
                 }
             }
@@ -88,24 +88,24 @@ int main(object me, string arg)
             if (member_array(chk, founded) != -1)
                 continue; //this mistake have be treated
             founded += ({chk});
-            if (lastw != filename) //æ–°æ–‡ä»¶æœ‰é”™
+            if (lastw != filename) //ĞÂÎÄ¼şÓĞ´í
             {
                 if (lastw != "")
                 {
-                    write_file(lastw, implode(wf_line, "\n"), 1); //å…ˆä¿å­˜ä¿®æ”¹è€æ–‡ä»¶
+                    write_file(lastw, implode(wf_line, "\n"), 1); //ÏÈ±£´æĞŞ¸ÄÀÏÎÄ¼ş
                     unusedvar += "----write_file name==" + lastw + " end.....\n\n";
                 }
                 lastw = filename;
                 unusedvar += chk + "\n";
-                if (!wfile = read_file(filename)) //å†è¯»æ–°æ–‡ä»¶
+                if (!wfile = read_file(filename)) //ÔÙ¶ÁĞÂÎÄ¼ş
                 {
-                    write("æ— æ³•è¯»å–è¯¥æ–‡ä»¶ï¼š" + filename + "\n");
+                    write("ÎŞ·¨¶ÁÈ¡¸ÃÎÄ¼ş£º" + filename + "\n");
                     return 0;
                 }
                 wf_line = explode(wfile, "\n"); //wrong file lines
 
-            } //å¦åˆ™æ¥ç€ä¿®æ”¹åˆšæ‰çš„æ–‡ä»¶ï¼Œä»¥å…é‡å¤æ‰“å¼€ä¿®æ”¹å­˜ç›˜åŒä¸€æ–‡ä»¶
-            unusedvar += "â”" + filename + " @line=" + line_n + ", Cannot #include=" + argv_name + "\n";
+            } //·ñÔò½Ó×ÅĞŞ¸Ä¸Õ²ÅµÄÎÄ¼ş£¬ÒÔÃâÖØ¸´´ò¿ªĞŞ¸Ä´æÅÌÍ¬Ò»ÎÄ¼ş
+            unusedvar += "©³" + filename + " @line=" + line_n + ", Cannot #include=" + argv_name + "\n";
 
             while (line_n > 0)
             {
@@ -113,7 +113,7 @@ int main(object me, string arg)
                 if (strsrch(wf_line[line_n], "<" + argv_name + ">") != -1)
                 { //write("line_n number=="+(line_n+1)+"    argv_name is "+argv_name +"\n");
                     //start=0;
-                    check1(); //æ‰¾åˆ°å¹¶å¯»æ‰¾æ–‡ä»¶å°è¯•ä¿®æ”¹
+                    check1(); //ÕÒµ½²¢Ñ°ÕÒÎÄ¼ş³¢ÊÔĞŞ¸Ä
                     break;
                 }
             }
@@ -128,45 +128,45 @@ int main(object me, string arg)
     else
         unusedvar += "\n-----------no file found Unused local variable or cannot be included file. end.....\n";
     write_file(unusedvar_log_file, unusedvar, 1);
-    write_file(arg, new_f_line); //ä¸è®¤è¯†çš„å†™å›åŸlogæ–‡ä»¶
-    write("ok.check " + unusedvar_log_file + " for examinationã€‚\n");
+    write_file(arg, new_f_line); //²»ÈÏÊ¶µÄĞ´»ØÔ­logÎÄ¼ş
+    write("ok.check " + unusedvar_log_file + " for examination¡£\n");
     return 1;
 }
 
-int isdata(string s) //å¯¹è¿™ä¸€è¡Œç®€å•åˆ†æ,åˆ¤æ–­æ˜¯å¦æ˜¯æ•°æ®å®šä¹‰è¡Œ
+int isdata(string s) //¶ÔÕâÒ»ĞĞ¼òµ¥·ÖÎö,ÅĞ¶ÏÊÇ·ñÊÇÊı¾İ¶¨ÒåĞĞ
 {
     int n;
     foreach (chk in leixing)
     {
         if ((n = strsrch(s, chk)) != -1)
         {
-            if (n != 0 && s[n - 1] != ' ' && s[n - 1] != '\t' && s[n - 1] != ';') // ç±»å‹åç§°å‰é¢æ€»å¾—æ˜¯ç©ºç™½å§
+            if (n != 0 && s[n - 1] != ' ' && s[n - 1] != '\t' && s[n - 1] != ';') // ÀàĞÍÃû³ÆÇ°Ãæ×ÜµÃÊÇ¿Õ°×°É
                 return 0;
             n += sizeof(chk);
-            if (s[n] == ' ' || s[n] == '*' || s[n] == '/' || s[n] == '\t') //æœ‰äº›å®šä¹‰æ•°ç»„æ˜¯åœ¨ç±»å‹åé¢åŠ *ï¼Œæˆ–æŸäº›å˜é‡å·²ç»æ³¨é‡Šå¼•èµ·æ— æ³•ç¡®å®šç±»å‹åç§°
+            if (s[n] == ' ' || s[n] == '*' || s[n] == '/' || s[n] == '\t') //ÓĞĞ©¶¨ÒåÊı×éÊÇÔÚÀàĞÍºóÃæ¼Ó*£¬»òÄ³Ğ©±äÁ¿ÒÑ¾­×¢ÊÍÒıÆğÎŞ·¨È·¶¨ÀàĞÍÃû³Æ
                 return 1;
         }
     }
     return 0;
 }
 
-int check(int s) //å¯¹è¿™ä¸€è¡Œè¯¦ç»†åˆ†æ, æ˜¯å¦æœ‰æœªä½¿ç”¨å˜é‡å¹¶ä¿®æ”¹
+int check(int s) //¶ÔÕâÒ»ĞĞÏêÏ¸·ÖÎö, ÊÇ·ñÓĞÎ´Ê¹ÓÃ±äÁ¿²¢ĞŞ¸Ä
 {
-    int temp; //è®°å½•å˜é‡å­—ç¬¦ä¸²ä½ç½®ï¼Œç¬¦å·é…å¯¹æ€§ï¼Œé˜²æ­¢æœ‰äººå¼€å§‹å®šä¹‰å˜é‡æ—¶è¿›è¡Œå‡½æ•°è°ƒç”¨å¤æ‚çš„å¤šå˜é‡åˆå§‹åŒ–
+    int temp; //¼ÇÂ¼±äÁ¿×Ö·û´®Î»ÖÃ£¬·ûºÅÅä¶ÔĞÔ£¬·ÀÖ¹ÓĞÈË¿ªÊ¼¶¨Òå±äÁ¿Ê±½øĞĞº¯Êıµ÷ÓÃ¸´ÔÓµÄ¶à±äÁ¿³õÊ¼»¯
     start = s;
     reset_eval_cost();
-    if ((temp = strsrch(wf_line[line_n][s..], argv_name)) != -1) //æ£€æŸ¥å‰åå­—ç¬¦ï¼Œçœ‹æ˜¯å¦æœ‰è¿™ä¸ªå˜é‡
+    if ((temp = strsrch(wf_line[line_n][s..], argv_name)) != -1) //¼ì²éÇ°ºó×Ö·û£¬¿´ÊÇ·ñÓĞÕâ¸ö±äÁ¿
     {
-        start += temp; //å¼€å§‹ä½ç½®
+        start += temp; //¿ªÊ¼Î»ÖÃ
         c1 = wf_line[line_n][start - 1..start - 1];
         //write("111argv_name is "+argv_name +" c1 is "+c1+"\n");
         if (member_array(c1, ({" ", ",", "*", "/", "\t"})) == -1)
-            return check(start + sizeof(argv_name)); //å‰é¢ä¸æ˜¯ç©ºæ ¼æˆ–é€—å·æˆ–æ˜Ÿå·ï¼Œåº”è¯¥ä¸æ˜¯å˜é‡ï¼Œæ£€æŸ¥åé¢å¯èƒ½æœ‰è¿™ä¸ªå˜é‡
+            return check(start + sizeof(argv_name)); //Ç°Ãæ²»ÊÇ¿Õ¸ñ»ò¶ººÅ»òĞÇºÅ£¬Ó¦¸Ã²»ÊÇ±äÁ¿£¬¼ì²éºóÃæ¿ÉÄÜÓĞÕâ¸ö±äÁ¿
         //write("111\n");
         c2 = wf_line[line_n][start + sizeof(argv_name)..start + sizeof(argv_name)];
-        if (member_array(c2, ({" ", ",", ";", "=", "/", "\t"})) == -1) //åé¢ä¸æ˜¯ç©ºæ ¼æˆ–é€—å·æˆ–åˆ†å·ï¼Œåº”è¯¥ä¸æ˜¯å˜é‡ï¼Œæ£€æŸ¥åé¢å¯èƒ½æœ‰è¿™ä¸ªå˜é‡
+        if (member_array(c2, ({" ", ",", ";", "=", "/", "\t"})) == -1) //ºóÃæ²»ÊÇ¿Õ¸ñ»ò¶ººÅ»ò·ÖºÅ£¬Ó¦¸Ã²»ÊÇ±äÁ¿£¬¼ì²éºóÃæ¿ÉÄÜÓĞÕâ¸ö±äÁ¿
             return check(start + sizeof(argv_name));
-        while (member_array(c1, ({" ", ",", "*", "/", "\t"})) != -1) //æŠŠå·¦è¾¹æ²¡æœ‰ç”¨çš„è¿™äº›å½“æˆå˜é‡çš„ä¸€éƒ¨åˆ†ï¼Œå‘†ä¼šä¸€èµ·æ³¨é‡Šæ‰
+        while (member_array(c1, ({" ", ",", "*", "/", "\t"})) != -1) //°Ñ×ó±ßÃ»ÓĞÓÃµÄÕâĞ©µ±³É±äÁ¿µÄÒ»²¿·Ö£¬´ô»áÒ»Æğ×¢ÊÍµô
         {                                                            //write("left argv_name is "+argv_name +" c1 is "+c1+"\n");
             if (c1 == "/")
                 break;
@@ -178,9 +178,9 @@ int check(int s) //å¯¹è¿™ä¸€è¡Œè¯¦ç»†åˆ†æ, æ˜¯å¦æœ‰æœªä½¿ç”¨å˜é‡å¹¶ä¿®æ”¹
         {
             if (peidui(argv_name) == 1)
             {                                            //write("right argv_name is "+argv_name +" c2 is "+c2+"\n");
-                if (c2 == ";" || c2 == "/" || c2 == ",") //ä¸€å®šè¦ç»“æŸ
+                if (c2 == ";" || c2 == "/" || c2 == ",") //Ò»¶¨Òª½áÊø
                 {
-                    if (strsrch(argv_name, ",") == -1) //å˜é‡å·¦è¾¹æ²¡æœ‰é€—å·ï¼Œè¯´æ˜æ˜¯ç¬¬ä¸€ä¸ªå˜é‡ï¼Œéœ€è¦æ¶ˆé™¤åé¢çš„ï¼Œ
+                    if (strsrch(argv_name, ",") == -1) //±äÁ¿×ó±ßÃ»ÓĞ¶ººÅ£¬ËµÃ÷ÊÇµÚÒ»¸ö±äÁ¿£¬ĞèÒªÏû³ıºóÃæµÄ£¬
                         if (c2 == ",")
                             argv_name = argv_name + c2;
                     break;
@@ -190,12 +190,12 @@ int check(int s) //å¯¹è¿™ä¸€è¡Œè¯¦ç»†åˆ†æ, æ˜¯å¦æœ‰æœªä½¿ç”¨å˜é‡å¹¶ä¿®æ”¹
             c2 = wf_line[line_n][start + sizeof(argv_name)..start + sizeof(argv_name)];
         }
         if (argv_name[0..1] == "* " || argv_name[0..1] == "*\t")
-            argv_name = argv_name[1..]; //é˜²æ­¢æœ‰äººæŠŠ*å†™åœ¨ç±»å‹åé¢çš„ä¹ æƒ¯
+            argv_name = argv_name[1..]; //·ÀÖ¹ÓĞÈË°Ñ*Ğ´ÔÚÀàĞÍºóÃæµÄÏ°¹ß
         if (argv_name[0..0] == " " || argv_name[0..0] == "\t")
-            argv_name = argv_name[1..]; //é˜²æ­¢å·²æœ‰çš„æ³¨é‡ŠæŠŠ/*å†™åœ¨ç±»å‹åé¢,å¯¼è‡´æ— æ³•è¯†åˆ«ç±»å‹
-        unusedvar += "â”£the wrong is " + "@line" + (line_n + 1) + "ã€" + wf_line[line_n] + "ã€‘\n";
-        //wf_line[line_n]=wf_line[line_n][0..start-1]+replace_string(wf_line[line_n][start..],argv_name,"/*"+argv_name+"*/",1);//æ³¨é‡Šæ‰å˜é‡
-        wf_line[line_n] = wf_line[line_n][0..start - 1] + replace_string(wf_line[line_n][start..], argv_name, "", 1); //æ³¨é‡Šæ‰å˜é‡
+            argv_name = argv_name[1..]; //·ÀÖ¹ÒÑÓĞµÄ×¢ÊÍ°Ñ/*Ğ´ÔÚÀàĞÍºóÃæ,µ¼ÖÂÎŞ·¨Ê¶±ğÀàĞÍ
+        unusedvar += "©Çthe wrong is " + "@line" + (line_n + 1) + "¡¾" + wf_line[line_n] + "¡¿\n";
+        //wf_line[line_n]=wf_line[line_n][0..start-1]+replace_string(wf_line[line_n][start..],argv_name,"/*"+argv_name+"*/",1);//×¢ÊÍµô±äÁ¿
+        wf_line[line_n] = wf_line[line_n][0..start - 1] + replace_string(wf_line[line_n][start..], argv_name, "", 1); //×¢ÊÍµô±äÁ¿
 
         clean();
         return 1;
@@ -204,28 +204,28 @@ int check(int s) //å¯¹è¿™ä¸€è¡Œè¯¦ç»†åˆ†æ, æ˜¯å¦æœ‰æœªä½¿ç”¨å˜é‡å¹¶ä¿®æ”¹
     return 0;
 }
 
-int check1() //æ£€æŸ¥åŒç›®å½•ä¸‹ã€include/net/ä¸‹æ˜¯å¦æœ‰è¿™ä¸ªincludeæ–‡ä»¶
+int check1() //¼ì²éÍ¬Ä¿Â¼ÏÂ¡¢include/net/ÏÂÊÇ·ñÓĞÕâ¸öincludeÎÄ¼ş
 {
     string dir;
     dir = filename[0..strsrch(filename, "/", -1)];
     reset_eval_cost();
-    if (member_array(argv_name, get_dir(dir)) == -1) //å½“å‰ç›®å½•ä¸‹æ²¡æœ‰è¿™ä¸ªæ–‡ä»¶
-        unusedvar += "â”£the wrong is " + "@line" + (line_n + 1) + "ã€" + wf_line[line_n] + "ã€,cannot find the " + argv_name + " in the same dir.\n";
-    else //å½“å‰ç›®å½•ä¸‹æœ‰è¿™ä¸ªæ–‡ä»¶
+    if (member_array(argv_name, get_dir(dir)) == -1) //µ±Ç°Ä¿Â¼ÏÂÃ»ÓĞÕâ¸öÎÄ¼ş
+        unusedvar += "©Çthe wrong is " + "@line" + (line_n + 1) + "¡º" + wf_line[line_n] + "¡»,cannot find the " + argv_name + " in the same dir.\n";
+    else //µ±Ç°Ä¿Â¼ÏÂÓĞÕâ¸öÎÄ¼ş
     {
-        unusedvar += "â”£the wrong is " + "@line" + (line_n + 1) + "ã€" + wf_line[line_n] + "ã€‘\n";
-        wf_line[line_n] = replace_string(wf_line[line_n], "<" + argv_name + ">", "\"" + argv_name + "\"", 1); //æ”¹ä¸ºinclude æœ¬ç›®å½•ä¸‹æ–‡ä»¶
-        unusedvar += "â”—the corrected line" + (line_n + 1) + "ã€–" + wf_line[line_n] + "ã€—\n";
+        unusedvar += "©Çthe wrong is " + "@line" + (line_n + 1) + "¡¾" + wf_line[line_n] + "¡¿\n";
+        wf_line[line_n] = replace_string(wf_line[line_n], "<" + argv_name + ">", "\"" + argv_name + "\"", 1); //¸ÄÎªinclude ±¾Ä¿Â¼ÏÂÎÄ¼ş
+        unusedvar += "©»the corrected line" + (line_n + 1) + "¡¼" + wf_line[line_n] + "¡½\n";
         return 1;
     }
 
-    if (member_array(argv_name, get_dir("include/net/")) == -1) //include/netç›®å½•ä¸‹æ²¡æœ‰è¿™ä¸ªæ–‡ä»¶
-        unusedvar += "â”£the wrong is " + "@line" + (line_n + 1) + "ã€" + wf_line[line_n] + "ã€,cannot find the " + argv_name + " in the include/net\n";
-    else //include/netç›®å½•ä¸‹æœ‰è¿™ä¸ªæ–‡ä»¶
+    if (member_array(argv_name, get_dir("include/net/")) == -1) //include/netÄ¿Â¼ÏÂÃ»ÓĞÕâ¸öÎÄ¼ş
+        unusedvar += "©Çthe wrong is " + "@line" + (line_n + 1) + "¡º" + wf_line[line_n] + "¡»,cannot find the " + argv_name + " in the include/net\n";
+    else //include/netÄ¿Â¼ÏÂÓĞÕâ¸öÎÄ¼ş
     {
-        unusedvar += "â”£the wrong is " + "@line" + (line_n + 1) + "ã€" + wf_line[line_n] + "ã€‘\n";
-        wf_line[line_n] = replace_string(wf_line[line_n], argv_name, "net/" + argv_name, 1); //æ”¹ä¸ºinclude/net ç›®å½•ä¸‹æ–‡ä»¶
-        unusedvar += "â”—the corrected line" + (line_n + 1) + "ã€–" + wf_line[line_n] + "ã€—\n";
+        unusedvar += "©Çthe wrong is " + "@line" + (line_n + 1) + "¡¾" + wf_line[line_n] + "¡¿\n";
+        wf_line[line_n] = replace_string(wf_line[line_n], argv_name, "net/" + argv_name, 1); //¸ÄÎªinclude/net Ä¿Â¼ÏÂÎÄ¼ş
+        unusedvar += "©»the corrected line" + (line_n + 1) + "¡¼" + wf_line[line_n] + "¡½\n";
     }
     return 1;
 }
@@ -235,8 +235,8 @@ int clean() //clean class name alone
     string class_lonely;
     wf_line[line_n] = replace_string(wf_line[line_n], "\t", " ");
 
-    //å¯èƒ½æœ‰å¤šä¸ªä¸åŒå®šä¹‰åœ¨ä¸€è¡Œé‡Œ int a; string b ; object c; //xxxxx
-    //å¯èƒ½å·²ç»æ³¨é‡Šäº†a ã€bã€cï¼Œéœ€è¦æ¸…ç†æ‰ç±»å‹å
+    //¿ÉÄÜÓĞ¶à¸ö²»Í¬¶¨ÒåÔÚÒ»ĞĞÀï int a; string b ; object c; //xxxxx
+    //¿ÉÄÜÒÑ¾­×¢ÊÍÁËa ¡¢b¡¢c£¬ĞèÒªÇåÀíµôÀàĞÍÃû
     while (strsrch(wf_line[line_n], " ;") > 0)
         wf_line[line_n] = replace_string(wf_line[line_n], " ;", ";");
     foreach (class_lonely in leixing)
@@ -245,10 +245,10 @@ int clean() //clean class name alone
         wf_line[line_n] = replace_string(wf_line[line_n], class_lonely + "*;", "");
     }
 
-    unusedvar += "â”—the corrected line" + (line_n + 1) + "ã€–" + wf_line[line_n] + "ã€—\n";
+    unusedvar += "©»the corrected line" + (line_n + 1) + "¡¼" + wf_line[line_n] + "¡½\n";
 }
 
-int peidui(string arg) //from nt7,å¯¹è¿™ä¸€è¡Œç®€å•åˆ†æ,åˆ¤æ–­([{}])æ˜¯å¦æ®‹ç¼º
+int peidui(string arg) //from nt7,¶ÔÕâÒ»ĞĞ¼òµ¥·ÖÎö,ÅĞ¶Ï([{}])ÊÇ·ñ²ĞÈ±
 {
     int idx, chr, mark, marked;
     int s_symbol, m_symbol, b_symbol, d_quote, s_quote;
@@ -306,18 +306,18 @@ int peidui(string arg) //from nt7,å¯¹è¿™ä¸€è¡Œç®€å•åˆ†æ,åˆ¤æ–­([{}])æ˜¯å¦æ®‹
 int help(object me)
 {
     write(@HELP
-    è‡ªåŠ¨æ³¨é‡Šæ‰æºæ–‡ä»¶ä¸­æ‰€æœ‰mudosæˆ–fluffoså‘ç°çš„æœªä½¿ç”¨çš„å˜é‡ï¼Œ
-ä¿®æ”¹ #include <æœ¬ç›®å½•ä¸‹æ–‡ä»¶>  ä¸º  #include "æœ¬ç›®å½•ä¸‹æ–‡ä»¶";
-ä»¥èŠ‚çº¦å†…å­˜ï¼Œæ³¨é‡Šåçš„æ–‡ä»¶è®°å½•ä¼šä»logæ–‡ä»¶ä¸­åˆ é™¤ï¼Œä»¥å‡å°logæ–‡
-ä»¶ï¼Œå…¶å®ƒä¸è®¤è¯†çš„é”™è¯¯ä¼šå†™å›åŸlogæ–‡ä»¶.ä»¥æ–¹ä¾¿å·«å¸ˆæŸ¥é”™ã€‚
-    å·²ç»æ³¨é‡Šçš„æ–‡ä»¶å¦ç»™ä¸€ä¸ªè®°å½•ï¼Œé»˜è®¤æ–‡ä»¶åä¸º/log/log.var
-å‰é¢æ˜¯logæ–‡ä»¶æœ¬èº«ï¼Œåé¢æ˜¯ä¿®æ”¹æƒ…å†µæ­£å¸¸æƒ…å†µå¼€å§‹ä¼šå½¢æˆä¸‰è¡Œå°é—­
-çš„åˆ¶è¡¨ç¬¦ï¼Œä»¥æ–¹ä¾¿åˆ¤æ–­æ˜¯å¦æ³¨é‡Šæ­£ç¡®ã€‚
-    è‹¥ä»£ç ä¸èƒ½æ­£ç¡®å¤„ç†ï¼Œè¯·åœ¨å„ä¸ªwizç¾¤è”ç³»èƒ–å¾—çˆ¬ä¸ä¸Šæ ‘çš„ç²¾çµ
-è™½ç„¶æˆ‘å¯èƒ½ä¹Ÿå¿˜äº†ä»£ç ã€‚
+    ×Ô¶¯×¢ÊÍµôÔ´ÎÄ¼şÖĞËùÓĞmudos»òfluffos·¢ÏÖµÄÎ´Ê¹ÓÃµÄ±äÁ¿£¬
+ĞŞ¸Ä #include <±¾Ä¿Â¼ÏÂÎÄ¼ş>  Îª  #include "±¾Ä¿Â¼ÏÂÎÄ¼ş";
+ÒÔ½ÚÔ¼ÄÚ´æ£¬×¢ÊÍºóµÄÎÄ¼ş¼ÇÂ¼»á´ÓlogÎÄ¼şÖĞÉ¾³ı£¬ÒÔ¼õĞ¡logÎÄ
+¼ş£¬ÆäËü²»ÈÏÊ¶µÄ´íÎó»áĞ´»ØÔ­logÎÄ¼ş.ÒÔ·½±ãÎ×Ê¦²é´í¡£
+    ÒÑ¾­×¢ÊÍµÄÎÄ¼şÁí¸øÒ»¸ö¼ÇÂ¼£¬Ä¬ÈÏÎÄ¼şÃûÎª/log/log.var
+Ç°ÃæÊÇlogÎÄ¼ş±¾Éí£¬ºóÃæÊÇĞŞ¸ÄÇé¿öÕı³£Çé¿ö¿ªÊ¼»áĞÎ³ÉÈıĞĞ·â±Õ
+µÄÖÆ±í·û£¬ÒÔ·½±ãÅĞ¶ÏÊÇ·ñ×¢ÊÍÕıÈ·¡£
+    Èô´úÂë²»ÄÜÕıÈ·´¦Àí£¬ÇëÔÚ¸÷¸öwizÈºÁªÏµÅÖµÃÅÀ²»ÉÏÊ÷µÄ¾«Áé
+ËäÈ»ÎÒ¿ÉÄÜÒ²ÍüÁË´úÂë¡£
 
-æŒ‡ä»¤æ ¼å¼ï¼šchklog [logfile]
-æ²¡æœ‰ logfileï¼Œåˆ™logfileé»˜è®¤ä¸º log/log
+Ö¸Áî¸ñÊ½£ºchklog [logfile]
+Ã»ÓĞ logfile£¬ÔòlogfileÄ¬ÈÏÎª log/log
 HELP
     );
     return 1;

@@ -193,7 +193,7 @@ void log_error(string file, string message)
     else
     {
         // 记录警告日志
-        efun::write_file(LOG_DIR + "log", message);
+        efun::write_file(LOG_DIR + "log", message, 1);
     }
 }
 

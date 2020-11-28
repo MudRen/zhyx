@@ -2,6 +2,8 @@
 // this file will be automatically included by the driver
 
 // #pragma save_binary
+#ifndef GLOBALS_H
+#define GLOBALS_H
 
 #ifndef FLUFFOS
 #define nosave static
@@ -213,3 +215,5 @@
 #define INSTALL_COMBAT_TEST     1
 
 #undef PROFILE_COMMANDS
+
+#endif
