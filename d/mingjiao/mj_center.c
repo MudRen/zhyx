@@ -21,7 +21,7 @@ void create()
 LONG
 );
 	set("exits", ([
-		"out": "/u/smallfish/workroom",
+		"out": "/u/mudren/workroom",
 	]));
 	set("valid_startroom", 1);
 	set("item_desc", ([
@@ -64,7 +64,7 @@ int f_set_jingtie(string arg)
 	int num;
 
 	if (arg)
-	{	
+	{
 		if (sscanf(arg, "%d",num) != 1)
 			return notify_fail("÷∏¡Ó∏Ò Ω£∫set_jingtie <num>\n");
 	}
@@ -79,7 +79,7 @@ int f_set_didao(string arg)
 {
 	string dir;
 	int num;
-	
+
 	if (arg)
 	{
 		if (sscanf(arg, "%s %d", dir, num) != 2)

@@ -25,7 +25,7 @@ HIG"...。..。☆.....。..。★。...。...。.....☆........。。\n"NOR
        set("item_desc" , ([
 "down": "房子里云雾缭绕，什么也看不清楚。\n",
 ]));
-set("exits", 
+set("exits",
         ([
                 "sanben" : "/u/sanben/workroom",
                 "out" : "/u/yuchang/tianzun",
@@ -42,7 +42,7 @@ set("exits",
         set("no_clean_up", 0);
         set("start_room", 1);
         setup();
-        call_other("/clone/board/yuchang_b", "???"); 
+        call_other("/clone/board/yuchang_b", "???");
 
 }
 
@@ -54,16 +54,11 @@ void init()
                 + me->query("name") + "(" + me->query("id") + ")" + " 来到了工作室！！！\n"NOR);
 
 }
+
 int valid_leave(object me, string dir)
 {
-              if(me->query("id")=="yuchang")
-                return ::valid_leave(me, dir);
-                 // temp access for future wiz.
-                    if(me->query("id") != "yuchang")
-                            return notify_fail(CYN"主控电脑"HIR"对你说道：咬死你！"HIG"魔神居"HIR"你也敢乱闯，还是好好呆着吧。\n"NOR);
-                    if( dir=="out" && !wizardp(me))
-     return notify_fail(CYN"主控电脑"HIR"对你说道：咬死你！"HIG"魔神居"HIR"你也敢乱闯，还是好好呆着吧。\n"NOR);
-         return ::valid_leave(me, dir);
+        // temp access for future wiz.
+        if (dir == "out" && !wizardp(me))
+                return notify_fail(CYN "主控电脑" HIR "对你说道：咬死你！" HIG "魔神居" HIR "你也敢乱闯，还是好好呆着吧。\n" NOR);
+        return ::valid_leave(me, dir);
 }
-
-

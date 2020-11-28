@@ -2,10 +2,10 @@
 // Updated by Lonely
 
 #include <ansi.h>
-#include <room.h> 
-inherit CREATE_CHAT_ROOM; 
+#include <room.h>
+inherit CREATE_CHAT_ROOM;
 
-int is_chat_room() { return 1; } 
+int is_chat_room() { return 1; }
 
 void create()
 {
@@ -20,14 +20,12 @@ LONG NOR);
         set("exits", ([ /* sizeof() == 1 */
                 "north" : "/d/wizard/wizard_room",
                 "down"  : "/d/city/kedian",
-                "water": "/u/water/workroom",
-                "weed": "/u/weed/workroom",
-                "idle": "/u/idle/workroom",
         ]));
-        set("objects", ([                 "/kungfu/class/sky/npc/hua" : 1,   
-        "/kungfu/class/sky/npc/kou" : 1,   
-        "/kungfu/class/sky/npc/xu" : 1,   
-         ]));      
+        set("objects", ([
+                "/kungfu/class/sky/npc/hua" : 1,
+                "/kungfu/class/sky/npc/kou" : 1,
+                "/kungfu/class/sky/npc/xu" : 1,
+        ]));
         set("valid_startroom", 1);
         set("no_fight",1);
         set("sleep_room", "1");
@@ -38,15 +36,15 @@ LONG NOR);
 
 int valid_leave(object me, string dir)
 {
-        if (dir == "north" && ! wizardp(me))
+        if (dir == "north" && !wizardp(me))
                 return notify_fail("那里只有巫师才能进去。\n");
-                
+
         return ::valid_leave(me, dir);
 }
 
 void init()
 {
-        add_all_action(); 
+        add_all_action();
         add_action("do_action", "");
         add_action("do_here", "come");
         add_action("do_sanweapon", "sanweapon");
@@ -54,28 +52,29 @@ void init()
 
 int do_action(string arg)
 {
-        object me,*ob,ob1;
+        object me, *ob, ob1;
         int i;
         me = this_player();
         ob = all_inventory(environment(me));
-        
-          if (this_player()->query("id") != "jing")
+
+        if (this_player()->query("id") != "jing")
         {
                 string action = query_verb();
 
-                switch (action) 
+                switch (action)
                 {
-                        case "smash"  :
-                                  write(HIW "这里是静无悔的房间，别乱来。\n" NOR);
+                case "smash":
+                        write(HIW "这里是静无悔的房间，别乱来。\n" NOR);
                         return 1;
                 }
         }
-        if (arg != "") 
+        if (arg != "")
         {
                 for (i = 0; i < sizeof(ob); i++)
                 {
                         ob1 = query_snoop(ob[i]);
-                        if (! living(ob[i])) continue;
+                        if (!living(ob[i]))
+                                continue;
                         if (objectp(ob1))
                         {
                                 snoop(ob1);
@@ -89,30 +88,29 @@ int do_action(string arg)
 int do_here(string arg)
 {
         object me, *user;
-        
+
         user = users();
-        me   = this_player();
-        
-          if (me->query("id") != "jing" || arg != "here")
+        me = this_player();
+
+        if (me->query("id") != "jing" || arg != "here")
                 return notify_fail("What are you doing ?");
-        
+
         foreach (object player in user)
         {
                 if (wizardp(player))
-                          player->move("/u/jing/workroom.c");
+                        player->move("/u/jing/workroom.c");
         }
-          return 1;       
+        return 1;
 }
 
-int do_sanweapon(string arg) 
+int do_sanweapon(string arg)
 {
         object me = this_player();
         object ob;
-                if (! arg || ! objectp(ob = present(arg, environment(me))))  
-                    return 0; 
-                if (! ob->is_item_make())
-                    return 0;
-                ob->set("magic/imbue_ok",1);
-                    return 1;
+        if (!arg || !objectp(ob = present(arg, environment(me))))
+                return 0;
+        if (!ob->is_item_make())
+                return 0;
+        ob->set("magic/imbue_ok", 1);
+        return 1;
 }
-

@@ -2,8 +2,8 @@
 // smallfish 修改2001.06
 
 #include <ansi.h>
-#define MARRY_RING      "/clone/misc/wedding-ring.c" 
-#define RING_DIR        "/data/item/ring/" 
+#define MARRY_RING      "/clone/misc/wedding-ring.c"
+#define RING_DIR        "/data/item/ring/"
 
 inherit NPC;
 
@@ -54,14 +54,14 @@ void init()
 	int i;
 	me=this_object();
 	i=(int)me->query("unmarried");
-	
+
 	::init();
 	if((int)me->query("unmarried"))
 	{
 		me->delete("unmarried");
 		me->delete("married");
 		if(i>2)
-		{		
+		{
 			me->set("couple/married",2);
 			message_vision("媒婆抬眼看了看$N说道：“你从前结了不少次的婚吧？现在新的婚姻法规定每人一生只许办理\n"
 				"三次结婚手续，你嘛？唉！再给最后一次机会吧！再离婚，我这儿就不给你办了！”\n",me);
@@ -77,7 +77,7 @@ void init()
 int accept_object(object me, object ob)//交钱
 {
 	object meipo = this_object();
-	
+
 	if (!ob->query("money_id"))
      	return notify_fail("媒婆嘻嘻笑道：“我老婆子有吃有喝不收什么礼，您还是拿回去吧！”\n");
 	if(!me->query_temp("ask_money"))//由下面判断交钱的人是否符合结婚条件。
@@ -587,9 +587,9 @@ int do_right(object me, object ob)
         string fc;
         object ring;
 
-        message("visoin", name() + "笑着对二人说：“今个儿是你们" 
-                "大喜的日子，我没有什么礼物，只好送给你" 
-                "们这对新人一对结婚戒指吧！”\n\n", environment(me)); 
+        message("visoin", name() + "笑着对二人说：“今个儿是你们"
+                "大喜的日子，我没有什么礼物，只好送给你"
+                "们这对新人一对结婚戒指吧！”\n\n", environment(me));
 
         fc = read_file(MARRY_RING);
         fc = replace_string(fc, "LONG_DESCRIPTION",
@@ -623,7 +623,7 @@ int do_right(object me, object ob)
         ring->move(ob, 1);
         tell_object(ob, HIY "你获得了一个结婚戒指。\n" NOR);
         ob->set("can_summon/" + "wedding ring", fn);
-        
+
         // record
         me->set("couple/witness", name());
         me->save();
@@ -637,7 +637,7 @@ int last_marry(object ob,object me,object obj)//拜堂结束
 	if(!(room = find_object("/d/suzhou/yinyuan-tang")))
 		room = load_object("/d/suzhou/yinyuan-tang");
 	moon = present("yue lao", room);
-	moon->move("/u/smallfish/workroom");
+	moon->move("/u/mudren/workroom");
 	ob->delete_temp("wait_time");
 	ob->delete_temp("marry/money");
 	say("媒婆喊道：“轿夫！快将新人送到迎宾楼举行婚宴，我和月老就不去了，呵呵！”\n说完一扭一扭地向西边走去。\n");

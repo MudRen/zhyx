@@ -263,7 +263,7 @@ void finish_party(object me,object ob)
 int give_money(object me,object ob)
 {
 	int money,v;
-	
+
 	environment()->delete("no_fight");
 	if( !me || environment(me) != environment(ob) )
 	{
@@ -271,7 +271,7 @@ int give_money(object me,object ob)
 			"摇着头一边向内堂走去，伙计、黄衫少女也一齐走进去，喜福堂一下子空下来了。\n",ob);
 		write_file("/u/llm/jilu/marry",sprintf("%s(%s)%s",me->name(),me->query("id"),ob->query("money")));
 		ob->delete_temp("ready_to_party");
-		ob->move("/u/smallfish/workroom");//不要直接dest，以备查
+		ob->move("/u/mudren/workroom");//不要直接dest，以备查
 	   return  1;
 	}
 //注：由于实际过程有的玩家会收到大量的喜金，有时会超过负重，造成喜金丢失
@@ -281,7 +281,7 @@ int give_money(object me,object ob)
 		"我已经托伙计转进了您的钱庄帐户，您可去查看查看！”说完然后一齐走进内堂不见了。\n",me);
     me->add("balance",money);
 	ob->delete_temp("ready_to_party");
-  	ob->move("/u/smallfish/workroom");//不要直接dest，以备查
+  	ob->move("/u/mudren/workroom");//不要直接dest，以备查
 	return 1;
 }
 
@@ -336,4 +336,3 @@ int kick(object me)
 	if(me->query("qi")>30) me->add("qi",-30);
 	else me->unconcious();
 }
-

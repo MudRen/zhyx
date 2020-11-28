@@ -168,6 +168,8 @@
 #define F_FINANCE       "/feature/finance.c"
 #define F_FOOD          "/feature/food.c"
 #define F_GUARDER       "/feature/guarder.c"
+#define F_HEIDIAN       "/feature/heidian.c"
+#define F_HEIDIAN_HUOJI "/feature/heidian_huoji.c"
 #define F_ITEMMAKE      "/feature/itemmake.c"
 #define F_LIQUID        "/feature/liquid.c"
 #define F_MASTER        "/feature/master.c"

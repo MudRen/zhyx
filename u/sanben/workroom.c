@@ -1,15 +1,15 @@
-#include <ansi.h> 
+#include <ansi.h>
 #include <room.h>
-inherit ROOM; 
+inherit ROOM;
 
 #define QINGTIAN    "/u/sanben/special/tianzi/qingtian.c"
 #define SPECIAL     "/data/item/special/"
 
 
-int is_chat_room() 
-{ 
-        return 1; 
-} 
+int is_chat_room()
+{
+        return 1;
+}
 
 void create()
 {       object ob;
@@ -21,8 +21,8 @@ void create()
 );
 
         set("exits", ([
-                 "gc" : "/d/city/guangchang", 
-                   "kd" : "/d/city/kedian",                
+                 "gc" : "/d/city/guangchang",
+                   "kd" : "/d/city/kedian",
                 //   "idl" : "/u/idle/workroom",
         ]));
         set("objects", ([
@@ -33,12 +33,12 @@ void create()
         set("valid_startroom", 1);
         set("sleep_room", 1);
         set("chat_room",1);
-        set("valid_startroom", 1); 
+        set("valid_startroom", 1);
         set("no_stab",1);
-      //   set("outdoors", "city"); 
-        setup();               
-                 "/clone/board/sanben_b"->foo();            
-        
+      //   set("outdoors", "city");
+        setup();
+                 "/clone/board/sanben_b"->foo();
+
 }
 
 void init()
@@ -63,8 +63,8 @@ int do_giveout()
        gift = new("/clone/money/gold");
        gift->set_amount(10);
        gift->move(users[i]);
-       tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR 
-       HIG"恭喜你收到了中华英雄巫师组分发的礼物,本次礼物是"NOR YEL"十两黄金。\n"NOR);   
+       tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR
+       HIG"恭喜你收到了中华英雄巫师组分发的礼物,本次礼物是"NOR YEL"十两黄金。\n"NOR);
 
    }
 
@@ -80,10 +80,10 @@ int do_giveout()
    users = users();
    for(i=0;i<sizeof(users);i++)
    {
-       gift = new("/u/sanben/giftpack");       
+       gift = new("/u/sanben/giftpack");
        gift->move(users[i]);
-       tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR 
-       HIG"恭喜你收到了中华英雄巫师组分发的小礼物包，\n请open giftpack看看你的运气。\n"NOR);   
+       tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR
+       HIG"恭喜你收到了中华英雄巫师组分发的小礼物包，\n请open giftpack看看你的运气。\n"NOR);
    }
    return 1;
 }*/
@@ -96,10 +96,10 @@ int do_giveout()
    users = users();
    for(i=0;i<sizeof(users);i++)
    {
-       gift = new("/u/sanben/obj/shenyou_worst");       
+       gift = new("/u/sanben/obj/shenyou_worst");
        gift->move(users[i]);
-       tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR 
-       HIG"恭喜你收到了中华英雄巫师组分发的春节礼物--最最劣质神佑果。\n\n"NOR);   
+       tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR
+       HIG"恭喜你收到了中华英雄巫师组分发的春节礼物--最最劣质神佑果。\n\n"NOR);
    }
    return 1;
 }
@@ -114,7 +114,7 @@ int do_place()
    int i;
    object place, gift;
    mapping dir_list = ([
-                "/d/beijing/" : "北京城", 
+                "/d/beijing/" : "北京城",
                 "/d/changan/" : "长安城",
                 "/d/city/" : "扬州城",
                 "/d/city3/" : "成都城",
@@ -141,13 +141,13 @@ int do_place()
 
    dir = alldir[random(sizeof(alldir))];
    if ( ! dir || dir == 0 ) dir = "/d/wudang/";
-   dir_name = dir_list[dir];  
-   
+   dir_name = dir_list[dir];
+
    message( "gift", BLINK HIY"【天降礼物】" NOR HIG
             "天神在" + dir_name + "撒下了几张礼物兑换劵，大家何不群起而寻之！\n"NOR, users() );
- 
+
    allfile = get_dir(dir);
-  
+
    for(i = 0;i < 20;i++)
    {
       file = dir + allfile[random(sizeof(allfile))];
@@ -157,21 +157,21 @@ int do_place()
       write(file + "\n");
       if ( find_object(file) )
          place = find_object(file);
-      else 
+      else
           place = load_object(file);
 
       if (  place )
-      {   
+      {
           if ( i <= 2 ) gift = new("/u/sanben/giftcard1");
-          else 
+          else
           if ( i > 2 && i <= 7 ) gift = new("/u/sanben/giftcard2");
-          else 
-             gift = new("/u/sanben/giftcard3");            
+          else
+             gift = new("/u/sanben/giftcard3");
           gift->move(place);
           tell_room(place, HIC"突然只见天神从云端里探出头来，撒下一张礼劵。\n"NOR);
       }
    }
-   return 1; 
+   return 1;
 
 
 }
@@ -181,7 +181,7 @@ void remind()
 
    message( "gift", BLINK HIY"【天降礼物】" NOR HIR
             "天神将在三分钟后分发奖劵，请要寻宝的人做好准备。\n"NOR, users() );
-   
+
    remove_call_out("do_place");
    call_out("do_place", 180);
 
@@ -199,27 +199,27 @@ int do_ip()
 
     for( i = 0; i < sizeof(users); i++)
     {
-       same = 0;     
-       num = sizeof(ip_list); 
+       same = 0;
+       num = sizeof(ip_list);
        ip = query_ip_number(users[i]);
 
        if ( num > 0 )
        {
           for(ii=0;ii<num;ii++)
           {
-             if ( ip_list[ii] == ip ) same = 1; 
+             if ( ip_list[ii] == ip ) same = 1;
           }
        }
-        
+
 
        if ( same == 0 )
        {
-           gift = new("/u/sanben/giftpack");       
+           gift = new("/u/sanben/giftpack");
            gift->move(users[i]);
 
-           tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR 
-           HIG"恭喜你收到了中华英雄巫师组分发的小礼物包，\n请open giftpack看看你的运气。\n"NOR);   
-       }      
+           tell_object(users[i],HIR"叮~~~天降财神到~~~\n"NOR
+           HIG"恭喜你收到了中华英雄巫师组分发的小礼物包，\n请open giftpack看看你的运气。\n"NOR);
+       }
 
        if ( ! ip_list )
           ip_list = ({ip});
@@ -241,26 +241,26 @@ int do_start()
 {
     remove_call_out("do_ip");
     call_out("do_ip", 60);
-    message( "story", HIY"【天降财神】天神将在一分种" 
+    message( "story", HIY"【天降财神】天神将在一分种"
               "后按IP发放礼物，请大家做好准备! \n"NOR, users() );
     return 1;
 }
 
 
 void count_down(int i)
-	{	
-		
+	{
 
-		 message( "story", HIY"【天降财神】天神将在" + chinese_number(i) + 
+
+		 message( "story", HIY"【天降财神】天神将在" + chinese_number(i) +
                         "秒后按IP发放礼物，请大家做好准备! \n"NOR, users() );
 		i = i-1;
-		if (i > 0 ) 
-		{	
+		if (i > 0 )
+		{
 
 			remove_call_out("count_down");
                 	call_out("count_down", 1, i);
 		}
-		else 
+		else
 		{	message( "story", "\n", users() );
 			message( "story", HIG"【天降财神】" + HIY"现在发放礼物!\n"NOR, users() );
 			remove_call_out("do_ip");
@@ -273,27 +273,8 @@ void do_pretend()
 {
      object me = this_player();
 
-              me->set_temp("apply/name", ({ "北丑" })); 
-              me->set_temp("apply/short", ({ "武林泰斗「北戏子」北丑(bei chou)" })); 
-              me->set_temp("apply/long", ({ "武林泰斗「北戏子」北丑(bei chou)" })); 
-
-}
-
-void do_test()
-{ 
-            
-        
-                     write(FRELINE(8, 40));
-
- write(SETDISPLAY(3, 28) + HIR"hihihi"NOR);
-
-
-
-
-               write(REST);
- write(TOBOT(50)); 
-// write(ESC+"[r"+TOBOT(50));
-                 
-      write(SAVEC);
+              me->set_temp("apply/name", ({ "北丑" }));
+              me->set_temp("apply/short", ({ "武林泰斗「北戏子」北丑(bei chou)" }));
+              me->set_temp("apply/long", ({ "武林泰斗「北戏子」北丑(bei chou)" }));
 
 }
