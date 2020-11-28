@@ -11,7 +11,7 @@ void create()
 正在这儿负责接受各种守城材料，一些弓箭手正拈弓搭箭紧盯
 着城下的动静。
 LONG );
-        set("outdoors", "xiangyang");
+	set("outdoors", "xiangyang");
 
 	set("exits", ([
 		"southwest" : __DIR__"wallw7",

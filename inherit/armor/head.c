@@ -6,8 +6,13 @@ inherit EQUIP;
 
 void setup()
 {
-	if (! clonep(this_object()))
-	        set("armor_type", TYPE_HEAD);
+    if (! clonep(this_object()))
+        set("armor_type", TYPE_HEAD);
 
-        ::setup();
+    ::setup();
+}
+
+void init_head()
+{
+    setup();
 }

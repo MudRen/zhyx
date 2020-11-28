@@ -5,10 +5,10 @@ int main(object me, string str)
         me->add("sen",-5);
         output = HIG"        ◎绿柳山庄使命榜◎\n" NOR;
         output += "———————————————————————————\n\n";
-        output += TASKD_D->dyn_quest_list();
+        output += TASK_D->dyn_quest_list();
         output += "———————————————————————————\n\n";
 
-        output += HIY"离使命重新分配时间还有"+TASKD_D->check_time(me)+"！\n"NOR;
+        output += HIY"离使命重新分配时间还有"+TASK_D->check_time(me)+"！\n"NOR;
         me->start_more(output);
         return 1;
 }
@@ -24,5 +24,3 @@ HELP
         );
         return 1;
 }
-
-

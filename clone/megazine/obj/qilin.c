@@ -55,12 +55,12 @@ void init()
 int do_follow(string arg)
 {
         object me;
-        
+
         if (arg != "me")
                 return 0;
 
         me = this_player();
-          if (me->query("id") != "sanben")
+          if (me->query("id") != "mudren")
                 return 0;
 
         message_vision("$N跟在$n的后面。\n", this_object(), me);
@@ -73,7 +73,7 @@ int do_ride(string arg)
         object me;
 
         me = this_player();
-          if (me->query("id") != "sanben")
+          if (me->query("id") != "mudren")
                 return 0;
 
         if (! arg || ! id(arg))
@@ -125,7 +125,7 @@ int receive_summon(object me)
 
 int hide_anywhere(object me)
 {
-          if (me->query("id") != "sanben")
+          if (me->query("id") != "mudren")
                 return 0;
 
         message_vision(HIB "$N" HIB "雄姿一展，驾起五色毫光，"

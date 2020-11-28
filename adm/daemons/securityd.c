@@ -366,27 +366,26 @@ string get_status(mixed ob)
         if (objectp(ob))
         {
                 euid = geteuid(ob);
-                if (! euid) euid = getuid(ob);
+                if (!euid)
+                        euid = getuid(ob);
         }
-        else if (stringp(ob)) euid = ob;
+        else if (stringp(ob))
+                euid = ob;
 
-       if (euid=="sanben") return "(admin)";
-       if (euid=="shenlang") return "(admin)";
-       if (euid=="kasumi") return "(admin)";
-       if (euid=="ribba") return "(admin)";
+        if (euid == "mudren")
+                return "(admin)";
 
-
-        if (! undefinedp(wiz_status[euid]))
+        if (!undefinedp(wiz_status[euid]))
                 return wiz_status[euid];
-        else if (member_array(euid, wiz_levels) != -1) return euid;
-        else return "(player)";
+        else if (member_array(euid, wiz_levels) != -1)
+                return euid;
+        else
+                return "(player)";
 }
 
 int get_wiz_level(mixed ob)
 {
-   // if (geteuid(ob)=="sanben")  return 8;
-    //tell_object(find_player("sanben"), "hi");
-    return member_array(get_status(ob), wiz_levels);
+        return member_array(get_status(ob), wiz_levels);
 }
 
 int set_status(mixed ob, string status)
@@ -451,9 +450,9 @@ int valid_write(string file, mixed user, string func)
                         error("TRUST_D->valid_write: Invalid argument type of user.\n");
         } else
                 euid = geteuid(user);
-// by baqukq
-if(member_array(file,exclude_write_imp_filenames)!=-1&&euid!="sanben"&&euid!="ribba"&&euid!="kasumi")
-return 0;
+
+        if (member_array(file, exclude_write_imp_filenames) != -1 && euid != "mudren")
+                return 0;
 
         if (sscanf(file, LOG_DIR + "%*s") && func=="write_file") return 1;
 
@@ -572,9 +571,9 @@ int valid_read(string file, mixed user, string func)
                         error("TRUST_D->valid_read: Invalid argument type of user.\n");
         } else
                 euid = geteuid(user);
-//by baqukq
-if(member_array(file,exclude_read_imp_filenames)!=-1&&euid!="sanben"&&euid!="ribba"&&euid!="kasumi")
-return 0;
+
+        if (member_array(file, exclude_read_imp_filenames) != -1 && euid != "mudren")
+                return 0;
 
         // Let user save their save file
         if (func == "restore_object")

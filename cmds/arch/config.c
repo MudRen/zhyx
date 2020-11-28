@@ -5,6 +5,8 @@
 
 inherit F_CLEAN_UP;
 
+#define __ADDR_SERVER_IP__ __MUD_IP__
+
 void write_config();
 string trim(string str);
 
@@ -60,7 +62,7 @@ int main(object me, string arg)
                 sscanf(val, "\"%s\"", val);
                 if (strlen(val) < 1)
                 {
-                        write("你没有指明这个参数的值，如果需要删除的话请用 -d 选项。\n");      
+                        write("你没有指明这个参数的值，如果需要删除的话请用 -d 选项。\n");
                         return 1;
                 }
 
@@ -97,10 +99,10 @@ int main(object me, string arg)
         }
 
         msg = "";
-	msg += "Mud 名称：\t\t" + get_config(__MUD_NAME__) + "\n"; 
-	msg += "网路地址名称伺服器埠号：" + get_config(__ADDR_SERVER_IP__) + "\n"; 
-	msg += "Mudlib 路径：\t\t" + get_config(__MUD_LIB_DIR__) + "\n"; 
-	msg += "MudOS 执行档路径：\t" + get_config(__BIN_DIR__) + "\n\n"; 
+	msg += "Mud 名称：\t\t" + get_config(__MUD_NAME__) + "\n";
+	msg += "网路地址名称伺服器埠号：" + get_config(__ADDR_SERVER_IP__) + "\n";
+	msg += "Mudlib 路径：\t\t" + get_config(__MUD_LIB_DIR__) + "\n";
+	msg += "MudOS 执行档路径：\t" + get_config(__BIN_DIR__) + "\n\n";
 
         dbase = CONFIG_D->query_entire_dbase();
         if (! mapp(dbase))

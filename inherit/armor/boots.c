@@ -6,8 +6,8 @@ inherit EQUIP;
 
 void setup()
 {
-	if (! clonep(this_object()))
-	        set("armor_type", TYPE_BOOTS);
+        if (! clonep(this_object()))
+                set("armor_type", TYPE_BOOTS);
 
         ::setup();
 }
@@ -44,4 +44,9 @@ void dry_cloth()
                 return;
         delete_temp("no_wear");
         message("vision", name() + "已经干了。\n", environment());
+}
+
+void init_boots()
+{
+        setup();
 }

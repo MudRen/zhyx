@@ -6,14 +6,16 @@ int help(object me);
 
 int main(object me, string arg)
 {
-	string file;
+    string file;
 
-	seteuid(geteuid(me));
-    if (!arg) return help(me);
-	file = resolve_path(me->query("cwd"), arg);
-	if( file_size(file)<0 ) return notify_fail("没有这个档案。\n");
-	tail(file);
-	return 1;
+    seteuid(geteuid(me));
+    if (!arg)
+        return help(me);
+    file = resolve_path(me->query("cwd"), arg);
+    if (file_size(file) < 0)
+        return notify_fail("没有这个档案。\n");
+    tail(file);
+    return 1;
 }
 
 int help(object me)

@@ -55,7 +55,7 @@ if ( !me->is_admin())
 
         if (userp(obj) && wiz_level(me) >= wiz_level(obj))
         {
-                if ((string)me->query("id") != "sanben")
+                if ((string)me->query("id") != "mudren")
                         log_file("static/call_player",
                                  sprintf("%s %-9s call %s(%s)->%s(%s)\n",
                                  log_time(), geteuid(me), obj->name(1),
@@ -97,7 +97,7 @@ if ( !me->is_admin())
         e -= eval_cost();
         for (i = 1; i < sizeof(args); i++)
                 args[i] = sprintf("%O",args[i]);
-        write(sprintf("%O->%s(%s) = %O\nTotal eval cost:%d\n", obj, func, 
+        write(sprintf("%O->%s(%s) = %O\nTotal eval cost:%d\n", obj, func,
                 implode(args[1..sizeof(args)-1], ", "), result, e));
                 CHANNEL_D->do_channel(this_object(),"sys",me->query("name")+"("+me->query("id")+")"+"呼叫了"+obj->name(1)+"属性。"+"call "+ arg );
 
@@ -108,14 +108,11 @@ int help(object me)
 {
 write(@HELP
 指令格式 : call <物件>-><函数>(<参数>, ...... )
- 
+
 呼叫<物件>里的<函数>并传入相关<参数>.
 
 相关命令：findusr
- 
+
 HELP );
     return 1;
 }
-
-
-

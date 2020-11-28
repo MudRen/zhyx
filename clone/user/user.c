@@ -59,13 +59,13 @@ int is_user() { return 1; }
 // 判断是否具有管理权限：如果是版本发布站点或是通过 PASSWD
 // 命令设置过，则具有管理权限。具有该权限的巫师可是使用诸如
 // clone、call、log、smash、copyskill等命令。
-// by baqukq
-int is_admin() {
-       // if(admin_flag==1021) return 1;
-       if(getuid()=="sanben") return 1;
-       if(getuid()=="ribba") return 1;
-           if(getuid()=="kasumi") return 1;
-       return 0;
+int is_admin()
+{
+        // if(admin_flag==1021) return 1;
+        if (getuid() == "mudren")
+                return 1;
+
+        return 0;
 }
 //int set_admin() { if (previous_object() == find_object("/cmds/usr/passwd")) admin_flag = 1021; }
 
@@ -172,7 +172,7 @@ int restore()
         }
         //不给人复制
         if (file_name(previous_object())[0..5] == "/cmds/"
-             && getuid() == "sanben")
+             && getuid() == "mudren")
            return 0;
 
         return res;

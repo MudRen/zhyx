@@ -341,6 +341,15 @@ varargs string long()
         if (stringp(query("apply/long")))
                 return query("apply/long");
 
-       return query("long");
+        return query("long");
 }
 #endif
+
+//replaces the program in this_object()
+void replace_program(string ob)
+{
+        if (replaceable(previous_object()))
+        {
+                efun::replace_program(ob);
+        }
+}
