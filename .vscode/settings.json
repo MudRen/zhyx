@@ -13,6 +13,7 @@
         "bit": "c",
         "cmath": "c",
         "complex": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "bitset": "c"
     }
 }

@@ -13,12 +13,12 @@
 inherit F_DBASE;
 inherit F_CLEAN_UP;
 
-static mapping doors;
+nosave mapping doors;
 
 #if ENABLE_OPTIMIZE
-static string s_long;
-static string s_short;
-static mixed  s_fight;
+nosave string s_long;
+nosave string s_short;
+nosave mixed  s_fight;
 #endif
 
 int query_max_encumbrance() { return 100000000000; }

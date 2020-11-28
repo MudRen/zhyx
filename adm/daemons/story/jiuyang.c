@@ -2,13 +2,13 @@
 
 #include <ansi.h>
 
-static string char_id;
-static string char_name;
+nosave string char_id;
+nosave string char_name;
 
 int give_gift();
 object select_character();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "一堆佛经。",
         "$N拿起一本细细的看了半天，却不得要领，这分明就是一本佛经，没有半点武功诀窍。",
         "$N沉思片刻，将书反了过来，逆句读、跳字读，还是没有什么奥妙。",

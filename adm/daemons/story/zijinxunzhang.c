@@ -6,7 +6,7 @@ inherit F_CLEAN_UP;
 
 mixed random_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "上古，神界",
         "盘古:“女娲，很久不见，依然那么漂亮。”",
         "女娲:“哟，你个粗人今天嘴怎么那么甜？”",
@@ -19,8 +19,8 @@ static mixed *story = ({
         "盘古:“到底行还是不行，你说句话呀？”",
         "女娲:“可我已经有意中人了，你还是换个人吧。”",
         "盘古气愤异常，一把抢过勋章，扭头走了，留下女娲怔怔的站着。",
-        "盘古心想:他奶奶的，你看不上我，老子穿越回三国找貂蝉去。",   
-        "盘古:“哎呀，糟了，我的勋章哪去了？”",        
+        "盘古心想:他奶奶的，你看不上我，老子穿越回三国找貂蝉去。",
+        "盘古:“哎呀，糟了，我的勋章哪去了？”",
         (: random_gift :),
 });
 
@@ -66,8 +66,8 @@ mixed random_gift()
                 return 0;
 
         ob = obs[random(sizeof(obs))];
-        
-        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )       
+
+        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )
         {
                 msg = HIC "盘古：" + ob->name(1) +
                       HIC "把勋章还我，他奶奶的，你也配拿这东西？说罢一把抢过勋章。" NOR;

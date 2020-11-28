@@ -9,13 +9,13 @@ inherit F_NOCLONE;
 mixed ask_opinion();
 
 #define ULTRA_OPINION   "宗师"
-#define OPINION_TYPE    HIY "内家功夫" NOR 
+#define OPINION_TYPE    HIY "内家功夫" NOR
 #define MY_OPINION      "force"
 
 string  *my_opinions = ({ "force" });
 
 // 该头文件必须在这里嵌入
-#include <ultra.h>
+#include "ultra.h"
 
 void create()
 {
@@ -228,7 +228,7 @@ int accept_fight(object me)
                 return notify_fail("看来还是回去锻炼一下内力吧！\n");
         }
         me->set("neili", 0);
-        
+
 
         call_out("check_opinion", 2, me);
         set_temp("opinion", me);

@@ -52,11 +52,11 @@ public string list_invite(object ob, object me);                        // ²éÑ¯¹
 public string do_invite(object ob, object me, string arg);              // ÉèÖÃ|È¡Ïû ¹ó±ö
 public string list_ban(object ob, object me);                           // ²éÑ¯ºÚ»§ÁÐ±í
 public string do_ban(object ob, object me, string arg);                 // ÉèÖÃ|È¡Ïû ºÚ»§
-private void destruct_it(object ob);                                    
+private void destruct_it(object ob);
 
 string *special_props = ({ "short", "long" });
 
-static mapping *all_shop = ({
+nosave mapping *all_shop = ({
         ([
                 "id":             "ÑïÖÝ",
                 "name":           "Í¨Ìì¸ó",
@@ -290,7 +290,7 @@ public int is_owner(string owner)
                 if (shop->query("owner") == owner)
                         return 1;
         }
-        return 0; 
+        return 0;
 }
 
 public int close_all(object me)
@@ -513,8 +513,8 @@ public int list_shop(object me)
                 msg += sprintf(WHT " µêÆÌ£º" HIG "%s[" HIW "%s" HIG "]\t " NOR +
                                WHT "¾­Óª×´Ì¬£º" HIG "%s" NOR +
                                WHT "  µêÆÌÖ÷ÈË£º" HIG "%s\n" NOR,
-                               all_shop[i]["name"], 
-                               arg, 
+                               all_shop[i]["name"],
+                               arg,
                                (the_shop->query("shop_type") &&
                                the_shop->query("owner") != "VOID_SHOP") ? HIG
                                "ÓªÒµÖÐ  " NOR : NOR + GRN "ÔÝ²»ÓªÒµ" NOR,
@@ -534,7 +534,7 @@ public string do_modify(object obj, object me, string arg)
         string item, msg;
         mapping dbase;
         object room;
-        
+
         room = environment(obj);
 
         if (! room->query("shop_type"))
@@ -611,7 +611,7 @@ public string do_modify(object obj, object me, string arg)
 
                 dbase = obj->query_entire_dbase();
                 dbase["name"] = msg;
-                
+
                 room->set("waiter/name", msg);
 
                 room->save();
@@ -626,13 +626,13 @@ public string do_stock(object ob, object me, string arg)
         int value;
         mapping all_goods, all_goods_num;
         object room;
-        
+
         room = environment(ob);
-        
+
         if (! room->query("shop_type"))
                 return "¶Ô²»Æð£¬¸ÃµêÆÌÄ¿Ç°ÒÑ¾­±»Î×Ê¦¹Ø±Õ¡£\n";
 
-        if (! arg || ! sscanf(arg, "%s value %d", arg, value) == 2) 
+        if (! arg || ! sscanf(arg, "%s value %d", arg, value) == 2)
                 return "Ö¸Áî¸ñÊ½£ºstock <»õÎï> value * (ÆäÖÐ * ÊÇÒÔÍ­°å×÷µ¥Î»µÄ¼Û¸ñ)\n";
 
         if (! value)
@@ -641,28 +641,28 @@ public string do_stock(object ob, object me, string arg)
         if (value > 100000000)
                 return "µêÆÌ×î¶à±ê¼ÛÒ»ÍòÁ½»Æ½ð£¬Äã¾Í±ðÄÇÃ´ÐÄºÚÁË°É¡£\n";
 
-        if (! (goods = present(arg, me)) || ! objectp(goods)) 
+        if (! (goods = present(arg, me)) || ! objectp(goods))
                 return "ÄãÉíÉÏ²¢Ã»ÓÐÕâ¸ö»õÎï°¡£¡\n";
 
         if (goods->query("no_sell"))
                 return "Õâ¸ö¶«Î÷Ì«ÕÐÒ¡ÁË£¬»¹ÊÇ±ðÄÃ³öÀ´··Âô¡£\n";
 
-        if (goods->is_character()) 
+        if (goods->is_character())
                 return "Äã²»ÄÜ··Âô»îÎï¡£\n";
 
-        if (goods->query("money_id")) 
+        if (goods->query("money_id"))
                 return "Äã°ÑÇ®Ò²ÄÃÀ´³öÊÛ£¿\n";
 
-        if (room->query("all_vendor_goods") >= 80) 
+        if (room->query("all_vendor_goods") >= 80)
                 return "ÄãµêÆÌÉÏµÄ¶«Î÷Ì«¶àÁË£¬ÏÈÊÕ¼¸ÖÖ»õÎïÔÙ°Ú°É¡£\n";
 
         all_goods = room->query("vendor_goods");
 
         if (! all_goods)
                 all_goods = ([ ]);
- 
+
         all_goods_num = room->query("vendor_goods_num");
- 
+
         if (! all_goods_num)
                 all_goods_num = ([ ]);
 
@@ -677,7 +677,7 @@ public string do_stock(object ob, object me, string arg)
                        HIW "¡»±êÉÏ" HIY + MONEY_D->price_str(value) +
                        HIW "µÄ¼Û¸ñ¿ªÊ¼³öÊÛ¡£\n" NOR, me);
         room->save();
-        if (goods->query_amount() && goods->query_amount() > 1) 
+        if (goods->query_amount() && goods->query_amount() > 1)
         {
                 goods->set_amount((int)goods->query_amount() - 1);
                 obj2 = new(base_name(goods));
@@ -702,7 +702,7 @@ public string do_unstock(object ob, object me, string arg)
         if (! arg)
                 return "Ö¸Áî¸ñÊ½£ºunstock <»õÎï>\n";
 
-        if (! room->query("all_vendor_goods")) 
+        if (! room->query("all_vendor_goods"))
                 return "ÄãÏÖÔÚ»¹Ã»ÓÐ°ÚÉÏÈÎºÎ»õÎï¡£\n";
 
         all_goods = room->query("vendor_goods");
@@ -725,13 +725,13 @@ public string do_unstock(object ob, object me, string arg)
 
         if (arrayp(goods_key))
         {
-                for (i = 0; i < sizeof(goods_key); i++) 
+                for (i = 0; i < sizeof(goods_key); i++)
                 {
-                        if (goods_key[i]->id(arg)) 
+                        if (goods_key[i]->id(arg))
                                 ob_file = goods_key[i];
                         else
 
-                        if (filter_color(goods_key[i]->name(1)) == arg) 
+                        if (filter_color(goods_key[i]->name(1)) == arg)
                                 ob_file = goods_key[i];
                 }
         }
@@ -753,7 +753,7 @@ public string do_unstock(object ob, object me, string arg)
 
         message_vision(HIW "$N" HIW "½«¡º" HIG + goods->name(1) +
                        HIW "¡»´Ó»õ¼ÜÉÏÈ¡ÏÂÀ´²»ÂôÁË¡£\n" NOR, me);
-   
+
         room->set("vendor_goods", all_goods);
         room->set("vendor_goods_num", all_goods_num);
         room->save();
@@ -790,7 +790,7 @@ public string do_list(object ob, object me, string arg)
             member_array(me->query("id"), room->query("ban")) != -1)
                 return "ÄãÊÇÕâ¼ÒµêÆÌ²»ÊÜ»¶Ó­µÄÈËÎï£¬ÎÞ·¨¹ºÂò¶«Î÷¡£\n";
 
-        if (! room->query("all_vendor_goods")) 
+        if (! room->query("all_vendor_goods"))
                 return "ÏÖÔÚ" + room->short() + "Ä¿Ç°²¢Ã»"
                        "ÓÐ³öÊÛÈÎºÎ»õÎï¡£\n";
 
@@ -807,7 +807,7 @@ public string do_list(object ob, object me, string arg)
         count   = ([]);
         unit    = ([]);
         price   = ([]);
-       
+
         gks = keys(goods);
         for (i = 0; i < sizeof(gks); i++)
         {
@@ -843,14 +843,14 @@ public string do_list(object ob, object me, string arg)
                 int p;
                 p = price[dk[i]];
                 msg += sprintf("%" + sprintf("%d", (30 + color_len(dk[i]))) +
-                               "-s£ºÃ¿%s%s" CYN "(ÏÖ»õ%s)\n" NOR, 
+                               "-s£ºÃ¿%s%s" CYN "(ÏÖ»õ%s)\n" NOR,
                                dk[i], unit[dk[i]], MONEY_D->price_str(p),
                                chinese_number(count[dk[i]]) + unit[dk[i]]);
         }
 
         msg += "-------------------------------------------------------\n";
 
-        if (me->query("id") == room->query("owner")) 
+        if (me->query("id") == room->query("owner"))
                 msg += "×Ü¹²" + chinese_number(room->query("all_vendor_goods")) +
                        "¼þ»õÎï¡£\n";
 
@@ -860,7 +860,7 @@ public string do_list(object ob, object me, string arg)
                        HIW "ÕÛ" NOR + WHT "µÄÓÅ»Ý¡£\n" NOR;
 
         return msg;
-}       
+}
 
 public int do_buy(object obj, object me, string arg)
 {
@@ -919,13 +919,13 @@ public int do_buy(object obj, object me, string arg)
 
         if (arrayp(goods_key))
         {
-                for (i = 0; i < sizeof(goods_key); i++) 
+                for (i = 0; i < sizeof(goods_key); i++)
                 {
-                        if (goods_key[i]->id(arg)) 
+                        if (goods_key[i]->id(arg))
                                 ob_file = goods_key[i];
                         else
 
-                        if (filter_color(goods_key[i]->name(1)) == arg) 
+                        if (filter_color(goods_key[i]->name(1)) == arg)
                                 ob_file = goods_key[i];
                 }
         }
@@ -944,7 +944,7 @@ public int do_buy(object obj, object me, string arg)
 
         ob = new(ob_file);
         call_out("destruct_it", 0, ob);
- 
+
         switch (player_pay(me, obj, value))
         {
         case 0:
@@ -965,14 +965,14 @@ public int do_buy(object obj, object me, string arg)
                                         me, obj);
                 } else
                 {
-                        message_vision("$N´Ó$nÄÇÀïÂòÏÂÁËÒ»" + ob->query("unit") + 
+                        message_vision("$N´Ó$nÄÇÀïÂòÏÂÁËÒ»" + ob->query("unit") +
                                        ob->query("name") + "¡£\n", me, obj);
                 }
- 
+
                 ob->move(me, 1);
                 goods_num[ob_file] -= 1;
 
-                if (goods_num[ob_file] == 0) 
+                if (goods_num[ob_file] == 0)
                 {
                         map_delete(goods, ob_file);
                         map_delete(goods_num, ob_file);
@@ -1018,7 +1018,7 @@ private int player_pay(object who, object target, int amount)
                 cc = c_ob->query_amount();
         else
                 cc = 0;
-        
+
         v = cc + sc * 100 + gc * 10000;
 
         if (amount < 100000 && v < amount)
@@ -1031,7 +1031,7 @@ private int player_pay(object who, object target, int amount)
 
         v += tc * 100000;
 
-        if (v < amount) 
+        if (v < amount)
                 return 0;
         else {
                 left = v - amount;
@@ -1099,7 +1099,7 @@ public string do_jiezhang(object ob, object me)
 {
        int amount;
        object room;
-        
+
        room = environment(ob);
        if (! room->query("shop_type"))
                return "¶Ô²»Æð£¬¸ÃµêÆÌÄ¿Ç°ÒÑ¾­±»Î×Ê¦¹Ø±Õ¡£\n";
@@ -1125,7 +1125,7 @@ public string list_invite(object ob, object me)
         string msg, *invite_key;
         mapping invite;
         object room;
-        
+
         room = environment(ob);
         if (! room->query("shop_type"))
                 return "¶Ô²»Æð£¬¸ÃµêÆÌÄ¿Ç°ÒÑ¾­±»Î×Ê¦¹Ø±Õ¡£\n";
@@ -1196,7 +1196,7 @@ public string list_ban(object ob, object me)
         int i;
         string msg, *ban;
         object room;
-        
+
         room = environment(ob);
 
         if (! room->query("shop_type"))
@@ -1216,7 +1216,7 @@ public string list_ban(object ob, object me)
                 msg += sprintf(CYN "  %s\n" NOR, ban[i]);
         }
         msg += HIC "¡Ô" HIY "©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤©¤" HIC "¡Ô\n" NOR;
-        msg += HIC "×Ü¹²ÓÐ " HIY + sizeof(ban) + HIC " ¸öºÚ»§¡£\n" NOR;        
+        msg += HIC "×Ü¹²ÓÐ " HIY + sizeof(ban) + HIC " ¸öºÚ»§¡£\n" NOR;
         return msg;
 }
 
@@ -1224,12 +1224,12 @@ public string do_ban(object ob, object me, string arg)
 {
         string the_id, type, *ban;
         object room;
-        
+
         room = environment(ob);
 
         if (! room->query("shop_type"))
                return "¶Ô²»Æð£¬¸ÃµêÆÌÄ¿Ç°ÒÑ¾­±»Î×Ê¦¹Ø±Õ¡£\n";
-        
+
         ban = room->query("ban");
 
         if (! ban)
@@ -1248,7 +1248,7 @@ public string do_ban(object ob, object me, string arg)
                 return CYN + ob->name(1) + NOR + CYN "·­¿ªÕÊ²¾»®ÁË»®£¬¶ÔÄã"
                        "ÅâÐ¦µÀ£ºÀÏ°å£¬ÒÑ¾­È¡ÏûÁË " + the_id + " ºÚ»§Éí·Ý¡£\n";
         }
-        
+
         if (member_array(arg, ban) != -1)
                 return CYN + ob->name(1) + NOR + CYN "¼éÐ¦×ÅµÀ£ºÀÏ°å£¬ÄúÍü"
                        "¼ÇÁË£¿ÄÇ" + arg + "ÔçÒÑ±»ÁÐÎªºÚ»§À²¡£\n" NOR;

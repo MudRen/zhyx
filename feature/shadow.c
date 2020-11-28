@@ -1,19 +1,19 @@
 // shadow.c
 
-static object shadowing = 0;
+nosave object shadowing = 0;
 
 object do_shadow(object ob, int flag)
 {
-	shadowing = ob;
+    shadowing = ob;
         return shadow(ob, flag);
 }
 
 void remove_shadow(object ob)
 {
-	if (ob && ob != shadowing)
-		return;
+    if (ob && ob != shadowing)
+        return;
 
-	destruct(this_object());
+    destruct(this_object());
 }
 
 object query_shadow_now()

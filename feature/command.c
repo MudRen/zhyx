@@ -12,7 +12,7 @@
 
 // Let command path be static, thus we can make sure no one can get command
 // path directly from restore_object().
-static string *path;
+nosave string *path;
 
 // Leave this to allow other objects can search your commands such as
 // help, which...
@@ -32,7 +32,7 @@ string remove_leading_space(string arg)
 
 // This is the add_action hook handling movement, commands, emotes and
 // channels. Optimization is needed.
-private nomask int command_hook(string arg)
+protected nomask int command_hook(string arg)
 {
         string verb, file;
         object me;
@@ -123,7 +123,7 @@ int force_me(string cmd)
         return ret;
 }
 
-static int enabled = 0;
+nosave int enabled = 0;
 
 nomask void enable_player()
 {

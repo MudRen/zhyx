@@ -4,7 +4,7 @@
 
 int give_gift(string name);
 
-static mixed *story = ({
+nosave mixed *story = ({
         "华山。",
         "李铁嘴打了个哈欠，百无聊赖。",
         "一人忽然闯了进来，看看李铁嘴，忽然道：你的卦可准？",
@@ -63,4 +63,3 @@ int give_gift(string name)
                               "(" + base_name(environment(ob)) + ")。");
         return 1;
 }
-

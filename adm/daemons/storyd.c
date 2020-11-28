@@ -7,11 +7,11 @@ inherit F_DBASE;
 // 每 10 天刷新故事
 #define REFRESH_TIME    10 * 86400
 
-static string *story_name;
+nosave string *story_name;
 
-static object  running_story;
-static mapping history;
-static int step;
+nosave object  running_story;
+nosave mapping history;
+nosave int step;
 int    filter_listener(object ob);
 
 private void init_story();
@@ -94,15 +94,15 @@ varargs void start_story(string sname)
 
                 CHANNEL_D->do_channel(this_object(), "sys",
                                       "故事系统选择了故事(" + name + ")。");
- 
+
                 all_story -= ({ name });
                 name = STORY_DIR + name;
                 if (ob = find_object(name))
                         destruct(ob);
-        
+
                 catch(ob = load_object(name));
                 running_story = ob;
-        
+
                 if (objectp(ob))
                 {
                         step = 0;

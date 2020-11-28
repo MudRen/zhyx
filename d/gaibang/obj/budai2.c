@@ -4,7 +4,7 @@
 
 inherit SHIELD;
 
-static int amount;
+nosave int amount;
 private void destruct_me() { destruct(this_object()); }
 
 
@@ -20,8 +20,8 @@ void create()
                 set("base_unit", "个");
                 set("base_weight", 500);
                 set("equiped",1);
-                set("armor_prop/armor", 2); 
-                        set("armor_prop/defense", 1); 
+                set("armor_prop/armor", 2);
+                        set("armor_prop/defense", 1);
 
                 set("long", "一只用粗麻布织成的袋子，身上所带布袋的多少，是丐帮弟子江湖地位的标志。\n");
                 set("material", "cloth");
@@ -51,4 +51,3 @@ int do_remove(string arg)
 
         return 0;
 }
-

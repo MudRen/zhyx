@@ -15,8 +15,8 @@
 mapping alias;
 
 // 记录用户输入的信息变量
-static string *history, last_input, orginal_input;
-static int direct_command;
+nosave string *history, last_input, orginal_input;
+nosave int direct_command;
 
 // 最后的输入命令(已经经过ALIAS处理)
 string query_last_input() { return last_input; }
@@ -33,8 +33,8 @@ string process_input(string str)
         object me;
 	int i, j;
 	//屏蔽输入
-	if (userp(this_object()) 
- 	 && (this_object()->query_temp("block/all") || 
+	if (userp(this_object())
+ 	 && (this_object()->query_temp("block/all") ||
              !living(this_object())) )
 		return "";
 
@@ -62,7 +62,7 @@ if (userp(me) && me->is_ghost() && ! me->query("reborn_start/die")
         } else
                 direct_command = 0;
         orginal_input = str;
-	
+
         // attach system ?
         if (me->is_attach_system())
         {
@@ -94,7 +94,7 @@ if (userp(me) && me->is_ghost() && ! me->query("reborn_start/die")
                                        "霎时间乌云密布！一道" HIY "闪电"
 				       HIC "从天而降！\n"
                                        NOR, me);
-			me->unconcious();				
+			me->unconcious();
 
                         // 恢复晕倒前的qi/jing
 			set("qi", cq);

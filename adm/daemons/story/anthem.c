@@ -2,13 +2,13 @@
 
 #include <ansi.h>
 
-static string char_id;
-static string char_name;
+nosave string char_id;
+nosave string char_name;
 
 object select_character();
 int give_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "松井石根：快说，八路军的哪里？说了，金条的有。",
         "$N[$ID]：...",
         "松井石根：说！不说，死啦死啦的！",
@@ -82,4 +82,3 @@ int give_gift()
                               "领悟了义勇军进行曲。");
         return 1;
 }
-

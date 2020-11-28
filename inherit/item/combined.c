@@ -8,7 +8,7 @@ inherit F_DBASE;
 inherit F_MOVE;
 inherit F_NAME;
 
-static int amount;
+nosave int amount;
 
 void setup()
 {
@@ -18,7 +18,7 @@ void setup()
 
 int query_amount() { return amount; }
 
-private void destruct_me() { destruct(this_object()); }
+protected void destruct_me() { destruct(this_object()); }
 
 void set_amount(int v)
 {

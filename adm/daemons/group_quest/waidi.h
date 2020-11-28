@@ -8,9 +8,9 @@ int not_wizard(object ob);
 string eur_nation();
 string ind_nation();
 
-static mixed *story;
+nosave mixed *story;
 
-static string *special_stone = ({
+nosave string *special_stone = ({
         "/clone/gift/cjade",
         "/clone/gift/cagate",
         "/clone/gift/ccrystal",
@@ -31,7 +31,7 @@ mapping place_npcfile = ([
         "大理一带" : "/d/dali/npc/",
 ]);
 
-static string *all_jiuming = ({
+nosave string *all_jiuming = ({
         "带着哭腔叫喊：『强盗！强盗啊！！』",
         "声嘶力竭地大喊：『杀人啦！救命啊！！』",
         "狂吼：『你们不让我活，我就跟你们拼了！！』",
@@ -45,7 +45,7 @@ static string *all_jiuming = ({
         "抽出兵器，挡在胸口，拨开人群上前探个究竟。",
 });
 
-static string *woman_jiuming = ({
+nosave string *woman_jiuming = ({
         "声嘶力竭的叫喊：『流氓！流氓啊！！呜呜！！！』",
         "尖声惊叫：『不要，不要啊！救，救命！！』",
         "凄惨地唉声痛哭：『呜呜，我不要活啦，让我死了算了！！』",
@@ -55,7 +55,7 @@ static string *woman_jiuming = ({
         "紧咬牙关，一声不吭，抓起一把刀就冲了出去。",
 });
 
-static mixed *all_story = ({
+nosave mixed *all_story = ({
 ({
         "日子过了一天又一天，福州的海港日夜繁忙，人来人往，熙熙攘攘。",
         "晚风煦暖，吹过这万顷起伏的碧绿海涛，卷起漫天白絮，洋洋洒洒四处飘荡",
@@ -146,4 +146,3 @@ static mixed *all_story = ({
         "各位同胞，团结起来！紧握手中武器，奋勇杀敌，将胆敢侵犯我们中华的敌人全部消灭！",
 }),
 });
-

@@ -7,7 +7,7 @@ void _invocation(object who, int level);
 int exp_reward, pot_reward;
 int other_kee=0, other_sen=0;
 int announced=0;
-static int tick;
+nosave int tick;
 
 object offensive_target(object me)
 {
@@ -125,7 +125,7 @@ void setname1()
 }
 
 
-int cast_chance(int level) 
+int cast_chance(int level)
 {
     return 5+level/2;
 }
@@ -203,7 +203,7 @@ void copy_status(object me,object ob, int lv)
                   me->set_skill(sname[i],max_level);
                 }
 	    set_skills(max_level, lv);
-	    
+
       max_sen=query("max_jing")/2;
       max_kee=query("max_qi")/2;
 	    add("eff_jing",max_sen);
@@ -223,7 +223,7 @@ void copy_status(object me,object ob, int lv)
 	                               // because players have fabao.
 	                               // mana is doubled when copying.
         set("jiali", query_skill("neili")/2);
-	
+
 }
 
 int random_place(object me, string* dirs)
@@ -243,7 +243,7 @@ int random_place(object me, string* dirs)
            j = random(sizeof(file));
            if( file[j][1] > 0 ) {
              newob=load_object(dirs[i]+"/"+file[j][0]);
-             if (newob) {  
+             if (newob) {
                if(newob->query("no_fight") ||
 		       newob->query("no_magic") ||
 		       newob->query("no_mieyao") ||
@@ -265,7 +265,7 @@ int random_place(object me, string* dirs)
 void _leave()
 {
     object me=this_object();
-    
+
     // if in fighting, then don't disappear.
     if(me->is_fighting() || me->is_busy())
 	return;
@@ -274,9 +274,9 @@ void _leave()
 
 void leave()
 {
-      if(this_object()) { 
+      if(this_object()) {
         if(environment())
-          message("vision",HIB + name() + 
+          message("vision",HIB + name() +
 		  "身子一晃笑道:还没人来吗?那我走了。\n" NOR,environment());
 	this_object()->move("/u/yuchang/workroom");
 	call_out("leave2",1);
@@ -298,12 +298,12 @@ void invocation(object who, int level)
        if(level<9)
          copy_status(me,who, level-2);
        else
-        copy_status(me,who, level);	
-	return _invocation(who, level); 
+        copy_status(me,who, level);
+	return _invocation(who, level);
 }
 
 void _invocation(object who, int level)
-{       
+{
 
 	object me=this_object();
         int exp, i, lvl;
@@ -320,9 +320,9 @@ void _invocation(object who, int level)
 	    set("type","aggressive_on_owner");
 	} else if(i<320) {
 	    set("type","aggressive_on_owner1");
-	} else 
+	} else
 	    set("type","normal");
-	
+
 	if(random(10)==0) {
 	    set("env/wimpy",40);
 	    if(lvl<11) lvl=lvl+1; // as more difficult to kill.
@@ -332,7 +332,7 @@ void _invocation(object who, int level)
 
 	// determine reward
 	exp=who->query("combat_exp");
-	        
+
         if(exp<1000000) {
             exp_reward=200+(exp/2000);
 	    pot_reward=100+(exp/20000);
@@ -340,13 +340,13 @@ void _invocation(object who, int level)
        else if(exp<12500000) {
             exp_reward=200+((to_int(sqrt(to_float(exp))))/2);
 	    pot_reward=50+((to_int(sqrt(to_float(exp))))/10);
-	} 
+	}
 	else {
 	    exp_reward=2000;
 	    pot_reward=400;
 	}
 
-      
+
 	pot_reward=pot_reward*(lvl+1)/10;
 	exp_reward=exp_reward*(lvl+1)/10;
 
@@ -378,9 +378,9 @@ void check_room()
     object me=this_object();
     object env=environment(me);
     if(!living(me)) return;
-    if(env && (env->query("no_fight")))  
+    if(env && (env->query("no_fight")))
     random_move();
-    
+
 }
 
 void init()
@@ -395,7 +395,7 @@ void init()
 
     ::init();
     t=query("stay_time");
-    
+
     // if overtime too long, then destroy. mon 7/14/99
     if(t && time()>(t+3600)) {
 	remove_call_out("leave");
@@ -407,7 +407,7 @@ void init()
 	remove_call_out("_leave");
 	call_out("_leave",300);
     }
-    
+
     if(!userp(this_player())) return;
     if(!living(this_object())) return;
     type=query("type");
@@ -468,12 +468,12 @@ void init()
 }
 
 int do_block(string arg)
-{	
+{
     object me=this_object();
     object who=this_player();
     string verb=query_verb();
     int t;
-    
+
     if(wizardp(who) && !visible(who)) return 0;
     if(me->is_fighting()) return 0;
 
@@ -499,8 +499,8 @@ int do_block(string arg)
 	message_vision("$N猛地跳过来拦在$n面前，高声叫道：\n"+
 		"          此山是我开，此树是我栽！\n"+
 		"          要打此路过，留下买路财！\n\n",me,who);
-    } 
-    
+    }
+
     tell_object(who,me->name()+"一把抓住了你！\n");
     return 1;
 }
@@ -523,11 +523,11 @@ void die()
         int i ,myexp,level,quest_x;
 
 	object killer = query_last_damage_from();
-       
+
         owner = query("owner");
 				owner_ob = find_player(owner);
-				
-   if( owner = killer->query("id")) 
+
+   if( owner = killer->query("id"))
      {
 		    max_kee=query("max_qi");
 		    max_sen=query("max_jing");
@@ -536,15 +536,15 @@ void die()
 		    ratio=ratio*(max_sen-other_sen)/max_sen;
 		    if(ratio<0) ratio=0;
                    //增加任务奖励系数 add by wsw  20051015
-					QUESTS_D->add_quest("li",1);
-                   quest_x = QUESTS_D->query_quest_x("li");
-                   
+					QUEST_D->add_quest("li",1);
+                   quest_x = QUEST_D->query_quest_x("li");
+
                     exp_r=(exp_reward*ratio/100)*quest_x/1000;
                     pot_r=(pot_reward*ratio/100)*quest_x/1000;
-                    tihui_r=(pot_reward*ratio/200)*quest_x/2000; 
-                    sc_r=(pot_reward*ratio/100)*quest_x/1000;                                                        
-    
-	    
+                    tihui_r=(pot_reward*ratio/200)*quest_x/2000;
+                    sc_r=(pot_reward*ratio/100)*quest_x/1000;
+
+
 //随机掉钱 huarong 2004/3
         myexp=this_object()->query("combat_exp",1);
         if(myexp <  500000) i=0;
@@ -562,7 +562,7 @@ void die()
         }
         else
         {
-          silver->set_amount(random(i*5)+20+(level-5)*5);   
+          silver->set_amount(random(i*5)+20+(level-5)*5);
       if (random(10)>7)
         {
           gold=new("/clone/money/gold");
@@ -573,9 +573,9 @@ void die()
         }
         if ( silver->move(environment(owner_ob)) )
         message_vision("$N丢下了一"+silver->query("unit")+silver->query("name")+"。\n",me);
-        
+
          message_vision(death_msg[random(sizeof(death_msg))],owner_ob,this_object());
-		    
+
 		    str=" got "+exp_r+"/"+exp_reward+" exp "+
 			pot_r+"/"+pot_reward+" pot "+
 			" in level "+ owner_ob->query_temp("mieyao/level")+
@@ -592,24 +592,24 @@ void die()
 		if (owner_ob->query_temp("mieyao/level")==9) owner_ob->add("PKSS",-1);
                     owner_ob->add("combat_exp",exp_r*8);
                     owner_ob->add("potential",pot_r*5);
-                    owner_ob->add("experience",exp_r*3);                
-		    owner_ob->add("score",exp_r*5);	
-                    owner_ob->add("gongxian",exp_r*2);  
+                    owner_ob->add("experience",exp_r*3);
+		    owner_ob->add("score",exp_r*5);
+                    owner_ob->add("gongxian",exp_r*2);
 		    tell_object(owner_ob, "你得到了"+chinese_number(exp_r*8)
 			    +"点武学经验和"+chinese_number(pot_r*5)+
 			    "点潜能!体会和阅历,贡献也有所提高\n");
 	            owner_ob->set("mieyao/done",1);
 
 	//产生装备
-	if (owner_ob->query_temp("mieyao/level")>3)
-	 {
-	     if (killer) err=catch(newitem=NEWITEMS_OB->get_item(me,killer));
-	     if (!err&&newitem) 
-	     {
-		message_vision("$N丢下了一"+newitem->query("unit")+newitem->query("name")+"。\n",me);
-		newitem->move(environment(me));
-	     }
-	 }	    
+	// if (owner_ob->query_temp("mieyao/level")>3)
+	//  {
+	//      if (killer) err=catch(newitem=NEWITEMS_OB->get_item(me,killer));
+	//      if (!err&&newitem)
+	//      {
+	// 	message_vision("$N丢下了一"+newitem->query("unit")+newitem->query("name")+"。\n",me);
+	// 	newitem->move(environment(me));
+	//      }
+	//  }
     }
   else
    {
@@ -624,13 +624,13 @@ varargs int receive_wound(string type, int damage, object who)
 {
     string owner=query("owner");
     object inv;
-    
+
     if(who && who->query("id")!=owner)
     {
        if(userp(who) || ((inv=who->query_temp("invoker")) && inv->query("id")!=owner))
        {
 	   // can't use other's NPC to help kill.
-	 if(damage>0) 
+	 if(damage>0)
            {
 	     switch(type)
               {
@@ -647,15 +647,15 @@ varargs int receive_damage(string type, int damage, object who)
 {
     string owner=query("owner");
     object inv;
-    
-    if(who && who->query("id")!=owner) 
+
+    if(who && who->query("id")!=owner)
     {
        if(userp(who) || ((inv=who->query_temp("invoker")) && inv->query("id")!=owner))
        {
 	   // can't use other's NPC to help kill.
-	 if(damage>0) 
+	 if(damage>0)
           {
-	    switch(type) 
+	    switch(type)
              {
 		case "qi": other_kee+=damage; break;
 		case "jing": other_sen+=damage; break;
@@ -676,10 +676,10 @@ int attack()
 	opponent = select_opponent();
 	if( objectp(opponent) ) {
 	        string owner=query("owner");
-		
+
 		// if the owner faints, then will not attack
 		// and leave. -- mon 3/8/99
-		if(opponent->query("id")==owner 
+		if(opponent->query("id")==owner
 			&& userp(opponent)
                         && !living(opponent) ) {
 //huarong 2004/7
@@ -718,7 +718,7 @@ void heart_beat()
         if (i>8) i=8;
 	if ( tick--  ) return;
 	else
-	 {  
+	 {
 	   if (i<5) tick = 5;
 	   else tick=5-(i-4);
 	 }
@@ -737,137 +737,137 @@ exp(万)  lvl
  650      6
  820      7
 1010      8
-         
+
 */
-        if( i>=5 && random(4)==1) command("exert recover");//玩家500万exp以后，怪开始随机吸气 
-                  
+        if( i>=5 && random(4)==1) command("exert recover");//玩家500万exp以后，怪开始随机吸气
+
 if(query("family/family_name") == "欧阳世家")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform zhen "+me->query("id"));
 		command("perform zhen");break;
 	  case 1:
 		command("perform puji "+me->query("id"));
 		command("perform puji");break;
-          case 2:                     
+          case 2:
 		command("perform hama "+me->query("id"));
 		command("perform hama");break;
 	  case 3:
                 command("perform puji "+me->query("id"));
                 command("perform puji");break;
-          case 4:                     
+          case 4:
                 command("perform hama "+me->query("id"));
                 command("perform hama");break;
           case 5:
                 command("perform zhen "+me->query("id"));
                 command("perform zhen");break;
-          case 6:  
+          case 6:
                 command("perform hama");break;
           default: return 0;
 	}
 
    }
 if(query("family/family_name") == "明教")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.lian "+me->query("id"));
 		command("perform sword.lian");break;
 	  case 1:
 		command("perform sword.xi "+me->query("id"));
 		command("perform sword.xi");break;
-          case 2:                     
+          case 2:
 		command("perform sword.hua "+me->query("id"));
 		command("perform sword.hua");break;
 	  case 3:
                 command("perform sword.can "+me->query("id"));
                 command("perform sword.can");break;
-          case 4:                     
+          case 4:
                 command("perform cuff.shang "+me->query("id"));
                 command("perform cuff.shang");break;
           case 5:
                 command("perform cuff.fei "+me->query("id"));
                 command("perform cuff.fei");break;
-          case 6:  
+          case 6:
                 command("perform sword.can");break;
           default: return 0;
 	}
 
-   }   
+   }
 if(query("family/family_name") == "少林派")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.sanjue "+me->query("id"));
 		command("perform sword.sanjue");break;
 	  case 1:
 		command("perform sword.shang "+me->query("id"));
 		command("perform sword.shang");break;
-          case 2:                     
+          case 2:
 		command("perform sword.luan "+me->query("id"));
 		command("perform sword.luan");break;
 	  case 3:
                 command("perform sword.sanjue "+me->query("id"));
                 command("perform sword.sanjue");break;
-          case 4:                     
+          case 4:
                 command("perform strike.san "+me->query("id"));
                 command("perform strike.san");break;
           case 5:
                 command("perform sword.zhe "+me->query("id"));
                 command("perform sword.zhe");break;
-          case 6:  
+          case 6:
                 command("perform sword.sanjue");break;
           default: return 0;
 	}
 
-   }   
+   }
 if(query("family/family_name") == "桃花岛")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.tian "+me->query("id"));
 		command("perform sword.tian");break;
 	  case 1:
 		command("perform sword.bihai "+me->query("id"));
 		command("perform sword.bihai");break;
-          case 2:                     
+          case 2:
 		command("perform sword.qing "+me->query("id"));
 		command("perform sword.qing");break;
 	  case 3:
                 command("perform finger.ding "+me->query("id"));
                 command("perform finger.ding");break;
-          case 4:                     
+          case 4:
                 command("perform finger.xiao "+me->query("id"));
                 command("perform finger.xiao");break;
           case 5:
                 command("perform sword.tian "+me->query("id"));
                 command("perform sword.tian");break;
-          case 6:  
+          case 6:
                 command("perform sword.tian");break;
           default: return 0;
 	}
 
-   }      
+   }
 if(query("family/family_name") == "古墓派")
-   {                              
+   {
       if(!ob->query_temp("powerup")&& me->query_skill("force")>249) command("yun powerup");
         if (k>7) k=7;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.lian "+me->query("id"));
 		command("perform sword.lian");break;
           case 1:
@@ -881,13 +881,13 @@ if(query("family/family_name") == "古墓派")
 	  case 4:
                 command("perform sword.lian "+me->query("id"));
                 command("perform sword.lian");break;
-          case 5:                     
+          case 5:
                 command("perform unarmed.you "+me->query("id"));
                 command("perform unarmed.you");break;
-          case 6:                     
+          case 6:
                 command("perform strike.wang "+me->query("id"));
                 command("perform strike.wang");break;
-          case 7: 
+          case 7:
                 command("perform sword.he "+me->query("id"));
                 command("perform sword.he");break;
           default: return 0;
@@ -895,20 +895,20 @@ if(query("family/family_name") == "古墓派")
 
    }
 if(query("family/family_name") == "武当派")
-   {                              
+   {
       if(!ob->query_temp("powerup")&& me->query_skill("force")>149) command("yun powerup");
         if (k>7) k=7;
         switch(k)
       	{
-          case 0:                     
+          case 0:
                 command("perform sword.chan "+me->query("id"));
                 command("perform sword.chan");break;
-          case 1: 
+          case 1:
 		command("perform sword.chan");break;
 	  case 2:
 		command("perform sword.jia "+me->query("id"));
 		command("perform sword.jia");break;
-          case 3:                     
+          case 3:
 		command("perform sword.zhuan "+me->query("id"));
 		command("perform sword.zhuan");break;
           default: return 0;
@@ -917,12 +917,12 @@ if(query("family/family_name") == "武当派")
 }
 
 if(query("family/family_name") == "华山派")
-   {                              
+   {
       if(!ob->query_temp("powerup")&& me->query_skill("force")>249) command("yun powerup");
         if (k>7) k=7;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.jie "+me->query("id"));
 		command("perform sword.jie");break;
           case 1:
@@ -936,13 +936,13 @@ if(query("family/family_name") == "华山派")
 	  case 4:
                 command("cuff.leidong "+me->query("id"));
                 command("cuff.leidong");break;
-          case 5:                     
+          case 5:
                 command("cuff.poshi "+me->query("id"));
                 command("cuff.poshi");break;
-          case 6:                     
+          case 6:
                 command("perform sword.jie "+me->query("id"));
                 command("perform sword.jie");break;
-          case 7: 
+          case 7:
                 command("perform sword.jianzhang "+me->query("id"));
                 command("perform sword.jianzhang");break;
           default: return 0;
@@ -950,539 +950,539 @@ if(query("family/family_name") == "华山派")
 
    }
 if(query("family/family_name") == "峨嵋派")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.mie "+me->query("id"));
 		command("perform sword.mie");break;
 	  case 1:
 		command("perform sword.jue "+me->query("id"));
 		command("perform sword.jue");break;
-          case 2:                     
+          case 2:
 		command("perform sword.mie "+me->query("id"));
 		command("perform sword.mie");break;
 	  case 3:
                 command("perform sword.jue "+me->query("id"));
                 command("perform sword.jue");break;
-          case 4:                     
+          case 4:
                 command("perform sword.mie "+me->query("id"));
                 command("perform sword.mie");break;
           case 5:
                 command("perform finger.ling "+me->query("id"));
                 command("perform finger.ling");break;
-          case 6:  
+          case 6:
                 command("perform sword.mie");break;
           default: return 0;
 	}
 
-   } 
+   }
 if(query("family/family_name") == "慕容世家")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform blade.feng "+me->query("id"));
 		command("perform blade.feng");break;
 	  case 1:
 		command("perform blade.feng "+me->query("id"));
 		command("perform blade.feng");break;
-          case 2:                     
+          case 2:
 		command("perform cuff.zhai "+me->query("id"));
 		command("perform cuff.zhai");break;
 	  case 3:
                 command("perform blade.feng "+me->query("id"));
                 command("perform blade.feng");break;
-          case 4:                     
+          case 4:
                 command("perform cuff.zhai "+me->query("id"));
                 command("perform cuff.zhai");break;
           case 5:
                 command("perform blade.feng "+me->query("id"));
                 command("perform blade.feng");break;
-          case 6:  
+          case 6:
                 command("perform cuff.zhai");break;
           default: return 0;
 	}
 
-   } 
+   }
 if(query("family/family_name") == "逍遥派")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.sheng "+me->query("id"));
 		command("perform sword.sheng");break;
 	  case 1:
 		command("perform sword.liu "+me->query("id"));
 		command("perform sword.liu");break;
-          case 2:                     
+          case 2:
 		command("perform hand.hai "+me->query("id"));
 		command("perform hand.hai");break;
 	  case 3:
                 command("perform strike.huan "+me->query("id"));
                 command("perform strike.huan");break;
-          case 4:                     
+          case 4:
                 command("perform sword.liu "+me->query("id"));
                 command("perform sword.liu");break;
           case 5:
                 command("perform sword.sheng "+me->query("id"));
                 command("perform sword.sheng");break;
-          case 6:  
+          case 6:
                 command("perform sword.sheng");break;
           default: return 0;
 	}
 
-   }  
+   }
 if(query("family/family_name") == "丐帮")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform staff.chuo "+me->query("id"));
 		command("perform staff.chuo");break;
 	  case 1:
 		command("perform staff.chan "+me->query("id"));
 		command("perform staff.chan");break;
-          case 2:                     
+          case 2:
 		command("perform staff.ban "+me->query("id"));
 		command("perform staff.ban");break;
 	  case 3:
                 command("perform staff.ban "+me->query("id"));
                 command("perform staff.ban");break;
-          case 4:                     
+          case 4:
                 command("perform staff.chan "+me->query("id"));
                 command("perform staff.chan");break;
           case 5:
                 command("perform staff.feng "+me->query("id"));
                 command("perform staff.feng");break;
-          case 6:  
+          case 6:
                 command("perform staff.feng");break;
           default: return 0;
 	}
 
-   }    
+   }
 if(query("family/family_name") == "段氏皇族")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform finger.dian "+me->query("id"));
 		command("perform finger.dian");break;
 	  case 1:
 		command("perform finger.jian "+me->query("id"));
 		command("perform finger.jian");break;
-          case 2:                     
+          case 2:
 		command("perform finger.qian "+me->query("id"));
 		command("perform finger.qian");break;
 	  case 3:
                 command("perform finger.dian "+me->query("id"));
                 command("perform finger.dian");break;
-          case 4:                     
+          case 4:
                 command("perform finger.qian "+me->query("id"));
                 command("perform finger.qian");break;
           default: return 0;
 	}
 
-   }     
+   }
 if(query("family/family_name") == "红花会")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform whip.qian "+me->query("id"));
 		command("perform whip.qian");break;
 	  case 1:
 		command("perform whip.fu "+me->query("id"));
 		command("perform whip.fu");break;
-          case 2:                     
+          case 2:
 		command("perform dodge.hua "+me->query("id"));
 		command("perform dodge.hua");break;
 	  case 3:
                 command("perform unarmed.hong "+me->query("id"));
                 command("perform unarmed.hong");break;
-          case 4:                     
+          case 4:
                 command("perform unarmed.luan "+me->query("id"));
                 command("perform unarmed.luan");break;
           case 5:
                 command("perform unarmed.yi "+me->query("id"));
                 command("perform unarmed.yi");break;
-          case 6:  
+          case 6:
                 command("perform dodge.hua");break;
           default: return 0;
 	}
 
-   }     
+   }
 if(query("family/family_name") == "星宿派")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform staff.fugu "+me->query("id"));
 		command("perform staff.fugu");break;
 	  case 1:
 		command("perform staff.xue "+me->query("id"));
 		command("perform staff.xue");break;
-          case 2:                     
+          case 2:
 		command("perform strike.shi "+me->query("id"));
 		command("perform strike.shi");break;
 	  case 3:
                 command("perform strike.dan "+me->query("id"));
                 command("perform strike.dan");break;
-          case 4:                     
+          case 4:
                 command("perform claw.zhua "+me->query("id"));
                 command("perform claw.zhua");break;
           case 5:
                 command("perform strike.shi "+me->query("id"));
                 command("perform strike.shi");break;
-          case 6:  
+          case 6:
                 command("perform staff.fugu");break;
           default: return 0;
 	}
 
-   }      
+   }
 if(query("family/family_name") == "雪山寺")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform hammer.po "+me->query("id"));
 		command("perform hammer.po");break;
 	  case 1:
 		command("perform hammer.yuan "+me->query("id"));
 		command("perform hammer.yuan");break;
-          case 2:                     
+          case 2:
 		command("perform hammer.lian "+me->query("id"));
 		command("perform hammer.lian");break;
 	  case 3:
                 command("perform unarmed.tun "+me->query("id"));
                 command("perform unarmed.tun");break;
-          case 4:                     
+          case 4:
                 command("perform unarmed.ji "+me->query("id"));
                 command("perform unarmed.ji");break;
           case 5:
                 command("perform unarmed.die "+me->query("id"));
                 command("perform unarmed.die");break;
-          case 6:  
+          case 6:
                 command("perform hammer.lian");break;
           default: return 0;
 	}
 
-   }     
+   }
 if(query("family/family_name") == "血刀门")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform blade.shi "+me->query("id"));
 		command("perform blade.shi");break;
 	  case 1:
 		command("perform blade.chi "+me->query("id"));
 		command("perform blade.chi");break;
-          case 2:                     
+          case 2:
 		command("perform blade.xue "+me->query("id"));
 		command("perform blade.xue");break;
 	  case 3:
                 command("perform blade.ying "+me->query("id"));
                 command("perform blade.ying");break;
-          case 4:                     
+          case 4:
                 command("perform cuff.jiang "+me->query("id"));
                 command("perform cuff.jiang");break;
           case 5:
                 command("perform hand.yin "+me->query("id"));
                 command("perform hand.yin");break;
-          case 6:  
+          case 6:
                 command("perform blade.ying");break;
           default: return 0;
 	}
 
-   }    
+   }
 if(query("family/family_name") == "关外胡家")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform blade.zhui "+me->query("id"));
 		command("perform blade.zhui");break;
 	  case 1:
 		command("perform blade.xian "+me->query("id"));
 		command("perform blade.xian");break;
-          case 2:                     
+          case 2:
 		command("perform blade.cang "+me->query("id"));
 		command("perform blade.cang");break;
 	  case 3:
                 command("perform dodge.fei "+me->query("id"));
                 command("perform dodge.fei");break;
-          case 4:                     
+          case 4:
                 command("perform throwing.shan "+me->query("id"));
                 command("perform throwing.shan");break;
           case 5:
                 command("perform throwing.xin "+me->query("id"));
                 command("perform throwing.xin");break;
-          case 6:  
+          case 6:
                 command("perform dodge.fei");break;
           default: return 0;
 	}
 
-   }    
+   }
 if(query("family/family_name") == "神龙教")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform strike.hua "+me->query("id"));
 		command("perform strike.hua");break;
 	  case 1:
 		command("perform hand.xian "+me->query("id"));
 		command("perform hand.xian");break;
-          case 2:                     
+          case 2:
 		command("perform strike.hua "+me->query("id"));
 		command("perform strike.hua");break;
 	  case 3:
                 command("perform hand.xian "+me->query("id"));
                 command("perform hand.xian");break;
-          case 4:                     
+          case 4:
                 command("perform strike.hua "+me->query("id"));
                 command("perform strike.hua");break;
           case 5:
                 command("perform hand.xian "+me->query("id"));
                 command("perform hand.xian");break;
-          case 6:  
+          case 6:
                 command("perform strike.hua");break;
           default: return 0;
 	}
 
-   }   
+   }
 if(query("family/family_name") == "昆仑派")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.riyue "+me->query("id"));
 		command("perform sword.riyue");break;
 	  case 1:
 		command("perform sword.ni "+me->query("id"));
 		command("perform sword.ni");break;
-          case 2:                     
+          case 2:
 		command("perform sword.qian "+me->query("id"));
 		command("perform sword.qian");break;
 	  case 3:
                 command("perform cuff.shi "+me->query("id"));
                 command("perform cuff.shi");break;
-          case 4:                     
+          case 4:
                 command("perform strike.kong "+me->query("id"));
                 command("perform strike.kong");break;
           case 5:
                 command("perform sword.riyue "+me->query("id"));
                 command("perform sword.riyue");break;
-          case 6:  
+          case 6:
                 command("perform sword.riyue");break;
           default: return 0;
 	}
 
-   }   
+   }
 if(query("family/family_name") == "绝情谷")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.heng "+me->query("id"));
 		command("perform sword.heng");break;
 	  case 1:
 		command("perform sword.huan "+me->query("id"));
 		command("perform sword.huan");break;
-          case 2:                     
+          case 2:
 		command("perform strike.hun "+me->query("id"));
 		command("perform strike.hun");break;
 	  case 3:
                 command("perform strike.wan "+me->query("id"));
                 command("perform strike.wan");break;
-          case 4:                     
+          case 4:
                 command("perform sword.huan "+me->query("id"));
                 command("perform sword.huan");break;
           case 5:
                 command("perform sword.heng "+me->query("id"));
                 command("perform sword.heng");break;
-          case 6:  
+          case 6:
                 command("perform sword.heng");break;
           default: return 0;
 	}
 
-   }    
+   }
 if(query("family/family_name") == "五毒教")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform whip.bohu "+me->query("id"));
 		command("perform whip.bohu");break;
 	  case 1:
 		command("perform whip.suo "+me->query("id"));
 		command("perform whip.suo");break;
-          case 2:                     
+          case 2:
 		command("perform whip.pan "+me->query("id"));
 		command("perform whip.pan");break;
 	  case 3:
                 command("perform claw.lian "+me->query("id"));
                 command("perform claw.lian");break;
-          case 4:                     
+          case 4:
                 command("perform strike.chan "+me->query("id"));
                 command("perform strike.chan");break;
           case 5:
                 command("perform whip.pan "+me->query("id"));
                 command("perform whip.pan");break;
-          case 6:  
+          case 6:
                 command("perform whip.suo");break;
           default: return 0;
 	}
 
-   } 
+   }
 if(query("family/family_name") == "玄冥谷")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform strike.ying "+me->query("id"));
 		command("perform strike.ying");break;
 	  case 1:
 		command("perform strike.zhe "+me->query("id"));
 		command("perform strike.zhe");break;
-          case 2:                     
+          case 2:
 		command("perform strike.lang "+me->query("id"));
 		command("perform strike.lang");break;
 	  case 3:
                 command("perform strike.ying "+me->query("id"));
                 command("perform strike.ying");break;
-          case 4:                     
+          case 4:
                 command("perform strike.zhe "+me->query("id"));
                 command("perform strike.zhe");break;
           case 5:
                 command("perform strike.lang "+me->query("id"));
                 command("perform strike.lang");break;
-          case 6:  
+          case 6:
                 command("perform strike.lang");break;
           default: return 0;
 	}
 
-   }   
+   }
 if(query("family/family_name") == "铁掌帮")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform strike.long "+me->query("id"));
 		command("perform strike.long");break;
 	  case 1:
 		command("perform strike.lei "+me->query("id"));
 		command("perform strike.lei");break;
-          case 2:                     
+          case 2:
 		command("perform strike.dao "+me->query("id"));
 		command("perform strike.dao");break;
 	  case 3:
                 command("perform strike.yin "+me->query("id"));
                 command("perform strike.yin");break;
-          case 4:                     
+          case 4:
                 command("perform strike.lei "+me->query("id"));
                 command("perform strike.lei");break;
           case 5:
                 command("perform strike.long "+me->query("id"));
                 command("perform strike.long");break;
-          case 6:  
+          case 6:
                 command("perform strike.dao");break;
           default: return 0;
 	}
 
-   }    
+   }
 if(query("family/family_name") == "商家堡")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform blade.mang "+me->query("id"));
 		command("perform blade.mang");break;
 	  case 1:
 		command("perform parry.zhen "+me->query("id"));
 		command("perform parry.zhen");break;
-          case 2:                     
+          case 2:
 		command("perform blade.sha "+me->query("id"));
 		command("perform blade.sha");break;
 	  case 3:
                 command("perform blade.tian "+me->query("id"));
                 command("perform blade.tian");break;
-          case 4:                     
+          case 4:
                 command("perform cuff.gua "+me->query("id"));
                 command("perform cuff.gua");break;
           case 5:
                 command("perform throwing.zhi "+me->query("id"));
                 command("perform throwing.zhi");break;
-          case 6:  
+          case 6:
                 command("perform throwing.xian");break;
           default: return 0;
 	}
 
-   }  
+   }
 if(query("family/family_name") == "雪山派")
-   {                              
+   {
       if(!ob->query_temp("powerup") && me->query_skill("force",1)>249 ) command("exert powerup");
         if (k>6) k=6;
         switch(k)
       	{
-          case 0: 
+          case 0:
 		command("perform sword.hui "+me->query("id"));
 		command("perform sword.hui");break;
 	  case 1:
 		command("perform sword.chu "+me->query("id"));
 		command("perform sword.chu");break;
-          case 2:                     
+          case 2:
 		command("perform sword.feng "+me->query("id"));
 		command("perform sword.feng");break;
 	  case 3:
                 command("perform cuff.san "+me->query("id"));
                 command("perform cuff.san");break;
-          case 4:                     
+          case 4:
                 command("perform cuff.jue "+me->query("id"));
                 command("perform cuff.jue");break;
           case 5:
                 command("perform strike.piao "+me->query("id"));
                 command("perform strike.piao");break;
-          case 6:  
+          case 6:
                 command("perform sword.hui");break;
           default: return 0;
 	}
 
-   }            
+   }
 
 }

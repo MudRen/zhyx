@@ -72,33 +72,33 @@ mapping log_info = ([
     "system_eat_g": 0,
 ]);
 // ---------------- game vars (no save) --------------
-static int GameStat = 0;
-static int valid_gogo_time;
-static int this_bet = 0;
-static int jackpot = 0;
-static int jp_num = 0;
-static int jp_bingo = 0;
-static int t1;
-static int t2;
-static int t3;
-static int total;
-static mapping type_str = ([
+nosave int GameStat = 0;
+nosave int valid_gogo_time;
+nosave int this_bet = 0;
+nosave int jackpot = 0;
+nosave int jp_num = 0;
+nosave int jp_bingo = 0;
+nosave int t1;
+nosave int t2;
+nosave int t3;
+nosave int total;
+nosave mapping type_str = ([
     "da"        :       BIG_STR,
     "xiao"      :       SMALL_STR,
     "dan"       :       SINGLE_STR,
     "shuang"    :       DOUBLE_STR,
     "baozi"     :       BAOZI_STR,
 ]);
-static mapping type_opp = ([
+nosave mapping type_opp = ([
     "da"        :       "xiao",
     "xiao"      :       "da",
     "dan"       :       "shuang",
     "shuang"    :       "dan",
     "baozi"     :       "baozi",
 ]);
-static mapping bet_info = ([ ]);
-static mapping bet_info_jp = ([ ]);
-static string *df_player = ({ });
+nosave mapping bet_info = ([ ]);
+nosave mapping bet_info_jp = ([ ]);
+nosave string *df_player = ({ });
 // -------------- function list -----------------------
         int     query_system_win    ();
         string  system_info_msg     ();
@@ -162,7 +162,7 @@ private void finish_bingo_check()
     object *inv, ob;
     string id;
     int bet, bingo;
-    
+
     inv = all_inventory( this_object() );
     if( !sizeof( inv ) )
         return;
@@ -320,11 +320,11 @@ private void game_start( int stat )
                 jp_num = 6 + random( 10 );      // 这个相对容易中一些。
             else
                 jp_num = 3 + random(16);
-            tell_room( this_object(), 
+            tell_room( this_object(),
                 sprintf( "\n                 %s★%s☆%s★ %s幸%s运  "HIY"%d  %s彩%s金 %s★%s☆%s★\n"
                     +HIW"         本局若开出 "HIR"%d"HIW" 点，则所有买中的玩家都有机会获得奖金！\n\n"NOR,
-                        random_color(), random_color(), random_color(), 
-                        random_color(), random_color(), 
+                        random_color(), random_color(), random_color(),
+                        random_color(), random_color(),
                         jackpot,
                         random_color(), random_color(),
                         random_color(), random_color(), random_color(),
@@ -351,7 +351,7 @@ private void game_start( int stat )
         {
             msg += BAOZI_STR+ HIW"，通吃“大小单双”！";
             game_info[ "opened1" ] = "baozi";       // 设置一个就行
-            game_info[ "opened2" ] = "-----";       // 
+            game_info[ "opened2" ] = "-----";       //
         }
         else
         {
@@ -377,7 +377,7 @@ private void game_start( int stat )
         if( total == jp_num )
             jp_bingo = 1;
         finish_bingo_check();      // 支付奖金。
-        
+
         // 计算新的赔率。如果是豹子，则保持赔率。
         if( game_info[ "opened1" ] != "baozi" )
         {
@@ -497,7 +497,7 @@ string query_now_long2()
     msg += BBLU+HIW"  大小：[ " + sprintf( "%-20s",game_info["last_msg_dx"]) + "]      单双：[ "+sprintf( "%-20s",game_info["last_msg_ds"])+"]  \n"NOR;
     msg += check_percent_str();
     return msg + "\n";
-}    
+}
 
 string query_now_long()
 {
@@ -513,7 +513,7 @@ string look_bugao()
 {
     object me = this_player();
     string msg;
-    msg = 
+    msg =
 "**********************************************************
     赌坊游戏说明  "HIC+DUFANG_VERSION"  Naihe@神州 MUD"NOR"
 
@@ -553,7 +553,7 @@ void init()
 string system_info_msg()
 {
     int t = query_system_win();
-    return sprintf( 
+    return sprintf(
         "(系统现在 %s )  总收入：%d (额外奖励：%d)  总支出：%d (手续消耗：%d)  盈余：%s%d"NOR"  ("HIY"黄金"NOR")\n",
         (BetOn ? HIG"开放中"NOR : HIR"关闭中"NOR),
         log_info["total_bet_g"],

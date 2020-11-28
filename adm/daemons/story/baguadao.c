@@ -2,14 +2,14 @@
 
 #include <ansi.h>
 
-static string char_id;
-static string char_name;
-static string family_name;
+nosave string char_id;
+nosave string char_name;
+nosave string family_name;
 
 int give_gift();
 object select_character();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "胡一刀大笑道：“商剑鸣，到了此时你还是束手就擒吧！”",
         "商剑鸣：“商某与阁下无冤无仇，今日苦苦相逼究是为何？”",
         "胡一刀：“苗家一家上下数十口性命，他们又和你有什么仇？受死吧！”",
@@ -121,5 +121,3 @@ int give_gift()
         STORY_D->remove_story("baguadao");
         return 1;
 }
-
-

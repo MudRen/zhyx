@@ -6,7 +6,7 @@ inherit F_CLEAN_UP;
 
 mixed random_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "某年某月的某一天...",
         "黄帝和炎帝相遇...",
         "黄帝：兄弟，我们都老了！该上仙界了。",
@@ -46,17 +46,17 @@ mixed random_gift()
         obs = filter_array(all_interactive(), (: ! wizardp($1) &&
                                                  environment($1) &&
                                               //   environment($1)->query("outdoors") &&
-                                                 $1->query("gender") == "男性" && 
-                                                 ! $1->query("special_skill/emperor") &&  
-                                                 ! $1->query("special_skill/lonely") &&  
-                                                 ! $1->query("special_skill/queen") &&                                             
+                                                 $1->query("gender") == "男性" &&
+                                                 ! $1->query("special_skill/emperor") &&
+                                                 ! $1->query("special_skill/lonely") &&
+                                                 ! $1->query("special_skill/queen") &&
                                                  ! $1->query("doing") :));
         if (! sizeof(obs))
                 return 0;
 
         ob = obs[random(sizeof(obs))];
-        
-        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )       
+
+        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )
         {
                 msg = HIC "两个装束怪异的老人朝" + ob->name(1) +
                       HIC "仔仔细细端详了半天，最后还是摇摇头走了。" NOR;

@@ -60,7 +60,7 @@ private mapping seq_entries;
 // Used for debugging
 #ifdef DEBUG
 #  define debug(x) if(monitor) message("diagnostic", (x), monitor)
-static object monitor = 0;
+nosave object monitor = 0;
 #else
 #  define debug(x)
 #endif
@@ -195,7 +195,7 @@ void read_callback(int sock, string msg, string addr)
 	args["HOSTADDRESS"] = addr;
 
 	// some muds don 't send their name out in a network friendly form
-	if (args["NAME"]) 
+	if (args["NAME"])
 		args["ALIAS"] = htonn(args["NAME"]);
 
 	// we have received a message from someone, so we clear their
@@ -255,7 +255,7 @@ void init_database()
 {
 	int i;
 	string message, *list;
- 
+
 	// if we have received any muds then we stop starting up.
 	if( MUDLIST_A->query_db_flag() ) {
     	// start call outs - note we do the sequence clean up
@@ -297,7 +297,7 @@ void refresh_database()
 	call_out("refresh_database", REFRESH_INTERVAL);
 	list = values( LISTNODES );
 	i = sizeof( list );
-  
+
 	while( i-- ) {
 		sscanf( list[i], "%s %d", bootsrv[0], bootsrv[1] );
 		MUDLIST_Q->send_mudlist_q(bootsrv[0], bootsrv[1]);
@@ -347,7 +347,7 @@ void set_mud_info(string name, mapping junk)
 	if( !(ACCESS_CHECK(previous_object()))
 	&&	file_name(previous_object())[0..strlen(AUX_PATH) - 1] != AUX_PATH)
 		return;
-  
+
 	name = htonn( name );
 	while( name[strlen(name)-1] == '.' ) name = name[ 0..strlen(name)-2 ];
 

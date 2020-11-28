@@ -11,7 +11,7 @@ bunch create_tiaoxin();
 bunch jiuming();
 int not_wizard(object ob);
 
-static mixed *all_story = ({
+nosave mixed *all_story = ({
 ({
         "place，繁华之地，name1，name2，name3一行三人正在逛街。",
         "一个流氓匆忙行路中，撞了name1一下，name1反手一个巴掌抽了过去。",
@@ -180,5 +180,3 @@ static mixed *all_story = ({
         "据说the_enemy正在place集结，气势汹汹，决意要铲平the_party！",
 }),
 });
-
-

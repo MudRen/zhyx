@@ -7,8 +7,8 @@ inherit F_DBASE;
 
 mixed quest_name;
 
-static int destructing;         // 析构对象时候的标志
-static string status;           // 任务对象的状态
+nosave int destructing;         // 析构对象时候的标志
+nosave string status;           // 任务对象的状态
 
 int is_quest() { return clonep(this_object()); }
 
@@ -122,7 +122,7 @@ void change_status(string new_state)
 }
 
 // 在QUEST_D那里登记一条消息
-void set_information(string key, string info)
+void set_information(string key, mixed info)
 {
         QUEST_D->set_information(this_object(), key, info);
 }

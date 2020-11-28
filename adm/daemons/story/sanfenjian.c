@@ -2,15 +2,15 @@
 
 #include <ansi.h>
 
-static string char_id;
-static string char_name;
+nosave string char_id;
+nosave string char_name;
 mixed give_gift1();
 int   give_gift2();
-static string family_name;
+nosave string family_name;
 
 object select_character();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "只听“镪铛”一声，阎世章五行双轮一招「指天划地」，挡开了霍青桐的长剑。",
         "阎世章退出一步，叫道：“且慢，我有话说。”",
         "众回人逼上前去，兵刃耀眼，眼见就要将他乱刀分尸。",
@@ -133,4 +133,3 @@ int give_gift2()
         book->move(ob, 1);
         return 1;
 }
-

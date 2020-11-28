@@ -28,10 +28,7 @@
 ])
 */
 
-#define LISTNODES ([ \
-	"SDXL.GL":         "219.159.104.120 6670",\
-        "NITAN.WZ":         "61.128.162.81 2005",\
-])
+#define LISTNODES (["SDXL.GL":"219.159.104.120 6670","NITAN.WZ":"61.128.162.81 2005",])
 
 #define NO_ES_CHANNEL ({ "NITAN.WZ" })
 
@@ -41,7 +38,7 @@
  * udp packet size.  Probably best kept at 512
  */
 #define MAIL_PACKET_SIZE        512
- 
+
 /* These macros are for the name service.  They determine how often the
  * database is refreshed, how often other muds are checked, how often
  * the sequence list is checked for timed out services, and how long a
@@ -83,4 +80,3 @@
 #define MUD_SERVICES    "/adm/etc/mud_services"
 
 #endif //__NET__CONFIG_H
-

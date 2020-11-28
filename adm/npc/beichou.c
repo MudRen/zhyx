@@ -4,7 +4,7 @@ inherit NPC;
 inherit F_DEALER;
 inherit F_UNIQUE;
 
-static object *receiver;
+nosave object *receiver;
 
 object *query_receiver() { return receiver; }
 
@@ -436,7 +436,7 @@ int ask_bomb()
 
         me = this_player();
         n = ((int)me->query_temp("receive_rumor_time")) - time();
-        if (n < 0) n = 0;        
+        if (n < 0) n = 0;
         n /= 60;
         if (! n)
         {
@@ -599,7 +599,7 @@ int do_list(string arg)
                 return ::do_list();
         }
 
-        message_vision(CYN "$N" CYN "两手忙摆，对$n" CYN 
+        message_vision(CYN "$N" CYN "两手忙摆，对$n" CYN
                        "道：我只卖消息不卖货，嘿嘿。\n" NOR,
                        this_object(), this_player());
         return 1;
@@ -633,16 +633,16 @@ mixed ask_cancel()
         if (me->is_busy() || me->is_fighting())
                 return "等你忙完了再说吧！\n";
 
-        if (! me->query("quest") && ! me->query("xquest") 
+        if (! me->query("quest") && ! me->query("xquest")
             && ! me->query("changanjob"))
                 return "走开，别捣乱！\n";
 
         if (t > 900)
                 return "走开，你早干什么去了？\n";
-        
+
         me->delete("quest");
         me->delete("xquest");
         me->delete("changanjob");
 
-        return "好了！\n";        
+        return "好了！\n";
 }

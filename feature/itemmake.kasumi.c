@@ -29,13 +29,13 @@ int is_item_make() { return 1; }
 #define MAX_LEVEL       LEVEL15
 
 
-static int *levels = ({ LEVEL1, LEVEL2, LEVEL3, LEVEL4,
+nosave int *levels = ({ LEVEL1, LEVEL2, LEVEL3, LEVEL4,
                         LEVEL5, LEVEL6, LEVEL7, LEVEL8,
                         LEVEL9,LEVEL10,LEVEL11,LEVEL12,LEVEL13,LEVEL14,LEVEL15 });
 
-static int performing  = 0;
-static int attack_lvl  = 0;
-static int defense_lvl = 0;
+nosave int performing  = 0;
+nosave int attack_lvl  = 0;
+nosave int defense_lvl = 0;
 
 int is_stay_in_room() { return attack_lvl >= LEVEL10; }
 
@@ -284,11 +284,11 @@ string weapon_long()
                 break;
         }
 
-       
+
                 if (stringp(tessera_name = query("magic/tessera")))
                         result += "它上面镶嵌着" + tessera_name + "，闪烁着奇异的光芒。\n";
-                
-       
+
+
         if (lvl)
         {
                 result += HIY + name() + HIY "的等级：" + lvl + "/15\n" NOR;
@@ -340,17 +340,17 @@ string armor_long()
         d = query("dazao");
         if(d)
         {
-              result += HIC "防具目前等级："+query("dazao/lvl")+" 。\n" NOR;     
+              result += HIC "防具目前等级："+query("dazao/lvl")+" 。\n" NOR;
         if (d["hongb"] || d["hongf"])
-              result += HIR "上面隐隐透着红光。\n" NOR;     
+              result += HIR "上面隐隐透着红光。\n" NOR;
         if (d["lvb"] || d["lvbf"])
-              result += HIG "上面隐隐透着绿光。\n" NOR;     
+              result += HIG "上面隐隐透着绿光。\n" NOR;
         if (d["huangb"] || d["huangf"])
-              result += HIY "上面隐隐透着黄光。\n" NOR;     
+              result += HIY "上面隐隐透着黄光。\n" NOR;
         }
 
-        return result;      
- }            
+        return result;
+ }
 // 道具的长描述
 string item_long()
 {
@@ -374,7 +374,7 @@ int apply_damage()
         lvl++;
 
         p = query("point") / 2;
-        d = lvl * p / 5 + query("bless") * 2; 
+        d = lvl * p / 5 + query("bless") * 2;
         return d + p;
 }
 
@@ -387,7 +387,7 @@ int apply_armor()
         int lvl;
         d = query("point") / 5;
         lvl = query("dazao/lvl");
-        
+
         p = lvl * lvl * 4 + query("bless");
         return d + p;
 }
@@ -401,7 +401,7 @@ mixed save_dbase_data()
         data = ([ "combat" : query("combat"),
                   "owner"  : query("owner"),
                   "magic"  : query("magic"),
-                  "consistence" : query("consistence"), 
+                  "consistence" : query("consistence"),
                   "bless"       : query("bless"),
                   "dazao"       : query("dazao"),
 
@@ -427,7 +427,7 @@ int receive_dbase_data(mixed data)
                 set("combat", data["combat"]);
 
         if (mapp(data["dazao"]))
-                set("dazao", data["dazao"]);        
+                set("dazao", data["dazao"]);
         if (mapp(data["owner"]))
                 set("owner", data["owner"]);
 
@@ -544,7 +544,7 @@ int do_stab(object me)
 // 特殊能力
 int do_touch(object me)
 {
-	 if (query("magic/tessera"))        
+	 if (query("magic/tessera"))
 	        return ITEM_D->do_touch(me, this_object());
 	 else
             return notify_fail("你摸了半天，好像没什么反应。\n");

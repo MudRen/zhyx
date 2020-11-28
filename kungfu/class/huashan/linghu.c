@@ -1,7 +1,7 @@
 // linghu.c 令狐冲
 
 #include <ansi.h>
-#include <qizong.h>
+#include "qizong.h"
 
 inherit NPC;
 inherit F_MASTER;
@@ -23,7 +23,7 @@ void create()
 	set("int", 40);
 	set("con", 30);
 	set("dex", 30);
-	
+
 	set("qi", 4800);
 	set("max_qi", 4800);
 	set("jing", 2400);
@@ -81,7 +81,7 @@ void create()
 	]));
 
 	set("music_book", 1);
-	setup();	 	
+	setup();
 	carry_object("/d/heimuya/npc/obj/cloth")->wear();
 	carry_object("/clone/weapon/changjian")->wield();
 	carry_object("/d/heimuya/npc/obj/card2");
@@ -153,15 +153,15 @@ mixed learn_chongling()
 return "你不是已经学过了吗？\n";
         if (me->query("family/family_name") != "华山派")
                return "你说什么，我不明白！\n";
- 
+
         if (lv < 100)
                return "你华山剑法修为不够，我还不能传你这招！\n";
 
         message_vision(HIW "$N" HIW "说道：“这套剑法是我和小师妹练剑的时候突发奇想"
                        "创出来的，乃是从华山剑法中演化出来！你可看好了！”说完将「冲"
                        "灵剑法」冲头到尾地给$n" HIW "演示了一遍！\n" NOR,
-                       this_object(), me);        
-        
+                       this_object(), me);
+
         command("haha");
         tell_object(me, HIG "你学会了「冲灵剑法」！\n" NOR);
 
@@ -174,7 +174,7 @@ return "你不是已经学过了吗？\n";
         command("say 领会了多少就看你华山剑法的修为了，剩下的就靠你自己下去练习！");
 
         me->set_skill("chongling-jian", lv / 10);
-        
+
     me->set("chongling",1);
-        return 1;       
+        return 1;
 }

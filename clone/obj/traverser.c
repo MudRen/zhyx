@@ -7,14 +7,14 @@
 #define MAPDB "/clone/obj/mapdb"
 #define QUEUE "/clone/obj/queue"
 
-static int total, current_total;
-static object queue;
-static int traverse_done;
-static mapping visited;
-static object mapdb;
+nosave int total, current_total;
+nosave object queue;
+nosave int traverse_done;
+nosave mapping visited;
+nosave object mapdb;
 int visit(string room, mapping info, mixed args);
 
-#define DEBUG 
+#define DEBUG
 // #define DEBUG printf
 
 void create()
@@ -72,7 +72,7 @@ int push_in(mapping exits, string room, function callback, mixed args)
 
     	info = ([ "from": room, "dir" : key, "dist": visited[room]["dist"]+1]);
 	visited[next_room] = info;
-	switch (evaluate(callback, next_room, info, 
+	switch (evaluate(callback, next_room, info,
 			 mapdb->query_room_info(next_room), args)) {
 	case 0:       // normal, enque this room
 	  queue->enque(next_room);
@@ -122,7 +122,7 @@ int traverse_with_limit(string from, function callback, mixed args)
 	    destruct(queue);
 	    queue = 0;
 	    traverse_done = 1;
-	    DEBUG("Traversal terminated by callback, evaluated %d nodes.\n", 
+	    DEBUG("Traversal terminated by callback, evaluated %d nodes.\n",
 		  total);
 	    return ret;
 	}
@@ -137,7 +137,7 @@ int traverse_with_limit(string from, function callback, mixed args)
 
 int traverse(string from, function callback, mixed args)
 {
-    if (objectp(queue)) return 0;  // synchronization, avoid race conditions 
+    if (objectp(queue)) return 0;  // synchronization, avoid race conditions
 
     seteuid(getuid());
 
@@ -153,7 +153,7 @@ int traverse(string from, function callback, mixed args)
     visited = ([ ]);
     visited[from]=(["dist":0]);
 
-    if (evaluate(callback, from, visited[from], 
+    if (evaluate(callback, from, visited[from],
 		 mapdb->query_room_info(from),
 		 args) == -1) {
       traverse_done = 1;
@@ -166,7 +166,7 @@ int traverse(string from, function callback, mixed args)
 }
 
 // The method visit() is the key to customize the traverser.
-// This specific example is to find the shortest path 
+// This specific example is to find the shortest path
 int visit_room(string room, mapping info, mapping mapdb_info, mixed args)
 {
   string to = (string)args;
@@ -178,4 +178,3 @@ int find_route(string from, string to)
 {
   return traverse(from, (: visit_room :), to);
 }
-

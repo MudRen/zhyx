@@ -2,14 +2,14 @@
 
 #include <ansi.h>
 
-       inherit F_CLEAN_UP; 
-static string char_id;
-static string char_name;
+inherit F_CLEAN_UP;
+nosave string char_id;
+nosave string char_name;
 
 object select_character();
 int    give_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "大旱，民饥。",
         "流民如潮。",
         "$N架起大锅，在路边舍粥。",

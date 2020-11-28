@@ -4,7 +4,7 @@
 
 int give_gift(string name);
 
-static mixed *story = ({
+nosave mixed *story = ({
         "哗～～～哗～～～轰隆！",
         "渔民：不好啦～～海啸啦～～～快逃啊～～～",
         "哗～～～哗～～～轰隆！",

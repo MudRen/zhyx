@@ -9,13 +9,13 @@ inherit F_NOCLONE;
 mixed ask_opinion();
 
 #define ULTRA_OPINION   "宗师"
-#define OPINION_TYPE    HIY "轻身功夫" NOR 
+#define OPINION_TYPE    HIY "轻身功夫" NOR
 #define MY_OPINION      "dodge"
 
 string  *my_opinions = ({ "dodge" });
 
 // 该头文件必须在这里嵌入
-#include <ultra.h>
+#include "ultra.h"
 
 void create()
 {

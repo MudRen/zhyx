@@ -27,9 +27,9 @@
 void listen_callback(int fd);
 void write_callback(int fd);
 void read_callback(int fd, string str);
-static private void http_error(int fd, mapping err, string code);
+private void http_error(int fd, mapping err, string code);
 void close_connection(int fd);
-static private void get_file(int fd, string file, string cmd);
+private void get_file(int fd, string file, string cmd);
 
 #include <net/socket.h>
 #include <localtime.h>

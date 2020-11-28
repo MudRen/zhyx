@@ -6,7 +6,7 @@ inherit F_CLEAN_UP;
 
 mixed random_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "后羿：哪里跑！",
         "金乌：糟糕，这下避无可避，该怎么办？",
         "后羿：看箭！",
@@ -47,7 +47,7 @@ mixed random_gift()
                 return 0;
 
         ob = obs[random(sizeof(obs))];
-        
+
         if (ob->query("gift/sun") || random(5))
         {
                 msg = HIR + ob->name(1) + "一声惨叫，软软的倒了下去。" NOR;
@@ -70,4 +70,3 @@ mixed random_gift()
         }
         return msg;
 }
-

@@ -2,19 +2,19 @@
 
 #include <ansi.h>
 
-static string *char_id;
-static string *char_name;
-static string winner_name;
-static string winner_id;
-static string ann_name;
-static string ann_id;
+nosave string *char_id;
+nosave string *char_name;
+nosave string winner_name;
+nosave string winner_id;
+nosave string ann_name;
+nosave string ann_id;
 
 int   get_winner();
 mixed give_gift();
 int   rob_gift();
 int   select_characters();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "$1[$I1]：好，今日我们五人齐聚华山，不必寒暄，可快入正题。",
         "$2[$I2]：嗯，来龙去脉也不必多说了，此次乃是为了江湖上近日出现的"
         HIY "九转金丹" NOR WHT "一事。",
@@ -188,4 +188,3 @@ int rob_gift()
         }
         return 0;
 }
-

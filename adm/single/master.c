@@ -13,6 +13,7 @@
 
 #include <config.h>
 #include <localtime.h>
+#include <runtime_config.h>
 
 //by baqukq
 void report_error(mapping error);
@@ -50,7 +51,7 @@ mixed compile_object(string file)
 // This is called when there is a driver segmentation fault or a bus error,
 // etc.  As it's static it can't be called by anything but the driver (and
 // master).
-static void crash(string error, object command_giver, object current_object)
+protected void crash(string error, object command_giver, object current_object)
 {
 #if INSTALL_CRASH_SAVE
         object ob;
@@ -123,7 +124,7 @@ static void crash(string error, object command_giver, object current_object)
 // Arguements:      file: a string that shows what file to read in.
 // Return:          Array of nonblank lines that don't begin with '#'
 // Note:            must be declared static (else a security hole)
-static string *update_file(string file)
+protected string *update_file(string file)
 {
         string *list;
         string str;
@@ -177,13 +178,23 @@ void log_error(string file, string message)
 */
 void log_error(string file, string message)
 {
-        string name, home;
-        if( find_object(SIMUL_EFUN_OB) )
-                name = file_owner(file);
-        if (name) home = user_path(name);
-        else home = LOG_DIR;
-        if(this_player(1)) efun::write("编译时段错误：" + message+"\n");
-       efun::write_file(home + "log", message);
+    if (strsrch(message, "Warning") == -1)
+    {
+        if (this_player(1))
+        {
+            if (wizardp(this_player(1)))
+                efun::write("编译时段错误：" + message + "\n");
+            else
+                efun::write(get_config(__DEFAULT_ERROR_MESSAGE__) + "\n");
+        }
+        // 记录错误日志
+        efun::write_file(LOG_DIR + "log_error", message);
+    }
+    else
+    {
+        // 记录警告日志
+        efun::write_file(LOG_DIR + "log", message);
+    }
 }
 
 // save_ed_setup and restore_ed_setup are called by the ed to maintain
@@ -277,7 +288,7 @@ string standard_trace(mapping error, int caught)
 
         res = (caught) ? "错误讯息被拦截：" : "";
         res = sprintf("%s\n执行时段错误：%s\n程式：%s 第 %i 行\n物件：%s\n",
-    	              res, error["error"],
+                          res, error["error"],
                       error["program"], error["line"],
                       error["object"] ? file_name(error["object"]) : "0");
 
@@ -285,10 +296,10 @@ string standard_trace(mapping error, int caught)
         {
                 res += sprintf("当前玩家：%s(%s) - %O  所在环境：%O\n",
                                me->name(1), me->query("id"), me, environment(me));
-	        cmds = me->query_commands();
-	        res += me->name(1) + "身上及四周的物品与所在的环境提供以下指令：\n";
-	        for(i = 0; i<sizeof(cmds); i++)
-		        res += sprintf("%-15s  %2d %O\n",
+                cmds = me->query_commands();
+                res += me->name(1) + "身上及四周的物品与所在的环境提供以下指令：\n";
+                for(i = 0; i<sizeof(cmds); i++)
+                        res += sprintf("%-15s  %2d %O\n",
                                        cmds[i][0], cmds[i][1], cmds[i][2]);
 
                 res += sprintf("当前的命令：%O\n", me->query_last_input());
@@ -314,7 +325,7 @@ string standard_trace(mapping error, int caught)
         for (; i < s; i++)
         {
                 res = sprintf("%s呼叫来自：%s 的 %s() 第 %i 行，物件： %O\n",
-	                      res,
+                              res,
                               error["trace"][i]["program"],
                               error["trace"][i]["function"],
                               error["trace"][i]["line"],
@@ -325,23 +336,23 @@ string standard_trace(mapping error, int caught)
 
 // The mudlib runtime error handler.
 // 添加wiz判断
-// by baqukq
-string error_handler(mapping error, int caught)
+void error_handler(mapping error, int caught)
 {
-        if (this_player(1))
+    if (this_player(1))
+    {
+        this_player(1)->set_temp("error", error);
+        if (wizardp(this_player(1)))
+            tell_object(this_player(1), standard_trace(error, caught));
+        else
         {
-                this_player(1)->set_temp("error", error);
-                if(wizardp(this_player(1)))
-                tell_object(this_player(1), standard_trace(error, caught));
-                else {
-	    tell_object(this_player(1), report_error(error));
-	}
-        } else
-        if (this_player())
-                report_error(error);
+            tell_object(this_player(1), report_error(error));
+        }
+    }
+    else if (this_player())
+        report_error(error);
 
-        // whatever we return goes to the debug.log
-        return standard_trace(error, caught);
+    // whatever we return goes to the debug.log
+    efun::write_file(LOG_DIR + "error_handler", standard_trace(error, caught));
 }
 
 // by baqukq
@@ -350,11 +361,11 @@ void report_error(mapping error)
        CHANNEL_D->do_channel(this_object(), "wiz",
                sprintf("%s 第 %i 行，物件：%s\n        %s",
                (undefinedp(error["program"])?
-	       "(none)":error["program"]),
-	       error["line"],
+               "(none)":error["program"]),
+               error["line"],
                ( (undefinedp(error["object"]) || !error["object"])?
-	       "(none)":file_name(error["object"])),
-    	       error["error"]));
+               "(none)":file_name(error["object"])),
+                   error["error"]));
 }
 
 // valid_shadow: controls whether an object may be shadowed or not
@@ -491,7 +502,7 @@ void create()
 // by baqukq
 string query(string id) {
     if(id=="channel_id")
-	return "系统害虫";
+        return "系统害虫";
     else return 0;
 }
 

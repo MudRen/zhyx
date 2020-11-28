@@ -6,7 +6,7 @@ inherit F_CLEAN_UP;
 
 mixed random_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "天界，女娲宫......",
         "女娲:哎,近来真是郁闷。",
         "仙女:不知娘娘为何事烦恼？",
@@ -17,7 +17,7 @@ static mixed *story = ({
         "女娲:要派人下界为帝太过麻烦，还要玉帝批准。",
         "仙女:那可如何是好呢？",
         "女娲:我看不如在下界挑选合适女子,授予九天玄女之力,待其叱咤风云,令须眉刮目相看。",
-        "仙女:此法甚好，我这就去着手寻找。",        
+        "仙女:此法甚好，我这就去着手寻找。",
         (: random_gift :),
 });
 
@@ -45,17 +45,17 @@ mixed random_gift()
         obs = filter_array(all_interactive(), (: ! wizardp($1) &&
                                                  environment($1) &&
                                            //      environment($1)->query("outdoors") &&
-                                                 $1->query("gender") == "女性" &&    
-                                                 ! $1->query("special_skill/emperor") &&  
-                                                 ! $1->query("special_skill/lonely") &&  
-                                                 ! $1->query("special_skill/queen") &&                                                                       
+                                                 $1->query("gender") == "女性" &&
+                                                 ! $1->query("special_skill/emperor") &&
+                                                 ! $1->query("special_skill/lonely") &&
+                                                 ! $1->query("special_skill/queen") &&
                                                  ! $1->query("doing") :));
         if (! sizeof(obs))
                 return 0;
 
         ob = obs[random(sizeof(obs))];
-        
-        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )       
+
+        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )
         {
                 msg = HIC "仙女：" + ob->name(1) +
                       HIC "还是福缘不足，其他则更无合适人选，看来此次要无功而返了。" NOR;

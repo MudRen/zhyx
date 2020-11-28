@@ -78,66 +78,70 @@ string sort_msg(string input)
 
 varargs void message_vision(string msg, object me, object you)
 {
-	string my_gender, your_gender, my_name, your_name;
-	string str1, str2, str3;
+    string my_gender, your_gender, my_name, your_name;
+    string str1, str2, str3;
 
-	my_name = me->name();
-	my_gender = me->query("gender");
+    my_name = me->name();
+    my_gender = me->query("gender");
 
-	str1 = replace_string(msg,  "$P", gender_self(my_gender));
-	str1 = replace_string(str1, "$N", gender_self(my_gender));
-	str3 = replace_string(msg,  "$P", my_name);
-	str3 = replace_string(str3, "$N", my_name);
+    str1 = replace_string(msg,  "$P", gender_self(my_gender));
+    str1 = replace_string(str1, "$N", gender_self(my_gender));
+    str3 = replace_string(msg,  "$P", my_name);
+    str3 = replace_string(str3, "$N", my_name);
 
-	if (you)
-        {
-	        your_name = you->name();
-	        your_gender = you->query("gender");
-	        str1 = replace_string(str1, "$p", gender_pronoun(your_gender));
-	        str1 = replace_string(str1, "$n", your_name);
+    if (you)
+    {
+            your_name = you->name();
+            your_gender = you->query("gender");
+            str1 = replace_string(str1, "$p", gender_pronoun(your_gender));
+            str1 = replace_string(str1, "$n", your_name);
 
-		str3 = replace_string(str3, "$p", your_name);
-		str3 = replace_string(str3, "$n", your_name);
+        str3 = replace_string(str3, "$p", your_name);
+        str3 = replace_string(str3, "$n", your_name);
 
-		str2 = replace_string(msg,  "$P", gender_pronoun(my_gender));
-		str2 = replace_string(str2, "$p", gender_self(your_gender));
-		str2 = replace_string(str2, "$N", my_name);
-		str2 = replace_string(str2, "$n", gender_self(your_gender));
-		message("vision", str2, you);
-        }
-
-        message("vision", str1, me);
-        message("vision", str3, all_inventory(environment(me)), ({ me, you }));
+        str2 = replace_string(msg,  "$P", gender_pronoun(my_gender));
+        str2 = replace_string(str2, "$p", gender_self(your_gender));
+        str2 = replace_string(str2, "$N", my_name);
+        str2 = replace_string(str2, "$n", gender_self(your_gender));
+        message("vision", str2, you);
+    }
+    message("vision", str1, me);
+    if (environment(me))
+    {
+        message("vision", str3, all_inventory(environment(me)), ({me, you}));
         if (environment(me)->query("fight_room"))
-                environment(me)->relay_message(str3);
+        {
+            environment(me)->relay_message(str3);
+        }
+    }
 }
 
 varargs void message_sort(string msg, object me, object you)
 {
-	string my_gender, your_gender, my_name, your_name;
-	string str1, str2, str3;
+    string my_gender, your_gender, my_name, your_name;
+    string str1, str2, str3;
 
-	my_name= me->name();
-	my_gender = me->query("gender");
-	str1 = replace_string(msg,  "$P", gender_self(my_gender));
-	str1 = replace_string(str1, "$N", gender_self(my_gender));
-	str3 = replace_string(msg,  "$P", my_name);
-	str3 = replace_string(str3, "$N", my_name);
-	if( you ){
-		your_name= you->name();
-		your_gender= you->query("gender");
-		str2 = replace_string(msg,  "$P", gender_pronoun(my_gender));
-		str2 = replace_string(str2, "$p", gender_self(your_gender));
-		str2 = replace_string(str2, "$N", my_name);
-		str2 = replace_string(str2, "$n", gender_self(your_gender));
-		message("vision", sort_msg(str2), you);
-		str1 = replace_string(str1, "$p", gender_pronoun(your_gender));
-		str1 = replace_string(str1, "$n", your_name);
-		str3 = replace_string(str3, "$p", your_name);
-		str3 = replace_string(str3, "$n", your_name);
-	}
-	message("vision", sort_msg(str1), me);
-	message("vision", sort_msg(str3),  environment(me), ({ me, you}) );
+    my_name= me->name();
+    my_gender = me->query("gender");
+    str1 = replace_string(msg,  "$P", gender_self(my_gender));
+    str1 = replace_string(str1, "$N", gender_self(my_gender));
+    str3 = replace_string(msg,  "$P", my_name);
+    str3 = replace_string(str3, "$N", my_name);
+    if( you ){
+        your_name= you->name();
+        your_gender= you->query("gender");
+        str2 = replace_string(msg,  "$P", gender_pronoun(my_gender));
+        str2 = replace_string(str2, "$p", gender_self(your_gender));
+        str2 = replace_string(str2, "$N", my_name);
+        str2 = replace_string(str2, "$n", gender_self(your_gender));
+        message("vision", sort_msg(str2), you);
+        str1 = replace_string(str1, "$p", gender_pronoun(your_gender));
+        str1 = replace_string(str1, "$n", your_name);
+        str3 = replace_string(str3, "$p", your_name);
+        str3 = replace_string(str3, "$n", your_name);
+    }
+    message("vision", sort_msg(str1), me);
+    message("vision", sort_msg(str3),  environment(me), ({ me, you}) );
 }
 
 /* Definition of the level of showing combat message */
@@ -149,95 +153,95 @@ varargs void message_sort(string msg, object me, object you)
 
 varargs void message_combatd(string msg, object me, object you, string damage_info)
 {
-	string my_gender, your_gender, my_name, your_name;
-	string str1, str2, str3f, str3d;
-	mixed my_flag;
-	mixed your_flag;
-	int damage_flag;
-	int brief;
+    string my_gender, your_gender, my_name, your_name;
+    string str1, str2, str3f, str3d;
+    mixed my_flag;
+    mixed your_flag;
+    int damage_flag;
+    int brief;
         int others;
         object ob;
         object *obs;
 
-	brief = 1;
+    brief = 1;
         if (! stringp(damage_info))
-	{
-		// No damage_info defined, so I must show full message.
-		damage_info = "";
-		brief = 0;
+    {
+        // No damage_info defined, so I must show full message.
+        damage_info = "";
+        brief = 0;
                 msg = "\n" + msg;
-	}
+    }
 
         damage_flag = (strlen(damage_info) > 0);
 
-	my_name= me->name();
-	my_gender = me->query("gender");
+    my_name= me->name();
+    my_gender = me->query("gender");
 
-	if (you)
+    if (you)
         {
-		your_name = you->name();
-		your_gender = you->query("gender");
+        your_name = you->name();
+        your_gender = you->query("gender");
         }
 
         if (userp(me))
         {
-        	if (! brief) my_flag = SHOW_ALL;
+            if (! brief) my_flag = SHOW_ALL;
                 else
-        	{
-        		my_flag = me->query("env/combatd");
-        		if (stringp(my_flag) && my_flag == "YES") my_flag = SHOW_BRIEF_DAMAGE;
-        		if (! intp(my_flag)) my_flag = SHOW_ALL;
-        	}
+            {
+                my_flag = me->query("env/combatd");
+                if (stringp(my_flag) && my_flag == "YES") my_flag = SHOW_BRIEF_DAMAGE;
+                if (! intp(my_flag)) my_flag = SHOW_ALL;
+            }
 
-        	if (my_flag >= SHOW_BRIEF_SELF_DAMAGE || my_flag && ! damage_flag)
-        	{
-        		if (! stringp(str1 = me->query("env/ignore_combat")))
-        			str1 = "";
-        		else
-        			str1 += "\n";
-        	} else
-        	if (my_flag == SHOW_BRIEF_DAMAGE)
+            if (my_flag >= SHOW_BRIEF_SELF_DAMAGE || my_flag && ! damage_flag)
+            {
+                if (! stringp(str1 = me->query("env/ignore_combat")))
+                    str1 = "";
+                else
+                    str1 += "\n";
+            } else
+            if (my_flag == SHOW_BRIEF_DAMAGE)
                         str1 = (string)damage_info;
-        	else
+            else
                         str1 = msg + (string)damage_info;
 
-	        str1 = replace_string(str1, "$P", gender_self(my_gender));
-	        str1 = replace_string(str1, "$N", gender_self(my_gender));
+            str1 = replace_string(str1, "$P", gender_self(my_gender));
+            str1 = replace_string(str1, "$N", gender_self(my_gender));
                 if (you)
                 {
-        	        str1 = replace_string(str1, "$p", gender_pronoun(your_gender));
-        	        str1 = replace_string(str1, "$n", your_name);
+                    str1 = replace_string(str1, "$p", gender_pronoun(your_gender));
+                    str1 = replace_string(str1, "$n", your_name);
                 }
 
-        	if (strlen(str1) > 0)
+            if (strlen(str1) > 0)
                         message("tell_object", str1, me);
         }
 
-	if (you && userp(you))
+    if (you && userp(you))
         {
-		if (! brief) your_flag = SHOW_ALL;
-		else
+        if (! brief) your_flag = SHOW_ALL;
+        else
                 {
-		        your_flag = you->query("env/combatd");
-		        if (stringp(your_flag) && your_flag == "YES") your_flag = SHOW_BRIEF_DAMAGE;
-		        if (! intp(your_flag)) your_flag = SHOW_ALL;
+                your_flag = you->query("env/combatd");
+                if (stringp(your_flag) && your_flag == "YES") your_flag = SHOW_BRIEF_DAMAGE;
+                if (! intp(your_flag)) your_flag = SHOW_ALL;
                 }
 
-		if (your_flag == SHOW_ALL || damage_flag && your_flag < SHOW_NONE)
+        if (your_flag == SHOW_ALL || damage_flag && your_flag < SHOW_NONE)
                 {
-			if (your_flag <= SHOW_DAMAGE)
+            if (your_flag <= SHOW_DAMAGE)
                                 str2 = msg + (string)damage_info;
-			else
+            else
                                 str2 = (string)damage_info;
 
                         str2 = replace_string(str2, "$P", gender_pronoun(my_gender));
-		        str2 = replace_string(str2, "$p", gender_self(your_gender));
-		        str2 = replace_string(str2, "$N", my_name);
-		        str2 = replace_string(str2, "$n", gender_self(your_gender));
+                str2 = replace_string(str2, "$p", gender_self(your_gender));
+                str2 = replace_string(str2, "$N", my_name);
+                str2 = replace_string(str2, "$n", gender_self(your_gender));
                         if (strlen(str2) > 0)
-		                message("tell_object", str2, you);
+                        message("tell_object", str2, you);
                 }
-	}
+    }
 
         if (environment(me)->query("fight_room"))
         {
@@ -266,16 +270,16 @@ varargs void message_combatd(string msg, object me, object you, string damage_in
         {
                 str3f = msg;
                 str3d = (string)damage_info;
-        	str3f = replace_string(str3f, "$P", my_name);
-        	str3f = replace_string(str3f, "$N", my_name);
-        	str3d = replace_string(str3d, "$P", my_name);
-        	str3d = replace_string(str3d, "$N", my_name);
+            str3f = replace_string(str3f, "$P", my_name);
+            str3f = replace_string(str3f, "$N", my_name);
+            str3d = replace_string(str3d, "$P", my_name);
+            str3d = replace_string(str3d, "$N", my_name);
                 if (you)
                 {
-        		str3f = replace_string(str3f, "$p", your_name);
-        		str3f = replace_string(str3f, "$n", your_name);
-        		str3d = replace_string(str3d, "$p", your_name);
-        		str3d = replace_string(str3d, "$n", your_name);
+                str3f = replace_string(str3f, "$p", your_name);
+                str3f = replace_string(str3f, "$n", your_name);
+                str3d = replace_string(str3d, "$p", your_name);
+                str3d = replace_string(str3d, "$n", your_name);
                 }
 
                 if (brief)
@@ -309,35 +313,38 @@ varargs void message_combatd(string msg, object me, object you, string damage_in
 
 void tell_object(object ob, string str)
 {
-	message("tell_object", str, ob);
+    if (objectp(ob))
+    {
+        message("tell_object", str, ob);
+    }
 }
 
 varargs void tell_room(mixed ob, string str, object *exclude)
 {
-	if (ob) message("tell_room", str, ob, exclude);
+    if (ob) message("tell_room", str, ob, exclude);
 }
 
 void shout(string str)
 {
-	message("shout", str, users(), this_player());
+    message("shout", str, users(), this_player());
 }
 
 void write(string str)
 {
-	if (this_player())
-		message("write", str, this_player());
-	else if (previous_object())
-		message("write", str, previous_object());
-	else
-		efun::write(str);
+    if (this_player())
+        message("write", str, this_player());
+    else if (previous_object())
+        message("write", str, previous_object());
+    else
+        efun::write(str);
 }
 
 varargs void say(string str, mixed exclude)
 {
-	if (living(previous_object()))
+    if (living(previous_object()))
                 message("say", str, environment(previous_object()), previous_object());
-	else if (this_player())
-		message("say", str, environment(this_player()), this_player());
+    else if (this_player())
+        message("say", str, environment(this_player()), this_player());
 }
 
 
@@ -361,7 +368,7 @@ varargs string replace_color(string arg,int flag)
         arg = replace_string(arg, "$HIW$", flag?HIW:"");
         arg = replace_string(arg, "$NOR$", flag?NOR:"");
         arg = replace_string(arg, "$BLINK$", flag?BLINK:"");
-        
+
         // Background color
         arg = replace_string(arg, "$BBLK$", BBLK);
         arg = replace_string(arg, "$BRED$", BRED);
@@ -417,28 +424,30 @@ string clean_color(string arg)
 }
 */
 
-
 void message(mixed arg, string message, mixed target, mixed exclude)
 {
+    if (target)
+    {
         efun::message(arg, message, target, exclude);
+    }
 }
 
 void message_system(string message)
 {
-	message("system", HIW "\n【系统提示】" + message + "\n" NOR,
+    message("system", HIW "\n【系统提示】" + message + "\n" NOR,
                 all_interactive(), 0);
 }
 
 int notify_fail(string msg)
 {
-        if (this_player()) 
+        if (this_player())
         {
 
 /*
-        	if (this_player()->query_temp("big5")) 
-        		msg = (string)LANGUAGE_D->GB2Big5(msg); 
+            if (this_player()->query_temp("big5"))
+                msg = (string)LANGUAGE_D->GB2Big5(msg);
 */
-	        this_player()->set_temp("notify_fail", msg);
+            this_player()->set_temp("notify_fail", msg);
                 return efun::notify_fail(ESC "[256D" ESC "[K" + msg);
         } else
                 return 0;
@@ -454,15 +463,14 @@ string read_file(string file)
 {
         object user = this_object();
 
-        if (objectp(user) && userp(user) && wizardp(user) && find_object(SECURITY_D) 
+        if (objectp(user) && userp(user) && wizardp(user) && find_object(SECURITY_D)
         &&  ! SECURITY_D->valid_read(file, user, "read_file"))
-        {        
-                log_file("file/try_read_file", sprintf("%s %s(%s) try read %s.\n", 
+        {
+                log_file("file/try_read_file", sprintf("%s %s(%s) try read %s.\n",
                          ctime(time()), geteuid(user), wizhood(user), file));
-	        return "Permission denied。\n";
-	}        
+            return "Permission denied。\n";
+    }
 
         return efun::read_file(file);
 }
 */
-

@@ -5,12 +5,12 @@
 inherit ITEM;
 inherit F_SAVE;
 
-static int load;
+nosave int load;
 int do_cun(string arg, int all);
 
 void create()
 {
-     
+
         set_name(HIY "密码箱" NOR, ({ "locker" }));
         set_weight(1000);
 
@@ -21,8 +21,8 @@ void create()
                 set("long", YEL "这是密码箱,知道密码的人可以存取物品。\n"
                                 "使用方法如下: \n"
                                 "    输入密码打开箱子:  type <密码>\n"
-                                "    更换密码(仅限屋主):changeto <新密码>\n"  
-                                "    锁箱子: lock\n"                  
+                                "    更换密码(仅限屋主):changeto <新密码>\n"
+                                "    锁箱子: lock\n"
                                 "    查询物品编号: check\n"
                                 "    存入身上所有物品:cun all\n"
                                 "    存入某个物品: cun <数量> <物品id>\n"
@@ -31,9 +31,9 @@ void create()
                 set("value", 100);
                 set("unit", "个");
                 set("no_get", 1);
-     
+
         }
-        setup();       
+        setup();
 }
 /*
 string long()
@@ -42,19 +42,19 @@ string long()
         string msg;
 
         msg = query("long");
-        if (query("open"))        
-            msg += HIG "密码箱目前是开着的。\n" NOR;      
-        else        
-            msg += HIR "密码箱目前是关着的，请先用type输入密码。\n\n" NOR;             
+        if (query("open"))
+            msg += HIG "密码箱目前是开着的。\n" NOR;
+        else
+            msg += HIR "密码箱目前是关着的，请先用type输入密码。\n\n" NOR;
 
         return msg;
-        
+
 }
 
 void init()
 {
         string owner;
-        
+
         object env = environment(this_object());
 
         if (! load)
@@ -70,7 +70,7 @@ void init()
 
 
         add_action("do_type", "type");
-        add_action("do_changeto", "changeto");       
+        add_action("do_changeto", "changeto");
         add_action("do_lock", "lock");
         add_action("do_check", "check");
         add_action("cun_check", "cun");
@@ -79,12 +79,12 @@ void init()
 
 int do_type(string arg)
 {
-    if (!arg) 
+    if (!arg)
        return notify_fail("你要输入的密码是什么?\n");
 
     if (! query("passwd"))
        return notify_fail("此箱尚未设置密码!\n"
-              "必须等屋主用changeto设置密码后方可使用!\n"); 
+              "必须等屋主用changeto设置密码后方可使用!\n");
 
     if (query("open"))
         return notify_fail("这个密码箱已经是开着的了!\n");
@@ -94,8 +94,8 @@ int do_type(string arg)
 
     set("open", 1);
     message_vision(HIC "只见$N" HIC "在密码箱上按了几下,"
-                   "箱子就打开了。\n"NOR, this_player()); 
-       
+                   "箱子就打开了。\n"NOR, this_player());
+
     return 1;
 }
 
@@ -104,7 +104,7 @@ int do_changeto(string arg)
 {
     object me;
     me = this_player();
-    
+
     if (query("owner") != me->query("id"))
        return notify_fail(HIR"只有屋主才能修改密码!\n"NOR);
 
@@ -117,15 +117,15 @@ int do_changeto(string arg)
     if (!me->query_temp("locker_change_pass")
         || me->query_temp("locker_change_pass") != arg)
     {
-       write(HIY"你将把密码箱的密码改成"NOR HIG + arg + 
+       write(HIY"你将把密码箱的密码改成"NOR HIG + arg +
              NOR HIY",\n如果没错的话请再输入一次。\n"NOR);
        me->set_temp("locker_change_pass", arg);
        return 1;
-    }  
+    }
 
-    me->delete_temp("locker_change_pass");     
+    me->delete_temp("locker_change_pass");
     set("passwd", arg);
-    write(HIG"你将密码箱的密码改成了" + arg + "。\n"NOR); 
+    write(HIG"你将密码箱的密码改成了" + arg + "。\n"NOR);
     save();
 
     return 1;
@@ -138,7 +138,7 @@ int do_lock(string arg)
 
     delete("open");
     message_vision(HIW "只见$N" HIW "卡嚓一声把密码箱锁了起来。"
-                   "\n"NOR, this_player()); 
+                   "\n"NOR, this_player());
     save();
     return 1;
 }
@@ -147,7 +147,7 @@ int do_check()
 {
     int i, cun_num;
     object ob, me = this_player();
-    
+
     string msg, cun_itm, *deposit = query("deposit"),
            cun_name, cun_unit, cun_id;
 
@@ -158,7 +158,7 @@ int do_check()
         return 1;
      }
 
-    if (me->is_busy()) 
+    if (me->is_busy())
     {
         write("等你忙完了再查东西吧！\n");
         return 1;
@@ -166,7 +166,7 @@ int do_check()
 
     if (sizeof(deposit) == 0 )
     {
-       tell_object(me, "你在密码箱里什么也没存！\n"); 
+       tell_object(me, "你在密码箱里什么也没存！\n");
        return 1;
     }
 
@@ -174,15 +174,15 @@ int do_check()
 
     for (i = 0; i < sizeof(deposit); i++)
     {
-        sscanf(deposit[i], "%s:%d:%s:%s:%s", 
-          cun_itm, cun_num, cun_unit, cun_name, cun_id);        
+        sscanf(deposit[i], "%s:%d:%s:%s:%s",
+          cun_itm, cun_num, cun_unit, cun_name, cun_id);
 
-        msg += HIY + (i+1) + "." + NOR + chinese_number(cun_num) 
-               + cun_unit + cun_name + "(" + cun_id + ")" + "\n";        
-    } 
+        msg += HIY + (i+1) + "." + NOR + chinese_number(cun_num)
+               + cun_unit + cun_name + "(" + cun_id + ")" + "\n";
+    }
 
     me->start_more(msg);
- 
+
     me->start_busy(2);
 
     write(HIW"操作完毕的话请用lock关闭密码箱！\n"NOR);
@@ -193,9 +193,9 @@ int do_check()
 int cun_check(string arg)
 {
         object me, *inv;
-        int num, i, amount; 
+        int num, i, amount;
         string itm;
-     
+
         me = this_player();
 
 
@@ -206,41 +206,41 @@ int cun_check(string arg)
            return 1;
         }
 
-       
-        if (me->is_busy()) 
+
+        if (me->is_busy())
             return notify_fail("等你忙完了再存东西吧！\n");
 
         if ( arg == "all" )
         {
            inv = all_inventory(me);
-           for (i=0;i<sizeof(inv);i++) 
-           {   
+           for (i=0;i<sizeof(inv);i++)
+           {
               amount = 0;
 
-              if ( inv[i]->query("base_unit"))         
-                 amount = inv[i]->query_amount();          
+              if ( inv[i]->query("base_unit"))
+                 amount = inv[i]->query_amount();
               else
                  amount = 1;
-                              
+
                arg = amount + " " + inv[i]->query("id");
                do_cun(arg, 1);
             }
 
-            tell_object(me, "你把身上所有能存的东西都存进了密码箱。\n");           
-        
-            message("vision", HIC + me->name() + HIC "拿出一些物品存入了密码箱" 
-                                    "。\n" NOR, environment(me), ({me}));            
-          
+            tell_object(me, "你把身上所有能存的东西都存进了密码箱。\n");
+
+            message("vision", HIC + me->name() + HIC "拿出一些物品存入了密码箱"
+                                    "。\n" NOR, environment(me), ({me}));
+
             me->start_busy(2);
             save();
             write(HIW"操作完毕的话请用lock关闭密码箱！\n"NOR);
             return 1;
-         }         
+         }
 
         if (!arg || sscanf(arg, "%d %s", num, itm) != 2)
             return notify_fail("你要存什么物品？格式为cun <数量> <物品完整id>\n");
 
-         do_cun(arg, 0);        
+         do_cun(arg, 0);
 
          me->start_busy(2);
          save();
@@ -255,28 +255,28 @@ int do_cun(string arg, int all)
         object ob, me, *inv;
         int num, ttl_amt, i, cun_num, same;
         string itm, *deposit, cun_itm, bs_nm, unit,
-               cun_name, cun_id, cun_unit;      
-     
+               cun_name, cun_id, cun_unit;
+
         me = this_player();
         same = 0;
 
-        sscanf(arg, "%d %s", num, itm); 
-                 
-        ob = present(itm, me);           
+        sscanf(arg, "%d %s", num, itm);
 
-        if (!ob) 
+        ob = present(itm, me);
+
+        if (!ob)
         {  write("你身上没有这个物品呀！\n"); return 1;}
 
 
-        if (ob->is_character())            
+        if (ob->is_character())
         { if ( ! all ) write("活物你也想存？有没有搞错！\n"); return 1;}
 
 
         if (! ob->query("can_cun") && file_name(ob)[0..10] != "/clone/fam/"
-             && file_name(ob)[0..13] != "/clone/tattoo/" 
+             && file_name(ob)[0..13] != "/clone/tattoo/"
              && file_name(ob)[0..11] != "/clone/gift/"
              && file_name(ob)[0..15] != "/clone/medicine/"
-             || ob->query("no_cun") ) 
+             || ob->query("no_cun") )
           {  if (! all) write("对不起，这种物品不能存放！\n"); return 1;}
 
 
@@ -287,35 +287,35 @@ int do_cun(string arg, int all)
          inv = all_inventory(me);
 
 
-          if (stringp( unit = ob->query("base_unit")))         
+          if (stringp( unit = ob->query("base_unit")))
               ttl_amt = ob->query_amount();
-          
+
           else
-          {  
+          {
               for (i = 0; i < sizeof(inv); i++)
               {
-                 if (bs_nm == base_name(inv[i]))                   
-                    ttl_amt += 1;                
+                 if (bs_nm == base_name(inv[i]))
+                    ttl_amt += 1;
               }
               unit = ob->query("unit");
           }
 
          if (num > ttl_amt)
-         {   write("你身上没这么多" + 
+         {   write("你身上没这么多" +
                    ob->query("name") + NOR"！\n");
              return 1;
          }
 
         if ( ! all )
-        {  
-           tell_object(me, "你拿出" + chinese_number(num) + unit + 
-                          ob->name() + "存进了储物箱。\n");  
-         
-        
-           message("vision", HIC + me->name() + HIC "拿出一些物品存入了储物箱" 
-                                    "。\n" NOR, environment(me), ({me})); 
+        {
+           tell_object(me, "你拿出" + chinese_number(num) + unit +
+                          ob->name() + "存进了储物箱。\n");
+
+
+           message("vision", HIC + me->name() + HIC "拿出一些物品存入了储物箱"
+                                    "。\n" NOR, environment(me), ({me}));
          }
-        
+
 
          if (query("deposit"))
             deposit = query("deposit");
@@ -334,23 +334,23 @@ int do_cun(string arg, int all)
          }
 
          if (same != 1) deposit += ({ bs_nm + ":" + num + ":" + unit
-                        + ":" + ob->query("name") + ":" + ob->query("id")});  
+                        + ":" + ob->query("name") + ":" + ob->query("id")});
 
-         set("deposit", deposit); 
+         set("deposit", deposit);
 
          if (ob->query("base_unit"))
          {
             ob->add_amount(-num);
             if (ob->query_amount() < 1) destruct(ob);
-           
+
          } else
-         {  
+         {
             for (i = 0; i < num; i++)
-            {     
-                ob = present(itm, me);        
-                destruct(ob);               
-            }           
-         } 
+            {
+                ob = present(itm, me);
+                destruct(ob);
+            }
+         }
    return 1;
 }
 
@@ -359,9 +359,9 @@ int do_qu(string arg)
 
         object ob, me;
         int num, i, cun_num, itm, x;
-        string *deposit, cun_itm, unit, 
-               cun_unit, cun_name, cun_id;      
-     
+        string *deposit, cun_itm, unit,
+               cun_unit, cun_name, cun_id;
+
         me = this_player();
 
 
@@ -376,14 +376,14 @@ int do_qu(string arg)
         if (!arg || sscanf(arg, "%d %d", num, itm) != 2)
             return notify_fail("你要取什么物品？格式为qu <数量> <物品序列号>\n");
 
-        if (me->is_busy()) 
+        if (me->is_busy())
             return notify_fail("等你忙完了再取东西吧！\n");
 
         deposit = query("deposit");
 
-        if ( sizeof(deposit) == 0 ) 
+        if ( sizeof(deposit) == 0 )
             return notify_fail("你根本没存东西在箱子里，取什么取！\n");
-      
+
         if (num < 1)
              return notify_fail("一次最少取一件物品！\n");
 
@@ -401,7 +401,7 @@ int do_qu(string arg)
 
        ob = new(cun_itm);
 
-        if (me->query_encumbrance() + ob->query_weight() * num 
+        if (me->query_encumbrance() + ob->query_weight() * num
             > me->query_max_encumbrance())
         {
                 tell_object(me, "你的负重不够，无法一次取出这么多物品。\n");
@@ -410,24 +410,24 @@ int do_qu(string arg)
         }
 
 
-              if (cun_num < num) 
-              {                  
+              if (cun_num < num)
+              {
                   write("你没存这么多" + ob->query("name") + "！\n");
                   destruct(ob);
                   return 1;
               }
 
-             
 
-              if (ob->query("base_unit")) 
-              {  
+
+              if (ob->query("base_unit"))
+              {
                  unit = ob->query("base_unit");
                  ob->set_amount(num);
-                 ob->move(me, 1);                
+                 ob->move(me, 1);
               }
               else
               {
-                 unit = ob->query("unit"); 
+                 unit = ob->query("unit");
                  destruct(ob);
                  for( x = 0; x < num; x++)
                  {
@@ -436,24 +436,24 @@ int do_qu(string arg)
                  }
 
               }
-                   
-              tell_object(me, "你从密码箱里取出" + chinese_number(num) + unit + 
-                          ob->name() + "。\n");  
- 
 
-              message("vision", HIC + me->name() + HIC "从密码箱里拿了些东西出来" 
-                                    "。\n" NOR, environment(me), ({me})); 
+              tell_object(me, "你从密码箱里取出" + chinese_number(num) + unit +
+                          ob->name() + "。\n");
+
+
+              message("vision", HIC + me->name() + HIC "从密码箱里拿了些东西出来"
+                                    "。\n" NOR, environment(me), ({me}));
 
               if (num == cun_num) deposit -= ({ cun_itm + ":" + cun_num +
                   ":" + cun_unit + ":" + cun_name + ":" + cun_id });
                  else
               deposit[(itm-1)] = cun_itm + ":" + (cun_num - num) + ":"
                    + cun_unit + ":" + cun_name + ":" + cun_id;
-       
-              set("deposit", deposit); 
-             
+
+              set("deposit", deposit);
+
               me->start_busy(2);
-              save();  
+              save();
               write(HIW"操作完毕的话请用lock关闭密码箱！\n"NOR);
               return 1;
 }

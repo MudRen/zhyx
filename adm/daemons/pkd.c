@@ -10,7 +10,7 @@ inherit F_DBASE;
 #define PK_ROOM         "/d/pk/turen"
 
 // the state of daemon
-static int state;
+nosave int state;
 
 #define SLEEPING        0
 #define GET_READY       1
@@ -18,11 +18,11 @@ static int state;
 
 #define GET_READY_TIME  180
 
-static object *total = ({ });
-static int ready_time = 0;
+nosave object *total = ({ });
+nosave int ready_time = 0;
 
 // 四次比赛列表
-static mapping *tlist = ({
+nosave mapping *tlist = ({
 ([      "name" : "屠人热身赛",
         "time" : ({ 2200, 2210, }),
         "exp"  : ({ 1000, 300000 }),
@@ -45,7 +45,7 @@ static mapping *tlist = ({
 ])
 });
 
-static int selected;
+nosave int selected;
 
 private void change_state(int new_state);
 private void init_player(object me);
@@ -405,8 +405,8 @@ private void give_bouns(object me)
         //新增记录得冠军的次数
         me->add("pkd",1);
         tell_object(me, msg);
-        tell_object(me, HIG "你现在已累计获得了" + me->query("pkd") 
-                        + "次屠人大赛冠军。\n"NOR);        
+        tell_object(me, HIG "你现在已累计获得了" + me->query("pkd")
+                        + "次屠人大赛冠军。\n"NOR);
 }
 
 // remove overide function

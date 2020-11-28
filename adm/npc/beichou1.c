@@ -4,7 +4,7 @@ inherit NPC;
 inherit F_DEALER;
 inherit F_UNIQUE;
 
-static object *receiver;
+nosave object *receiver;
 
 object *query_receiver() { return receiver; }
 
@@ -438,7 +438,7 @@ int ask_bomb()
 
         me = this_player();
         n = ((int)me->query_temp("receive_rumor_time")) - time();
-        if (n < 0) n = 0;        
+        if (n < 0) n = 0;
         n /= 60;
         if (! n)
         {
@@ -601,7 +601,7 @@ int do_list(string arg)
                 return ::do_list();
         }
 
-        message_vision(CYN "$N" CYN "两手忙摆，对$n" CYN 
+        message_vision(CYN "$N" CYN "两手忙摆，对$n" CYN
                        "道：我只卖消息不卖货，嘿嘿。\n" NOR,
                        this_object(), this_player());
         return 1;
@@ -636,25 +636,25 @@ int ask_cancel()
         me = this_player();
 
         if (t > 10)
-        {         
+        {
                   command("say 滚！早你干什么去了？");
                   return 1;
         }
 
-        if (! (string)me->query("quest")) 
-        {     
+        if (! (string)me->query("quest"))
+        {
                   command("say 你现在要办啥事？说来听听。");
                   return 1;
         }
 
         if (me->query_temp("cancel_ok"))
-        {         
+        {
                   command("say 给你脸了是不？");
                   return 1;
         }
- 
+
         me->set_temp("cancel_ok", 1);
         me->delete("quest");
         command("say 算了，瞧在这世道不太平的份上，帮你这次好了。");
-        return 1;        
+        return 1;
 }

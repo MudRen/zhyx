@@ -2,7 +2,7 @@
 
 #include <ansi.h>
 
-static mixed *story = ({
+nosave mixed *story = ({
         "不好啦～～～不好啦～～～",
         "司马光：怎么了？出什么事了？",
         "小孩甲：死不了掉到缸里了。",

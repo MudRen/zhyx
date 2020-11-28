@@ -5,8 +5,8 @@
 
 inherit ROOM;
 
-static string current_id = "";
-static int current_job = 0;
+nosave string current_id = "";
+nosave int current_job = 0;
 
 int introduce_robber(object current_player);
 int reset_to_normal();
@@ -43,19 +43,19 @@ void init() {
     object challenger, me = this_player();
 
 //    printf("blah blah blah\n");
-    if ( (me->query("family/family_name") == "雪山寺" || 
+    if ( (me->query("family/family_name") == "雪山寺" ||
           me->query("family/family_name") == "血刀门")
-         && !(current_job) 
+         && !(current_job)
          && (me->query("combat_exp") > 2000000) ) {
 //        printf("hehehe\n");
         call_out("introduce_robber", random(10)+10, me);
-        current_job = 1; 
+        current_job = 1;
     }
 //    printf("current_job = %d\n",current_job);
 }
 
 int introduce_robber(object current_player)
-{   
+{
     object robber;
 
 //    printf("name = %s\n", current_player->query("id"));
@@ -65,7 +65,7 @@ int introduce_robber(object current_player)
         robber = new(__DIR__"npc/robber");
 //        printf("test2\n");
         robber->setup_robber(current_player->query("combat_exp"));
-        robber->move(this_object());    
+        robber->move(this_object());
 //        printf("test3\n");
 //        message("vision", "一个"+robber->name(1)+"急急忙忙走了过来。\n", this_object(), robber);
         message_vision(HIC"一个$N急急忙忙走了过来。\n"NOR, robber);
@@ -75,7 +75,7 @@ int introduce_robber(object current_player)
     }
     else
     {
-        reset_to_normal(); 
+        reset_to_normal();
     }
 }
 
@@ -86,4 +86,3 @@ int reset_to_normal()
    return 1;
 
 }
-

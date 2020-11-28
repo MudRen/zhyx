@@ -11,16 +11,16 @@ int ask_reborn();
 int ask_zhen();
 int ask_dan();
 
-static string *skills1 = ({ 
+nosave string *skills1 = ({
 "unarmed", "strike", "claw", "hand", "cuff", "finger"
-}); 
+});
 
-static string *skills2 = ({ 
-"sword", "blade", "hammer", "throwing", "club", "whip",                                
+nosave string *skills2 = ({
+"sword", "blade", "hammer", "throwing", "club", "whip",
 "staff", "dagger" });
 
-static string *skills3 = ({ 
-"dodge", "parry", "force" }); 
+nosave string *skills3 = ({
+"dodge", "parry", "force" });
 
 
 void create()
@@ -54,7 +54,7 @@ void init()
      ::init();
 
         add_action("do_add", "add");
-        
+
         if( interactive(me = this_player()) && !is_fighting() )
         {
                 remove_call_out("greeting");
@@ -136,7 +136,7 @@ int ask_gift()
 }
 
 int do_add(string arg)
-{               
+{
       int x;
       object me;
 
@@ -159,8 +159,8 @@ int do_add(string arg)
                command("shake " + me->query("id"));
                command("say 你得告诉我要加哪个属性呀。" NOR);
                return 1;
-        }     
-        if (arg=="str")   
+        }
+        if (arg=="str")
         {  me->add("str", 1);
 
            command("tell " + me->query("id") +
@@ -168,7 +168,7 @@ int do_add(string arg)
                         me->add("gift/bobo/rmb", -2);
            return 1;
         }
-         if (arg=="int")  
+         if (arg=="int")
          {   me->add("int", 1);
              command("tell " + me->query("id") +
                         " 你的悟性增加了一点\n");
@@ -197,7 +197,7 @@ mixed ask_cancel()
       object me;
       me = this_player();
 
-      if (! me->query("quest") && ! me->query("xquest") 
+      if (! me->query("quest") && ! me->query("xquest")
             && ! me->query("changanjob"))
             return "你没有任务在身呀！";
 
@@ -208,7 +208,7 @@ mixed ask_cancel()
              "，道：“好吧，你的任务消除了！”说罢对着$N"
              HIY "嘻嘻笑了几声。\n" NOR,
              me, this_object());
-              
+
      me->delete("quest");
      me->delete("xquest");
      me->delete("changanjob");
@@ -220,10 +220,10 @@ mixed ask_cancel()
 
 int ask_reborn()
 {
-    int i, sk_ok, sk_lv;  
+    int i, sk_ok, sk_lv;
 
     object me = this_player();
-    
+
     command("look " + me->query("id"));
 
     if ( me->query("reborn"))
@@ -240,70 +240,70 @@ int ask_reborn()
     }
     if ( ! me->query("opinion/ultra") )
     {
-       command("say 你还没成武学宗师，怎么可能转世？"); 
+       command("say 你还没成武学宗师，怎么可能转世？");
        return 1;
     }
 
     if ( ! me->query("animaout") )
     {
-       command("say 你还没修炼到元婴出世的境界，没法转世！"); 
+       command("say 你还没修炼到元婴出世的境界，没法转世！");
        return 1;
     }
 
     if ( ! me->query("animaout") )
     {
-       command("say 你还没打通生死玄关，不可能转世！"); 
+       command("say 你还没打通生死玄关，不可能转世！");
        return 1;
-    } 
+    }
 
     sk_ok = 0;
     for( i = 0; i < sizeof(skills1); i++)
     {
-       sk_lv = me->query_skill(skills1[i]);   
+       sk_lv = me->query_skill(skills1[i]);
        if (sk_lv >= 900) sk_ok = 1;
     }
     if ( sk_ok == 0 )
     {
-       command("say 你的空手功夫还不到家，不能开始转世任务！"); 
+       command("say 你的空手功夫还不到家，不能开始转世任务！");
        return 1;
-    } 
+    }
 
     sk_ok = 0;
     for( i = 0; i < sizeof(skills2); i++)
     {
-       sk_lv = me->query_skill(skills2[i]);   
+       sk_lv = me->query_skill(skills2[i]);
        if (sk_lv >= 900) sk_ok = 1;
    }
 
     if ( sk_ok == 0 )
     {
-       command("say 你的兵器功夫还不到家，不能开始转世任务！"); 
+       command("say 你的兵器功夫还不到家，不能开始转世任务！");
        return 1;
-    } 
+    }
 
-    sk_ok = 1;  
+    sk_ok = 1;
 
     for( i = 0; i < sizeof(skills3); i++)
     {
-       sk_lv = me->query_skill(skills3[i]);   
+       sk_lv = me->query_skill(skills3[i]);
        if (sk_lv < 900) sk_ok = 0;
     }
 
     if ( sk_ok == 0 )
     {
-       command("say 你的内功、招架和轻功都到家了吗？好像还没吧!"); 
+       command("say 你的内功、招架和轻功都到家了吗？好像还没吧!");
        return 1;
-    } 
+    }
     if ( me->query_skill("martial-cognize",1) < 600 )
     {
-       command("say 你的武学修养太低，无法开始转世任务!"); 
+       command("say 你的武学修养太低，无法开始转世任务!");
        return 1;
-    } 
-    command("say 好吧，既然你已都达到要求，那就开始转世的过程吧。"); 
+    }
+    command("say 好吧，既然你已都达到要求，那就开始转世的过程吧。");
 
     command("say 转世的过程十分艰辛，你要步步小心，祝你成功！\n");
     me->set("reborn_start/start",1);
-    command("chat " + me->query("name") + "(" + 
+    command("chat " + me->query("name") + "(" +
             me->query("id") + ")" + "今日开始踏上转世征途！");
    return 1;
 }
@@ -328,7 +328,7 @@ int ask_dan()
 int accept_object(object me, object ob)
 {
     object itm;
-    if (!ob->is_item_make()) return 0;  
+    if (!ob->is_item_make()) return 0;
     if (ob->item_owner() != me->query("id"))
     {
        command("kick " + me->query("id"));
@@ -337,7 +337,7 @@ int accept_object(object me, object ob)
     }
 
     if (ob->query("owner/" + me->query("id")) < 5000000
-        ||  ob->query("bless") < 30 )       
+        ||  ob->query("bless") < 30 )
     {
        command("say 你这样东西还得继续锻炼才能在我这里换东西。");
        me->delete_temp("want_zhen");
@@ -352,8 +352,8 @@ int accept_object(object me, object ob)
        command("say 至于你这件兵器嘛，我就笑纳了。");
        command("snicker");
 
-       message_vision("$N拿出一个黄梁枕给$n。\n\n", 
-                           this_object(), me);    
+       message_vision("$N拿出一个黄梁枕给$n。\n\n",
+                           this_object(), me);
        me->delete_temp("want_zhen");
 
        me->delete("can_summon/" + ob->query("id"));
@@ -363,20 +363,20 @@ int accept_object(object me, object ob)
     }
      if ( me->query_temp("want_dan") )
     {
-       if (!ob->query("magic/tessera") ||         
+       if (!ob->query("magic/tessera") ||
            ob->query("magic/blood") < 5)
-       {  
+       {
            command("say 这把兵器还没炼到顶级，不能换还童丹。");
            return 0;
-       }           
+       }
 
        itm = new("/d/zhuanshi/obj/huantong");
        itm->move(me);
        command("say 好吧，既然你这么舍得我就换个还童丹给你。");
        command("say 至于你这件兵器嘛，我就笑纳了。");
        command("snicker");
-       message_vision("$N拿出一粒还童丹给$n。\n\n", 
-                           this_object(), me);    
+       message_vision("$N拿出一粒还童丹给$n。\n\n",
+                           this_object(), me);
        me->delete_temp("want_dan");
 
        me->delete("can_summon/" + ob->query("id"));
@@ -387,4 +387,3 @@ int accept_object(object me, object ob)
       command("say 你是要换黄梁枕还是返老还童丹？");
       return 0;
 }
-

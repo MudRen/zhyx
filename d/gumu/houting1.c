@@ -38,11 +38,10 @@ void init()
 }
 
 void reset()
-{               tell_object(find_player("mike"),"gumu后厅更新了。");
-                write_file( "/u/mike/gumutaben" , "更新一次\n" , 0);
-      if (random(10) > 8)
-     set("getbook", 3);
-                ::reset();
+{
+        if (random(10) > 8)
+                set("getbook", 3);
+        ::reset();
 }
 int do_tang(string arg)
 {
@@ -118,4 +117,3 @@ int do_niu(string arg)
         me->delete_temp("tmarks/棺");
         return 1;
 }
-

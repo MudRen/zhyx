@@ -11,14 +11,14 @@ mixed ask_improve();
 
 
 #define ULTRA_OPINION   "宗师"
-#define OPINION_TYPE    HIY "兵器功夫" NOR 
+#define OPINION_TYPE    HIY "兵器功夫" NOR
 #define MY_OPINION      "weapon"
 
 string  *my_opinions = ({ "sword", "blade", "staff", "hammer",
                           "club", "whip",  "dagger", });
 
 // 该头文件必须在这里嵌入
-#include <ultra.h>
+#include "ultra.h"
 
 void check_weapon();
 
@@ -57,11 +57,11 @@ void create()
                 "锁"       : "年深日久，开锁的方法我已不记得了。我只记得如果石门\n"
                              "上的六把火炬都点燃了，石门上的锁也就开了。\n",
                 "无招胜有招" : "那就是独孤九剑的最高境界！\n", */
-                "独孤九剑进阶" : (: ask_improve :), 
+                "独孤九剑进阶" : (: ask_improve :),
                 "评价"     : (: ask_opinion :),
                 "opinion"  : (: ask_opinion :),
                 "武学修养" : "武学修养(martial-cognize)乃武术大义，可谓是以一通通百通！",
-                
+
         ]));
 
         set_skill("unarmed", 500);
@@ -202,7 +202,7 @@ int calc_level(object me, string skill)
         if (! sp) return lvl;
 
         lvl += me->query_skill(sp, 1);
-        action = SKILL_D(sp)->query_action(me, me->query_temp("weapon")); 
+        action = SKILL_D(sp)->query_action(me, me->query_temp("weapon"));
         if (mapp(action))
                 lvl += (action["force"] + action["parry"] + action["dodge"] - 250) / 10;
         return lvl;
@@ -361,19 +361,19 @@ mixed ask_improve()
 {
 	    object me;
         me = this_player();
-       
+
 
         if (me->query_skill("dugu-jiujian", 1) < 340)
         {
-                command("shake"); 
-                command("say 可惜，可惜！你独孤九剑还不够熟练，还无法领悟独孤九剑的精妙之处！");               
+                command("shake");
+                command("say 可惜，可惜！你独孤九剑还不够熟练，还无法领悟独孤九剑的精妙之处！");
                 return 1;
         }
 
         if (me->query("can_learn/dugu-jiujian/nothing"))
         {
                 command("nod");
-                command("say 你已经领悟了独孤九剑之精髓，下去好好练习吧！");                
+                command("say 你已经领悟了独孤九剑之精髓，下去好好练习吧！");
                 return 1;
         }
 
@@ -383,7 +383,7 @@ mixed ask_improve()
                 return 1;
         }
 
-        if (me->query("con") < 36 
+        if (me->query("con") < 36
            && me->query("dex") < 36)
         {
                 command("say 你先天身法和根骨都不足，无法体会独孤九剑的精髓！\n");
@@ -412,10 +412,10 @@ mixed ask_improve()
         if (me->can_improve_skill("dugu-jiujian"))
                 me->improve_skill("dugu-jiujian", 1500000);
         me->improve_skill("martial-cognize", 1500000);
-        me->improve_skill("martial-cognize", 1500000);  
-        me->improve_skill("martial-cognize", 1500000);  
+        me->improve_skill("martial-cognize", 1500000);
+        me->improve_skill("martial-cognize", 1500000);
 
         tell_object(me, HIG "你学会了独孤九剑之「无招」。\n" NOR);
-       
+
         return 1;
 }

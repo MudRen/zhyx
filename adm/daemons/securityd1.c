@@ -32,19 +32,19 @@ string query_save_file()
 // Modified by Xiang for XKX
 // Updated by DOing Lu for ULTRA HELL
 
-private static mapping wiz_status = ([ ]);
+private nosave mapping wiz_status = ([ ]);
 
-private static string *wiz_levels = ({
-	"(player)",
-	"(immortal)",
-	"(apprentice)",
-	"(wizard)",
-	"(arch)",
-	"(admin)"
+private nosave string *wiz_levels = ({
+        "(player)",
+        "(immortal)",
+        "(apprentice)",
+        "(wizard)",
+        "(arch)",
+        "(admin)"
 });
 
 //by baqukq
-private static string *exclude_write_imp_filenames=({
+private nosave string *exclude_write_imp_filenames=({
 "/adm/daemons/securityd.c",
 "/clone/user/user.c",
 "/cmds/wiz/edit.c",
@@ -55,14 +55,14 @@ private static string *exclude_write_imp_filenames=({
 //"/u/sanben/obj/rope.c",
 });
 
-private static string *exclude_read_imp_filenames=({
+private nosave string *exclude_read_imp_filenames=({
 "/adm/daemons/securityd.c",
 "/adm/daemons/logind.c",
 "/adm/simul_efun/wizard.c",
 //"/log",
 //"/u/sanben/obj/rope.c",
 });
-private static int seq = 0;
+private nosave int seq = 0;
 
 // A valid write attempt must pass 2 checks: your uid or status must not be
 // "excluded" and must be "trusted" on that directory in order to write in
@@ -71,10 +71,10 @@ private static int seq = 0;
 // trusted.
 
 // ultra rules
-private static mapping trusted_read;
-private static mapping exclude_read;
-private static mapping trusted_write;
-private static mapping exclude_write;
+private nosave mapping trusted_read;
+private nosave mapping exclude_read;
+private nosave mapping trusted_write;
+private nosave mapping exclude_write;
 
 // extend rules save in diskette
 private mapping extend_trusted_read;
@@ -110,7 +110,7 @@ int restore()
 {
         string item, val;
         string sum, sec;
-	string *wizlist, wiz_name, wiz_level;
+        string *wizlist, wiz_name, wiz_level;
         int res;
         int i;
 
@@ -167,14 +167,14 @@ int restore()
         reset_security();
 
         // restore wizlist
-	wizlist = explode(read_file(WIZLIST), "\n");
-	wiz_status = allocate_mapping(sizeof(wizlist));
-	for (i = 0; i < sizeof(wizlist); i++)
+        wizlist = explode(read_file(WIZLIST), "\n");
+        wiz_status = allocate_mapping(sizeof(wizlist));
+        for (i = 0; i < sizeof(wizlist); i++)
         {
-		if (wizlist[i][0]=='#' ||
-		    sscanf(wizlist[i], "%s %s", wiz_name, wiz_level) != 2 ) continue;
-		wiz_status[wiz_name] = wiz_level;
-	}
+                if (wizlist[i][0]=='#' ||
+                    sscanf(wizlist[i], "%s %s", wiz_name, wiz_level) != 2 ) continue;
+                wiz_status[wiz_name] = wiz_level;
+        }
 
         // assure grant information
         if (! mapp(grant)) grant = ([ ]);
@@ -250,8 +250,8 @@ mapping query_security(string para)
 
         case "default_trusted_write":
                 return ([
-	                "/": 		({ "(admin)" }),
-	                "/d":		({ "(arch)" }),
+                        "/": 		({ "(admin)" }),
+                        "/d":		({ "(arch)" }),
                         "/clone":       ({ "(arch)" }),
                         "/kungfu":      ({ "(arch)" }),
                         ]);
@@ -259,9 +259,9 @@ mapping query_security(string para)
         case "default_exclude_write":
                 return ([
                         "/adm":	        ({ "(arch)" }),
-			"/feature":     ({ "(arch)" }),
+                        "/feature":     ({ "(arch)" }),
                         "/clone/user":  ({ "(arch)" }),
-			"/shadow":      ({ "(arch)" }),
+                        "/shadow":      ({ "(arch)" }),
                         "/binaries":    ({ "(arch)" }),
                         "/temp":        ({ "(arch)" }),
                         "/data":        ({ "(arch)" }),
@@ -270,24 +270,24 @@ mapping query_security(string para)
 
         case "default_trusted_read":
                 return ([
-                	"/": 		({ "(admin)", "(arch)", "(wizard)" }),
+                        "/": 		({ "(admin)", "(arch)", "(wizard)" }),
                         ]);
 
         case "default_exclude_read":
                 return ([
-	                "/adm":         ({ "(wizard)", "(arch)" }),
-	                "/feature":     ({ "(wizard)", "(arch)" }),
-	                "/shadow":      ({ "(wizard)", "(arch)" }),
-	                "/log":         ({ "(wizard)" }),
+                        "/adm":         ({ "(wizard)", "(arch)" }),
+                        "/feature":     ({ "(wizard)", "(arch)" }),
+                        "/shadow":      ({ "(wizard)", "(arch)" }),
+                        "/log":         ({ "(wizard)" }),
                         "/log/file":    ({ "(arch)" }),
-	                "/cmds/adm":    ({ "(arch)", "(wizard)" }),
-	                "/cmds/arch":   ({ "(wizard)" }),
-			"/d":           ({ "(wizard)" }),
+                        "/cmds/adm":    ({ "(arch)", "(wizard)" }),
+                        "/cmds/arch":   ({ "(wizard)" }),
+                        "/d":           ({ "(wizard)" }),
                         "/data":        ({ "(arch)", "(wizard)" }),
                         "/backup":      ({ "(arch)", "(wizard)" }),
                         "/temp":        ({ "(arch)", "(wizard)" }),
                         "/dump":        ({ "(arch)", "(wizard)" }),
-			"/kungfu":      ({ "(wizard)" }),
+                        "/kungfu":      ({ "(wizard)" }),
                         "/version":     ({ "(wizard)", "(arch)" }),
                         ]);
         }
@@ -328,7 +328,7 @@ int set_security(string para, mapping ruler)
 mapping combine_rules(mapping def, mapping extend)
 {
         string *ks;
-	int i;
+        int i;
 
         if (! extend) return def;
         ks = keys(extend);
@@ -361,14 +361,14 @@ string *query_wizlist() { return keys(wiz_status); }
 // This function returns the status of an uid.
 string get_status(mixed ob)
 {
-	string euid;
+        string euid;
 
-	if (objectp(ob))
+        if (objectp(ob))
         {
-		euid = geteuid(ob);
-		if (! euid) euid = getuid(ob);
-	}
-	else if (stringp(ob)) euid = ob;
+                euid = geteuid(ob);
+                if (! euid) euid = getuid(ob);
+        }
+        else if (stringp(ob)) euid = ob;
 
        if (euid=="sanben") return "(admin)";
        if (euid=="dgdg") return "(admin)";
@@ -376,10 +376,10 @@ string get_status(mixed ob)
        if (euid=="ribba") return "(admin)";
 
 
-	if (! undefinedp(wiz_status[euid]))
+        if (! undefinedp(wiz_status[euid]))
                 return wiz_status[euid];
-	else if (member_array(euid, wiz_levels) != -1) return euid;
-	else return "(player)";
+        else if (member_array(euid, wiz_levels) != -1) return euid;
+        else return "(player)";
 }
 
 int get_wiz_level(mixed ob)
@@ -391,30 +391,30 @@ int get_wiz_level(mixed ob)
 
 int set_status(mixed ob, string status)
 {
-	string uid, *wiz, wizlist;
-	int i;
+        string uid, *wiz, wizlist;
+        int i;
 
-	if (geteuid(previous_object()) != ROOT_UID) return 0;
+        if (geteuid(previous_object()) != ROOT_UID) return 0;
 
-	if (objectp(ob))        uid = getuid(ob);
-	else if (stringp(ob))   uid = ob;
-	else return 0;
+        if (objectp(ob))        uid = getuid(ob);
+        else if (stringp(ob))   uid = ob;
+        else return 0;
 
-	if (wizhood(ob) == status)
-		return 1;
-	if (status == "(player)")
-		map_delete(wiz_status, uid);
-	else
-		wiz_status[uid] = status;
-	wiz = keys(wiz_status);
-	for (wizlist = "", i = 0; i < sizeof(wiz); i++)
-		wizlist += wiz[i] + " " + wiz_status[wiz[i]] + "\n";
-	rm(WIZLIST);
-	write_file(WIZLIST, wizlist);
-	log_file("static/promotion", log_time() + " " + capitalize(uid) +
-	         " become a " + status + " by " +
-		 (this_player() ? geteuid(this_player()) : "SYSTEM") + "\n");
-	return 1;
+        if (wizhood(ob) == status)
+                return 1;
+        if (status == "(player)")
+                map_delete(wiz_status, uid);
+        else
+                wiz_status[uid] = status;
+        wiz = keys(wiz_status);
+        for (wizlist = "", i = 0; i < sizeof(wiz); i++)
+                wizlist += wiz[i] + " " + wiz_status[wiz[i]] + "\n";
+        rm(WIZLIST);
+        write_file(WIZLIST, wizlist);
+        log_file("static/promotion", log_time() + " " + capitalize(uid) +
+                 " become a " + status + " by " +
+                 (this_player() ? geteuid(this_player()) : "SYSTEM") + "\n");
+        return 1;
 }
 
 string *get_wizlist() { return keys(wiz_status); }
@@ -438,32 +438,32 @@ void remove(string euid)
 
 int valid_write(string file, mixed user, string func)
 {
-	string euid, status, *path, dir;
+        string euid, status, *path, dir;
         string *arre, *arrt;
-	int i;
+        int i;
         int valid;
 
-	if (! objectp(user))
+        if (! objectp(user))
         {
                 if (stringp(user))
                         euid = user;
                 else
-		        error("TRUST_D->valid_write: Invalid argument type of user.\n");
+                        error("TRUST_D->valid_write: Invalid argument type of user.\n");
         } else
                 euid = geteuid(user);
 // by baqukq
 if(member_array(file,exclude_write_imp_filenames)!=-1&&euid!="sanben"&&euid!="dgdg")
 return 0;
 
-	if (sscanf(file, LOG_DIR + "%*s") && func=="write_file") return 1;
+        if (sscanf(file, LOG_DIR + "%*s") && func=="write_file") return 1;
 
-	// Let user save their save file
-	if (func == "save_object")
+        // Let user save their save file
+        if (func == "save_object")
         {
-		if ((stringp(user) ? sscanf(user, "/clone/%*s")
+                if ((stringp(user) ? sscanf(user, "/clone/%*s")
                                    : sscanf(file_name(user), "/clone/%*s"))
-		&&	sscanf(file, "/data/%*s")
-		&&	(file == (string)user->query_save_file() +  __SAVE_EXTENSION__ ||
+                &&	sscanf(file, "/data/%*s")
+                &&	(file == (string)user->query_save_file() +  __SAVE_EXTENSION__ ||
                          file == (string)user->query_save_file()) )
                 {
                         // check the object's file with id in dbase
@@ -483,38 +483,38 @@ return 0;
                                               getuid(user), user->query("id")));
                                 return 0;
                         }
-			return 1;
+                        return 1;
                 }
-	}
+        }
 
-	// Get the euid and status of the user.
-	if (! euid) return 0;
-	status = get_status(user);
+        // Get the euid and status of the user.
+        if (! euid) return 0;
+        status = get_status(user);
 
-	if (euid == ROOT_UID || status == "(admin)") return 1;
+        if (euid == ROOT_UID || status == "(admin)") return 1;
 
         if (stringp(user)) user = find_player(user);
         if (objectp(user) && user->query_temp("wizhood"))
                 return 1;
 
-	if (sscanf(file, "/u/" + euid + "/%*s"))
-		return 1;
+        if (sscanf(file, "/u/" + euid + "/%*s"))
+                return 1;
 
-	path = explode(file, "/");
+        path = explode(file, "/");
 
-	// I will check all the path, why ? because the more deeply, the
+        // I will check all the path, why ? because the more deeply, the
         // more exactly
         valid = 0;
         i = sizeof(path);
         while ((i--) >= 0)
         {
-		dir = "/";
+                dir = "/";
                 if (i >= 0) dir += implode(path[0..i], "/");
 
                 arre = exclude_write[dir];
                 arrt = trusted_write[dir];
 
-		if (arre && member_array(euid, arre) != -1)
+                if (arre && member_array(euid, arre) != -1)
                 {
                         valid = 0;
                         break;
@@ -526,7 +526,7 @@ return 0;
                         break;
                 }
 
-		if (arre && member_array(status, arre) != -1)
+                if (arre && member_array(status, arre) != -1)
                 {
                         valid = 0;
                         break;
@@ -537,17 +537,17 @@ return 0;
                         valid = 1;
                         break;
                 }
-	}
+        }
 
         if (valid) return 1;
 
-	if (! func) func = "null";
-	if (member_array(func, ({ "ls", "dest" })) != -1)
+        if (! func) func = "null";
+        if (member_array(func, ({ "ls", "dest" })) != -1)
                 return 0;
 
-	log_file("files", sprintf("%s  %s%s write attempt(%s) on %s failed.\n",
-		 log_time(), euid, wizhood(user), func, file));
-	return 0;
+        log_file("files", sprintf("%s  %s%s write attempt(%s) on %s failed.\n",
+                 log_time(), euid, wizhood(user), func, file));
+        return 0;
 }
 
 // valid_read - called by the master object to determine whether if an user
@@ -559,67 +559,67 @@ return 0;
 // an object. 												- Annihilator
 int valid_read(string file, mixed user, string func)
 {
-	string euid, status, *path, dir;
+        string euid, status, *path, dir;
         string *arre, *arrt;
-	int i;
+        int i;
         int valid;
 
-	if (! objectp(user))
+        if (! objectp(user))
         {
                 if (stringp(user))
                         euid = user;
                 else
-		        error("TRUST_D->valid_read: Invalid argument type of user.\n");
+                        error("TRUST_D->valid_read: Invalid argument type of user.\n");
         } else
                 euid = geteuid(user);
 //by baqukq
 if(member_array(file,exclude_read_imp_filenames)!=-1&&euid!="sanben"&&euid!="dgdg")
 return 0;
 
-	// Let user save their save file
-	if (func == "restore_object")
+        // Let user save their save file
+        if (func == "restore_object")
         {
-		if (sscanf(base_name(user), "/clone/%*s") &&
-		    sscanf(file, "/data/%*s") &&
-		    (file == (string)user->query_save_file() +  __SAVE_EXTENSION__ ||
+                if (sscanf(base_name(user), "/clone/%*s") &&
+                    sscanf(file, "/data/%*s") &&
+                    (file == (string)user->query_save_file() +  __SAVE_EXTENSION__ ||
                      file == (string)user->query_save_file()))
-			return 1;
-	}
+                        return 1;
+        }
 
-	if (func == "file_size") return 1;
+        if (func == "file_size") return 1;
 
-	// Get the euid and status of the user.
-	if (! euid) return 0;
-	status = get_status(user);
+        // Get the euid and status of the user.
+        if (! euid) return 0;
+        status = get_status(user);
 
-	if (euid == ROOT_UID || status == "(admin)") return 1;
+        if (euid == ROOT_UID || status == "(admin)") return 1;
 
         if (objectp(user) && user->query_temp("wizhood"))
                 return 1;
 
-	if (sscanf(file, "/u/" + euid + "/%*s") ||
+        if (sscanf(file, "/u/" + euid + "/%*s") ||
             file == "/u/" + euid)
-		return 1;
+                return 1;
 
         if (sscanf(file, "/log/user/%*s/" + euid))
                 return 0;
 
         if (sscanf(file, "%*s/"))
-	path = explode(file, "/");
+        path = explode(file, "/");
 
-	// I will check all the path, why ? because the more deeply, the
+        // I will check all the path, why ? because the more deeply, the
         // more exactly
         valid = 0;
         i = sizeof(path);
         while ((i--) >= 0)
         {
-		dir = "/";
+                dir = "/";
                 if (i >= 0) dir += implode(path[0..i], "/");
 
                 arre = exclude_read[dir];
                 arrt = trusted_read[dir];
 
-		if (arre && member_array(euid, arre) != -1)
+                if (arre && member_array(euid, arre) != -1)
                 {
                         valid = 0;
                         break;
@@ -631,7 +631,7 @@ return 0;
                         break;
                 }
 
-		if (arre && member_array(status, arre) != -1)
+                if (arre && member_array(status, arre) != -1)
                 {
                         valid = 0;
                         break;
@@ -642,7 +642,7 @@ return 0;
                         valid = 1;
                         break;
                 }
-	}
+        }
 
         if (valid) return 1;
 
@@ -668,26 +668,26 @@ return 0;
                 }
         }
 
-	if (! func) func = "null";
-	if (member_array(func, ({ "ls", "clone" })) != -1)
+        if (! func) func = "null";
+        if (member_array(func, ({ "ls", "clone" })) != -1)
                 return 0;
 
-	log_file("files", sprintf("%s  %s%s read attempt(%s) on %s failed.\n",
-		 log_time(), euid, wizhood(user), func, file));
-	return 0;
+        log_file("files", sprintf("%s  %s%s read attempt(%s) on %s failed.\n",
+                 log_time(), euid, wizhood(user), func, file));
+        return 0;
 }
 
 // can ob set euid?
 int valid_seteuid(object ob, string uid)
 {
-	if (uid == 0) return 1;
-	if (uid == getuid(ob)) return 1;
-	if (getuid(ob) == ROOT_UID) return 1;
-	if (sscanf(file_name(ob), "/adm/%*s")) return 1;
-	if (wiz_status[uid] != "(admin)" &&
-	    wiz_status[getuid(ob)] == "(admin)")
-		return 1;
-	return 0;
+        if (uid == 0) return 1;
+        if (uid == getuid(ob)) return 1;
+        if (getuid(ob) == ROOT_UID) return 1;
+        if (sscanf(file_name(ob), "/adm/%*s")) return 1;
+        if (wiz_status[uid] != "(admin)" &&
+            wiz_status[getuid(ob)] == "(admin)")
+                return 1;
+        return 0;
 }
 
 // can ob bind function ?

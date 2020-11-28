@@ -7,7 +7,7 @@ inherit NPC;
 inherit F_DEALER;
 inherit F_UNIQUE;
 
-static object *receiver;
+nosave object *receiver;
 
 object *query_receiver() { return receiver; }
 
@@ -319,7 +319,7 @@ int ask_bomb()
 
         me = this_player();
         n = ((int)me->query_temp("receive_rumor_time")) - time();
-        if (n < 0) n = 0;        
+        if (n < 0) n = 0;
         n /= 60;
         if (! n)
         {
@@ -504,4 +504,3 @@ int do_buy(string arg)
 
         return ::do_buy(arg);
 }
-

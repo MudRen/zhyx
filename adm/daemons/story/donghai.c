@@ -4,7 +4,7 @@
 
 int give_gift(string name);
 
-static mixed *story = ({
+nosave mixed *story = ({
         "哪吒：我洗澡去了。",
         "李天王：去就去，可少给我惹事。",
         "......",

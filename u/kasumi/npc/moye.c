@@ -16,7 +16,7 @@ int     no_money();
 #define ITEM_POINT      4
 #define ITEM_PROP       5
 
-static mapping item_type = ([
+nosave mapping item_type = ([
 //      类型        道具类别  继承文件  单位  分量 点数 特殊变量
         "刀"   : ({ "weapon", "blade",  "把", 150, 100, 0, }),
         "剑"   : ({ "weapon", "sword",  "柄", 150, 100, 0, }),
@@ -88,7 +88,7 @@ void create()
 
         set("age", 1525);
         set("shen_type", 0);
-        
+
         set("str", 1000);                       // 保证不会因为负荷过大而接受不了东西
 
         set("inquiry", ([
@@ -113,7 +113,7 @@ void create()
                 "装备" : (: ask_me :),
                 "武器" : (: ask_me :),
                 "刀剑" : (: ask_me :),
-                "装甲" : (: ask_me :),                
+                "装甲" : (: ask_me :),
                 "没钱" : (: no_money :),
                 "钱不够":(: no_money :),
                 "等会" : (: no_money :),
@@ -448,7 +448,7 @@ int do_answer(string arg)
         ob->set("item/type", item_type[arg][ITEM_TYPE]);
         ob->set("item/stype", item_type[arg][ITEM_STYPE]);
         ob->set("item/unit", item_type[arg][ITEM_UNIT]);
-		
+
 		 switch (ob->query("name"))
                 {
                 case "邯郸石":
@@ -489,11 +489,11 @@ int do_answer(string arg)
                         break;
 				case "镇龙石":
                         point = random(30);
-                        break;           
+                        break;
                 default:
                         point = 0;
                         break;
-                }		
+                }
         ob->set("item/point", ob->query("power_point") + point);
         ob->set("item/owner", me);
         ob->set("item/owner_id", me->query("id"));

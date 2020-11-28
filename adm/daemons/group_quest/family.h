@@ -11,7 +11,7 @@ string create_tiaoxin();
 string jiuming();
 int not_wizard(object ob);
 
-static mixed *all_story = ({
+nosave mixed *all_story = ({
 ({
     "『店家！店家！』",
     "挤满食客的酒楼上，name1大声突然嚷嚷起来。",
@@ -151,4 +151,3 @@ static mixed *all_story = ({
     "the_family还不一起行动起来，歼灭来犯之敌？",
 }),
 });
-

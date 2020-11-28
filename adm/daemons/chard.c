@@ -7,8 +7,13 @@
 // #pragma save_binary
 
 #define HUMAN_RACE "/adm/daemons/race/human"
-#define BEAST_RACE "/adm/daemons/race/beast"
 #define MONSTER_RACE "/adm/daemons/race/monster"
+#define BEAST_RACE "/adm/daemons/race/beast"
+#define STOCK_RACE "/adm/daemons/race/stock"
+#define BIRD_RACE "/adm/daemons/race/bird"
+#define FISH_RACE "/adm/daemons/race/fish"
+#define SNAKE_RACE "/adm/daemons/race/snake"
+#define INSECT_RACE "/adm/daemons/race/insect"
 
 void create() { seteuid(getuid()); }
 
@@ -31,10 +36,10 @@ void setup_char(object ob)
                 if ((int)my["max_neili"] > (int)ob->query_neili_limit())
                         my["max_neili"] = (int)ob->query_neili_limit();
 
-	        // avoid excess jingli
-		if ((int)my["max_jingli"] > (int)ob->query_jingli_limit())
-			my["max_jingli"] = (int)ob->query_jingli_limit();
-	}
+                // avoid excess jingli
+                if ((int)my["max_jingli"] > (int)ob->query_jingli_limit())
+                        my["max_jingli"] = (int)ob->query_jingli_limit();
+        }
 
         switch(race)
         {
@@ -46,6 +51,21 @@ void setup_char(object ob)
                 break;
         case "Ò°ÊŞ":
                 BEAST_RACE->setup_beast(ob);
+                break;
+        case "¼ÒĞó":
+                STOCK_RACE->setup_stock(ob);
+                break;
+        case "·ÉÇİ":
+                BIRD_RACE->setup_bird(ob);
+                break;
+        case "ÓÎÓã":
+                FISH_RACE->setup_fish(ob);
+                break;
+        case "ÉßÀà":
+                SNAKE_RACE->setup_snake(ob);
+                break;
+        case "À¥³æ":
+                INSECT_RACE->setup_insect(ob);
                 break;
         default:
                 error("Chard: undefined race " + race + ".\n");

@@ -62,22 +62,22 @@ void create()
 {
         ::create();
         set("gender",query("gender"));
-	set("age", 30 + random(30));
+    set("age", 30 + random(30));
         if (arrayp(query("from")) && sizeof(query("from")))
                 set("long",query("from")[random(sizeof(query("form")))] + "\n据说这次重入江湖乃是因为跟人有了纠纷。\n");
         else
                 set("long","据说这次重入江湖乃是因为跟人有了纠纷\n");
 
 
-	set("attitude", "friendly");
+    set("attitude", "friendly");
        set("chat_chance", 30);
        set("scale", 150);
-	set_temp("apply/armor", 50);
-	set_temp("apply/damage", 50);
-	set_temp("born_time", time());
-	set("inquiry", ([
- 		"调解" : (: ask_me :),
- 	]) );
+    set_temp("apply/armor", 50);
+    set_temp("apply/damage", 50);
+    set_temp("born_time", time());
+    set("inquiry", ([
+         "调解" : (: ask_me :),
+     ]) );
       set_heart_beat(10);
 }
 
@@ -104,7 +104,7 @@ int accept_kill(object ob)
 {
         command("say 怎么说？你也来欺负我？");
         command("cry");
-        return notify_fail("刹那间你只觉得下不了手。\n"); 
+        return notify_fail("刹那间你只觉得下不了手。\n");
 }
 
 int accept_hit(object ob)
@@ -116,40 +116,40 @@ int accept_hit(object ob)
 
 int accept_touxi(object ob)
 {
-        tell_object(ob,"你刚想偷袭，突然发现" + this_object()->name() + "防备很严谨。\n"); 
+        tell_object(ob,"你刚想偷袭，突然发现" + this_object()->name() + "防备很严谨。\n");
         return 1;
 }
 
-int accept_ansuan(object who) 
+int accept_ansuan(object who)
 {
-        return notify_fail("你刚想暗算，可是发现" + this_object()->name() + "非常小心谨慎，让你无从下手。\n"); 
-} 
+        return notify_fail("你刚想暗算，可是发现" + this_object()->name() + "非常小心谨慎，让你无从下手。\n");
+}
 
 void heart_beat()
 {
        mapping msg;
        string msg1,msg2;
 
-	if (time() - query_temp("born_time") > 900)
-	{
-		message_vision("$N哭闹了半天，感觉没什么意思，讪讪的走了。\n", this_object());
-		destruct_me();
-		return;
-	}
+    if (time() - query_temp("born_time") > 900)
+    {
+        message_vision("$N哭闹了半天，感觉没什么意思，讪讪的走了。\n", this_object());
+        destruct_me();
+        return;
+    }
 
-       if (!objectp(jiufen_object) || 
+       if (!objectp(jiufen_object) ||
            !living(jiufen_object) ||
-           !environment(this_object()) || 
+           !environment(this_object()) ||
            !environment(jiufen_object) ||
            environment(this_object()) != environment(jiufen_object))
-	{
-		message_vision("$N哼了一声，恨恨的骂道：这个缩头乌龟，今天我暂且先走了，下次再来！\n", this_object());
-		destruct_me();
-		return;
-	}
+    {
+        message_vision("$N哼了一声，恨恨的骂道：这个缩头乌龟，今天我暂且先走了，下次再来！\n", this_object());
+        destruct_me();
+        return;
+    }
 
        //如果已经开始调节纠纷，则停止吵架
-       if (query_temp("on_tiaojie")) 
+       if (query_temp("on_tiaojie"))
        {
               message_vision("$N对着$n哼了一声。\n",this_object(),jiufen_object);
               message_vision("$n恼怒的瞪着$N，看上去正在强忍着心头的怒气。\n",this_object(),jiufen_object);
@@ -229,7 +229,7 @@ string ask_me()
            who->query("bang_quest/type") != "调解纠纷" ||
            who->query("bang_quest/ob") != this_object())
                return "你是谁？在一边JJYY的烦不烦，给我滚远点，这里没你的事！";
-       
+
        this_object()->set_temp("on_tiaojie",1);
        return "调解？用什么来调解？莫非你还能帮我把" + quest_ob + "找回来啊！";
 }

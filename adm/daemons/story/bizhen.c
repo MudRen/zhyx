@@ -3,13 +3,13 @@
 
 #include <ansi.h>
 
-static string char_id;
-static string char_name;
+nosave string char_id;
+nosave string char_name;
 mixed give_gift1();
 int   give_gift2();
 object select_character();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "只听那那黑衣高个儿怒喝：“吴道通，你是决计不交出来的啦？”",
         "吴道通哼了一声，双手分执铁钳两股，竟将铁钳拆了开来，变成了一对判官笔。",
         "吴道通大喝一声，冲如人群。双笔使开，招招取人穴道，以一敌三，仍然占到了上风。",

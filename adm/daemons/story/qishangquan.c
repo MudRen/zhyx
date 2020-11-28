@@ -2,14 +2,14 @@
 
 #include <ansi.h>
 
-static string char_id;
-static string char_name;
-static string family_name;
+nosave string char_id;
+nosave string char_name;
+nosave string family_name;
 
 int give_gift();
 object select_character();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "话说当日成昆让一武林高手救之后：",
         "杨逍：教主，本教刚刚经过了一场大战，我们应先回光明顶重整明教。",
         "张无忌：杨左使说得也没错，那么我就和杨左使先回光明顶，义父你和韦一笑去追击成昆吧。",
@@ -64,7 +64,7 @@ object select_character()
                               $1->query("combat_exp") <= 3000000 &&
                               $1->query("combat_exp") > 2500000 &&
                               $1->query("max_neili") > 5500 &&
-                              SKILL_D("qishang-quan")->valid_learn($1) && 
+                              SKILL_D("qishang-quan")->valid_learn($1) &&
                               ! wizardp($1) &&
                               ! $1->query("story/qishangquan") :));
         if (! sizeof(obs))
@@ -109,4 +109,3 @@ int give_gift()
         STORY_D->remove_story("qishangquan");
         return 1;
 }
-

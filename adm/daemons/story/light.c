@@ -6,7 +6,7 @@ mixed random_gift();
 
 inherit F_CLEAN_UP;
 
-static mixed *story = ({
+nosave mixed *story = ({
         "电母：这...这是啥？",
         "雷公：怎么了你？",
         "电母杏目圆睁：岂有此理！快说，你背地里都瞒着我干些什么？",
@@ -45,7 +45,7 @@ mixed random_gift()
                 return 0;
 
         ob = obs[random(sizeof(obs))];
-        
+
         if (ob->query("gift/lighting") || random(5))
         {
                 msg = HIR + ob->name(1) + "一声惨叫，软软的倒了下去。" NOR;
@@ -67,4 +67,3 @@ mixed random_gift()
         }
         return msg;
 }
-

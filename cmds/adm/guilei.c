@@ -7,7 +7,7 @@ inherit F_CLEAN_UP;
 
 int guilei_dir(object me, string dir, string type, int continueable, int *total);
 int guilei_file(object me, string file, string type);
-static int all_num;	//判断多少文件给归类
+nosave int all_num;	//判断多少文件给归类
 
 int main(object me, string arg)
 {
@@ -23,16 +23,16 @@ int main(object me, string arg)
         write("文件归类。");
 
         continueable = 1;
- 	if (!arg || !(sscanf(arg,"%s %s",dir,type) == 2)) 
+         if (!arg || !(sscanf(arg,"%s %s",dir,type) == 2))
                 return notify_fail("格式：guilei <路径> room|npc \n");
 
-       	dir = resolve_path(me->query("cwd"), dir);
+               dir = resolve_path(me->query("cwd"), dir);
 
         if (dir[strlen(dir) - 1] != '/')
                 dir += "/";
 
-	if (file_size(dir) != -2)
-		return notify_fail("没有" + dir + "这个路径。\n");
+        if (file_size(dir) != -2)
+                return notify_fail("没有" + dir + "这个路径。\n");
 
         //归类类型
         switch(type)
@@ -50,9 +50,9 @@ int main(object me, string arg)
                         return notify_fail("格式：guilei <路径> room|npc \n");
         }
 
-	me->set("cwd", dir);
+        me->set("cwd", dir);
 
-	message_system("整理归类" + type_name + "档案中，请稍候...");
+        message_system("整理归类" + type_name + "档案中，请稍候...");
         if (! guilei_dir(me, dir, type, continueable, total))
         {
                 write(HIR "归类遇到错误中止。\n" NOR);
@@ -70,7 +70,7 @@ int main(object me, string arg)
 
 int guilei_dir(object me, string dir, string type, int continueable, int *total)
 {
-	int i;
+        int i;
         int l;
         int filecount, compcount;
         mixed *file;
@@ -79,25 +79,25 @@ int guilei_dir(object me, string dir, string type, int continueable, int *total)
         if (! is_root(previous_object()))
                 return 0;
 
-	file = get_dir(dir, -1);
-	if (! sizeof(file))
-	{
+        file = get_dir(dir, -1);
+        if (! sizeof(file))
+        {
                 if (file_size(dir) == -2)
                         write(dir + "这个目录是空的。\n");
-		else
-		        write("没有" + dir + "这个目录。\n");
+                else
+                        write("没有" + dir + "这个目录。\n");
                 return 1;
-	}
+        }
 
         write (HIY "开始检查目录" + dir + "下面的所有文件。\n" NOR);
-	i = sizeof(file);
+        i = sizeof(file);
         compcount = 0;
         filecount = 0;
         all_num = 0;
-	while (i--)
+        while (i--)
         {
-		reset_eval_cost();
-		if (file[i][1] != -2)
+                reset_eval_cost();
+                if (file[i][1] != -2)
                 {
                         filecount++;
                         filename = file[i][0];
@@ -116,16 +116,16 @@ int guilei_dir(object me, string dir, string type, int continueable, int *total)
                 }
 
                 // continue to compile next file
-	}
+        }
         write(HIC "\n整理了目录" + dir + "下的" + HIW + filecount + HIC +
-              "个文件。\n检查了其中" + HIW + compcount + HIC + 
+              "个文件。\n检查了其中" + HIW + compcount + HIC +
               "个档案。\n归类了其中" + HIW + all_num + HIC + "个档案。\n" + NOR );
 
-	i = sizeof(file);
-	while (i--)
+        i = sizeof(file);
+        while (i--)
         {
-		reset_eval_cost();
-		if (file[i][1] == -2)
+                reset_eval_cost();
+                if (file[i][1] == -2)
                 {
                         file[i][0] += "/";
                         write("\n");
@@ -134,7 +134,7 @@ int guilei_dir(object me, string dir, string type, int continueable, int *total)
                                 return 0;
                 }
         }
-	return 1;
+        return 1;
 }
 
 int guilei_file(object me, string file, string type)
@@ -150,14 +150,14 @@ int guilei_file(object me, string file, string type)
                 return 1;
 
         write (".");
-        
+
         //归类房间文件
         if (type == "room")
         {
                 document = read_file(file);
                 if (! document) return 0;
                 is_ok = strsrch(document, "inherit ROOM", 1);
-                
+
                 if (is_ok >= 0)
                 {
                         all_num ++;
@@ -167,7 +167,7 @@ int guilei_file(object me, string file, string type)
                         if (! mapp(all_obj))
                         {
                                 file->set("objects", ([
-                	                "/u/vin/no_npc" : 1,
+                                        "/u/vin/no_npc" : 1,
                                 ]));
                         }
 
@@ -183,10 +183,10 @@ int guilei_file(object me, string file, string type)
                                 the_name = the_object->name(1);
                                 the_id = the_object->query("id");
                                 log_file("static/room", sprintf("%s|%s|%s|%s|%s\n",
-                                        file, 
-                                        file_name, 
-                                        the_object, 
-                                        the_name, 
+                                        file,
+                                        file_name,
+                                        the_object,
+                                        the_name,
                                         the_id,
                                 ));
                         }
@@ -198,7 +198,7 @@ int guilei_file(object me, string file, string type)
                 document = read_file(file);
                 if (!document) return 0;
                 is_ok = strsrch(document,"inherit NPC",1);
-                
+
                 if (is_ok > 0) {
                         all_num ++;
                         obj = new(file);
@@ -227,7 +227,7 @@ int guilei_file(object me, string file, string type)
                                 for (i = 0; i < sizeof(inv); i++)
                                 {
                                         log_file("static/npc_obj", sprintf("%s|%s.c|%s|%s\n",
-                                                file, 
+                                                file,
                                                 base_name(inv[i]),
                                                 inv[i]->query("id"),
                                                 inv[i]->name(1)
@@ -241,9 +241,9 @@ int guilei_file(object me, string file, string type)
                         for (i = 0; i < sizeof(ob_list); i++) {
                                 the_object = ob_list[i] + ".c";
                                 log_file("static/npc_obj", sprintf("%s|%s|%s|%s\n",
-                                        file, 
+                                        file,
                                         the_object,
-                                        the_object->query("id"), 
+                                        the_object->query("id"),
                                         the_object->name(1)
                                 ));
                         }
@@ -278,7 +278,7 @@ int help (object me)
 {
         write(@HELP
 指令格式: guilei <路径|文件名> <room|npc|obj>
- 
+
 这个指令让你指定对一个文件或者一个目录下的房间、人物、物品的
 属性进行归类。
 room参数表示归类房间文件，信息包括文件名、房间名、房间里的物

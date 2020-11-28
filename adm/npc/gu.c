@@ -1,5 +1,5 @@
 // Copyright (C) 2003, by Lonely. All rights reserved.
-// This software can not be used, copied, or modified 
+// This software can not be used, copied, or modified
 // in any form without the written permission from authors.
 
 #include <ansi.h>
@@ -18,7 +18,7 @@ void auto_check();
 int  check_quit(object me);
 int  check_out(object me);
 void message_competition(string msg);
-static object *total = ({ });
+nosave object *total = ({ });
 
 #define LUNJIAN         "/d/huashan/lunjian"
 #define ENTRY_ROOM      "/adm/npc/huashanjueding"
@@ -30,7 +30,7 @@ static object *total = ({ });
 
 void create()
 {
-        seteuid(ROOT_UID); 
+        seteuid(ROOT_UID);
         set_name(HIR "武林英雄鼓" NOR, ({ "drum" }) );
         set_weight(5000000);
         if (clonep())
@@ -52,29 +52,29 @@ int do_knock(string arg)
         object ob, me, *env, *fighters;
         int i, j;
         string msg;
-        
+
         me = this_player();
         ob = environment(me);
         if (! arg || arg != "drum")    return notify_fail("你要敲什么？\n");
-        
+
         if (query("is_drum_knocked"))
                 return notify_fail("比武大会已经开始了，不必再击鼓了。\n");
 
         if (! wizardp(me))
                 return notify_fail("现在召开比武大会，必需由巫师击鼓。\n");
-                
+
         env = all_inventory(ob);
-        for (i = 0, j = 0; i < sizeof(env); i++) 
+        for (i = 0, j = 0; i < sizeof(env); i++)
         {
-                if (! userp(env[i]) || wizardp(env[i]))  
+                if (! userp(env[i]) || wizardp(env[i]))
                         continue;
-                /*        
-                if (env[i]->query("mud_age") < 86400 * 2)  
+                /*
+                if (env[i]->query("mud_age") < 86400 * 2)
                         continue;
-                */        
+                */
                 if (wizardp(me))
                         env[i]->set("title", clear_title(env[i]->query("title")));
-                        
+
                 if (j == 0) fighters = ({ env[i] });
                 else fighters += ({ env[i] });
                 j++;
@@ -85,7 +85,7 @@ int do_knock(string arg)
         // message_vision(BOLD "\n\n\t$N敲响了华山绝顶比武场上的大鼓，鼓声咚咚，令人热血沸腾。\n\n" NOR, me);
         msg = BOLD "\n\n\t" + me->query("name") + "敲响了华山绝顶比武场上的大鼓，鼓声咚咚，令人热血沸腾。\n\n" NOR;
         message("channel:rumor", msg, users());
-        
+
         if (wizardp(me) && wiz_level(me) >= 4)
                 set("drum_knocked", me->query("name"));
         else
@@ -124,7 +124,7 @@ int check_out(object me)
         object ob;
         mapping my;
         string msg;
-        
+
         my = me->query_entire_dbase();
         my["eff_qi"] = my["max_qi"];
         my["eff_jing"] = my["max_jing"];
@@ -178,7 +178,7 @@ void message_competition(string msg)
 
 void heart_beat()
 {
-        seteuid(ROOT_UID); 
+        seteuid(ROOT_UID);
         if (sizeof(total))
                 auto_check();
 }
@@ -212,7 +212,7 @@ void auto_check()
         foreach (ob in lost)
                 check_out(ob);
 
-        total -= ({ 0 }); 
+        total -= ({ 0 });
 }
 
 int sort_user(object ob1, object ob2)
@@ -242,12 +242,12 @@ void de_group(object *fighters)
         object *list, no1, no2, no3, no4, no5;
         mapping arena;
         object room = environment();
-    
+
         if (sizeof(fighters) <= 1)       return;
         for (i = 0; i < 60; i++)
         if (query("group" + i)) delete("group" + i);
         while (query("group" + i)) delete("group" + i);
-        
+
         if (sizeof(fighters) < 8)
         {
                 if (query("loop"))
@@ -290,7 +290,7 @@ void de_group(object *fighters)
                                 no5 = list[i];
                                 break;
                         }
-                                                
+
                         if (no1)
                         {
                                 overmsg = HIW "\n\n本次武林比武大会的结果:\n" + HIM + "          第一名是" +
@@ -325,19 +325,19 @@ void de_group(object *fighters)
                                         no5->query("name") + "(" + no5->query("id") + ")。\n" NOR;
                                 message("channel:rumor", overmsg, users());
                                 file += no5->query("name") + " (" + no5->query("id") + ")\n";
-                        }  
-                                                                      
+                        }
+
 /*
                         if (stringp(query("drum_knocked")))
                         {
                                 log_file("/static/lunjian", file);
                                 if (no1)
                                 {
-                                        no1->add("experience", 5000);     
+                                        no1->add("experience", 5000);
                                         new(FIRST)->move(no1);
                                         new(FIRST)->move(no1);
                                         new(FIRST)->move(no1);
-                                        if (no1->query("PKS") > 10) 
+                                        if (no1->query("PKS") > 10)
                                                 no1->add("PKS", -10);
                                         else no1->delete("PKS");
                                 }
@@ -346,41 +346,41 @@ void de_group(object *fighters)
                                         new(SECOND)->move(no2);
                                         new(SECOND)->move(no2);
                                         new(SECOND)->move(no2);
-                                        no2->add("experience", 4000);     
-                                        if (no2->query("PKS") > 7)                     
+                                        no2->add("experience", 4000);
+                                        if (no2->query("PKS") > 7)
                                                 no2->add("PKS", -7);
                                         else no2->delete("PKS");
                                 }
                                 if (no3)
                                 {
-                                        no3->add("experience", 3000);  
+                                        no3->add("experience", 3000);
                                         new(THIRD)->move(no3);
                                         new(THIRD)->move(no3);
                                         new(THIRD)->move(no3);
-                                        if (no3->query("PKS") > 5)                     
+                                        if (no3->query("PKS") > 5)
                                                 no3->add("PKS", -5);
                                         else no3->delete("PKS");
                                 }
                                 if (no4)
                                 {
-                                        no4->add("experience", 2000);    
+                                        no4->add("experience", 2000);
                                         new(FOURTH)->move(no3);
                                         new(FOURTH)->move(no3);
                                         new(FOURTH)->move(no3);
-                                        if (no4->query("PKS") > 3)                     
+                                        if (no4->query("PKS") > 3)
                                                 no4->add("PKS", -3);
                                         else no4->delete("PKS");
-                                }  
+                                }
                                 if (no5)
                                 {
-                                        no5->add("experience", 1000);    
+                                        no5->add("experience", 1000);
                                         new(FIFTH)->move(no3);
                                         new(FIFTH)->move(no3);
                                         new(FIFTH)->move(no3);
-                                        if (no5->query("PKS") > 1)                     
+                                        if (no5->query("PKS") > 1)
                                                 no5->add("PKS", -1);
                                         else no5->delete("PKS");
-                                }                                                              
+                                }
                         }
 */
 
@@ -399,7 +399,7 @@ void de_group(object *fighters)
                         for (j = i; j < (sizeof(fighters) - 1); j++, k++)
                         {
                                 set("group" + k, ([ fighters[i]:fighters[j+1] ]));
-                                msg += ((string)fighters[i]->query("name") + HIY + "--V.S.--" + NOR + 
+                                msg += ((string)fighters[i]->query("name") + HIY + "--V.S.--" + NOR +
                                         (string)fighters[j+1]->query("name") + (k%3 == 2 ? "\n\n":"\t"));
                         }
                         if (objectp(fighters[i]))
@@ -410,7 +410,7 @@ void de_group(object *fighters)
                                         arena = ([ fighters[i] : 0 ]);
                         }
                 }
-        } else 
+        } else
         {
                 msg = BOLD "\n\n比武大会第" + chinese_number((int)query("lunshu")+  1) + "轮(淘汰赛)赛程：\n\n" NOR;
                 set("loop", 0);
@@ -421,7 +421,7 @@ void de_group(object *fighters)
                                 arena += ([ list[i] : 0 ]);
                         else
                                 arena = ([ list[i] : 0 ]);
-                
+
                 }
                 i = 0;
                 if (sizeof(list)%2)
@@ -459,7 +459,7 @@ void start_fight()
         mapping fighters, arena = query("arena");
         object room = environment();
         object ob1, ob2, *list;
-        
+
         if (mapp(fighters = query("group" + round)))
         {
                 if (sizeof(keys(fighters)))
@@ -483,7 +483,7 @@ void start_fight()
                 if (ob2 && ! ob1)
                 {
                         arena[ob2] += 1;
-                        tell_room(room, BOLD "\n第" + chinese_number((int)query("lunshu")+1) + "轮第" + 
+                        tell_room(room, BOLD "\n第" + chinese_number((int)query("lunshu")+1) + "轮第" +
                                 chinese_number(round) + "回合：  " +
                                 ob2->query("name") + "(" + ob2->query("id") + ")" + HIY + "---------免战!\n" NOR);
                         remove_call_out("start_fight");
@@ -492,14 +492,14 @@ void start_fight()
                 }
                 if (! ob1 && ! ob2)
                 {
-                        tell_room(room, BOLD "\n第" + chinese_number((int)query("lunshu")+1) + "轮第" + 
+                        tell_room(room, BOLD "\n第" + chinese_number((int)query("lunshu")+1) + "轮第" +
                                 chinese_number(round) + "回合：  " +
                                 HIY + "-----------SKIP----------\n" NOR);
                         remove_call_out("start_fight");
                         call_out("start_fight", 1);
                         return;
                 }
-                tell_room(room, BOLD "\n第" + chinese_number((int)query("lunshu")+1) + "轮第" + 
+                tell_room(room, BOLD "\n第" + chinese_number((int)query("lunshu")+1) + "轮第" +
                         chinese_number(round) + "回合：  " +
                         ob1->query("name") + "(" + ob1->query("id") + ")" + HIY + "---V.S.---" + NOR + BOLD +
                         ob2->query("name") + "(" + ob2->query("id") + ")\n" NOR);
@@ -508,7 +508,7 @@ void start_fight()
                 recover(ob1);
                 recover(ob2);
                 message_vision(HIW "\n$N和$n施展轻功,双双跃上擂台。\n\n" NOR, ob1, ob2);
-                
+
                 if (! arrayp(total))
                         total = ({ ob1 });
                 else
@@ -517,7 +517,7 @@ void start_fight()
                 ob1->move(room);
                 init_player(ob1);
                 set_heart_beat(1);
-                
+
                 if (! arrayp(total))
                         total = ({ ob2 });
                 else
@@ -526,7 +526,7 @@ void start_fight()
                 ob2->move(room);
                 init_player(ob2);
                 set_heart_beat(1);
-                
+
                 message("vision", HIW "\n" + ob1->name() + "和" + ob2->name() + "一前一后，跃了上来。\n\n" NOR,
                         room, ({ob1, ob2}));
                 set("time", 3);
@@ -539,7 +539,7 @@ void start_fight()
                 add("lunshu", 1);
                 list = filter_array(keys(query("arena")), "filter_user", this_object());
                 de_group(list);
-        }    
+        }
 }
 
 
@@ -568,34 +568,34 @@ void checking(object ob1, object ob2)
                 message("vision", HIC + ob2->name() + "哈哈大笑几声，跳了下去。\n" NOR, room, ({ob2}));
         } else
                 tell_room(environment(), BOLD "由于双方弃权,继续下一轮比赛。\n" NOR);
-        if (winner) 
+        if (winner)
         {
                 arena = query("arena");
                 arena[winner] += 1;
                 if (ob1)
-                { 
+                {
                         restore_status(ob1);
                         total -= ({ ob1 });
 
-                        ob1->move(environment()); 
+                        ob1->move(environment());
                         ob1->delete("total_hatred");
                         if (! living(ob1))
-                                ob1->revive();                  
+                                ob1->revive();
                 }
                 if (ob2)
-                { 
+                {
                         restore_status(ob2);
                         total -= ({ ob2 });
-                        
+
                         ob2->move(environment());
                         ob2->delete("total_hatred");
                         if (! living(ob2))
                                 ob2->revive();
-                }               
+                }
                 message_vision(HIC "$N哈哈大笑，从擂台上跳了下来。\n" NOR, winner);
                 tell_room(environment(), BOLD "这一回合的结果是：  " + winner->query("name") + " 胜。\n" NOR);
                 total = ({ });
-                recover(ob1);    
+                recover(ob1);
                 recover(ob2);
         }
         remove_call_out("start_fight");
@@ -691,4 +691,3 @@ int give_money(object *players,object *fighters)
         de_group(fighters);
         return 1;
 }
-

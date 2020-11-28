@@ -2,15 +2,15 @@
 
 #include <ansi.h>
 
-static string char_id;
-static string char_name;
-static string family_name;
+nosave string char_id;
+nosave string char_name;
+nosave string family_name;
 mixed give_gift1();
 int   give_gift2();
 
 object select_character();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "只听那黑衣大汉大笑道：“顾炎武，黄宗羲，吕留良，看你们今天往哪里逃？给我拿下了！”",
         "四名亲兵立即应道：“是，谨遵瓜管带吩咐。”",
         "瓜管带道：“回京后见了鳌少保，人人不愁生官发财。”",

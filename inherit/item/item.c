@@ -9,12 +9,12 @@ inherit F_DBASE;
 inherit F_MOVE;
 inherit F_NAME;
 
-static string s_name;
-static string s_id;
+nosave string s_name;
+nosave string s_id;
 
 void setup()
 {
-	seteuid(getuid());
+        seteuid(getuid());
 }
 
 void set_name(string name, string *id)
@@ -28,7 +28,6 @@ string short()
 {
         return s_name + "(" + s_id + ")";
 }
-
 
 int fire(object me, object ob)
 {
@@ -65,4 +64,9 @@ int fire(object me, object ob)
         message_vision(msg, me);
         destruct(this_object());
         return 1;
+}
+
+void init_item()
+{
+        setup();
 }

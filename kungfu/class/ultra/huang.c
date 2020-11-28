@@ -10,14 +10,14 @@ mixed ask_opinion();
 mixed ask_skill();
 
 #define ULTRA_OPINION   "宗师"
-#define OPINION_TYPE    HIY "拳脚功夫" NOR 
+#define OPINION_TYPE    HIY "拳脚功夫" NOR
 #define MY_OPINION      "unarmed"
 
 string  *my_opinions = ({ "unarmed", "finger",
                           "strike", "cuff", "hand", "claw" });
 
 // 该头文件必须在这里嵌入
-#include <ultra.h>
+#include "ultra.h"
 
 void create()
 {
@@ -321,7 +321,7 @@ void unconcious()
 mixed ask_skill()
 {
         object me;
-        
+
         me = this_player();
 
         if (me->query("can_perform/jiuyin-shengong/xin"))
@@ -331,7 +331,7 @@ mixed ask_skill()
         }
 
   /*      if (! me->query("can_learn/jiuyin-shengong/xin"))
-        {               
+        {
                message_sort(HIM "\n黄裳叹道：“当年我随手写了一本武学心得，名曰「九阴真经」，本欲"
                             "留与后人研究武学之用，不料竟成为危害江湖的不祥之物。如果阁下能将其上、"
                             "下两册收集齐交还与我，我便传你绝招「摄心大法」。\n", me);
@@ -340,7 +340,7 @@ mixed ask_skill()
                return "阁下意下如何？";
         } */
 
-        
+
         if (me->query_skill("jiuyin-shengong", 1) < 240)
         {
                command("say 你九阴神功火候还不够，我还不能传你这招！");
@@ -358,7 +358,7 @@ mixed ask_skill()
         {
                command("shake");
                command("say 等你将九阴神功其他绝招领悟后再来找我吧！");
-               return 1; 
+               return 1;
         }
 
         command("nod");
@@ -368,7 +368,7 @@ mixed ask_skill()
                        "黄裳不时地做出各种奇怪的表情，$N" HIC "边听边看，良久，$N" HIC
                        "一声长啸，胸中疑虑顿然消失，再无困扰 ……\n", me);
         command("haha");
-        
+
         if (me->can_improve_skill("force"))
                 me->improve_skill("force", 1500000);
         if (me->can_improve_skill("jiuyin-shengong"))
@@ -388,15 +388,15 @@ void die()
         destruct(this_object());
 }
 
-int accept_object(object me, object ob) 
+int accept_object(object me, object ob)
 {
         if (base_name(ob) != "/clone/lonely/book/zhenjing1"
           && base_name(ob) != "/clone/lonely/book/zhenjing2")
         {
                command("say 你给我这种东西干什么？");
                return 0;
-        } 
-      
+        }
+
         if (base_name(ob) == "/clone/lonely/book/zhenjing1")
         {
                command("nod");
@@ -405,7 +405,7 @@ int accept_object(object me, object ob)
                {
                      command("haha");
                      command("say 既然这样我就传你绝招，你可以随时来问我！");
-                     tell_object(me, HIG "黄裳决定传你「摄心大法」。\n" NOR); 
+                     tell_object(me, HIG "黄裳决定传你「摄心大法」。\n" NOR);
                      me->set("can_learn/jiuyin-shengong/xin", 1);
                      me->delete("give_zhenjing1");
                      me->delete("give_zhenjing2");
@@ -416,7 +416,7 @@ int accept_object(object me, object ob)
                command("say 还有一本「九阴真经下册」，你尽快找到交还与我！");
                destruct(ob);
                return 1;
-        } 
+        }
 
         if (base_name(ob) == "/clone/lonely/book/zhenjing2")
         {
@@ -426,7 +426,7 @@ int accept_object(object me, object ob)
                {
                      command("haha");
                      command("say 既然这样我就传你绝招，你可以随时来问我！");
-                     tell_object(me, HIG "黄裳决定传你「摄心大法」。\n" NOR); 
+                     tell_object(me, HIG "黄裳决定传你「摄心大法」。\n" NOR);
                      me->set("can_learn/jiuyin-shengong/xin", 1);
                      me->delete("give_zhenjing1");
                      me->delete("give_zhenjing2");
@@ -437,6 +437,6 @@ int accept_object(object me, object ob)
                command("say 还有一本「九阴真经上册」，你尽快找到交还与我！");
                destruct(ob);
                return 1;
-        } 
- 
+        }
+
 }

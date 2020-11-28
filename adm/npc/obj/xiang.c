@@ -1,5 +1,5 @@
 // Copyright (C) 2003, by Lonely. All rights reserved.
-// This software can not be used, copied, or modified 
+// This software can not be used, copied, or modified
 // in any form without the written permission from authors.
 // xiang.c 具有当机时候保存玩家物品的箱子
 
@@ -10,9 +10,9 @@ int is_container() { return 1; }
 int no_limit_amount() { return 1; }
 int clean_up() { return 1; }
 
-static int load;
+nosave int load;
 
-string query_save_file() 
+string query_save_file()
 {
         string id;
 
@@ -28,26 +28,26 @@ void save_autoload()
         mapping autoload;
 
         autoload = ([ ]);
-        
+
         inv = all_inventory();
-        
+
         for (i = 0; i < sizeof(inv); i++)
         {
                 reset_eval_cost();
-                if (inv[i]->query("unique") || 
+                if (inv[i]->query("unique") ||
                     inv[i]->is_character() ||
-                    inv[i]->is_no_clone()) 
+                    inv[i]->is_no_clone())
                         continue;
-                        
+
                 obs = base_name(inv[i]);
                 if (! amount = inv[i]->query_amount())
                         amount = 1;
 
                 if (amount > 9000) amount = 9000;
-                        
+
                 autoload[obs] += amount;
         }
-        
+
         delete("autoload");
         set("autoload", autoload);
 }
@@ -63,9 +63,9 @@ int save()
 object make_inventory(string file)
 {
         object ob;
-        
+
         if (! objectp(ob = new(file)))
-                ob = new("/clone/food/xiandan"); 
+                ob = new("/clone/food/xiandan");
 
         if (ob->query_amount())
                 ob->set_amount(1);
@@ -83,15 +83,15 @@ void restore_autoload()
         object obj;
 
         set("no_clean_up", 1);
-                
+
         if (! mapp(ob_list = query("autoload")))
                 return;
-        
+
         list = keys(ob_list);
-                
+
         if (sizeof(list) < 1 || sizeof(list) > 200)
                 return;
-        
+
         ob = allocate_mapping(sizeof(ob_list));
 
         for (i = 0; i < sizeof(list); i++)
@@ -111,23 +111,23 @@ void restore_autoload()
                 {
                 case 1:
                         if (! ob[list[i]]) ob[list[i]] = make_inventory(list[i]);
-                        
+
                         if (environment(ob[list[i]]) != this_object())
                                 destruct(ob[list[i]]);
-                                
+
                         break;
-                        
+
                 default:
-                        obj = make_inventory(list[i]);                        
+                        obj = make_inventory(list[i]);
                         if (obj->query_amount())
                         {
                                 obj->set_amount(ob_list[list[i]]);
                                 obj->move(this_object());
                                 if (environment(obj) != this_object())
-                                        destruct(obj);                                 
+                                        destruct(obj);
                         } else
                         {
-                                destruct(obj);                         
+                                destruct(obj);
                                 for (j = 0; j < ob_list[list[i]]; j++)
                                 {
                                         // If the object is gone, make another one.
@@ -138,7 +138,7 @@ void restore_autoload()
                                                 continue;
                                         }
                                         if (environment(ob[list[i]][j]) != this_object())
-                                                destruct(ob[list[i]][j]); 
+                                                destruct(ob[list[i]][j]);
                                 }
                         }
                 }
@@ -155,10 +155,10 @@ void create()
         set("owner", "lonely");
         if (clonep())
                 set_default_object(__FILE__);
-        else {          
+        else {
                 set_max_encumbrance(100000);
                 set("long", "一个四周边缘镶嵌着珍珠玛瑙的箱子，好像可以将东西放在里面。\n");
-                set("value", 100);              
+                set("value", 100);
                 set("unit", "个");
                 set("no_get", 1);
         }
@@ -166,15 +166,15 @@ void create()
 }
 
 /*
-void init() 
+void init()
 {
         string owner;
-        object env; 
-        
+        object env;
+
         if (! load)
         {
-                env = environment(this_object());  
-                owner = (string)env->query("room_owner_id"); 
+                env = environment(this_object());
+                owner = (string)env->query("room_owner_id");
                 set("owner", owner);
                 restore();
                 restore_autoload();
@@ -187,4 +187,3 @@ int remove()
 {
         save();
 }
-

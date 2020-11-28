@@ -7,7 +7,7 @@
 #include <mudlib.h>
 #include <getconfig.h>
 
-#define local_ip "218.15.33.140"
+#define local_ip "mud.ren"
 
 inherit F_CLEAN_UP;
 string game_uptime(string str_t)
@@ -111,7 +111,7 @@ int main(object me, string arg)
                 //if (strlen(vis_mudn) > 12) vis_mudn = vis_mudn[0..11];
                 //if (strlen(name) > 20) name = name[0..19];
 		vis_mudn = mudn;
-		
+
                 if (mudn == mud_nname())
                         output += HIY BRED;
 

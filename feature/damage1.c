@@ -10,10 +10,10 @@
 #include <action.h>
 #include <condition.h>
 
-static object last_damage_from = 0;
-static string last_damage_name = 0;
-static object defeated_by      = 0;
-static string defeated_by_who  = 0;
+nosave object last_damage_from = 0;
+nosave string last_damage_name = 0;
+nosave object defeated_by      = 0;
+nosave string defeated_by_who  = 0;
 
 object query_last_damage_from() { return last_damage_from; }
 string query_last_damage_name() { return last_damage_name; }
@@ -47,13 +47,13 @@ varargs int receive_damage(string type, int damage, object who)
         else set(type, -1);
 
        //如果是combatd文件呼叫该涵数则消除busy
-        if (file_name(previous_object()) == "/adm/daemons/combatd")                
+        if (file_name(previous_object()) == "/adm/daemons/combatd")
             this_object()->interrupt_me();
 
-       //如果是物件在战斗中中招则消除busy       
+       //如果是物件在战斗中中招则消除busy
        //if (this_object()->is_fight()) this_object()->interrupt_me();
 
-        set_heart_beat(1);     
+        set_heart_beat(1);
 
         return damage;
 }
@@ -84,16 +84,16 @@ varargs int receive_wound(string type, int damage, object who)
                 val = -1;
         }
 
-        if ((int)query(type) > val) set(type, val);      
+        if ((int)query(type) > val) set(type, val);
 
         //如果是combatd文件呼叫该涵数则消除busy
-        if (file_name(previous_object()) == "/adm/daemons/combatd")                
+        if (file_name(previous_object()) == "/adm/daemons/combatd")
             this_object()->interrupt_me();
 
-       //如果是物件在战斗中中招则消除busy       
+       //如果是物件在战斗中中招则消除busy
       //if (this_object()->is_fight()) this_object()->interrupt_me();
 
-        set_heart_beat(1);        
+        set_heart_beat(1);
         return damage;
 }
 
@@ -247,10 +247,10 @@ void unconcious()
 
         message("vision", HIR "\n你的眼前一黑，接著什么也不知道了....\n\n" NOR,
                 me);
-        
+
         me->disable_player(" <昏迷不醒>");
         me->delete_temp("sleeped");
-         
+
         if (objectp(riding = me->query_temp("is_riding")))
         {
                 message_vision("$N一头从$n上面栽了下来！\n",
@@ -297,51 +297,51 @@ varargs void revive(int quiet)
                         me->move(env);
         }
 
-        //因为与cmds里指令相同的add_action消失，所以新加       
-        
+        //因为与cmds里指令相同的add_action消失，所以新加
+
         weapon1 = me->query_temp("weapon");  //第一把兵器
         weapon2 = me->query_temp("secondary_weapon");  //第二把兵器
-        handing = me->query_temp("handing");    //手上hand的物件         
+        handing = me->query_temp("handing");    //手上hand的物件
 
         armors = me->query_temp("armor");     //身上穿的armor
-        if ( armors && sizeof(armors) > 0 )         
+        if ( armors && sizeof(armors) > 0 )
         {
              foreach (armor in keys(armors))
              me->set_temp("armor1/" + armor, armors[armor]);
-        }       
+        }
 
         me->move(VOID_OB);       //本人移动到虚空里一下再回来
                                 //保证环境里有的add_action再次生效
         me->enable_player();
 
-        ob = all_inventory(me);         
-        for(i=0; i<sizeof(ob); i++)   
-           {      
+        ob = all_inventory(me);
+        for(i=0; i<sizeof(ob); i++)
+           {
               ob[i]->move(VOID_OB);  //身上所有物件离开一下再回来
-              ob[i]->move(me);       //保证add_action回来且优先于cmds指令       
-           }      
-        me->move(env);             //返回睡觉的地方      
-        
+              ob[i]->move(me);       //保证add_action回来且优先于cmds指令
+           }
+        me->move(env);             //返回睡觉的地方
+
         if ( weapon1 )  //如果有第一把兵器
-            weapon1->wield();  
+            weapon1->wield();
 
         if ( weapon2 )  //如果有第二把兵器
             weapon2->wield();
 
         if ( handing ) //如果有hand的物件
-            me->set_temp("handing", handing); 
+            me->set_temp("handing", handing);
 
         armors = me->query_temp("armor1");
-        if ( armors && sizeof(armors) > 0 )  //如果身上有穿armor       
+        if ( armors && sizeof(armors) > 0 )  //如果身上有穿armor
         {
              foreach (armor in keys(armors))
              armors[armor]->wear();
-        }    
+        }
         me->delete_temp("armor1");
 
 
         delete("disable_type");
-        set_temp("block_msg/all", 0);        
+        set_temp("block_msg/all", 0);
 
         // write the prompt
         me->write_prompt();
@@ -377,7 +377,7 @@ varargs void die(object killer)
         int direct_die;
         int i;
 
-        me = this_object();       
+        me = this_object();
         me->delete_temp("sleeped");
         me->delete("last_sleep");
 
@@ -655,10 +655,8 @@ int heal_up()
                         if (my["neili"] > my["max_neili"])
                                 my["neili"] = my["max_neili"];
                         update_flag++;
-                } 
+                }
 
         }
         return update_flag;
 }
-
-

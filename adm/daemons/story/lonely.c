@@ -6,7 +6,7 @@ inherit F_CLEAN_UP;
 
 mixed random_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "花旗国,纽约,自由女神像之颠……",
         "华英雄与无敌的决斗已近尾声……",
         "揉合了无敌一生刀意所在的一式“刀中不二”已把华英雄的“剑气长江”压下。",
@@ -25,7 +25,7 @@ static mixed *story = ({
         "杀了这么多人…压抑了这么多感情…容忍了这么久的孤寂…到了最后只剩下了这些…",
         "是一无所有，唯有这天下第一的虚名！",
         "华英雄仰天长叹：天啊，为何偏偏是我！难道我注定要为这天下第一的虚名而孤寂一世？",
-        "天帝：哎，看来华英雄这天煞孤星当得太久，承受不了压力，再这样下去要精神崩溃了！",        
+        "天帝：哎，看来华英雄这天煞孤星当得太久，承受不了压力，再这样下去要精神崩溃了！",
         "天帝：来人，速速去下界找寻合适人选，接替华英雄天煞孤星之位",
         (: random_gift :),
 });
@@ -54,16 +54,16 @@ mixed random_gift()
         obs = filter_array(all_interactive(), (: ! wizardp($1) &&
                                                  environment($1) &&
                                                //  environment($1)->query("outdoors") &&
-                                                 ! $1->query("special_skill/emperor") &&  
-                                                 ! $1->query("special_skill/lonely") &&  
-                                                 ! $1->query("special_skill/queen") &&                          
+                                                 ! $1->query("special_skill/emperor") &&
+                                                 ! $1->query("special_skill/lonely") &&
+                                                 ! $1->query("special_skill/queen") &&
                                                  ! $1->query("doing") :));
         if (! sizeof(obs))
                 return 0;
 
         ob = obs[random(sizeof(obs))];
-        
-        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )       
+
+        if (random( 5200 -  ob->query("kar") * 100 ) > 0 )
         {
                 msg = HIC "天帝：" + ob->name(1) +
                       HIC "此人虽好，但精神承受力太差，不适合接替天煞孤星之位。" NOR;

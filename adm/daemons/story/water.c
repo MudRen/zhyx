@@ -6,7 +6,7 @@ inherit F_CLEAN_UP;
 
 mixed random_gift();
 
-static mixed *story = ({
+nosave mixed *story = ({
         "红孩儿：菩萨！大事不好了！唐僧他们又惹祸了。",
         "观音：哦？他们现在应该在五庄观，出了什么事？",
         "红孩儿：他…他们在五庄观里偷吃了镇元大仙的人参果！",
@@ -46,12 +46,12 @@ mixed random_gift()
                 return 0;
 
         ob = obs[random(sizeof(obs))];
-        
+
         if (ob->query("gift/water") || random(5))
         {
                 msg = HIW "只见" + ob->name(1) +
                       HIW "全身白芒闪耀，神采奕奕。" NOR;
- 
+
                 my = ob->query_entire_dbase();
                 my["jing"]   = my["eff_jing"]   = my["max_jing"];
                 my["jingli"] = my["eff_jingli"] = my["max_jingli"];
@@ -68,4 +68,3 @@ mixed random_gift()
         }
         return msg;
 }
-

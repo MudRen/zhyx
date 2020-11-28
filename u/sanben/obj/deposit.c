@@ -10,7 +10,7 @@ inherit F_SAVE;
 
 #define TO_STORE(x, y) (["name" : ob->query("name"), "id" : ob->query("id"), "file" : base_name(ob), "amount" : x, "sign" : y])
 
-static int load;
+nosave int load;
 mapping *store;
 mapping *data_dbase;
 mapping *temp_dbase;
@@ -50,10 +50,10 @@ void create()
 
 void init()
 {
-    
-        add_action("do_view", "view");      
+
+        add_action("do_view", "view");
         add_action("do_take", "take");
-       
+
 }
 
 int do_view(string arg)
@@ -66,7 +66,7 @@ int do_view(string arg)
 
         set("owner", me->query("id"));
         restore();
-  
+
         if (! id(arg))
                 return notify_fail("你要查看什么？\n");
 
@@ -99,12 +99,12 @@ int do_take(string arg)
         mapping data;
         string *ks;
 
-        me = this_player();       
+        me = this_player();
 
         set("owner", me->query("id"));
         restore();
 
-    
+
         if (! arg || sscanf(arg, "%d %d", amount, sn) != 2)
                 return notify_fail("格式错误，请用 take 数量 编号 来取回物品。\n");
 
@@ -210,9 +210,9 @@ int do_take(string arg)
         return 1;
 }
 
-        
- 
- 
+
+
+
 
 int store_data(object me, object ob, int sn)
 {
@@ -306,5 +306,3 @@ string query_save_file()
         if (! stringp(id = query("owner")) ) return 0;
       return DATA_DIR + "room/" + id + "/" + "storage";
 }
-
-

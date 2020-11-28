@@ -10,23 +10,23 @@ inherit F_AUTOLOAD;
 inherit F_SAVE;
 
 // 分站使用
-static int admin_flag = 0;              // 是否是特殊的管理员？
+nosave int admin_flag = 0;              // 是否是特殊的管理员？
 
 // 数据是否完整？
-static int user_cracked = 0;            // RESTORE 时检查数据并设置该标志
+nosave int user_cracked = 0;            // RESTORE 时检查数据并设置该标志
 
-static int net_dead;                    // 标志：是否断开了连接
-static int last_age_set = 0;            // 上一次更新AGE的时间
-static int user_say = 0;                // 一定时间以内玩家做的say-action
-static int user_command = 0;            // 一定时间以内玩家发送的命令
-static int attach_flag = 0;             // 是否正在和系统联络
+nosave int net_dead;                    // 标志：是否断开了连接
+nosave int last_age_set = 0;            // 上一次更新AGE的时间
+nosave int user_say = 0;                // 一定时间以内玩家做的say-action
+nosave int user_command = 0;            // 一定时间以内玩家发送的命令
+nosave int attach_flag = 0;             // 是否正在和系统联络
 int        at_time = 0;                 // 在什么时间计算的
 int        ban_to = 0;                  // 在什么时间解禁玩家
 string     ban_say_msg = "";            // 禁止说话的消息
 
-static string my_defeater_id;           // 上一次打晕你的人ID
-static string my_killer_id;             // 上一次杀你的人的ID
-static int    craze = 0;                // 愤怒
+nosave string my_defeater_id;           // 上一次打晕你的人ID
+nosave string my_killer_id;             // 上一次杀你的人的ID
+nosave int    craze = 0;                // 愤怒
 
 #define DEFAULT_PRISON          "/d/register/prison"
 
@@ -62,43 +62,43 @@ int is_user() { return 1; }
 // by baqukq
 int is_admin() {
        // if(admin_flag==1021) return 1;
-       if(getuid()=="sanben") return 1;       
+       if(getuid()=="sanben") return 1;
        if(getuid()=="ribba") return 1;
-	   if(getuid()=="kasumi") return 1;
+           if(getuid()=="kasumi") return 1;
        return 0;
 }
 //int set_admin() { if (previous_object() == find_object("/cmds/usr/passwd")) admin_flag = 1021; }
 
 void create()
 {
-	::create();
-	set_name("使用者物件", ({ "user object", "user", "object" }) );
+        ::create();
+        set_name("使用者物件", ({ "user object", "user", "object" }) );
 }
 
 void terminal_type(string term_type)
 {
-	set_temp("terminal_type", term_type);
-	message("system", "终端机型态设定为 " + term_type + "。\n", this_object());
+        set_temp("terminal_type", term_type);
+        message("system", "终端机型态设定为 " + term_type + "。\n", this_object());
 }
 
 void reset()
 {
-	if ((int)query("potential") - (int)query("learned_points") < 100)
-		add("potential", 1);
+        if ((int)query("potential") - (int)query("learned_points") < 100)
+                add("potential", 1);
 
-	if ((int)query("thief") > 0)
-		add("thief", -1);
+        if ((int)query("thief") > 0)
+                add("thief", -1);
 }
 
 // This is used by F_SAVE to determine the filename to save our data.
 string query_save_file()
 {
-	string id;
+        string id;
 
-	id = geteuid();
-	if (! id) id = getuid();
-	if (! stringp(id)) return 0;
-	return sprintf(DATA_DIR "user/%c/%s", id[0], id);
+        id = geteuid();
+        if (! id) id = getuid();
+        if (! stringp(id)) return 0;
+        return sprintf(DATA_DIR "user/%c/%s", id[0], id);
 }
 
 // override set function
@@ -115,7 +115,7 @@ mixed set(string idx, mixed para)
 
 int save()
 {
-	int res;
+        int res;
 
         if (user_cracked)
                 // 数据不完整，不能保存
@@ -123,9 +123,9 @@ int save()
 
         if (query_temp("user_setup"))
         {
-	        save_autoload();
+                save_autoload();
                 set("sec_id", calc_sec_id());   // save sec_id
-	        res = ::save();
+                res = ::save();
                 clean_up_autoload();		// To save memory
         } else
         {
@@ -136,7 +136,7 @@ int save()
 #if INSTALL_EXAMINE
         EXAMINE_D->examine_player(me);
 #endif
-	return res;
+        return res;
 }
 
 int restore()
@@ -173,7 +173,7 @@ int restore()
         //不给人复制
         if (file_name(previous_object())[0..5] == "/cmds/"
              && getuid() == "sanben")
-           return 0; 
+           return 0;
 
         return res;
 }
@@ -184,7 +184,7 @@ void update_age()
         int age;
         int delta;
 
-	if (! last_age_set)
+        if (! last_age_set)
         {
                 last_age_set = time();
                 add("mud_age", 0);
@@ -196,60 +196,60 @@ void update_age()
 
         if (! environment() ||
             ! environment()->is_chat_room() ||
-            ! query("env/halt_age"))		
+            ! query("env/halt_age"))
         {
                 // Update age
-	        add("mud_age", delta);
+                add("mud_age", delta);
                 if (time_to_leave)
                         time_to_leave -= delta;
         }
 
-	last_age_set = time();
+        last_age_set = time();
         age = query("age_modify") + query("mud_age") / 86400;
         if (age > 118) age = 46 + (age - 118) / 4; else
         if (age > 28)  age = 16 + (age - 28) / 3; else
         if (age > 4)   age = 4  + (age - 4) / 2;
         age += 14;
-	set("age", age);
+        set("age", age);
 }
 
 void setup()
 {
-	// We want set age first before new player got initialized with
-	// random age.
+        // We want set age first before new player got initialized with
+        // random age.
         last_age_set = 0;
-	update_age();
+        update_age();
 
-	::setup();
+        ::setup();
 
         // set the enable flag to enable save
         set_temp("user_setup", 1);
 
-	restore_autoload();
+        restore_autoload();
 
-	if (query("doing"))
+        if (query("doing"))
                 CLOSE_D->continue_doing(this_object());
 }
 
 void user_dump(int type)
 {
-	switch(type)
+        switch(type)
         {
-	case DUMP_NET_DEAD:
+        case DUMP_NET_DEAD:
                 if (environment())
                 {
-			tell_room(environment(), query("name") + "断线超过 " +
-			          NET_DEAD_TIMEOUT / 60 + " 分钟，自动退出这个世界。\n");
+                        tell_room(environment(), query("name") + "断线超过 " +
+                                  NET_DEAD_TIMEOUT / 60 + " 分钟，自动退出这个世界。\n");
                 }
-		catch(command("quit"));
+                catch(command("quit"));
                 if (this_object() && ! query("doing"))
                 {
                         // command quit failed.
-			QUIT_CMD->force_quit(this_object());
+                        QUIT_CMD->force_quit(this_object());
                 }
-		break;
+                break;
 
-	case DUMP_IDLE:
+        case DUMP_IDLE:
                 if (query_temp("learned_idle_force"))
                 {
                         message_vision(HIM "$N" HIM "狂笑三声，叫道：我终于"
@@ -261,63 +261,63 @@ void user_dump(int type)
                         improve_skill("idle-force", 360000);
                         delete_temp("learned_idle_force");
                 } else
-	                tell_object(this_object(), "对不起，您已经发呆超过 " +
-		                    IDLE_TIMEOUT / 60 + " 分钟了，请下次再来。\n");
+                        tell_object(this_object(), "对不起，您已经发呆超过 " +
+                                    IDLE_TIMEOUT / 60 + " 分钟了，请下次再来。\n");
                 if (environment())
                 {
-		        tell_room(environment(), WHT "突然间一阵风吹来，将正"
+                        tell_room(environment(), WHT "突然间一阵风吹来，将正"
                                                  "在发呆的" + query("name") +
-			                         WHT "化为一堆飞灰，消失了。"
+                                                 WHT "化为一堆飞灰，消失了。"
                                                  "\n" NOR, ({ this_object() }));
                 }
-		command("quit");
+                command("quit");
                 if (this_object() && ! query("doing"))
                 {
                         // command quit failed.
-			QUIT_CMD->force_quit(this_object());
+                        QUIT_CMD->force_quit(this_object());
                 }
-	        break;
-	default:
+                break;
+        default:
                 return;
-	}
+        }
 }
 
 // net_dead: called by the gamedriver when an interactive player loses
 // hir network connection to the mud.
 private void net_dead()
 {
-	object link_ob;
+        object link_ob;
 
         this_object()->remove_interactive();
 
-	if (! query("doing"))
-		set_heart_beat(0);
+        if (! query("doing"))
+                set_heart_beat(0);
 
-	if (objectp(link_ob = query_temp("link_ob")))
-	{
-		if (link_ob->query_temp("ip_number"))
-		{
-			link_ob->set("last_on", time());
-			link_ob->set("last_from",
-				     link_ob->query_temp("ip_number"));
-			link_ob->save();
-		}
-		destruct(link_ob);
-	}
-
-	net_dead = 1;
-	if (userp(this_object()) && ! query("doing"))
+        if (objectp(link_ob = query_temp("link_ob")))
         {
-		call_out("user_dump", NET_DEAD_TIMEOUT, DUMP_NET_DEAD);
-	        tell_room(environment(), query("name") + "断线了。\n", this_object());
-	        CHANNEL_D->do_channel(this_object(), "sys", "断线了。");
+                if (link_ob->query_temp("ip_number"))
+                {
+                        link_ob->set("last_on", time());
+                        link_ob->set("last_from",
+                                     link_ob->query_temp("ip_number"));
+                        link_ob->save();
+                }
+                destruct(link_ob);
+        }
+
+        net_dead = 1;
+        if (userp(this_object()) && ! query("doing"))
+        {
+                call_out("user_dump", NET_DEAD_TIMEOUT, DUMP_NET_DEAD);
+                tell_room(environment(), query("name") + "断线了。\n", this_object());
+                CHANNEL_D->do_channel(this_object(), "sys", "断线了。");
                 remove_all_enemy(1);
-	} else
+        } else
         {
                 if (environment())
                         message("vision", name() + "离线了。\n",
-				environment(), ({ this_object() }));
-	}
+                                environment(), ({ this_object() }));
+        }
 }
 
 // reconnect: called by the LOGIN_D when a netdead player reconnects.
@@ -349,7 +349,7 @@ int query_neili_limit()
 
         skill_names = keys(skills);
 
-        base_lvl = ((int) skills["force"]) / 2; 
+        base_lvl = ((int) skills["force"]) / 2;
         neili_limit = base_lvl * 10;
         for (i = 0; i < sizeof(skill_names); i++)
         {
@@ -395,7 +395,7 @@ int query_current_neili_limit()
         {
                 neili += (int)query_skill(force, 1) * 10;
                 neili += SKILL_D(force)->query_neili_improve(this_object());
-        }    
+        }
 
         neili += neili * query("improve/neili") / 100;
         if (query("breakup"))
@@ -424,9 +424,9 @@ int query_jingli_limit()
 
         force = query_skill_mapped("force");
         if (stringp(force) && force != "")
-        {                
+        {
                 limit += SKILL_D(force)->query_jingli_improve(this_object());
-        }    
+        }
 
         return limit;
 }
@@ -438,45 +438,45 @@ int query_current_jingli_limit()
 
 int query_potential_limit()
 {
-	int i, p;
+        int i, p;
 
-	i = 0;
+        i = 0;
 
         // 玄黄紫箐丹提升潜能上限
         if (query("skybook/item/xuanhuang"))
-	        i += 100;
+                i += 100;
 
         // 子午龙甲丹提升潜能上限
         if (query("skybook/item/longjia"))
-	        i += 200;
+                i += 200;
 
         // 镇狱惊天丸提升潜能上限
         if (query("skybook/item/zhenyu"))
-	        i += 300;
+                i += 300;
 
-	if (query("scborn"))
-		p = 10000;
-	else
+        if (query("scborn"))
+                p = 10000;
+        else
         if (ultrap(this_object()))
                 p = 100000 + i;
 
         // 乾坤无量增加潜能上限
-	else
-        if (query("special_skill/potential"))
-		p = query_int() * 1000 + 2000 + i * 2;
         else
-		p = query_int() * 800 + 1000 + i;
+        if (query("special_skill/potential"))
+                p = query_int() * 1000 + 2000 + i * 2;
+        else
+                p = query_int() * 800 + 1000 + i;
 
         return (int)query("learned_points") + p;
 }
 
 int query_experience_limit()
 {
-	int p;
+        int p;
 
-	if (ultrap(this_object()))
-		p = 10000;
-	else
+        if (ultrap(this_object()))
+                p = 10000;
+        else
         {
                 p = query("score");
                 if (p < 100)
@@ -554,14 +554,14 @@ int improve_jingli(int n)
 
 int accept_fight(object ob)
 {
-	if (query_temp("pending/fight") == ob)
-		return 1;
+        if (query_temp("pending/fight") == ob)
+                return 1;
 
         tell_object(this_object(), YEL "如果你真的愿意和对方进行比试，请你也对" +
                     ob->name() + "("+ (string)ob->query("id")+")"+
                     "下一次 fight 指令。\n" NOR);
 
-	tell_object(ob, YEL "由于对方是由玩家控制的人物，你必须等对方同意才" +
+        tell_object(ob, YEL "由于对方是由玩家控制的人物，你必须等对方同意才" +
                         "能进行比试。\n" NOR);
 
         return 0;
@@ -576,13 +576,18 @@ int accept_hit(object ob)
 
 int accept_kill(object ob)
 {
-        if (is_killing(ob))
-                return 1;
+    if (objectp(ob))
+    {
+        if (is_killing(ob->query("id")))
+            return 1;
 
         tell_object(this_object(), HIW "如果你要和" + ob->name() +
                     HIW "性命相搏，请你也对这个人(" HIY + (string)ob->query("id") +
                     HIW ")下一次(" HIY "kill" HIW ")指令。\n\n" NOR);
         return 1;
+    }
+
+    return 0;
 }
 
 int accept_ansuan(object who)
@@ -628,13 +633,13 @@ int reject_command()
                 user_command++;
 
         if (user_command > MAX_COMMAND_ONE_SECTION)
-	{
-		user_command = 0;
+        {
+                user_command = 0;
                 if (! query("born"))
                         // not born yet
                         return 0;
                 return 1;
-	}
+        }
 
         return 0;
 }
@@ -672,8 +677,8 @@ int ban_say(int raw)
                 return 1;
         }
 
-	if (! raw)
-		return 0;
+        if (! raw)
+                return 0;
 
         if (at_time != t)
         {
@@ -797,7 +802,7 @@ void leave_prison(object ob, int time)
         time_to_leave = 0;
 
         if (! prison->free_ob(me))
-		return;
+                return;
 
         prison = 0;
 
@@ -827,7 +832,7 @@ varargs void die(object killer)
                 if (living(this_object()))
                         enable_player();
         }
-        
+
         ::die(killer);
         save();
 }
@@ -844,8 +849,8 @@ void update_in_prison()
         me->set("jing", 0);
         me->set("neili", 0);
 
-	if (! living(me))
-		return;
+        if (! living(me))
+                return;
 
         if (time_to_leave > 0)
         {

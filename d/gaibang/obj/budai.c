@@ -4,7 +4,7 @@
 
 inherit ARMOR;
 
-static int amount;
+nosave int amount;
 
 void set_amount(int v)
 {
@@ -101,4 +101,3 @@ int do_remove(string arg)
 
         return 0;
 }
-

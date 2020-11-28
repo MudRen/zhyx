@@ -175,7 +175,7 @@ mapping levels = ([
         530000     : 175,              // level 14
 ]);
 
-static mapping city=([
+nosave mapping city=([
         "bje":"北京东城",
         "bjw":"北京西城",
         "yz":"扬州城",
@@ -187,7 +187,7 @@ static mapping city=([
         "dl":"大理一带",
 ]);
 
-static mapping static_npc = ([
+nosave mapping static_npc = ([
         "bje"     : ([
                         "/d/beijing/caishi.c"  :  "ju min",
                         "/d/beijing/caishi.c"  :  "cai fan",
@@ -698,7 +698,7 @@ static mapping static_npc = ([
                      ]),
 ]);
 
-static mapping place = ([
+nosave mapping place = ([
         "北京东城": ({
                         "/d/beijing/cagc_e","/d/beijing/caroad_e1",
                         "/d/beijing/caroad_e2","/d/beijing/zahuo",
@@ -775,7 +775,7 @@ static mapping place = ([
                         "/d/city/yaopu","/d/city/datiepu",
                         "/d/city/dongmen",
                      }),
-	 "长安城"   : ({
+         "长安城"   : ({
                         "/d/changan/huanggong","/d/changan/bridge1",
                         "/d/changan/baihu2","/d/changan/beian-dadao",
                         "/d/changan/beian-daokou","/d/changan/bingying1",
@@ -1135,7 +1135,7 @@ void init_npc_skill(object ob, int lvl)
         if (lvl >= sizeof(levels)) lvl = sizeof(levels) - 1;
 
         exp = sort_array(keys(levels), 1)[lvl - 1];
-      	 my = ob->query_entire_dbase();
+               my = ob->query_entire_dbase();
         ob->set("combat_exp", exp);
         sk_lvl = levels[exp];
         my["jing"] = my["eff_jing"] = my["max_jing"] = sk_lvl * 3;
@@ -1298,8 +1298,8 @@ void random_move(object ob)
                 dirs = keys(exits);
                 for (i = 0; i < 12; i++)
                 {
-                	if (! sizeof(dirs))
-                		return;
+                        if (! sizeof(dirs))
+                                return;
                         dir = dirs[random(sizeof(dirs))];
                         if (stringp(GO_CMD->query_reverse(dir)) &&
                             ! exits[dir]->query("no_fight"))
@@ -1676,21 +1676,21 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         switch(random(3))
                                         {
                                                 case 0:
-                                                        obj_mapp = QUEST_GOOD_OBJ("0寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("0xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 50;
                                                         new_quest["difficult"] = "容易";
                                                         new_quest["reward"] = "少";
                                                         break;
                                                 case 2:
-                                                        obj_mapp = QUEST_GOOD_OBJ("1寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("1xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 80;
                                                         new_quest["difficult"] = "中等";
                                                         new_quest["reward"] = "中等";
                                                         break;
                                                 case 1:
-                                                        obj_mapp = QUEST_GOOD_OBJ("2寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("2xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 110;
                                                         new_quest["difficult"] = "困难";
@@ -1778,21 +1778,21 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         switch(random(3))
                                         {
                                                 case 0:
-                                                        obj_mapp = QUEST_GOOD_OBJ("0寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("0xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 50;
                                                         new_quest["difficult"] = "容易";
                                                         new_quest["reward"] = "少";
                                                         break;
                                                 case 2:
-                                                        obj_mapp = QUEST_GOOD_OBJ("1寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("1xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 90;
                                                         new_quest["difficult"] = "中等";
                                                         new_quest["reward"] = "中等";
                                                         break;
                                                 case 1:
-                                                        obj_mapp = QUEST_GOOD_OBJ("2寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("2xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 130;
                                                         new_quest["difficult"] = "困难";
@@ -1839,21 +1839,21 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         switch(random(3))
                                         {
                                                 case 0:
-                                                        obj_mapp = QUEST_GOOD_OBJ("0寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("0xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 60;
                                                         new_quest["difficult"] = "容易";
                                                         new_quest["reward"] = "少";
                                                         break;
                                                 case 2:
-                                                        obj_mapp = QUEST_GOOD_OBJ("1寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("1xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 100;
                                                         new_quest["difficult"] = "中等";
                                                         new_quest["reward"] = "中等";
                                                         break;
                                                 case 1:
-                                                        obj_mapp = QUEST_GOOD_OBJ("2寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("2xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 140;
                                                         new_quest["difficult"] = "困难";
@@ -1913,21 +1913,21 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         switch(random(3))
                                         {
                                                 case 0:
-                                                        obj_mapp = QUEST_BAD_OBJ("0寻")->query_questkh();
+                                                        obj_mapp = QUEST_BAD_OBJ("0xun")->query_questkh();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 50;
                                                         new_quest["difficult"] = "容易";
                                                         new_quest["reward"] = "少";
                                                         break;
                                                 case 2:
-                                                        obj_mapp = QUEST_BAD_OBJ("1寻")->query_questkh();
+                                                        obj_mapp = QUEST_BAD_OBJ("1xun")->query_questkh();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 80;
                                                         new_quest["difficult"] = "中等";
                                                         new_quest["reward"] = "中等";
                                                         break;
                                                 case 1:
-                                                        obj_mapp = QUEST_BAD_OBJ("2寻")->query_questkh();
+                                                        obj_mapp = QUEST_BAD_OBJ("2xun")->query_questkh();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 110;
                                                         new_quest["difficult"] = "困难";
@@ -2057,21 +2057,21 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         switch(random(3))
                                         {
                                                 case 0:
-                                                        obj_mapp = QUEST_GOOD_OBJ("0寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("0xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 60;
                                                         new_quest["difficult"] = "容易";
                                                         new_quest["reward"] = "少";
                                                         break;
                                                 case 2:
-                                                        obj_mapp = QUEST_GOOD_OBJ("1寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("1xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 90;
                                                         new_quest["difficult"] = "中等";
                                                         new_quest["reward"] = "中等";
                                                         break;
                                                 case 1:
-                                                        obj_mapp = QUEST_GOOD_OBJ("2寻")->query_questdg();
+                                                        obj_mapp = QUEST_GOOD_OBJ("2xun")->query_questdg();
                                                         new_quest["obj_name"] = obj_mapp["name"];
                                                         new_quest["bonus"] = 130;
                                                         new_quest["difficult"] = "困难";

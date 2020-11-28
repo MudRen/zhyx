@@ -38,7 +38,7 @@ int main(object me, string arg)
                                 }
 
                         }
-                          write_file("/u/mike/report.txt", msg, 1);
+                          write_file("/u/mudren/report.txt", msg, 1);
                         break;
                 case "char"  :
                         ob = objects((: $1->is_character() && ! clonep($1) :));
@@ -79,7 +79,7 @@ int main(object me, string arg)
                                 if (me->query("env/delroom") && base_name(ob[i]) != "/clone/misc/void")
                                 destruct(ob[i]);
                         }
-                          write_file("/u/mike/room.txt", msg, 1);
+                          write_file("/u/mudren/room.txt", msg, 1);
                         if (me->query("env/delroom")) return 1;
 
                         break;
@@ -107,7 +107,7 @@ int main(object me, string arg)
                                         msg += base_name(ob[i]) + "\n";
                                 }
                         }
-                          write_file("/u/mike/object.txt", msg);
+                          write_file("/u/mudren/object.txt", msg);
 
                        break;
                 default:

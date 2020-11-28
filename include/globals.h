@@ -3,9 +3,13 @@
 
 // #pragma save_binary
 
+#ifndef FLUFFOS
+#define nosave static
+#define protected static
+#endif
+
 //新增趣味任务主文件路径
 #define XQUEST          "/u/sanben/xquest/xquest.c"
-
 
 // Important directories
 #define BACKUP_DIR      "/backup/"
@@ -19,7 +23,7 @@
 #define ITEM_DIR        DATA_DIR "item/"
 #define LOG_DIR         "/log/"
 #define QUEST_DIR       "/adm/daemons/quest/"
-#define	SHADOW_DIR	"/shadow/"
+#define	SHADOW_DIR      "/shadow/"
 #define SHOP_DIR        "/clone/shop/"
 #define STORY_DIR       "/adm/daemons/story/"
 #define TEMP_DIR        "/temp/"
@@ -29,6 +33,7 @@
 #define ALIAS_D         "/adm/daemons/aliasd"
 #define BAN_D           "/adm/daemons/band"
 #define BACKUP_D        "/adm/daemons/backupd"
+#define BUNCH_D         "/adm/daemons/bunchd"
 #define CHANNEL_D       "/adm/daemons/channeld"
 #define CHAR_D          "/adm/daemons/chard"
 #define CHINESE_D       "/adm/daemons/chinesed"
@@ -37,7 +42,7 @@
 #define COMMAND_D       "/adm/daemons/commandd"
 #define CONFIG_D        "/adm/daemons/configd"
 #define CPU_D           "/adm/daemons/cpud"
-#define CRON_D           "/adm/daemons/cron"
+#define CRON_D          "/adm/daemons/cron"
 #define DBASE_D         "/adm/daemons/dbased"
 #define EMOTE_D         "/adm/daemons/emoted"
 #define EVENT_D         "/adm/daemons/eventd"
@@ -46,8 +51,11 @@
 #define FINGER_D        "/adm/daemons/fingerd"
 #define FTP_D           "/adm/daemons/ftpd"
 #define GIFT_D          "/adm/daemons/giftd"
+#define GROUP_QUEST_D   "/adm/daemons/group_questd"
+#define HEIDIAN_D       "/adm/daemons/hediand"
 #define INQUIRY_D       "/adm/daemons/inquiryd"
 #define ITEM_D          "/adm/daemons/itemd"
+#define LANGUAGE_D      "/adm/daemons/languaged"
 #define LEAGUE_D        "/adm/daemons/leagued"
 #define LOGIN_D         "/adm/daemons/logind"
 #define MAIL_D          "/adm/daemons/maild"
@@ -59,6 +67,7 @@
 #define NATURE_D        "/adm/daemons/natured"
 #define NEWS_D          "/adm/daemons/newsd"
 #define NPC_D           "/adm/daemons/npcd"
+#define PARTY_QUEST_D   "/adm/daemons/party_questd"
 #define PIG_D           "/adm/daemons/pigd"
 #define PK_D            "/adm/daemons/pkd"
 #define PROFILE_D       "/adm/daemons/profiled"
@@ -74,6 +83,7 @@
 #define VIRTUAL_D       "/adm/daemons/virtuald"
 #define WEAPON_D        "/adm/daemons/weapond"
 
+#define DRUG_D(x)       ("/clone/drug/" + x)
 #define CLASS_D(x)      ("/kungfu/class/" + x)
 #define CONDITION_D(x)  ("/kungfu/condition/" + x)
 #define SKILL_D(x)      ("/kungfu/skill/" + x)
@@ -108,8 +118,9 @@
 #define KNOWER          "/inherit/char/knower"
 #define LIQUID          "/inherit/food/liquid"
 #define MONEY           "/inherit/item/money"
+#define BUNCH_NPC       "/inherit/char/b_npc"
 #define NPC             "/inherit/char/npc"
-#define	PIG_ROOM	"/inherit/room/pigroom"
+#define	PIG_ROOM        "/inherit/room/pigroom"
 #define PILL            "/inherit/medicine/pill"
 #define POISON          "/inherit/condition/poison"
 #define POISON_INSECT   "/inherit/char/insect"

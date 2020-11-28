@@ -23,8 +23,8 @@ string remove_addresses(string, int);
 int filter_listener(object ppl, string only, object me);
 string make_color_string(string arg);
 
-static string msg_log;
-static int log_from;
+nosave string msg_log;
+nosave int log_from;
 
 string query_msg_log() { return msg_log; }
 

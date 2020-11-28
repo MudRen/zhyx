@@ -1,3 +1,5 @@
+#include <ansi.h>
+
 inherit NPC;
 string ask_me();
 void create()
@@ -13,7 +15,7 @@ void create()
             set("force", 10000);
             set("max_qi", 1000000);
             set("qi", 1000000);
-        set("jiali", 1500);   
+        set("jiali", 1500);
        set("attitude","friendly");
       set("inquiry", ([
                 "红包" : (: ask_me :),
@@ -22,7 +24,7 @@ void create()
                 "礼物" : (: ask_me :),
         ]) );
         set("chat_msg", ({
-             "天下无敌忠仆说道："+WHT+"欢迎大家来到天下无敌。\n"NOR, 
+             "天下无敌忠仆说道："+WHT+"欢迎大家来到天下无敌。\n"NOR,
              "欢迎来到我们的游戏。",
              "想要礼物吗？请问问我关于<liwu>的问题！",
              "希望你能成为一代天骄！",
@@ -35,10 +37,10 @@ string ask_me()
 {
         object ob;
         if ( (int)this_player()->query("hongbao_over") == 22 )
-                return RANK_D->query_respect(this_player()) + 
+                return RANK_D->query_respect(this_player()) +
                 "不是给你红包了吗?想乱占便宜呀！";
         if ( (int)this_player()->query("hongbao_over") == 1 )
-                return RANK_D->query_respect(this_player()) + 
+                return RANK_D->query_respect(this_player()) +
                 "你不是已经开过红包了吗?想乱占便宜呀！";
         ob = new("/u/xgchen/hb.c");
         ob->move(this_player());

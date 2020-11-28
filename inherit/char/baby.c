@@ -2,7 +2,7 @@
 #include <ansi.h>
 inherit NPC;
 inherit F_SAVE;
-static int last_age_set;
+nosave int last_age_set;
 
 int query_current_neili_limit();
 int query_neili_limit();
@@ -16,7 +16,7 @@ void update_age()
     	if (! environment()) return;
 
         if (environment()->is_chat_room())
-                last_age_set = time(); 
+                last_age_set = time();
 
     	if (! last_age_set ) last_age_set = time();
     	add("mud_age", time() - last_age_set);
@@ -58,7 +58,7 @@ int query_neili_limit()
 
         skill_names = keys(skills);
 
-        base_lvl = ((int) skills["force"]) / 2; 
+        base_lvl = ((int) skills["force"]) / 2;
         neili_limit = base_lvl * 10;
         for (i = 0; i < sizeof(skill_names); i++)
         {
@@ -104,7 +104,7 @@ int query_current_neili_limit()
         {
                 neili += (int)query_skill(force, 1) * 10;
                 neili += SKILL_D(force)->query_neili_improve(this_object());
-        }    
+        }
 
         neili += neili / 100 * query("improve/neili");
         if (query("breakup"))
@@ -249,7 +249,7 @@ void die()
           	message("channel:rumor", HIM "【江湖谣言】某人：" + NOR + HIW +
                 	"我看见" + this_object()->name() + "被" + killer->name() +
                 	"杀害了，真是惨无人道啊！\n" NOR, users());
-          
+
           	if (playerp(killer))
           		killer->apply_condition("killer", 1000 + killer->query_condition("killer"));
         } else
@@ -272,4 +272,3 @@ void die()
 
         return :: die();
 }
-

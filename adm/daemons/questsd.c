@@ -20,7 +20,7 @@ mapping quest_x(mapping quest_sum);
 void calculate_x();
 
 
-static mapping quests = ([ //任务列表 李、门派、抓鬼、对诗、填海
+nosave mapping quests = ([ //任务列表 李、门派、抓鬼、对诗、填海
 //1.lijing 2.xue 逃犯任务 3.9mi 4.rulai 5.门派杀妖 6门派送物 7添海 8炼丹
 
    "li"		:	"中华挑战",
@@ -30,7 +30,7 @@ static mapping quests = ([ //任务列表 李、门派、抓鬼、对诗、填海
   // "zhongkui":	"钟馗抓鬼",
   // "kaifeng":	"开封任务",
   ]);
-static mapping level = ([ //难度系数
+nosave mapping level = ([ //难度系数
 
    "li"		:	1,
   // "jiumi"	:	10,
@@ -46,7 +46,7 @@ void create()
     	set("name", "任务总管");
    	 	set("id", "quests");
         restore();
-        
+
         remove_call_out("calculate_x");
         call_out("calculate_x",1);
         remove_call_out("announce_x");
@@ -58,7 +58,7 @@ void announce_x() //发布任务奖励系数
     string *klist,str;
     int i;
     object me = this_object();
-	
+
 	klist = keys(quests);
 	str = HIR"【中华任务】"+HIW"浪翻云:装备任务奖励更新完毕：\n";
 	for(i=0; i<sizeof(klist); i++) {
@@ -67,9 +67,9 @@ void announce_x() //发布任务奖励系数
     str += NOR;
 
   	message("sys",str,users());
-  	
+
   	 remove_call_out("announce_x");
-     call_out("announce_x",600); //每10分钟发布一次	
+     call_out("announce_x",600); //每10分钟发布一次
 }
 
 void calculate_x() //计算任务奖励系数
@@ -78,16 +78,16 @@ void calculate_x() //计算任务奖励系数
 	int sum,x,i;
 	mapping a1,a2,a3,a;
     object me = this_object();
-	
+
 	klist = keys(quests);
-	
+
 	a1 = quest_x(me->query("quest_a1"));
 	a2 = quest_x(me->query("quest_a2"));
 	a3 = quest_x(me->query("quest_a3"));
 	a = quest_x(me->query("quest_sum"));
-	
+
 	me->set_temp("quest_a1",a);
-	
+
 	for(i=0; i<sizeof(klist); i++) {
 		me->set("quest_x/"+klist[i],to_int(a1[klist[i]]*0.4+
 			a2[klist[i]]*0.3+a3[klist[i]]*0.2+a[klist[i]]*0.1));
@@ -98,20 +98,20 @@ void calculate_x() //计算任务奖励系数
 	for(i=0; i<sizeof(klist); i++) {
 		sum += me->query("quest_x/"+klist[i]);
 	}
-	
+
 	sum = (sum-sizeof(klist)*1000)/sizeof(klist);
 	for(i=0; i<sizeof(klist); i++) {
 		x = me->query("quest_x/"+klist[i])-sum;
 		if (x < X_MIN) x = X_MIN;
 		if (x > X_MAX) x = X_MAX;
-		me->set("quest_x/"+klist[i],x);		
-	}	
+		me->set("quest_x/"+klist[i],x);
+	}
 	//修正结束
 
 	me->save();
 
   	 remove_call_out("calculate_x");
-     call_out("calculate_x",600); //每10分钟计算一次	
+     call_out("calculate_x",600); //每10分钟计算一次
 }
 
 
@@ -158,12 +158,12 @@ mapping quest_x(mapping quest_sum)
 	quest_x=allocate_mapping(100);
 	klist = keys(quests);
 	klist = sort_array(klist, "sort_keys", this_object());
-	
+
 	if (sizeof(klist) <= 1 || !mapp(quest_sum)) {//只有一个，就不用计算了
   	 	for(i=0; i<sizeof(klist); i++) {
-  	 		quest_x[klist[i]]=1000;	
+  	 		quest_x[klist[i]]=1000;
   	 	}
-		return quest_x; 
+		return quest_x;
 	}
 	sum = 0;
 	for(i=0; i<sizeof(klist); i++) {
@@ -171,10 +171,10 @@ mapping quest_x(mapping quest_sum)
 	}
 	if (sum == 0) {
   	 	for(i=0; i<sizeof(klist); i++) {
-  	 		quest_x[klist[i]]=1000;	
+  	 		quest_x[klist[i]]=1000;
   	 	}
-		return quest_x; 
-	}	
+		return quest_x;
+	}
 	for(i=0; i<sizeof(klist); i++) {
 		x = quest_sum[klist[i]]*level[klist[i]];
 		x = 1000 - x + (sum-x)/(sizeof(klist)-1);
@@ -182,10 +182,7 @@ mapping quest_x(mapping quest_sum)
 		if (x > X_MAX) x = X_MAX;
 		quest_x[klist[i]]=x;
 	}
-	return quest_x; 
+	return quest_x;
 }
 
 string query_save_file() { return DATA_DIR + "npc/quests"; }
-
-
-

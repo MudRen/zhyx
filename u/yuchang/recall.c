@@ -6,9 +6,9 @@
 inherit F_DBASE;
 
 #define RECALL_MIN  0
-#define PATH     "/clone/lonely/book/"  
+#define PATH     "/clone/lonely/book/"
 
-static string *obs = ({
+nosave string *obs = ({
 "/clone/book/lbook4",
 "/clone/book/pixie_book",
 "/clone/book/qiankun_book",
@@ -22,24 +22,24 @@ void create()
 {
         seteuid(ROOT_UID);
         set("channel_id", "唯一书籍回收精灵");
-        write("书籍回收精灵已经启动。\n");  
+        write("书籍回收精灵已经启动。\n");
         remove_call_out("recall");
-        call_out("recall", 300);          
+        call_out("recall", 300);
         set_heart_beat(60);
 }
 
 private void heart_beat()
-{  
-     int* lt;     
-     lt = localtime(time()); 
-    
-     if ( lt[2] % 3 == 0  && lt[1] == RECALL_MIN) 
+{
+     int* lt;
+     lt = localtime(time());
+
+     if ( lt[2] % 3 == 0  && lt[1] == RECALL_MIN)
      {
         remove_call_out("recall");
         call_out("recall", 1);
      }
-     
-     
+
+
 }
 
 
@@ -47,7 +47,7 @@ void recall()
 {
      int i;
      object ob, where;
-     string *list = get_dir(PATH);    
+     string *list = get_dir(PATH);
 
        for(i=0; i<sizeof(list); i++)
        {
@@ -61,7 +61,7 @@ void recall()
               continue;
 
          ob->set("no_get",1);
-            
+
          if ( i < 15 )
             ob->move("/d/city/shuyuan3");
          else
@@ -73,7 +73,7 @@ void recall()
          else
          if ( i < 40 )
             ob->move("/d/city/shuyuan6");
-         else    
+         else
          if ( i < 41 )
             ob->move("/d/city/shuyuan7");
          else
@@ -82,13 +82,13 @@ void recall()
 
       for(i=0; i<sizeof(obs); i++)
       {
-         ob = find_object(obs[i]);          
+         ob = find_object(obs[i]);
          if (! ob) ob = load_object(obs[i]);
          ob->set("no_get",1);
          ob->move("/d/city/shuyuan7");
 
-     }      
+     }
 
      message("vision", HIY"【系统消息】唯一书籍已更新，"
-              "玩家可到扬州书院楼上的三味书屋阅读。\n"NOR, users());           
+              "玩家可到扬州书院楼上的三味书屋阅读。\n"NOR, users());
 }

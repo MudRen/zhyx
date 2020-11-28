@@ -1,15 +1,15 @@
 // write by yeer
 // update by Lonely 2005.1
-// xiang.c 
+// xiang.c
 
-#include <ansi.h> 
+#include <ansi.h>
 
 inherit ITEM;
 inherit F_SAVE;
 
 #define TO_STORE(x, y) (["name" : ob->query("name"), "id" : ob->query("id"), "file" : base_name(ob), "amount" : x, "sign" : y])
 
-static int load;
+nosave int load;
 mapping *store;
 mapping *data_dbase;
 mapping *temp_dbase;
@@ -33,13 +33,13 @@ void create()
         set_weight(1000);
         if (clonep())
                 set_default_object(__FILE__);
-        else {          
+        else {
                 set("long", HIW "一个四周边缘环绕着神秘光环的箱子，据说"
                                 "可以将东西无限制的存（store）进去,不会"
                                 "丢失，且无论什么时候都可以取（take）出"
                                 "来，还可以使用密码锁（lock）防盗。" NOR);
-                                
-                set("value", 100);              
+
+                set("value", 100);
                 set("unit", "个");
                 set("no_get", 1);
         }
@@ -69,26 +69,26 @@ string long()
         }
 }
 
-void init() 
+void init()
 {
         string owner;
-        object env; 
+        object env;
 
-        if (! load) 
-        {       
-                env = environment(this_object());  
-                if (stringp(owner = env->query("room_owner_id"))) 
+        if (! load)
+        {
+                env = environment(this_object());
+                if (stringp(owner = env->query("room_owner_id")))
                         set("owner", owner);
-                        
+
                 restore();
-                load = 1;                    
+                load = 1;
         }
-        
+
         add_action("do_view",  ({ "view",  "cha" }));
         add_action("do_store", ({ "store", "cun" }));
         add_action("do_take",  ({ "take",  "qu"  }));
-        add_action("do_lock",  ({ "lock",  "suo" }));        
-        add_action("do_open",  ({ "open",  "kai" }));        
+        add_action("do_lock",  ({ "lock",  "suo" }));
+        add_action("do_open",  ({ "open",  "kai" }));
 }
 
 int do_view(string arg)
@@ -101,22 +101,22 @@ int do_view(string arg)
 
         if (! id(arg))
                 return notify_fail("你要查看什么？\n");
-                
-        if (query("open") != 1 && ! wizardp(me)) 
+
+        if (query("open") != 1 && ! wizardp(me))
                 return notify_fail("请先把箱子打开才能查开物品。\n");
 
         if (! store || sizeof(store) < 1)
-                return  notify_fail("你目前没有存放任何物品在箱子里。\n");     
+                return  notify_fail("你目前没有存放任何物品在箱子里。\n");
 
         msg = HIW "\n目前你存放的物品有：\n编号  物品                                      数量\n"
                   "──────────────────────────\n" NOR;
-              
-        for (int i = 0; i < sizeof(store); i++) 
+
+        for (int i = 0; i < sizeof(store); i++)
         {
-                ob_name = filter_color(store[i]["name"] + "(" + store[i]["id"] + ")"); 
+                ob_name = filter_color(store[i]["name"] + "(" + store[i]["id"] + ")");
                 ob_name_real_len = color_len(store[i]["name"] + "(" + store[i]["id"] + ")");
-                msg += sprintf("[%2d]  %-" + (36 + ob_name_real_len) + "s     %5d\n", 
-                               i + 1, store[i]["name"] + "(" + store[i]["id"] + ")",  
+                msg += sprintf("[%2d]  %-" + (36 + ob_name_real_len) + "s     %5d\n",
+                               i + 1, store[i]["name"] + "(" + store[i]["id"] + ")",
                                store[i]["amount"]);
                 if (store[i]["amount"] == 0)
                         store[i] = 0;
@@ -125,7 +125,7 @@ int do_view(string arg)
         this_player()->start_more(msg);
         store -= ({ 0 });
         return 1;
-}        
+}
 
 int do_open(string arg)
 {
@@ -137,14 +137,14 @@ int do_open(string arg)
 
         if (! id(arg))
                 return notify_fail("你要想打开什么？\n");
-                
+
         if (query("closed") && this_object()->query("owner") != me)
         {
                 write("箱子已经上了暗锁，请输入开箱密码：");
-                input_to((: get_passwd :), me);    
+                input_to((: get_passwd :), me);
                 return 1;
         }
-        
+
         set("open", 1);
         set("closed", 0);
         write(HIG "箱子已经成功打开，可输入 view 查看箱子里装的东西！\n" NOR);
@@ -152,15 +152,15 @@ int do_open(string arg)
 }
 
 int get_passwd(string pass, object ob)
-{               
-        if (crypt(pass, query("passwd")) == query("passwd")) 
+{
+        if (crypt(pass, query("passwd")) == query("passwd"))
         {
                 set("open", 1);
                 set("closed", 0);
                 write(HIG "箱子已经成功解锁，可输入 view 查看箱子里装的东西！\n" NOR);
                 return 1;
-        } else 
-        { 
+        } else
+        {
                 write("密码错误，请核对密码后再试！\n");
                 return 1;
         }
@@ -176,35 +176,35 @@ int do_lock(string arg)
 
         if (! id(arg))
                 return notify_fail("你要想锁上什么？\n");
-        
+
         if (query("closed"))
                 return notify_fail("箱子已经上了暗锁。\n");
-                        
+
         set("open", 0);
-        
+
         if (this_object()->query("owner") != me->query("id"))
         {
                 if (query("passwd"))
                         set("closed", 1);
-                        
+
                 write("你把箱子合上" + (query("passwd") ? "并加上了暗锁！" : "。") + "\n");
                 return 1;
-        }   
-        
+        }
+
         write("箱子已经合上，你需要给箱子加上暗锁吗？（" HIR "y" HIG "/" HIY "n" HIG "）\n" NOR);
         input_to((: confirm :), me);
-        return 1; 
+        return 1;
 }
 
 int confirm(string yn, object me)
 {
-        if (upper_case(yn) == "Y") 
-        {                 
+        if (upper_case(yn) == "Y")
+        {
                 write(HIW "请设定箱子暗锁的密码：" NOR);
                 input_to((: set_passwd :), me);
-                
+
                 return 1;
-        } else 
+        } else
         {
                 write(HIG "您选择了放弃加暗锁。\n" NOR);
                 return 1;
@@ -212,7 +212,7 @@ int confirm(string yn, object me)
 }
 
 int set_passwd(string pass, object ob)
-{ 
+{
         write("\n");
 
         if (strlen(pass) < 5)
@@ -221,8 +221,8 @@ int set_passwd(string pass, object ob)
                 input_to((: set_passwd :), ob);
                 return 1;
         }
-        
-        set("closed", 1);             
+
+        set("closed", 1);
         set("passwd", crypt(pass, 0));
         save();
         write(HIG "箱子已经成功锁上，请记住你设定的密码！\n" NOR);
@@ -238,25 +238,25 @@ int do_take(string arg)
 
         me = this_player();
 
-        if (query("open") != 1 && ! wizardp(me)) 
+        if (query("open") != 1 && ! wizardp(me))
                 return notify_fail("箱子已经上锁，请先解锁。\n");
 
-        if (! arg || sscanf(arg, "%d %d", amount, sn) != 2) 
+        if (! arg || sscanf(arg, "%d %d", amount, sn) != 2)
                 return notify_fail("格式错误，请用 take 数量 编号 来取回物品。\n");
 
-        if (amount < 1 || amount > 2000) 
+        if (amount < 1 || amount > 2000)
                 return notify_fail("每次取物品的数量不得小于一同时也不能大于两千。\n");
-                
+
         if (sn < 1) return notify_fail("你要取第几号物品？\n");
-        
-        if (! store || sizeof(store) < 1 || sn > sizeof(store)) 
-                return notify_fail("你的箱子里没有存放这项物品。\n");        
-                
-        if (amount > store[sn-1]["amount"]) 
+
+        if (! store || sizeof(store) < 1 || sn > sizeof(store))
+                return notify_fail("你的箱子里没有存放这项物品。\n");
+
+        if (amount > store[sn-1]["amount"])
                 return notify_fail("这样物品你没有那么多个。\n");
 
         ob = new(store[sn-1]["file"]);
-        if (me->query_encumbrance() + ob->query_weight() * amount > me->query_max_encumbrance()) 
+        if (me->query_encumbrance() + ob->query_weight() * amount > me->query_max_encumbrance())
         {
                 tell_object(me, "你的负重不够，无法一次取出这么多物品。\n");
                 destruct(ob);
@@ -265,9 +265,9 @@ int do_take(string arg)
 
         store[sn-1]["amount"] -= amount;
 
-        if (ob->query_amount()) 
+        if (ob->query_amount())
         {
-                if (store[sn-1]["amount"] == 0) 
+                if (store[sn-1]["amount"] == 0)
                 {
                         store[sn-1] = 0;
                         store -= ({ 0 });
@@ -275,17 +275,17 @@ int do_take(string arg)
                 ob->set_amount(amount);
                 ob->move(me);
                 save();
-                                
+
                 message_vision("$N从箱子里取出一" +
                                 ob->query("unit") + ob->query("name") + "。\n", me);
                 return 1;
         }
-        
+
         destruct(ob);
-        
+
         amount1 = amount;
-                             
-        while (amount1--) 
+
+        while (amount1--)
         {
                 ob = new(store[sn-1]["file"]);
                 if (data_dbase && sizeof(data_dbase) > 0)
@@ -296,11 +296,11 @@ int do_take(string arg)
                                 {
                                         data = data_dbase[i];
                                         ks = keys(data);
-                                        for (j = 0; j < sizeof(ks); j++) 
+                                        for (j = 0; j < sizeof(ks); j++)
                                         {
-                                                if (ks[j] == "sign") continue;                            
+                                                if (ks[j] == "sign") continue;
                                                 ob->set(ks[j], data[ks[j]]);
-                                        }                                        
+                                        }
                                         data_dbase[i] = 0;
                                 }
                         }
@@ -314,30 +314,30 @@ int do_take(string arg)
                                 {
                                         data = temp_dbase[i];
                                         ks = keys(data);
-                                        for (j = 0; j < sizeof(ks); j++) 
+                                        for (j = 0; j < sizeof(ks); j++)
                                         {
-                                                if (ks[j] == "sign") continue;                            
+                                                if (ks[j] == "sign") continue;
                                                 ob->set_temp(ks[j], data[ks[j]]);
                                         }
                                         temp_dbase[i] = 0;
                                 }
                         }
-                        temp_dbase -= ({ 0 });  
-                }   
-                
-                if(ob->short() != store[sn-1]["name"] + "(" + store[sn-1]["id"] + ")") 
-                { 
+                        temp_dbase -= ({ 0 });
+                }
+
+                if(ob->short() != store[sn-1]["name"] + "(" + store[sn-1]["id"] + ")")
+                {
                         amount1++;
                         destruct(ob);
                         continue;
-                }                           
+                }
                 ob->move(me);
         }
 
-        message_vision("$N从箱子里取出" + chinese_number(amount) + 
+        message_vision("$N从箱子里取出" + chinese_number(amount) +
                         ob->query("unit") + ob->query("name") + "。\n", me);
-                                
-        if (store[sn-1]["amount"] == 0) 
+
+        if (store[sn-1]["amount"] == 0)
         {
                 store[sn-1] = 0;
                 store -= ({ 0 });
@@ -355,13 +355,13 @@ int do_store(string arg)
         me = this_player();
 
         if (! arg) return notify_fail("你要存放什么东西？\n");
-        
-        if (query("open") != 1 && ! wizardp(me)) 
+
+        if (query("open") != 1 && ! wizardp(me))
                 return notify_fail("箱子是合上的，请先打开（open）后再放入物品。\n");
 
         if (store && sizeof(store) > 200)
                 return notify_fail("箱子最多只能存入两百个格子，现在箱子已经满了。\n");
-                
+
         if (sscanf(arg, "%d %s", amount, item) == 2) {
 
                 if(! objectp(ob1 = present(item, me)))
@@ -380,7 +380,7 @@ int do_store(string arg)
 
                 if(base_name(ob1) == "/clone/misc/corpse")
                         return notify_fail("箱子不保存" + ob1->query("name") + "，请你自己妥善处理。\n");
-                        
+
                 if (! ob1->query_amount())
                         return notify_fail(ob1->name() + "不能被分开存放。\n");
 
@@ -390,16 +390,16 @@ int do_store(string arg)
                 if (amount > ob1->query_amount())
                         return notify_fail("你没有那么多的" + ob1->name() + "。\n");
 
-                else 
+                else
                 if (amount == (int)ob1->query_amount())
                         return store_item(me, ob1, amount);
 
-                else 
+                else
                 {
                         ob1->set_amount((int)ob1->query_amount() - amount);
                         ob2 = new(base_name(ob1));
                         ob2->set_amount(amount);
-                        if(! store_item(me, ob2, amount)) 
+                        if(! store_item(me, ob2, amount))
                         {
                                 ob2->move(me);
                                 return 0;
@@ -407,13 +407,13 @@ int do_store(string arg)
                         return 1;
                 }
         }
- 
-        if (arg == "all") 
+
+        if (arg == "all")
         {
 
                 inv = all_inventory(me);
 
-                for(i = 0; i < sizeof(inv); i++) 
+                for(i = 0; i < sizeof(inv); i++)
                         do_store(inv[i]->query("id"));
 
                 return 1;
@@ -424,7 +424,7 @@ int do_store(string arg)
 
         if (member_array(ITEM + ".c", deep_inherit_list(ob1)) == -1 &&
             member_array(COMBINED_ITEM + ".c", deep_inherit_list(ob1)) == -1)
-                return notify_fail("对不起，你不能存放该物品。\n");      
+                return notify_fail("对不起，你不能存放该物品。\n");
 
         if(member_array(MONEY + ".c", deep_inherit_list(ob1)) != -1)
                 return notify_fail("要存钱请去钱庄吧。\n");
@@ -432,7 +432,7 @@ int do_store(string arg)
         if(base_name(ob1) == "/clone/misc/corpse")
                 return notify_fail("箱子不保存" + ob1->query("name") + "，请你自己妥善处理。\n");
 
-        if (ob1->query_amount()) 
+        if (ob1->query_amount())
                 return do_store(ob1->query_amount() + " " + arg);
 
         store_item(me, ob1, 1);
@@ -444,14 +444,14 @@ int store_item(object me, object ob, int amount)
         object obj;
         int i, n, sn;
 
-        if (ob->query("unique") || ! clonep(ob) || 
+        if (ob->query("unique") || ! clonep(ob) ||
             ob->query("id") == "pass")
         {
                 tell_object(me, "这样物品不能储存在箱子里的。\n");
                 return 1;
         }
 
-        switch((string)ob->query("equipped")) 
+        switch((string)ob->query("equipped"))
         {
         case "worn":
                 tell_object(me, ob->name() + "必须先脱下来才能存放。\n");
@@ -461,54 +461,54 @@ int store_item(object me, object ob, int amount)
                 return 1;
         }
 
-        if (! objectp(ob)) 
+        if (! objectp(ob))
         {
                 error("no this object!\n");
                 return 1;
         }
-        
-        if (sizeof(all_inventory(ob))) 
+
+        if (sizeof(all_inventory(ob)))
         {
                 tell_object(me, "请你先把" + ob->query("name") + "里面的东西先拿出来。\n");
                 return 1;
         }
-        
+
         if (! store) store = ({});
-        
+
         n = sizeof(store);
 
         obj = new(base_name(ob));
         if (ob->query("startroom") == "/adm/npc/obj/xiang")
                 ob->delete("startroom"); // 为兼容泥潭原有的箱子而填加
 
-        if (! ob->query_amount()) 
-        { 
-                if (! compare_mapping(ob->query_entire_temp_dbase(), obj->query_entire_temp_dbase()) || 
+        if (! ob->query_amount())
+        {
+                if (! compare_mapping(ob->query_entire_temp_dbase(), obj->query_entire_temp_dbase()) ||
                     ! compare_mapping(ob->query_entire_dbase(), obj->query_entire_dbase()))
-                {                        
+                {
                         sn = time() + random(99999999);
                         store += ({TO_STORE(amount, sn)});
                         store_data(me, ob, sn);
                         save();
-                
-                        message_vision("$N存入" + chinese_number(amount) + ob->query("unit") + 
-                                        ob->query("name") + "到箱子里。\n", me);             
+
+                        message_vision("$N存入" + chinese_number(amount) + ob->query("unit") +
+                                        ob->query("name") + "到箱子里。\n", me);
                         destruct(ob);
                         destruct(obj);
                         return 1;
-                } 
+                }
         }
-        destruct(obj);        
-        for (i = 0; i < n; i++) 
+        destruct(obj);
+        for (i = 0; i < n; i++)
         {
-                if (store[i]["id"] == ob->query("id") && 
-                    store[i]["name"] == ob->query("name") && 
-                    store[i]["file"] == base_name(ob)) 
+                if (store[i]["id"] == ob->query("id") &&
+                    store[i]["name"] == ob->query("name") &&
+                    store[i]["file"] == base_name(ob))
                 {
                         store[i]["amount"] += amount;
-                        
+
                         message_vision("$N存入" + (amount > 1 ? "一" : chinese_number(amount)) +
-                                        ob->query("unit") + ob->query("name") + "到箱子里。\n", me);                               
+                                        ob->query("unit") + ob->query("name") + "到箱子里。\n", me);
                         destruct(ob);
                         save();
                         return 1;
@@ -519,7 +519,7 @@ int store_item(object me, object ob, int amount)
         save();
 
         message_vision("$N存入" + (amount > 1 ? "一" : chinese_number(amount)) +
-                        ob->query("unit") + ob->query("name") + "到箱子里。\n", me);           
+                        ob->query("unit") + ob->query("name") + "到箱子里。\n", me);
 
         destruct(ob);
         return 1;
@@ -529,22 +529,22 @@ int store_data(object me, object ob, int sn)
 {
         mapping data;
 
-        if (! data_dbase) 
+        if (! data_dbase)
                 data_dbase = ({});
         data = ob->query_entire_dbase();
         data += ([ "sign" : sn ]);
         data_dbase += ({data});
-        
+
         if (! temp_dbase)
                 temp_dbase = ({});
-                
+
         data = ob->query_entire_temp_dbase();
-        
+
         if (! data) return 1;
-        
-        data += ([ "sign" : sn ]);        
+
+        data += ([ "sign" : sn ]);
         temp_dbase += ({data});
-        
+
         return 1;
 }
 
@@ -552,22 +552,22 @@ int compare_mapping(mapping m1, mapping m2)
 {
         string index, m_type;
 
-        if (! m1 && ! m2 ) 
+        if (! m1 && ! m2 )
                 return 1;
 
-        if (sizeof(m1) != sizeof(m2)) 
+        if (sizeof(m1) != sizeof(m2))
                 return 0;
 
-        foreach (index in keys(m1)) 
+        foreach (index in keys(m1))
         {
                 m_type = typeof(m1[index]);
-                if (m_type != typeof(m2[index])) 
+                if (m_type != typeof(m2[index]))
                         return 0;
-                if (m_type == "mapping" && ! compare_mapping(m1[index], m2[index])) 
-                        return 0;                        
-                if (m_type == "array" && ! compare_array(m1[index], m2[index])) 
+                if (m_type == "mapping" && ! compare_mapping(m1[index], m2[index]))
                         return 0;
-                if (m1[index] != m2[index]) 
+                if (m_type == "array" && ! compare_array(m1[index], m2[index]))
+                        return 0;
+                if (m1[index] != m2[index])
                         return 0;
         }
         return 1;
@@ -578,23 +578,23 @@ int compare_array(mixed *a1, mixed *a2)
         int a_size;
         string a_type;
 
-        if (! a1 && ! a2) 
+        if (! a1 && ! a2)
                 return 1;
 
         a_size = sizeof(a1);
-        if (a_size != sizeof(a2)) 
+        if (a_size != sizeof(a2))
                 return 0;
-        
-        for (int i = 0; i < a_size; i++) 
+
+        for (int i = 0; i < a_size; i++)
         {
                 a_type = typeof(a1[i]);
-                if (a_type != typeof(a2[i])) 
+                if (a_type != typeof(a2[i]))
                         return 0;
-                if (a_type == "mapping" && !compare_mapping(a1[i], a2[i])) 
+                if (a_type == "mapping" && !compare_mapping(a1[i], a2[i]))
                         return 0;
-                if (a_type == "array" && !compare_array(a1[i], a2[1])) 
+                if (a_type == "array" && !compare_array(a1[i], a2[1]))
                         return 0;
-                if (a1[i] != a2[i]) 
+                if (a1[i] != a2[i])
                         return 0;
         }
         return 1;
@@ -605,12 +605,12 @@ int remove()
         save();
 }
 
-public void mud_shutdown() 
-{ 
-        save(); 
-} 
+public void mud_shutdown()
+{
+        save();
+}
 
-string query_save_file() 
+string query_save_file()
 {
         string id;
 

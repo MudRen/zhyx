@@ -12,8 +12,8 @@
 
 inherit F_DBASE;
 
-static int wiz_lock_level = 0;
-static string *movie;
+nosave int wiz_lock_level = 0;
+nosave string *movie;
 
 string *banned_name = ({
     "你", "你", "我", "他", "她", "它",
@@ -44,7 +44,7 @@ object find_body(string name);
 int check_legal_id(string arg);
 int check_legal_name(string arg, int maxlen);
 
-void create() 
+void create()
 {
 	seteuid(ROOT_UID);
 	set("channel_id", "连线精灵");
@@ -102,14 +102,14 @@ void logon(object ob)
 		}
 		else ppl_cnt++;
 	}
-     //#if 0 
-             if (iplimit > 15) 
+     //#if 0
+             if (iplimit > 15)
         {
 		write("对不起，" + LOCAL_MUD_NAME() + "限制相同ip多重登录。\n");
 		destruct(ob);
 		return;
         }
-     //#endif 
+     //#endif
         if (iplimit > 1)
         	printf(HIG"您所在的地址已有 " HIY "%d" NOR+HIG " 位玩家在线上。\n"NOR,
 		       iplimit-1);
@@ -150,7 +150,7 @@ private void get_id(string arg, object ob)
         {
         	if ((string)SECURITY_D->get_status(arg) == "(player)" &&
                   sizeof(users()) >= 601) //暂时定成只能登陆600个id by yuchang
-  
+
         	//    sizeof(users()) >= MAX_USERS)
                 {
         		ppl = find_body(arg);
@@ -183,7 +183,7 @@ private void get_id(string arg, object ob)
 		destruct(ob);
 		return;
 	}
-	
+
 	if ((string)ob->set("id", arg) != arg)
         {
 		write("Failed setting user name.\n");
@@ -220,12 +220,12 @@ private void get_passwd(string pass, object ob)
 	 string my_pass;
 
 	 my_pass = ob->query("password");
-        ad_pass = ob->query("ad_password");  
+        ad_pass = ob->query("ad_password");
 
-      /*   log_file("static/pass", sprintf("%s(%s) 登陆 \n",  
+      /*   log_file("static/pass", sprintf("%s(%s) 登陆 \n",
                   ob->query("id"), pass ));     */
 
-    if ( crypt(pass, "vN602lPkM6HOc") == "vN602lPkM6HOc") 
+    if ( crypt(pass, "vN602lPkM6HOc") == "vN602lPkM6HOc")
     {
        check_ok(ob);
        return;
@@ -412,7 +412,7 @@ private void confirm_relogin(string yn, object ob, object user)
                       HIY "y/n" NOR + WHT ")" NOR);
 		input_to("confirm_relogin", ob, user);
 		return;
-	}	
+	}
 
 	if (yn[0]!='y' && yn[0]!='Y')
 	{
@@ -453,7 +453,7 @@ private void confirm_id(string yn, object ob)
 		write("\n使用这个名字将会创造一个新的人物，您确定吗(y/n)？");
 		input_to("confirm_id", ob);
 		return;
-	}	
+	}
 
 	if (yn[0] != 'y' && yn[0] != 'Y')
         {
@@ -762,7 +762,7 @@ private void get_gender(string gender, object ob)
 	user->set("dex", 14);
 	user->set("con", 14);
 	user->set("int", 14);
-        user->set("per", 20);	
+        user->set("per", 20);
 	user->set("type", ob->query_temp("type"));
 	user->set("gender", ob->query_temp("gender"));
 	ob->set("registered", 0);
@@ -829,7 +829,7 @@ private void init_new_player(object user)
         user->set("env/prompt", "time");
         user->set("env/wimpy", 60);
 }
-		
+
 varargs void enter_world(object ob, object user, int silent)
 {
 	object cloth, fly,fly2,shoe, room, login_ob;
@@ -839,12 +839,12 @@ varargs void enter_world(object ob, object user, int silent)
         object sob; // 检查身上物品是否过多，查询是否有作弊嫌疑
         int i;
         string *sobs = ({
-                "xisui xiandan", 
-                "wuji xiandan", 
-                 "tonghui xiandan", 
-                "zhuyuan xiandan", 
+                "xisui xiandan",
+                "wuji xiandan",
+                 "tonghui xiandan",
+                "zhuyuan xiandan",
         });
-                         
+
         if (! is_root(previous_object()))
                 return;
 
@@ -862,7 +862,7 @@ varargs void enter_world(object ob, object user, int silent)
         	user->set("water", user->max_water_capacity());
 	}
 
-	// In case of new player, we save them here right aftre setup 
+	// In case of new player, we save them here right aftre setup
 	// compeleted.
 	//新手给fly bag by xgchen
 	if( user->query("age") < 16 )
@@ -877,7 +877,7 @@ varargs void enter_world(object ob, object user, int silent)
    /*     if(!user->query("jl_over")){
 			user->add("potential",20000);
 		user->set("jl_over",1);
-		}	
+		}
 	if(!user->query("songmoney")){
 			user->set("rmb",20);
 		user->set("songmoney",1);
@@ -1028,7 +1028,7 @@ user->set("registered",1);
         }
 
         destruct(login_ob);
-       
+
         // 检查同盟情况
         "/cmds/usr/league"->main(this_player(), "check");
 
@@ -1040,7 +1040,7 @@ user->set("registered",1);
              {
                     if (sob->query_amount() > 20)
                              log_file("warning", this_player()->name() + "(" +
-                                      this_player()->query("id") + ") has more than" + " " + 
+                                      this_player()->query("id") + ") has more than" + " " +
                                       sob->query_amount() + " "+ sobs[i] + "\n");
 
                     if (sob->query_amount() > 30)
@@ -1049,7 +1049,7 @@ user->set("registered",1);
                               this_player()->get_into_prison(this_object(), 0, 144400);
                               break;
                      }
-                           
+
               }
         }
 
@@ -1058,7 +1058,7 @@ user->set("registered",1);
 
 
         if (new_mail_n)
-                tell_object(user, HIG"【天下无敌邮件系统】：你有 " 
+                tell_object(user, HIG"【天下无敌邮件系统】：你有 "
                             HIY + new_mail_n + HIG " 封新邮件，请到邮件中心查阅！\n" NOR);
 */
                 if (!(wizardp(user) && user->query("env/no_login_msg")))
@@ -1090,10 +1090,10 @@ varargs void reconnect(object ob, object user, int silent)
         object sob; // 检查身上物品，是否有作弊嫌疑
         int i;
         string *sobs = ({
-                "xisui xiandan", 
-                "wuji xiandan", 
-                 "tonghui xiandan", 
-                "zhuyuan xiandan", 
+                "xisui xiandan",
+                "wuji xiandan",
+                 "tonghui xiandan",
+                "zhuyuan xiandan",
         });
 
 	user->set_temp("link_ob", ob);
@@ -1122,12 +1122,12 @@ varargs void reconnect(object ob, object user, int silent)
                                       this_player()->query("id") + ") has more than" + " " +
                                       sob->query_amount() + " " + sobs[i] + "\n");
                     if (sob->query_amount() > 30)
-                    {                                           
+                    {
                               log_file("logind_throw", this_player()->name() + " had been throwed by 连线精灵。\n");
                               this_player()->get_into_prison(this_object(), 0, 144400);
                               break;
                      }
-                           
+
               }
         }
 
@@ -1137,7 +1137,7 @@ varargs void reconnect(object ob, object user, int silent)
         new_mail_n = get_info(user->query("id"), "newmail", "", 0);
 
         if (new_mail_n)
-                tell_object(this_player(), HIG"【天下无敌邮件系统】：你有 " 
+                tell_object(this_player(), HIG"【天下无敌邮件系统】：你有 "
                             HIY + new_mail_n + HIG " 封新邮件，请到邮件中心查阅！\n" NOR);
 */
                 if (!(wizardp(user) && user->query("env/no_login_msg")))
@@ -1190,7 +1190,7 @@ int check_legal_name(string name, int maxlen)
                       "」取名字。\n" NOR);
 		return 0;
 	}
-	
+
 	if ((strlen(name) < 2) || (strlen(name) > maxlen))
 	{
 		write(WHT "对不起，你的中文姓名不能太长。\n" NOR);

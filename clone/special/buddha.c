@@ -6,9 +6,9 @@ inherit  F_SAVE;
 
 //尚差性别
 
-int ask_reborn(); 
+int ask_reborn();
 
-static string *word = ({
+nosave string *word = ({
 "班", "若", "菠", "萝", "密", "啊", "吗", "咪", "哄",
 "度", "众", "生", "者", "应", "明", "以", "何", "得",
 "有", "空", "净", "相", "我", "虚", "妄", "情", "少",
@@ -19,7 +19,7 @@ void create()
 {
         seteuid(getuid());
         restore();
-        set_name(HIY "释迦牟尼" NOR, ({ "buddha", "fo zu", 
+        set_name(HIY "释迦牟尼" NOR, ({ "buddha", "fo zu",
                 "fo", "shijia muni" }));
         set("long", @LONG
 佛祖庄严宝像，让人不敢正视。
@@ -50,24 +50,24 @@ LONG);
                 set_skill("unarmed", 999);
                 set_skill("force", 999);
                 set_skill("parry", 999);
-                set_skill("sword", 999);      
-                set_skill("medical", 999);       
+                set_skill("sword", 999);
+                set_skill("medical", 999);
                 set_skill("literate", 999);
                 set_skill("lamaism", 999);
-                set_skill("buddhism", 999);  
-                set_skill("shaolin-yishu", 999); 
+                set_skill("buddhism", 999);
+                set_skill("shaolin-yishu", 999);
                 set_skill("idle-force", 999);
                 set_skill("huntian-baojian", 999);
                 set_skill("lunhui-jian", 999);
-      
-                map_skill("force", "huntian-baojian");       
-                map_skill("parry", "lunhui-jian");    
-                map_skill("sword", "lunhui-jian");     
-                map_skill("medical", "shaolin-yishu");   
 
-                set("inquiry", ([ 
-                    "转世重生" : (: ask_reborn :), 
-                ])); 
+                map_skill("force", "huntian-baojian");
+                map_skill("parry", "lunhui-jian");
+                map_skill("sword", "lunhui-jian");
+                map_skill("medical", "shaolin-yishu");
+
+                set("inquiry", ([
+                    "转世重生" : (: ask_reborn :),
+                ]));
                 set("chat_chance_combat", 200);
                 set("chat_msg_combat", ({
                         (: perform_action, "sword.hui" :),
@@ -80,9 +80,9 @@ LONG);
                 }));
              }
 
-        setup();        
+        setup();
         carry_object("d/city/obj/jiasha")->wear();
-        carry_object("/d/city/obj/changjian")->wield(); 
+        carry_object("/d/city/obj/changjian")->wield();
 }
 
 // 毁灭时保存进度
@@ -129,7 +129,7 @@ int ask_reborn()
         command("say 你好像还没到能重生的境界吧？");
         return 1;
     }*/
-    
+
     command("say 你可是也对此生感到困惑，想要探寻人生真谛吗？");
     command("say 若要转生则你之武学就将尽毁，你可愿意？");
     message_vision(HIC"$N" HIC"对$n" HIC"道：若你心意已决就输入"
@@ -146,7 +146,7 @@ int do_decide()
 
     object me = this_player();
     msg = "";
-    
+
 
     if ( ! me->query_temp("reborn_start/ask"))
         return 0;
@@ -178,21 +178,21 @@ int reborn(object me, string msg)
     set("data/" + me->query("id") + "/int", me->query("int"));
     set("data/" + me->query("id") + "/con", me->query("con"));
     set("data/" + me->query("id") + "/dex", me->query("dex"));
-   
+
     set("data/" + me->query("id") + "/sun", me->query("gift/sun"));
     set("data/" + me->query("id") + "/water", me->query("gift/water"));
     set("data/" + me->query("id") + "/feng", me->query("gift/feng"));
     set("data/" + me->query("id") + "/light", me->query("gift/light"));
 
     for( i = 0; i < sizeof(me->query("special_skill")); i++)
-      
-       set("data/" + me->query("id") + "/special_skill/" + i, 
+
+       set("data/" + me->query("id") + "/special_skill/" + i,
             keys( me->query("special_skill"))[i] );
-    
 
-    save();       
 
-    message("vision", HIG"【天界传闻】" + me->query("name") + "(" + 
+    save();
+
+    message("vision", HIG"【天界传闻】" + me->query("name") + "(" +
              me->query("id") + ")" + "已得佛祖恩准，即时转世重生！\n"NOR, users());
 
     message_vision("只见$N化作一屡轻烟，渐渐消失了……\n", me);
@@ -201,5 +201,3 @@ int reborn(object me, string msg)
 
     return 1;
 }
-
-

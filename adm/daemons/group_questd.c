@@ -72,7 +72,7 @@ mapping family = ([
                        "/d/baituo/houyuan", }),
 ]);
 
-static mapping place = ([
+nosave mapping place = ([
         "北京东城": ({
                         "/d/beijing/cagc_e","/d/beijing/caroad_e1",
                         "/d/beijing/caroad_e2","/d/beijing/zahuo",

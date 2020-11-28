@@ -3,9 +3,9 @@
 inherit ITEM;
 inherit F_SAVE;
 
-static int load;
+nosave int load;
 
-string query_save_file() 
+string query_save_file()
 {
         string id;
 
@@ -48,7 +48,7 @@ void save_autoload()
         mapping autoload;
 
         autoload = ([ ]);
-        
+
         inv = all_inventory();
         for (i = 0; i < sizeof(inv); i++)
         {
@@ -89,13 +89,13 @@ void restore_autoload()
         set("no_clean_up", 1);
         ob_list = query("autoload");
         if (! mapp(ob_list)) return;
-        
+
         ob = allocate_mapping(sizeof(ob_list));
         list = keys(ob_list);
         for (i = 0; i < sizeof(list); i++)
         {
                 // Allocate an array if we have multiple same object specified.
-                reset_eval_cost(); 
+                reset_eval_cost();
                 if (undefinedp(ob[list[i]]) &&
                     intp(ob_list[list[i]]) &&
                     ob_list[list[i]] > 1)
@@ -105,17 +105,17 @@ void restore_autoload()
                 {
                 case 1:
                         reset_eval_cost();
-                        if (! ob[list[i]]) 
+                        if (! ob[list[i]])
                                 ob[list[i]] = make_inventory(list[i]);
                         break;
                 default:
                         for (j = 0; j < ob_list[list[i]]; j++)
                         {
                                 // If the object is gone, make another one.
-                                reset_eval_cost(); 
+                                reset_eval_cost();
                                 if (! objectp(ob[list[i]][j]))
                                 {
-                                        reset_eval_cost(); 
+                                        reset_eval_cost();
                                         ob[list[i]][j] = make_inventory(list[i]);
                                         continue;
                                 }
@@ -134,25 +134,25 @@ void create()
         set("owner", "lonely");
         if (clonep())
                 set_default_object(__FILE__);
-        else {          
+        else {
                 set_max_encumbrance(100000);
                 set("long", "一个四周边缘镶嵌着珍珠玛瑙的箱子，好像可以将东西放在里面。\n");
-                set("value", 100);              
+                set("value", 100);
                 set("unit", "个");
                 set("no_get", 1);
         }
         setup();
 }
 
-void init() 
+void init()
 {
         string owner;
-        object env; 
-        
+        object env;
+
         if (! load)
         {
-                env = environment(this_object());  
-                owner = (string)env->query("room_owner_id"); 
+                env = environment(this_object());
+                owner = (string)env->query("room_owner_id");
                 set("owner", owner);
                 restore();
                 restore_autoload();
