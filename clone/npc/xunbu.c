@@ -66,7 +66,7 @@ LONG );
 
 int do_halt()
 {
-        object me;
+        
 
         if (this_player() == query_temp("catch_ob"))
         {
@@ -298,4 +298,3 @@ void scan()
         if (! is_fighting(ob))
                 fight_ob(ob);
 }
-

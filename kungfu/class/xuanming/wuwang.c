@@ -5,7 +5,7 @@ inherit F_GUARDER;
 
 void create()
 {
-        object ob;
+        
 
         set_name("ÎÚÍú°¢ÆÕ", ({ "wuwang apu", "wuwang", "apu" }));
         set("gender", "ÄĞĞÔ");

@@ -36,7 +36,7 @@ LONG);
 
       void init() 
       { 
-              object me = this_player(); 
+               
               add_action("do_enter", "enter");
       } 
 

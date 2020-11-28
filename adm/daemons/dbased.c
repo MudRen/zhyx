@@ -101,7 +101,7 @@ protected int announce_all_save_object(int destruct_flag)
 // 清理所有对象
 int cleanup_all_save_object(int raw)
 {
-        object ob;
+        
         string *e;
         int i;
 

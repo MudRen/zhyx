@@ -11,8 +11,8 @@ void init()
 int do_cai(string arg)
 {
         object me = this_player();
-        object ob;
-        object ob1;
+        
+        
 
         if ((int)me->query_temp("caiyao") < 1)
                 return notify_fail("别在这浪费时间了，快走吧。\n");
@@ -102,4 +102,3 @@ void cai(object me)
                 tell_object(me, HIC "在采药过程中你的「本草常识」提高了！\n" NOR);
         }
 }
-

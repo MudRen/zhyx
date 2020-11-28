@@ -92,7 +92,7 @@ void poison(object me)
 mixed hit_ob(object me, object victim, int damage_bonus)
 {
         int n;
-        int my_exp, ob_exp;
+        int my_exp;
 
         if (me->query_skill("blade") < 150)
                 return damage_bonus / 2;
@@ -118,4 +118,3 @@ mixed hit_ob(object me, object victim, int damage_bonus)
         }
         return damage_bonus;
 }
-

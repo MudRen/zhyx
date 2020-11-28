@@ -2,6 +2,8 @@
 #include <room.h>
 inherit ROOM;
 
+#define CHOUQIAN "/inherit/chouqian.c"
+
 void create()
 {
 	set("short", "ÁúÍõÃí");
@@ -45,15 +47,15 @@ int do_mobai(string arg){
         points = 80 - (tmpstr + tmpint + tmpcon + tmpdex);
         for (i = 0; i < points; i++) {
                 switch (random(4)) {
-                case 0: 
+                case 0:
                         if (tmpstr < 30) tmpstr++;
-                        else i--; 
+                        else i--;
                         break;
-                case 1: 
+                case 1:
                         if (tmpint < 30) tmpint++;
                         else i--;
                         break;
-                case 2: 
+                case 2:
                         if (tmpcon < 30) tmpcon++;
                         else i--;
                         break;

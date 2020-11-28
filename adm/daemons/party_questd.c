@@ -1657,8 +1657,8 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         env = get_object(room);
                                         if (!env)
                                                 log_file("static/party_quest",sprintf("门派任务错误记录：%s\n",room));
-                                        if (! objectp(npc = present(all_static_npc[room], env)) ||
-                                                      npc->query("shen") < 0)
+                                        else if (! objectp(npc = present(all_static_npc[room], env)) ||
+                                                        npc->query("shen") < 0)
                                         {
                                                 control ++;
                                                 continue;
@@ -1759,8 +1759,8 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         env = get_object(room);
                                         if (!env)
                                                 log_file("static/party_quest",sprintf("门派任务错误记录：%s\n",room));
-                                        if (! objectp(npc = present(all_static_npc[room], env)) ||
-                                                      npc->query("shen") < 0)
+                                        else if (! objectp(npc = present(all_static_npc[room], env)) ||
+                                                        npc->query("shen") < 0)
                                         {
                                                 control ++;
                                                 continue;
@@ -1821,8 +1821,8 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         env = get_object(room);
                                         if (!env)
                                                 log_file("static/party_quest",sprintf("门派任务错误记录：%s\n",room));
-                                        if (! objectp(npc = present(all_static_npc[room], env)) ||
-                                                      npc->query("shen") < 0)
+                                        else if (! objectp(npc = present(all_static_npc[room], env)) ||
+                                                        npc->query("shen") < 0)
                                         {
                                                 control ++;
                                                 continue;
@@ -1894,8 +1894,8 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         env = get_object(room);
                                         if (!env)
                                                 log_file("static/party_quest",sprintf("门派任务错误记录：%s\n",room));
-                                        if (! objectp(npc = present(all_static_npc[room], env)) ||
-                                                      npc->query("shen") > 0)
+                                        else if (! objectp(npc = present(all_static_npc[room], env)) ||
+                                                        npc->query("shen") > 0)
                                         {
                                                 control ++;
                                                 continue;
@@ -1997,8 +1997,8 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         env = get_object(room);
                                         if (!env)
                                                 log_file("static/party_quest",sprintf("门派任务错误记录：%s\n",room));
-                                        if (! objectp(npc = present(all_static_npc[room], env)) ||
-                                                      npc->query("shen") > 0)
+                                        else if (! objectp(npc = present(all_static_npc[room], env)) ||
+                                                        npc->query("shen") > 0)
                                         {
                                                 control ++;
                                                 continue;
@@ -2039,8 +2039,8 @@ varargs mixed create_quest(string the_city,string bang_type,object player)
                                         env = get_object(room);
                                         if (!env)
                                                 log_file("static/party_quest",sprintf("门派任务错误记录：%s\n",room));
-                                        if (! objectp(npc = present(all_static_npc[room], env)) ||
-                                                      npc->query("shen") > 0)
+                                        else if (! objectp(npc = present(all_static_npc[room], env)) ||
+                                                        npc->query("shen") > 0)
                                         {
                                                 control ++;
                                                 continue;

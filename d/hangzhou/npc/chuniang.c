@@ -116,7 +116,7 @@ int recognize_apprentice(object ob, string skill)
 
 int accept_object(object who, object ob)
 {
-        object me = this_player();
+        
 
         if ((int)who->query_temp("mark/³øÄï") < 1)
                 who->set_temp("mark/³øÄï", 0);
