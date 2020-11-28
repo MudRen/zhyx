@@ -2,7 +2,11 @@
 
 int playerp(object ob)
 {
-	return ob->is_player();
+        if (objectp(ob))
+        {
+                return ob->is_player();
+        }
+        return 0;
 }
 
 int ultrap(object ob)
@@ -80,4 +84,3 @@ object find_player(string id)
                 return 0;
         }
 }
-

@@ -337,7 +337,6 @@ varargs void die(object killer)
                 me->lost();
         }
 
-
         if (( wizardp(me) || ! userp(me) ) && query("env/immortal"))
         {
                 delete_temp("die_reason");
