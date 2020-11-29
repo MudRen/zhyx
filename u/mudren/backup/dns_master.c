@@ -821,7 +821,7 @@ void create()
 
         restore_euid();
 
-        set("channel_id", "ÍøÂ·¾«Áé");
+        set("channel_id", "DNS_MASTER");
 
         // find out which port we are on
         my_port = SRVC_PORT_UDP(mud_port());
