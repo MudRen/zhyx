@@ -12,7 +12,7 @@
 inherit F_DBASE;
 inherit F_SAVE;
 
-#define AGENT_IP        ({ "127.0.0.1", "61.152.91.103"})
+#define AGENT_IP        ({ "127.0.0.1", "118.190.104.241"})
 
 #define __SAVE_BINARIES_DIR__ CFG_STR(6)
 
@@ -172,7 +172,7 @@ void create()
         set("channel_id", "版本精灵");
 
         // 还没有检查版本
-        version_ok = 0;
+        version_ok = 1; // 禁用版本控制功能
         total_build = 0;
 
         // 启动初始化
