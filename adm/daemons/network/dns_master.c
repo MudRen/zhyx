@@ -204,9 +204,7 @@ void read_callback(int sock, string msg, string addr)
     // some muds don 't send their name out in a network friendly form
     if (args["NAME"])
         args["ALIAS"] = htonn(args["NAME"]);
-    // ±‹√‚UTF-8¬“¬Î
-    if (args["ENCODING"] == "UTF-8")
-        args["MUDNAME"] = args["NAME"];
+
     // we have received a message from someone, so we clear their
     // no contact count
     if (mapp(muds[args["NAME"]]))
