@@ -19,10 +19,12 @@ LONG);
       set("no_beg", "1");
       set("no_clean_up", 0);
       set("objects", ([
-               "/clone/mapi": 10,
+              "/clone/horse/zaohongma": 3,
+              "/clone/horse/huangbiaoma": 3,
+              "/clone/horse/ziliuma": 3,
       ]));
       set("exits",([ /* sizeof() == 1 */
-          "west"      : __DIR__"hotel",
+          "west"      : __DIR__"market",
       ]));
       setup();
 }

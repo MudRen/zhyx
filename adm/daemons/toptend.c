@@ -2,6 +2,17 @@
 #include <mudlib.h>
 #include <getconfig.h>
 
+#define TOPTEN_RICH     "/data/topten/rich.txt"
+#define TOPTEN_PKER     "/data/topten/pker.txt"
+#define TOPTEN_EXP      "/data/topten/exp.txt"
+#define TOPTEN_AGE      "/data/topten/age.txt"
+#define TOPTEN_KILLED   "/data/topten/killed.txt"
+#define RICH_B          "十大富翁排行榜"
+#define PKER_B          "十大魔头排行榜"
+#define EXP_B           "十大高手排行榜"
+#define AGE_B           "十大老手排行榜"
+#define KILLED_B        "十大悲情人物排行榜"
+
 int paiming;
 void topten_checkplayer(object);
 int get_all_data(object,string);
@@ -87,7 +98,7 @@ string topten_query(string type)
                 CYN "      §\n"NOR,
                 BLU "      △\n"NOR,
                 });
-        
+
         switch(type)
         {
                 case "rich":
@@ -114,7 +125,7 @@ string topten_query(string type)
                         k=4;
                         b_name=KILLED_B;
                         f_name=TOPTEN_KILLED;
-                        break; 
+                        break;
                 default:
                         return "对不起，暂时没有这种排行榜！\n";
         }
@@ -125,7 +136,7 @@ string topten_query(string type)
         paiming=0;
         for(i=0;i<sizeof(astr)&&paiming<10;i++)
         {
-                
+
                 bstr=explode(astr[i],";");
                 for(j=0;j<sizeof(bstr)&&paiming+j<10;j++)
                 {
@@ -134,8 +145,8 @@ string topten_query(string type)
                                 "该行数据："+bstr[j]+"\n";
            title ="排行第"+chinese_number(paiming+1)+":";
            if(j>=1) title ="并列第"+chinese_number(paiming+1)+":";
-              str += str_left[k] +  sprintf("%24s %s %-25s", title, str_center[k], name+"("+id+")") + str_right[k];            
-                
+              str += str_left[k] +  sprintf("%24s %s %-25s", title, str_center[k], name+"("+id+")") + str_right[k];
+
                 }
                 paiming+=sizeof(bstr);
             }
@@ -273,7 +284,7 @@ int topten_add(object player,string type)
                         b_name=KILLED_B;
                         f_name=TOPTEN_KILLED;
                         break;
-                
+
                 default:
                         return notify_fail("没有"+type+"这种排行榜！\n");
         }
@@ -282,7 +293,7 @@ int topten_add(object player,string type)
 //f_name为空.
         if(file_size(f_name)==-1)
         {
-                str=player->query("name")+"("+player->query("id")+")"+          
+                str=player->query("name")+"("+player->query("id")+")"+
                         get_all_data(player,type);
           paiming=1;
           return topten_save(f_name,b_name,str);
@@ -311,7 +322,7 @@ int topten_add(object player,string type)
                         //单独加入，暂时没考虑人数超过十行！
                         for(j=0;j<sizeof(astr);j++)
                         {
-                                
+
                                 if(j==i)
                                 str+=player->query("name")+"("+player->query("id")+")"+
                                                 get_all_data(player,type)+"\n";
@@ -333,7 +344,7 @@ int topten_add(object player,string type)
                                                 "("+player->query("id")+")"+get_all_data(player,type)+"\n";
                                 else
                                         str+=astr[j]+"\n";
-                } 
+                }
         paiming=i+1;
         return topten_save(f_name,b_name,str);
              }
@@ -354,7 +365,7 @@ int how_many_money(object ob)
     int total2;
     object gold, silver, coin;
     total = 0;
-    total2 = 0;                 
+    total2 = 0;
         gold   = present("gold_money",ob);
     silver = present("silver_money",ob);
     coin   = present("coin_money",ob);

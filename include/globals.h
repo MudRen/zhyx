@@ -84,6 +84,7 @@
 #define SHOP_D          "/adm/daemons/shopd"
 #define STORY_D         "/adm/daemons/storyd"
 #define TASK_D          "/adm/daemons/taskd"
+#define TOPTEN_D        "/adm/daemons/toptend"
 #define ULTRA_D         "/adm/daemons/ultra_questd"
 #define UPDATE_D        "/adm/daemons/updated"
 #define VERSION_D       "/adm/daemons/versiond"

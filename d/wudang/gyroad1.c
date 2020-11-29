@@ -24,10 +24,9 @@ LONG);
 
 int valid_leave(object me, string dir)
 {
-        me = this_player();
-        if ( dir == "east" && objectp(present("mang she", environment(me))))
+        // me = this_player();
+        if ( dir == "east" && interactive(me) && objectp(present("mang she", environment(me))))
                 return notify_fail(HIG "但见巨蟒一个盘身，顿时挡住了你的去路。\n" NOR);
 
         return ::valid_leave(me, dir);
 }
-
