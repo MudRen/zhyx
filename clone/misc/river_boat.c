@@ -11,9 +11,10 @@ void create()
         if (clonep())
         {
                 set_default_object(__FILE__);
-                call_out("destruct_me", 10);
+                call_out("destruct_me", 15);
         } else
         {
+                set("short", "渡船");
                 set("value", 1);
                 set("long", @LONG
 这是一叶小舟，最多也就能载七、八个人。小舟上有位六
@@ -30,4 +31,3 @@ void destruct_me()
 {
         destruct(this_object());
 }
-

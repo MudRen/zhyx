@@ -20,7 +20,7 @@ void auto_clear()
     if (random(3) == 1)
         rm("/log/usage");
 
-    cp("/log/debug.log", "/drive/system.log"); //备份debug.log为systerm.log为程序查错
+    cp("/log/debug.log", "/driver/system.log"); //备份debug.log为systerm.log为程序查错
     remove_call_out("auto_clear");
     call_out("auto_clear", 1800); //30分钟清理一次
 }
