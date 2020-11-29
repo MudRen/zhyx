@@ -274,7 +274,10 @@ void random_move()
                 destruct_me();
                 return;
         }
-       GROUP_QUEST_D->random_move(this_object());
+        else if (this_object()) // 可能会存在延迟销毁的对象
+        {
+                GROUP_QUEST_D->random_move(this_object());
+        }
 }
 
 void destruct_me()

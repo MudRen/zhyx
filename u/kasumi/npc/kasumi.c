@@ -264,7 +264,7 @@ string ask_chocoGift()
 }
 
 // °üÀ¨½ÚÈÕ
-string ask_dailyGift(string arg)
+string ask_dailyGift()
 {
     object me = this_player();
     int exp, pot, day, month, year, *date, exp0, exp1;

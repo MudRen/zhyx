@@ -46,7 +46,7 @@ int main(object me, string arg)
 
                 lost = random(lost / 100) + 1;
                 me->add("combat_exp", -lost);
-                switch (random(6))
+                switch (random(9))
                 {
                 case 0:
                         tell_object(me, HIR "你又想起了很多温馨"
@@ -72,6 +72,16 @@ int main(object me, string arg)
                         tell_object(me, HIR "你脑海中晃过当年无"
                                     "数刻苦修炼的日子，不由得暗自苦笑。\n" NOR);
                         break;
+                default:
+                        // 吸收经验有机率增加潜能
+                        if (me->improve_potential(random(lost / 10)))
+                        {
+                                tell_object(me, HIM "你默默总结过去的经历，放弃错误经验的同时增加了一些潜能。\n" NOR);
+                        }
+                        else
+                        {
+                                tell_object(me, HIR "你回想起以前刻苦修炼的日子，不由得暗自苦笑。\n" NOR);
+                        }
                 }
 
                 UPDATE_D->check_user(me);
@@ -121,5 +131,3 @@ int help()
 TEXT );
         return 1;
 }
-
-
