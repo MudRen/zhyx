@@ -27,7 +27,7 @@ void create()
         seteuid(getuid());
         if (! objectp(select_character()))
         {
-        	STORY_D->remove_story("anthem");
+                STORY_D->remove_story("anthem");
                 destruct(this_object());
                 return;
         }
@@ -62,8 +62,8 @@ mixed query_story_message(int step)
         msg = story[step];
         if (stringp(msg))
         {
-                msg = replace_string(msg, "$N", char_name);
-                msg = replace_string(msg, "$ID", char_id);
+                msg = replace_string(msg, "$N", char_name ? char_name : char_name = "Ð¡Äà°Í");
+                msg = replace_string(msg, "$ID", char_id ? char_id : char_id = "mudren");
         }
         return msg;
 }

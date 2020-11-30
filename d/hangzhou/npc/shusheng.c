@@ -25,11 +25,11 @@ void create()
 	set("inquiry", ([
 		"解签" : "巫师还没写好呢，你去问剑意那小娘皮吧！\n"
 		]));
-	
+
 	set_skill("unarmed", 60);
 	set_skill("dodge", 60);
 	set_skill("parry", 60);
 
 	setup();
-	carry_object(__DIR__"obj/baibu-qingshan.c")->wear();
+	// carry_object(__DIR__"obj/baibu-qingshan.c")->wear();
 }

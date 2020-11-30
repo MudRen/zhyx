@@ -16,7 +16,7 @@ LONG );
         "south" : __DIR__"shandao2",
 	]));
 	set("objects", ([
-		__DIR__"npc/shusheng.c": 1,
+		__DIR__"npc/shusheng": 1,
 	]));
 //	set("no_clean_up", 0);
 	setup();
