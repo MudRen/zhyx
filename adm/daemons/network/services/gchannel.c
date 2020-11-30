@@ -44,8 +44,7 @@ void send_msg(string channel, string id, string name, string msg, int emoted,
         names = keys(svcs);
         i = sizeof(names);
         while(i--)
-                if( (names[i] != mud_nname())
-                &&      evaluate(filter, muds[names[i]])) {
+                if(names[i] != mud_nname()) {
                         minfo = muds[names[i]];
                         if(!mapp(minfo) || !mapp(svcs[names[i]])
                         || !(svcs[names[i]]["gwizmsg"] & SVC_UDP))
@@ -85,7 +84,9 @@ void incoming_request(mapping info)
                         PING_Q->send_ping_q(info["HOSTADDRESS"], info["PORTUDP"]);
                         return ;
                 }
-if (minfo["MUDLIB"] != MUDLIB_NAME) return;
+                
+                if (minfo["MUDLIB"] != MUDLIB_NAME && minfo["MUDLIB"] != "Heros") return;
+                
                 i = sizeof(NO_ES_CHANNEL);
                 while(i--) {
                   if (NO_ES_CHANNEL[i] == info["NAME"]) return;

@@ -6,14 +6,14 @@
 //  The base distribution mudlib name.  
 
 // MUDLIB information
-#define MUDLIB_NAME     "CHINA"
-#define MUDLIB_VERSION_NUMBER	"3.1"
-#define MUDLIB_VERSION		(MUDLIB_NAME + " " + MUDLIB_VERSION_NUMBER)
+#define MUDLIB_NAME             "CHINA"
+#define MUDLIB_VERSION_NUMBER   "3.1"
+#define MUDLIB_VERSION          (MUDLIB_NAME + " " + MUDLIB_VERSION_NUMBER)
 
-#define INTERMUD_MUD_NAME	((string) CONFIG_D->query_string("internet mud name"))
-#define CHINESE_MUD_NAME	LOCAL_MUD_NAME()
+#define INTERMUD_MUD_NAME       ((string) CONFIG_D->query_string("internet mud name"))
+#define CHINESE_MUD_NAME        LOCAL_MUD_NAME()
 #define MUD_DRIVER              ((string) CONFIG_D->query_string("mudos"))
-#define	MUD_ENCODING		((string) CONFIG_D->query_string("encoding"))
+#define	MUD_ENCODING            ((string) CONFIG_D->query_string("encoding"))
 
 // MAIL information
 #define SMTP_SERVER             ((string) CONFIG_D->query_string("smtp server"))

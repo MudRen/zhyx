@@ -74,13 +74,13 @@ mapping channels = ([
                         "name"     : "闲聊",
                 ]),
 
-        "es"  : ([      "msg_speak": HIC "【异域传闻】%s：%s\n" NOR,
+        "ic"  : ([      "msg_speak": HIC "【异域传闻】%s：%s\n" NOR,
                         "msg_emote": HIC "【异域传闻】%s" NOR,
                         "msg_color": HIC,
                         "intermud" : GCHANNEL,
                         "intermud_emote"   : 1,
-                        "intermud_channel" : "es",
-                        "channel": "es",
+                        "intermud_channel" : "ic",
+                        "channel": "ic",
                         "name"     : "异域",
                         //"filter"   : (: $1["MUDLIB"] == MUDLIB_NAME :)
                 ]),
