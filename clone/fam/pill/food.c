@@ -13,8 +13,8 @@ void create()
     else {
         set("long", NOR + WHT "这是一块便于携带的特制干粮。\n" NOR);
         set("unit", "块");
-        set("value", 250);
-        set("food_remaining", 100);
+        set("value", 2500);
+        set("food_remaining", 150);
         set("food_supply", 500);
     }
 }

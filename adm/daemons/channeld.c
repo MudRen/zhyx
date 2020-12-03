@@ -243,11 +243,11 @@ varargs int do_channel(object me, string verb, string arg, int emote)
                 if (! me->query("registered"))
                         return notify_fail("你必须在注册以后才能够使用各种频道。\n");
 
-//                if (me->query("mud_age") < 1800)
-//                        return notify_fail("你必须在完成注册三十分钟以后才能使用频道， 这段时间看看 help newbie 吧")
-                if (verb == "ic" && me->query("age") < 18)
-                        return notify_fail("你必须成年以后才能使用" + channels[verb]["name"] +
-                                           "频道。\n");
+                // if (me->query("mud_age") < 1800)
+                //         return notify_fail("你必须在完成注册三十分钟以后才能使用频道， 这段时间看看 help newbie 吧");
+                // if (verb == "ic" && me->query("age") < 18)
+                //         return notify_fail("你必须成年以后才能使用" + channels[verb]["name"] +
+                //                            "频道。\n");
         }
 
         // now we can be sure it's indeed a channel message:

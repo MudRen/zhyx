@@ -9,13 +9,13 @@
 //      This daemon will connect up to an authorization daemon and
 //      and return a user's login name.
 
-#include <priv.h>
+// #include <priv.h>
 #include <config.h>
 #include <net/socket.h>
 #include <net/daemons.h>
 #include <mudlib.h>
 
-inherit DAEMON ;
+// inherit DAEMON ;
 
 mapping requests;
 
@@ -59,7 +59,7 @@ void write_data(int line) {
 
    //	Okay, send the userid request protocol.
 
-   ret = socket_write(line, requests[line][1] + "," + mud_port() + "\n");
+   ret = socket_write(line, requests[line][1] + "," + __PORT__ + "\n");
 
    //	Hmmm....is there an IDENT server listening ?
 

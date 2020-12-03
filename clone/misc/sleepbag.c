@@ -12,6 +12,6 @@ void create()
             set("long",
                 "一个睡袋，江湖人士用来在野外睡觉用的。\n");
             set("unit","个");
-            set("value", 200000);
+            set("value", 10000);
         }
 }
