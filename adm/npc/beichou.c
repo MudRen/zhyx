@@ -197,11 +197,13 @@ mixed accept_ask(object ob, string topic)
                 return 1;
         } else
         {
+                int money = ob->query("quest_count") * 10;
                 ob->set_temp("pending/ask_beichou", topic);
-                ob->set_temp("pending/ask_value", 10000);
+                ob->set_temp("pending/ask_value", money);
                 message_vision(CYN "$N" CYN "嘿嘿奸笑两声，对$n" CYN "小"
-                               "声道：没有问题，不过得要一两黄金，不二"
-                               "价！\n" NOR, this_object(), ob);
+                                   "声道：没有问题，不过得要" +
+                                   MONEY_D->money_str(money) + "，不二"
+                                   "价！\n" NOR, this_object(), ob);
                 return 1;
         }
 }
@@ -362,10 +364,17 @@ int accept_object(object me, object ob)
                 }
 
                 destruct(ob);
-                command("whisper " + me->query("id") +
-                        " 据可靠消息，这个人刚才在" +
-                        environment(fob)->short() + "。");
-
+                if (me->query("map_all"))
+                {
+                        command("whisper " + me->query("id") + " 据可靠消息，这个人刚才在" +
+                                MAP_D->query_map_short(environment(fob)->query("outdoors")) +
+                                environment(fob)->short() + "。");
+                }
+                else
+                {
+                        command("whisper " + me->query("id") + " 据可靠消息，这个人刚才在" +
+                                environment(fob)->short() + "。");
+                }
                 if (va <= 1000)
                         fob->add("ask_cheap", -1);
 
