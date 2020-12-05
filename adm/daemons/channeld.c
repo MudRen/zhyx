@@ -265,7 +265,7 @@ varargs int do_channel(object me, string verb, string arg, int emote)
         // player broadcasting need consume jing
         if (userp(me) && ! wizardp(me) && verb == "rumor" &&
             ! objectp(present("rumor generator", me)))
-                if (me->query("jing") > 50) me->add("jing", -random(36))
+                if (me->query("jing") > 50) me->add("jing", -random(50))
                         ; else
                 return notify_fail("你已经没力气散播谣言了！\n");
 
@@ -468,7 +468,7 @@ varargs int do_channel(object me, string verb, string arg, int emote)
                         msg = sprintf("%s(%s)正在向%s频道发出信息。",
                                       me->query("name"), me->query("id"), verb);
                         do_channel(this_object(), "wiz", msg);
-                        SPECIAL_NPC->receive_report(me, verb);
+                        SPECIAL_NPC->receive_report(me, verb, arg);
                 }
         } else
         if (is_player || ! stringp(who = me->query("channel_id")))

@@ -488,9 +488,9 @@ private void restore_bomb()
         set_temp("bomb_count", 1);
 }
 
-void receive_report(object user, string verb)
+void receive_report(object user, string verb, string arg)
 {
-        string msg;
+        string msg, name, id;
 
         msg = sprintf("听说%s(%s)又要发谣言了。",
                       user->query("name"), user->query("id"));
@@ -507,11 +507,38 @@ void receive_report(object user, string verb)
         if (! sizeof(receiver))
         {
                 receiver = 0;
-                return 0;
+                return;
         }
 
-        message("vision", HIC "北丑悄悄的告诉你：" + msg + "\n",
-                receiver, user);
+        if (sscanf(arg, "寻找%s(%s)", name, id) == 2)
+        {
+                object ob, env;
+                string *ban = ({"mudren", "bei chou"});
+                name = trim(name);
+                id = trim(id);
+                // 过滤ID
+                if (member_array(id, ban) > -1 || id == user->query("id"))
+                {
+                        return;
+                }
+                else
+                {
+                        if (member_array(user, receiver) > -1 && objectp(ob = find_living(id)) && objectp(env = environment(ob)))
+                        {
+                                msg = "据可靠消息，" + name + "刚才在" + env->short();
+                                // tell_object(user, HIC "北丑悄悄的告诉你：" + msg + "。\n");
+                                if (ob->query("name") == name)
+                                {
+                                        call_out((: tell_object:), 1, user, HIC "北丑悄悄的告诉你：" + msg + "。\n");
+                                }
+                        }
+                }
+        }
+        else
+        {
+                message("vision", HIC "北丑悄悄的告诉你：" + msg + "\n", receiver, user);
+        }
+
 }
 
 private int filter_listener(object ob)
