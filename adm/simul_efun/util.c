@@ -2,6 +2,18 @@
 #include <ansi.h>
 #include <localtime.h>
 
+void debug(mixed arg)
+{
+        string *color = ({HIB, HIC, HIG, HIM, HIR, HIW, HIY});
+
+        if (objectp(arg))
+        {
+                arg = file_name(arg);
+        }
+
+        write(element_of(color) + arg + NOR "\n");
+}
+
 string process_bar(int n)
 {
         string sp;
@@ -131,7 +143,7 @@ string sort_string(string input, int width, int prefix)
         if (i < sl)
                 result += input[i..sl-1];
 
-	if (len) result += "\n";
+        if (len) result += "\n";
 
         return result;
 #endif
@@ -216,22 +228,22 @@ string filter_color(string arg)
 #ifdef DOING_IMPROVED
         return efun::filter_ansi(arg);
 #else
-	arg = replace_string(arg, BLK, "");
-	arg = replace_string(arg, RED, "");
-	arg = replace_string(arg, GRN, "");
-	arg = replace_string(arg, YEL, "");
-	arg = replace_string(arg, BLU, "");
-	arg = replace_string(arg, MAG, "");
-	arg = replace_string(arg, CYN, "");
-	arg = replace_string(arg, WHT, "");
-	arg = replace_string(arg, HIR, "");
-	arg = replace_string(arg, HIG, "");
-	arg = replace_string(arg, HIY, "");
-	arg = replace_string(arg, HIB, "");
-	arg = replace_string(arg, HIM, "");
-	arg = replace_string(arg, HIC, "");
-	arg = replace_string(arg, HIW, "");
-	arg = replace_string(arg, NOR, "");
+        arg = replace_string(arg, BLK, "");
+        arg = replace_string(arg, RED, "");
+        arg = replace_string(arg, GRN, "");
+        arg = replace_string(arg, YEL, "");
+        arg = replace_string(arg, BLU, "");
+        arg = replace_string(arg, MAG, "");
+        arg = replace_string(arg, CYN, "");
+        arg = replace_string(arg, WHT, "");
+        arg = replace_string(arg, HIR, "");
+        arg = replace_string(arg, HIG, "");
+        arg = replace_string(arg, HIY, "");
+        arg = replace_string(arg, HIB, "");
+        arg = replace_string(arg, HIM, "");
+        arg = replace_string(arg, HIC, "");
+        arg = replace_string(arg, HIW, "");
+        arg = replace_string(arg, NOR, "");
         arg = replace_string(arg, BOLD, "");
         arg = replace_string(arg, BLINK, "");
         return arg;
@@ -254,49 +266,49 @@ string up_case(string arg)
 string trans_color(string arg, int raw)
 {
         // forecolor
-	arg = replace_string(arg, "$BLK$", BLK);
-	arg = replace_string(arg, "$RED$", RED);
-	arg = replace_string(arg, "$GRN$", GRN);
-	arg = replace_string(arg, "$YEL$", YEL);
-	arg = replace_string(arg, "$BLU$", BLU);
-	arg = replace_string(arg, "$MAG$", MAG);
-	arg = replace_string(arg, "$CYN$", CYN);
-	arg = replace_string(arg, "$WHT$", WHT);
-	arg = replace_string(arg, "$HIR$", HIR);
-	arg = replace_string(arg, "$HIG$", HIG);
-	arg = replace_string(arg, "$HIY$", HIY);
-	arg = replace_string(arg, "$HIB$", HIB);
-	arg = replace_string(arg, "$HIM$", HIM);
-	arg = replace_string(arg, "$HIC$", HIC);
-	arg = replace_string(arg, "$HIW$", HIW);
-	arg = replace_string(arg, "$NOR$", NOR);
+        arg = replace_string(arg, "$BLK$", BLK);
+        arg = replace_string(arg, "$RED$", RED);
+        arg = replace_string(arg, "$GRN$", GRN);
+        arg = replace_string(arg, "$YEL$", YEL);
+        arg = replace_string(arg, "$BLU$", BLU);
+        arg = replace_string(arg, "$MAG$", MAG);
+        arg = replace_string(arg, "$CYN$", CYN);
+        arg = replace_string(arg, "$WHT$", WHT);
+        arg = replace_string(arg, "$HIR$", HIR);
+        arg = replace_string(arg, "$HIG$", HIG);
+        arg = replace_string(arg, "$HIY$", HIY);
+        arg = replace_string(arg, "$HIB$", HIB);
+        arg = replace_string(arg, "$HIM$", HIM);
+        arg = replace_string(arg, "$HIC$", HIC);
+        arg = replace_string(arg, "$HIW$", HIW);
+        arg = replace_string(arg, "$NOR$", NOR);
 
         if (raw)
         {
                 // Background color
-        	arg = replace_string(arg, "$BBLK$", BBLK);
-        	arg = replace_string(arg, "$BRED$", BRED);
-        	arg = replace_string(arg, "$BGRN$", BGRN);
-        	arg = replace_string(arg, "$BYEL$", BYEL);
-        	arg = replace_string(arg, "$BBLU$", BBLU);
-        	arg = replace_string(arg, "$BMAG$", BMAG);
-        	arg = replace_string(arg, "$BCYN$", BCYN);
-        	arg = replace_string(arg, "$HBRED$", HBRED);
-        	arg = replace_string(arg, "$HBGRN$", HBGRN);
-        	arg = replace_string(arg, "$HBYEL$", HBYEL);
-        	arg = replace_string(arg, "$HBBLU$", HBBLU);
-        	arg = replace_string(arg, "$HBMAG$", HBMAG);
-        	arg = replace_string(arg, "$HBCYN$", HBCYN);
+                arg = replace_string(arg, "$BBLK$", BBLK);
+                arg = replace_string(arg, "$BRED$", BRED);
+                arg = replace_string(arg, "$BGRN$", BGRN);
+                arg = replace_string(arg, "$BYEL$", BYEL);
+                arg = replace_string(arg, "$BBLU$", BBLU);
+                arg = replace_string(arg, "$BMAG$", BMAG);
+                arg = replace_string(arg, "$BCYN$", BCYN);
+                arg = replace_string(arg, "$HBRED$", HBRED);
+                arg = replace_string(arg, "$HBGRN$", HBGRN);
+                arg = replace_string(arg, "$HBYEL$", HBYEL);
+                arg = replace_string(arg, "$HBBLU$", HBBLU);
+                arg = replace_string(arg, "$HBMAG$", HBMAG);
+                arg = replace_string(arg, "$HBCYN$", HBCYN);
         }
 
         if (raw == 2)
         {
                 // special effect
-        	arg = replace_string(arg, "$U$", U);
-        	arg = replace_string(arg, "$BLINK$", BLINK);
-        	arg = replace_string(arg, "$REV$", REV);
-        	arg = replace_string(arg, "$HIREV$", HIREV);
-        	arg = replace_string(arg, "$BOLD$", BOLD);
+                arg = replace_string(arg, "$U$", U);
+                arg = replace_string(arg, "$BLINK$", BLINK);
+                arg = replace_string(arg, "$REV$", REV);
+                arg = replace_string(arg, "$HIREV$", HIREV);
+                arg = replace_string(arg, "$BOLD$", BOLD);
         }
 
         arg += NOR;
@@ -372,7 +384,7 @@ int is_legal_id(string id)
         if (! id) return 0;
 
         for (i = 0; i < strlen(id); i++)
-		if (id[i] < 'a' || id[i] > 'z')
+                if (id[i] < 'a' || id[i] > 'z')
                         return 0;
 
         return 1;
