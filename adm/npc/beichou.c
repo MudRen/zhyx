@@ -396,7 +396,7 @@ int accept_object(object me, object ob)
         if ((int)me->query_temp("receive_rumor_time") < time())
                 me->set_temp("receive_rumor_time", time());
 
-        me->add_temp("receive_rumor_time", ob->value() / 3000 * 60);
+        me->add_temp("receive_rumor_time", ob->value() / 1000 * 60);
         message_vision(CYN "$N" CYN "乐得合不拢嘴，连忙接过" + ob->name() +
                        CYN "，点头哈腰的对$n" CYN "道：好！好！\n" NOR,
                        this_object(), me);
@@ -417,7 +417,7 @@ int ask_fee()
         me = this_player();
         if (me->query_temp("receive_rumor_time") < time())
         {
-                command("say 不贵不贵，三十两银子包管一分钟。");
+                command("say 不贵不贵，三十两银子包管三分钟。");
                 return 1;
         }
 
