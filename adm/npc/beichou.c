@@ -175,7 +175,7 @@ void init()
 mixed accept_ask(object ob, string topic)
 {
         object fob;
-        int money = ob->query("quest_count") * 10;
+        int money = ob->query("quest_count") * 30;
 
         if (topic == ob->query("id"))
         {
