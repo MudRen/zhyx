@@ -525,7 +525,15 @@ void receive_report(object user, string verb, string arg)
                 {
                         if (member_array(user, receiver) > -1 && objectp(ob = find_living(id)) && objectp(env = environment(ob)))
                         {
-                                msg = "据可靠消息，" + name + "刚才在" + env->short();
+                                if (user->query("map_all"))
+                                {
+                                        msg = "据可靠消息，" + name + "刚才在" MAP_D->query_map_short(env->query("outdoors")) + "的" + env->short();
+                                }
+                                else
+                                {
+                                        msg = "据可靠消息，" + name + "刚才在" + env->short();
+                                }
+
                                 // tell_object(user, HIC "北丑悄悄的告诉你：" + msg + "。\n");
                                 if (ob->query("name") == name)
                                 {
