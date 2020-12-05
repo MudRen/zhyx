@@ -185,6 +185,7 @@ int working(object me)
                 ob = new("/clone/money/coin");
                 ob->set_amount(100 + (me->query_str() - 25) * 10);
                 ob->move(me, 1);
+                me->add("mark/job_mine1", 1);
         }
 
         message_vision(msg, me, this_object());
@@ -346,4 +347,3 @@ int accept_object(object who, object ob)
         destruct(ob);
         return -1;
 }
-

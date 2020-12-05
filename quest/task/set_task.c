@@ -155,7 +155,7 @@ int do_return(object ob, object me, string arg)
     string target, item;
     object who,pay;
     int count,exp,pot,tihui,gx;
-        
+
     if (! arg) return notify_fail("你要给谁什么东西？\n");
 
     if (sscanf(arg, "%s to %s", item, target) != 2 &&
@@ -183,6 +183,7 @@ int do_return(object ob, object me, string arg)
 
        me->add("mirror_task/count",1);
        me->add("mirror_count",1);
+       me->add("state/mirror", 1);
 
        count =  me->query("mirror_task/count");
  /*      if ( count >= 12 ) count = 12;
@@ -192,7 +193,7 @@ int do_return(object ob, object me, string arg)
     tihui = 5 * count + random(10) + 10;*/
 
     exp = 1000 + random(1000);
-   
+
     if ( count > 20 ) pot = 800 + random(100);
     else
     if ( count > 10 ) pot = 700 + random(100);

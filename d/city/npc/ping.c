@@ -20,7 +20,7 @@ void create()
         set("age", 65);
 
         set("int", 38);
-        
+
         set("qi", 1000);
         set("max_qi", 1000);
         set("jing", 1000);
@@ -218,6 +218,7 @@ int working(object me)
                 ob = new("/clone/money/coin");
                 ob->set_amount(10);
                 ob->move(me, 1);
+                me->add("mark/job_peiyao", 1);
         }
 
         msg = replace_string(msg, "$N", "Äã");
@@ -260,4 +261,3 @@ int halt_working(object me)
         me->delete_temp("job/step");
         return 1;
 }
- 

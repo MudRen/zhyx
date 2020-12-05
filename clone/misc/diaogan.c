@@ -9,31 +9,31 @@ void init()
         if (interactive(this_player()) &&
             environment() == this_player())
         {
-	        add_action("do_fish", "fish");
-	        add_action("do_draw", "draw");
+                add_action("do_fish", "fish");
+                add_action("do_draw", "draw");
         }
 }
 
 void create()
 {
-	set_name(HIG "钓竿" NOR, ({ "diao gan", "gan" }));
-	if (clonep())
-		set_default_object(__FILE__);
-	else
+        set_name(HIG "钓竿" NOR, ({ "diao gan", "gan" }));
+        if (clonep())
+                set_default_object(__FILE__);
+        else
         {
-		set("unit", "根");
-		set("long", "这是一根钓鱼者常用的钓竿，常用它来钓鱼(fish)。\n");
-		set("value", 2000);
-	}
+                set("unit", "根");
+                set("long", "这是一根钓鱼者常用的钓竿，常用它来钓鱼(fish)。\n");
+                set("value", 2000);
+        }
 
-	setup();
+        setup();
 }
 
 int do_fish()
 {
         object yr;
         object ob;
-	object me = this_player();
+        object me = this_player();
 
         if (! arrayp(environment(me)->query("resource/fish")))
                 return notify_fail("这里看不出有鱼的样子。\n");
@@ -103,7 +103,7 @@ int finishing(object me)
                         if (random(3)) return 1;
                         tell_object(me, random(2) ? "水面波澜不惊，没有什么变化。\n"
                                                   : "微风青青的吹，水面荡起一层层细浪，就是没有鱼上钩。\n");
-			break;
+                        break;
                 }
                 message_vision("忽然$N的浮子震动了一下。\n", me);
                 stage = 1;
@@ -168,11 +168,12 @@ int do_draw(string arg)
 
         delete_temp("owner");
         me->delete_temp("fishing");
-             me->delete_temp("fishing_env");
-//             me->start_busy(1);
+        me->delete_temp("fishing_env");
+        // me->start_busy(1);
+        me->add("state/fish", 1);
         if (me->query("combat_exp") < 30000 ||
             me->query("combat_exp") > 150000)
-return 1;
+                return 1;
 
         exp = 5 + random(10);
         pot = random(exp/2)+(exp/2);
@@ -180,8 +181,8 @@ return 1;
         if (me->query("potential") < me->query_potential_limit())
                 me->add("potential", pot);
         tell_object(me, HIC "你心中微微一动，对武学的理解又深了一层。\n" NOR);
-//        tell_object(me, WHT "\n你身旁突然钻出一个鱼贩，一把将你的手中将鱼收走。\n" NOR);
-          return 1;
+        // tell_object(me, WHT "\n你身旁突然钻出一个鱼贩，一把将你的手中将鱼收走。\n" NOR);
+                return 1;
 }
 
 int move(mixed dest, int raw)

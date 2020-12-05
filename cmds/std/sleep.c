@@ -15,13 +15,13 @@ int main(object me, string arg)
         string *kc;
         object where = environment(me);
         int qi, jing;
-		object bag;
+                object bag;
 
         seteuid(getuid());
 
         if ((! (fam = me->query("family")) || fam["family_name"] != "丐帮") &&
            ! (where->query("sleep_room"))
-		   && !objectp(bag = present("sleepbag", me))
+                   && !objectp(bag = present("sleepbag", me))
            || (where->query("no_sleep_room")))
                 return notify_fail("这里不是你能睡的地方！\n");
 
@@ -80,7 +80,7 @@ int main(object me, string arg)
 
         me->set("no_get", 1);
         me->set("no_get_from", 1);
-
+        me->add("state/sleep", 1);
         me->set_temp("sleeped", 1);
         if (where->query("hotel"))
                 me->delete_temp("rent_paid");
@@ -134,9 +134,8 @@ int help(object me)
 {
         write(@HELP
 指令格式 : sleep
- 
+
 顾名思义，这个指令是用来睡觉的。
 HELP );
         return 1;
 }
-

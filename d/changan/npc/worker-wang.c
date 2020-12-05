@@ -9,20 +9,20 @@ inherit NPC;
 
 void create()
 {
-	set_name("王石匠", ({ "wang shijiang", "wang" }) );
-	set("title", HIY "天国大匠" NOR);
-	set("gender", "男性" );
-	set("age", 48);
-	set("str", 35);
-	set("long", @LONG
+        set_name("王石匠", ({ "wang shijiang", "wang" }) );
+        set("title", HIY "天国大匠" NOR);
+        set("gender", "男性" );
+        set("age", 48);
+        set("str", 35);
+        set("long", @LONG
 一个满脸沧桑的老匠人，看上去依然强壮有力。眼神中透露出自信
 与威严。
 LONG);
-	set("attitude", "friendly");
+        set("attitude", "friendly");
 
-	setup();
+        setup();
 
-	carry_object("/clone/cloth/cloth")->wear();
+        carry_object("/clone/cloth/cloth")->wear();
 }
 
 void init()
@@ -113,6 +113,7 @@ void heart_beat()
 
                 // 去掉我做这个工作的信息
                 owner->delete("job/" + ob->query_temp("job/info"));
+                owner->add("mark/job_transit1", 1);
         }
         destruct(ob);
 

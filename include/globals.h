@@ -21,7 +21,7 @@
 #define DATA_DIR        "/data/"
 #define DUMP_DIR        "/dump/"
 #define EVENT_DIR       "/adm/daemons/event/"
-#define HELP_DIR        "/help/"
+#define HELP_DIR        "/doc/help/"
 #define INC_DIR         "/include/"
 #define ITEM_DIR        "/data/item/"
 #define LOG_DIR         "/log/"

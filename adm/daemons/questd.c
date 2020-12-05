@@ -1082,6 +1082,15 @@ int accept_object(object me, object who, object ob)
                         quest_level = 1;
 
                 who->set("quest_count", quest_count);
+                //记录任务总数
+                if (!who->query("state/quest"))
+                {
+                        who->set("state/quest", quest_count);
+                }
+                else
+                {
+                        who->add("state/quest", 1);
+                }
                 who->set_temp("quest/next_level", quest_level);
         }
 

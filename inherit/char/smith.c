@@ -169,7 +169,7 @@ void reward(object me)
         me->improve_potential(pot);
 
         if (me->query("potential") > me->query_potential_limit())
-        	pot = 1;
+                pot = 1;
 
         tell_object(me, HIC "你获得了" + chinese_number(exp) +
                         "点经验和" + chinese_number(pot) + "点潜能。"
@@ -177,6 +177,7 @@ void reward(object me)
 
         me->receive_damage("qi", 30 + random(20));
         me->start_busy(3);
+        me->add("mark/job_smith", 1);
 }
 
 int do_repair(string arg)

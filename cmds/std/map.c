@@ -7,9 +7,9 @@ inherit F_CLEAN_UP;
 int map_view(object me, string arg);
 int map_rumor(object me, string arg);
 
-void create() 
+void create()
 {
-	seteuid(getuid());
+        seteuid(getuid());
 }
 
 int main(object me, string arg)
@@ -114,7 +114,7 @@ int main(object me, string arg)
         me->set("map/" + here, mapped);
 
         if (! wizardp(me))
-	        me->start_busy(1 + random(3));
+                me->start_busy(1 + random(3));
 
         // 计算奖励
         if (lvl > 200)
@@ -146,7 +146,7 @@ int main(object me, string arg)
         me->add("potential", pot);
         me->add("score", score);
 
-	return 1;
+        return 1;
 }
 
 // 查看已经绘制部分的地图
@@ -182,7 +182,7 @@ int map_view(object me, string arg)
                        "翻开看了起来。\n", me);
 
         if (! wizardp(me))
-	        me->start_busy(1);
+                me->start_busy(1);
 
         // 察看是否阅读记载
         if (mapp(rumor = me->query("rumor")) &&
@@ -198,8 +198,8 @@ int map_view(object me, string arg)
         {
                 write(MAP_D->marked_map(environment(me)));
 
-	        if (! wizardp(me))
-        	        me->start_busy(2);
+                if (! wizardp(me))
+                        me->start_busy(2);
 
                 return 1;
         }
@@ -228,8 +228,8 @@ int map_view(object me, string arg)
                 result = replace_string(result, "@N", NOR);
                 me->start_more(MAP_D->query_map_short(arg) + "的地图信息：\n" + result);
 
-	        if (! wizardp(me))
-	                me->start_busy(2);
+                if (! wizardp(me))
+                        me->start_busy(2);
 
                 return 1;
         }
@@ -271,7 +271,7 @@ int map_rumor(object me, string arg)
 
 int help(object me)
 {
-	write(@HELP
+        write(@HELP
 指令格式 : map here | rumor | all | view | <地点> | <珍闻>
 
 如果你身上有了地图册，就可以使用这条命令绘制附近的地图。当然

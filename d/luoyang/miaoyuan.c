@@ -3,8 +3,8 @@ inherit ROOM;
 
 void create()
 {
-	set("short", "苗园");
-	set("long", @LONG
+        set("short", "苗园");
+        set("long", @LONG
 这里是苗铺主人用来养花的花棚，一个大大的温室，将各种样的奇花
 异草呵护在其中，当然花丛中更多的是牡丹，只见那牡丹红的，白的，黑
 的，紫的，黄的，各色各样，争奇斗艳，娇艳欲滴，不愧和白马寺一起成
@@ -14,10 +14,10 @@ LONG);
         set("no_fight",1);
         set("no_clean_up", 0);
         set("exits", ([
-		"west" : __DIR__"miaopu",
-	]));
+                "west" : __DIR__"miaopu",
+        ]));
 
-	setup();
+        setup();
 }
 
 void init()
@@ -33,7 +33,7 @@ int do_peiyu()
 
         if (! me->query_temp("zhonghua"))
         {
-                tell_object(me, "你种子都没有，还想种花？\n"); 
+                tell_object(me, "你种子都没有，还想种花？\n");
                 return 1;
         }
 
@@ -63,7 +63,7 @@ int do_peiyu()
         }
 
         message_vision(HIC "$N" HIC "把土坑周围好好地修整了一下，使土壤更加"
-                       "适合花的生长。\n" NOR, me); 
+                       "适合花的生长。\n" NOR, me);
         me->set_temp("peiyu", 1);
         me->set_temp("jiaoshui", 1);
         me->start_busy(1 + random(3));
@@ -96,6 +96,7 @@ int do_jiaoshui()
         {
                 if (random(14) < 4)
                 {
+                        me->add("mark/job_zhonghua", 1);
                         switch (random(5))
                         {
                                 case 1 : ob = new("/clone/megazine/obj/hmeigui"); break;
@@ -128,7 +129,7 @@ int do_jiaoshui()
                         }
                         message_vision(HIC "$N" HIC "十分小心的给小坑里浇了一些"
                                        "水，突然一朵" + ob->query("name") + HIC
-                                       "从坑里冒了出来。\n" NOR, me);   
+                                       "从坑里冒了出来。\n" NOR, me);
                         message_vision(HIY "$N" HIY "把它摘了下来，拿在手里。\n" NOR, me);
                         ob->move(me, 1);
                         me->delete_temp("jiaoshui");
@@ -138,8 +139,8 @@ int do_jiaoshui()
                         exp = 10 + random(10);
                         pot = 2 + random(3);
 
-		        if (me->query("potential") > me->query_potential_limit()) 
-				pot = 1;
+                        if (me->query("potential") > me->query_potential_limit())
+                                pot = 1;
 
                         me->add("combat_exp", exp);
                         me->improve_potential(pot);
@@ -147,24 +148,24 @@ int do_jiaoshui()
                         tell_object(me, HIC "通过这次训练，你获得了" + chinese_number(exp)
                                         + "点经验和" + chinese_number(pot) + "点潜能。\n"
                                         NOR);
-                        return 1; 
+                        return 1;
                 }
                 message_vision(HIR "$N" HIR "笨手笨脚的拿起水壶给小坑里浇水，结"
-                               "果水洒的太多把花给毁了。\n", me); 
-                me->delete_temp("jiaoshui"); 
-                me->delete_temp("zhonghua"); 
-                me->delete_temp("peiyu"); 
+                               "果水洒的太多把花给毁了。\n", me);
+                me->delete_temp("jiaoshui");
+                me->delete_temp("zhonghua");
+                me->delete_temp("peiyu");
                 me->add("jing", -50);
                 me->add("combat_exp", 3);
-                me->improve_potential(2); 
-                return 1; 
+                me->improve_potential(2);
+                return 1;
         }
         if (me->query_temp("jiaoshui") == 1)
         {
-                message_vision(HIC "$N" HIC "拿起水壶给小坑浇了一些水。\n" NOR, me); 
-                me->add("jing", -70); 
-                me->set_temp("peiyu", 2); 
-                me->start_busy(1 + random(2)); 
+                message_vision(HIC "$N" HIC "拿起水壶给小坑浇了一些水。\n" NOR, me);
+                me->add("jing", -70);
+                me->set_temp("peiyu", 2);
+                me->start_busy(1 + random(2));
                 return 1;
         }
 }

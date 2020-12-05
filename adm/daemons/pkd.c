@@ -289,6 +289,7 @@ private int start_competition()
         {
                 reset_eval_cost();
                 init_player(obs[i]);
+                obs[i]->add("state/pk", 1);
         }
 
         set_heart_beat(1);

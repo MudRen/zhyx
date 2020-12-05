@@ -42,7 +42,7 @@ int main(object me, string arg)
         mapping exit;
         object *f_obs, *ob;
         object temp_ob;
-	mixed flee;
+        mixed flee;
         mapping my, my_temp;
         mapping my_env, my_armor;
 
@@ -89,11 +89,11 @@ int main(object me, string arg)
                 fp  = (int)me->query_skill("dodge");
                 fp += my["dex"] * 15;
                 force_power = me->query_skill("force") + my["str"] * 2;
-		if (flee = my_temp["success_flee"])
-		{
-			if (stringp(flee)) write(flee);
-			f_obs = ({ });
-		}
+                if (flee = my_temp["success_flee"])
+                {
+                        if (stringp(flee)) write(flee);
+                        f_obs = ({ });
+                }
                 foreach (g_ob in f_obs)
                 {
                         if (! g_ob) continue;
@@ -149,7 +149,7 @@ int main(object me, string arg)
                         }
                 }
         }
-	map_delete(my_temp, "success_flee");
+        map_delete(my_temp, "success_flee");
 
         if (! mapp(exit = env->query("exits")) || undefinedp(exit[arg]))
         {
@@ -164,17 +164,17 @@ int main(object me, string arg)
                 return 1;
 
         if (! result) return 0;
-	if (result < 0 || environment(me) != env)
-		// I needn't let the character do anymore,
-		// because everything has been dong in the
-		// fucntion::valid_leave()
-		return 1;
+        if (result < 0 || environment(me) != env)
+                // I needn't let the character do anymore,
+                // because everything has been dong in the
+                // fucntion::valid_leave()
+                return 1;
 
         dest = exit[arg];
         if (! (obj = find_object(dest)))
                 if (! objectp(obj = load_object(dest)))
                         return notify_fail(sprintf("目标物件无法找到，无"
-						   "法向 %s 移动。\n", dest ) );
+                                                   "法向 %s 移动。\n", dest ) );
 
      /*   if (my_temp["is_riding"]
         &&arg !="north"&&arg !="south"
@@ -205,59 +205,59 @@ int main(object me, string arg)
                 min = me->name() + "跌跌撞撞地跑了过来，模样有些狼狈。\n";
         } else
         {
-		// 为什么不提供兵器防具的名称？因为对方武器的名称不可能瞬间便
+                // 为什么不提供兵器防具的名称？因为对方武器的名称不可能瞬间便
                 // 得知，另一原因就是玩家自铸兵器的名称千奇百怪，实有伤大雅。
 
                 if (! userp(me)
                    || objectp(thing = my_armor["cloth"]))
-			thing_msg = "";
+                        thing_msg = "";
                 else
                         thing_msg = "赤着身子";
 
                 if (objectp(thing = my_temp["weapon"]))
-		{
+                {
                         if ((string)thing->valid_as_xiao())
-			{
-	                        msg1 = "持着一";
-	                        msg2 = "洞箫";
-			} else
-		        if ((string)thing->query("skill_type") == "sword")
-			{
-	                        msg1 = "提着一";
-	                        msg2 = "长剑";
-			} else
-		        if ((string)thing->query("skill_type") == "blade")
-			{
-	                        msg1 = "扛着一";
-	                        msg2 = "大刀";
-			} else
-		        if ((string)thing->query("skill_type") == "staff")
-			{
-	                        msg1 = "持着一";
-	                        msg2 = "手杖";
-			} else
-		        if ((string)thing->query("skill_type") == "club")
-			{
-	                        msg1 = "提着一";
-	                        msg2 = "棍子";
-			} else
-		        if ((string)thing->query("skill_type") == "whip")
-			{
-	                        msg1 = "提着一";
-	                        msg2 = "长鞭";
-			} else
-		        if ((string)thing->query("skill_type") == "dagger")
-			{
-	                        msg1 = "手持一";
-	                        msg2 = "匕首模样的兵器";
-			} else
-			{
-	                        msg1 = "持着一";
-	                        msg2 = "奇模怪样的武器";
-			}
+                        {
+                                msg1 = "持着一";
+                                msg2 = "洞箫";
+                        } else
+                        if ((string)thing->query("skill_type") == "sword")
+                        {
+                                msg1 = "提着一";
+                                msg2 = "长剑";
+                        } else
+                        if ((string)thing->query("skill_type") == "blade")
+                        {
+                                msg1 = "扛着一";
+                                msg2 = "大刀";
+                        } else
+                        if ((string)thing->query("skill_type") == "staff")
+                        {
+                                msg1 = "持着一";
+                                msg2 = "手杖";
+                        } else
+                        if ((string)thing->query("skill_type") == "club")
+                        {
+                                msg1 = "提着一";
+                                msg2 = "棍子";
+                        } else
+                        if ((string)thing->query("skill_type") == "whip")
+                        {
+                                msg1 = "提着一";
+                                msg2 = "长鞭";
+                        } else
+                        if ((string)thing->query("skill_type") == "dagger")
+                        {
+                                msg1 = "手持一";
+                                msg2 = "匕首模样的兵器";
+                        } else
+                        {
+                                msg1 = "持着一";
+                                msg2 = "奇模怪样的武器";
+                        }
                         thing_msg += msg1 + thing->query("unit") + msg2;
 
-		}
+                }
 
                 if (my["race"] == "野兽")
                 {
@@ -265,13 +265,13 @@ int main(object me, string arg)
                         min = me->name() + "呼地窜了出来，警惕地四周张望着。\n";
                 } else
                 {
-			object riding;
+                        object riding;
                         if (objectp(riding = my_temp["is_riding"]))
                         {
                                 mout = me->name() + "骑着" + riding->name() +
-				       "向" + dir + "疾驰而去。\n";
+                                       "向" + dir + "疾驰而去。\n";
                                 min = me->name() + thing_msg + "骑着" +
-				      riding->name() + "一路疾驰而来。\n";
+                                      riding->name() + "一路疾驰而来。\n";
                         } else
                         {
                                 mout = me->name() + "往" + dir + "离开。\n";
@@ -280,8 +280,8 @@ int main(object me, string arg)
                 }
         }
 
-	if (! wizardp(me) || ! my_env["invisible"])
-        	message("vision", mout, environment(me), ({me}));
+        if (! wizardp(me) || ! my_env["invisible"])
+                message("vision", mout, environment(me), ({me}));
 
 #if INSTALL_EXAMINE
         EXAMINE_D->examine_player(me);
@@ -294,9 +294,13 @@ int main(object me, string arg)
                 message("vision", min, dest, ({ me }));
 
         me->move(dest);
-        if (! objectp(me))
-                return 1;
 
+        if (!objectp(me))
+                return 1;
+        if (living(me))
+        {
+                me->add("state/go", 1);
+        }
         if (environment(me) != env)
         {
                 object competitor;
@@ -305,7 +309,7 @@ int main(object me, string arg)
                         me->lost();
                         competitor->win();
                 }
-	        all_inventory(env)->follow_me(me, arg);
+                all_inventory(env)->follow_me(me, arg);
         }
         return 1;
 }
@@ -348,8 +352,8 @@ nosave mapping r_dirs = ([
 
 string query_reverse(string dir)
 {
-	if (undefinedp(r_dirs[dir]))
-		return 0;
+        if (undefinedp(r_dirs[dir]))
+                return 0;
 
         return r_dirs[dir];
 }

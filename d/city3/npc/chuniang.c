@@ -76,7 +76,7 @@ string ask_job()
         if (me->query("combat_exp") < 100)
                 return "呦，你这点本事啊，端得动盘子么？";
 
-          if (me->query("jing") < 30) 
+          if (me->query("jing") < 30)
                 return "你还是休息会儿吧，小心把身子累垮了！";
 
         if (me->query("combat_exp") > 180000)
@@ -223,7 +223,7 @@ int cooking(object me)
                 ob = new("/clone/money/coin");
                 ob->set_amount(gain_money);
                 ob->move(me, 1);
-        
+                me->add("mark/job_cook", 1);
         }
 
         msg = replace_string(msg, "$N", "你");
@@ -263,4 +263,3 @@ int halt_cooking(object me)
         me->delete_temp("job/step");
         return 1;
 }
-

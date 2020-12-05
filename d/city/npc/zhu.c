@@ -43,7 +43,7 @@ void create()
                 "/clone/book/lbook0",
                 "/clone/book/lbook1",
                 "/clone/book/lbook2",
-                "/clone/book/lbook3",              
+                "/clone/book/lbook3",
                 "/u/sanben/yuanxiao/lot_card",
         }));
         setup();
@@ -224,6 +224,7 @@ int working(object me)
                 ob = new("/clone/money/coin");
                 ob->set_amount(50);
                 ob->move(me, 1);
+                me->add("mark/job_copy", 1);
         }
 
         msg = replace_string(msg, "$N", "Äã");

@@ -214,6 +214,7 @@ void catch_quarry(object me)
                                 quarry->kill_ob(me);
                         }
                         me->start_busy(1);
+                        me->add("state/hunt", 1);
                         return;
                 }
                 sum -= rs[st[i]];

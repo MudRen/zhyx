@@ -218,7 +218,7 @@ int working(object me)
 
                 me->delete_temp("job/mine");
                 me->delete_temp("job/step");
-
+                me->add("mark/job_mine2", 1);
                 if (me->query("combat_exp") < 200000)
                 {
                         b = 10 + random(17);

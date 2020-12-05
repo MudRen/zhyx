@@ -87,7 +87,7 @@ int main(object me, string arg)
     line += sprintf(HIW " 师门任务完成次数：%d 次\n", my["state"]["quest"]);
     line += sprintf(HIW " 宝镜任务完成次数：%d 次\n", my["state"]["mirror"]);
     line += sprintf(HIW " 江湖挑战接受次数：%d 次，获胜：%d 次\n", my["state"]["challenge"], my["state"]["challenge_win"]);
-    line += sprintf(HIW " 屠人大赛参加次数：%d 次，获胜：%d 次\n", my["state"]["pk"], my["state"]["pk_win"]);
+    line += sprintf(HIW " 屠人大赛参加次数：%d 次，获胜：%d 次\n", my["state"]["pk"], my["pkd"]);
     // line += sprintf(HIW " 支线解迷数量：%d 次\n", my["state"]["puzzle"]);
     line += "\n";
     line += sprintf(HIW " 钓鱼次数：%d 次\n", my["state"]["fish"]);

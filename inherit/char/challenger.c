@@ -11,6 +11,7 @@ void competition_with(object ob)
 {
         NPC_D->set_from_me(this_object(), ob);
         with_ob = ob;
+        ob->add("state/challenge", 1);
         command("yun powerup");
         ::competition_with(ob);
 }
@@ -88,6 +89,7 @@ void lost()
         ob->add("weiwang", weiwangi);
         ob->add("combat_exp", expi);
         ob->add("potential", poti);
+        ob->add("state/challenge_win", 1);
         tell_object(ob, sprintf(HIC "你获得了%s点经验、%s点潜能，并增"
                                 "加了%s点威望、%s点江湖阅历。\n" NOR,
                         chinese_number(expi),
