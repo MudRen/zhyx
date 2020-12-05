@@ -22,7 +22,7 @@ void task_reminder()
       if ( ! zixu) zixu = load_object(ZIXU);
 
       CHANNEL_D->do_channel(zixu, "chat",
-                  HIR"请注意，宝镜任务将于三分种后重新分布。\n" NOR);
+                  HIR"请注意，宝镜任务将于三分钟后重新分布。\n" NOR);
 
       remove_call_out("set_task");
       call_out("set_task", 180);
@@ -159,7 +159,7 @@ int do_return(object ob, object me, string arg)
     string target, item;
     object who,pay;
     int count,exp,pot,tihui,gx;
-        
+
     if (! arg) return notify_fail("你要给谁什么东西？\n");
 
     if (sscanf(arg, "%s to %s", item, target) != 2 &&
@@ -185,12 +185,12 @@ int do_return(object ob, object me, string arg)
          me->set("mirror_task/task_time", ob->query("task_time") );
        }
 
-  
+
 
     tell_object(me, "你拿出" + ob->name() + "(" + ob->query("id") + ")给" +
     who->name() + "。\n" + WHT + who->name() + "说道：“啊，真是多谢这位" +
     RANK_D->query_respect(me) + "了。”\n"NOR);
-	
+
 	if (ob->query_temp("finder") && ob->query_temp("finder") == me)
 	{
 		     me->add("mirror_task/count",1);
@@ -199,7 +199,7 @@ int do_return(object ob, object me, string arg)
        count =  me->query("mirror_task/count");
 
     exp = 100 + random(50);
-   
+
     if ( count > 20 ) pot = 200 + random(20);
     else
     if ( count > 10 ) pot = 100 + random(10);
@@ -243,13 +243,13 @@ int do_return(object ob, object me, string arg)
     pay->move(me, 1);
 
    // log_file("static/mirror", sprintf("%s(%s) 交物品 at %s.\n",
-       //      me->name(1), me->query("id"), ctime(time())));  
+       //      me->name(1), me->query("id"), ctime(time())));
 
-    
+
     if ( //me->query("mirror_count") == 300 ||
          me->query("mirror_count") == 800 )
        call_other(__FILE__,"set_item", me);
-	}  
+	}
 	destruct(ob);
     return 1;
 
@@ -271,7 +271,7 @@ string set_item(object me)
               //  "/u/xiner/obj/fojing",
 				"/u/xiner/obj/hx_book",
 				"/u/xiner/obj/jianpu",
-				"/u/xiner/obj/juhua",				             
+				"/u/xiner/obj/juhua",
         });
         string gift;
         object item;
