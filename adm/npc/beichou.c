@@ -175,6 +175,7 @@ void init()
 mixed accept_ask(object ob, string topic)
 {
         object fob;
+        int money = ob->query("quest_count") * 10;
 
         if (topic == ob->query("id"))
         {
@@ -187,7 +188,7 @@ mixed accept_ask(object ob, string topic)
         if (! fob || ! ob->visible(fob) || ! environment(fob))
                 return;
 
-        if (fob->query("ask_cheap") >= 1)
+        if (fob->query("ask_cheap") >= 1 || money < 1000)
         {
                 ob->set_temp("pending/ask_beichou", topic);
                 ob->set_temp("pending/ask_value", 1000);
@@ -195,9 +196,9 @@ mixed accept_ask(object ob, string topic)
                                "头道：看来你这次确实是遇到了困难，收你十"
                                "两白银就是了。\n" NOR, this_object(), ob);
                 return 1;
-        } else
+        }
+        else
         {
-                int money = ob->query("quest_count") * 10;
                 ob->set_temp("pending/ask_beichou", topic);
                 ob->set_temp("pending/ask_value", money);
                 message_vision(CYN "$N" CYN "嘿嘿奸笑两声，对$n" CYN "小"
@@ -367,7 +368,7 @@ int accept_object(object me, object ob)
                 if (me->query("map_all"))
                 {
                         command("whisper " + me->query("id") + " 据可靠消息，这个人刚才在" +
-                                MAP_D->query_map_short(environment(fob)->query("outdoors")) +
+                                MAP_D->query_map_short(environment(fob)->query("outdoors")) + "的" +
                                 environment(fob)->short() + "。");
                 }
                 else
