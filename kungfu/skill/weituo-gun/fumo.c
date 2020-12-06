@@ -7,19 +7,19 @@ inherit F_SSERVER;
 
 int perform(object me, object target)
 {
-	object weapon;
-	string msg;
+    object weapon;
+    string msg;
         int ap, dp;
         int damage;
  
-	if (! target) target = offensive_target(me);
+    if (! target) target = offensive_target(me);
 
-	if (! target || ! me->is_fighting(target))
-	        return notify_fail("「韦托伏魔」只能在战斗中对对手使用。\n");
+    if (! target || ! me->is_fighting(target))
+            return notify_fail("「韦托伏魔」只能在战斗中对对手使用。\n");
 
-	if (! objectp(weapon = me->query_temp("weapon")) ||
+    if (! objectp(weapon = me->query_temp("weapon")) ||
               (string)weapon->query("skill_type") != "club")
-		return notify_fail("你使用的武器不对。\n");
+        return notify_fail("你使用的武器不对。\n");
 
         if (me->query_skill_mapped("force") != "hunyuan-yiqi" &&
             me->query_skill_mapped("force") != "yijinjing" &&
@@ -27,14 +27,14 @@ int perform(object me, object target)
             me->query_skill_mapped("force") != "jiuyang-shengong")
                 return notify_fail("你使用的非少林内功，无法施展「韦托伏魔」！\n");
 
-	if (me->query_skill("force") < 200)
-		return notify_fail("你的内功的修为不够，难以使用这一绝技！\n");
+    if (me->query_skill("force") < 200)
+        return notify_fail("你的内功的修为不够，难以使用这一绝技！\n");
 
-	if (me->query_skill("weituo-gun", 1) < 135)
-		return notify_fail("你的韦陀棍法修为不够，目前不能使用韦托伏魔！\n");
+    if (me->query_skill("weituo-gun", 1) < 135)
+        return notify_fail("你的韦陀棍法修为不够，目前不能使用韦托伏魔！\n");
 
-	if (me->query("neili") < 800)
-		return notify_fail("你的真气不够，不能使用韦托伏魔！\n");
+    if (me->query("neili") < 800)
+        return notify_fail("你的真气不够，不能使用韦托伏魔！\n");
 
         if (me->query_skill_mapped("club") != "weituo-gun")
                 return notify_fail("你没有激发韦陀棍法，不能使用韦托伏魔！\n");
@@ -42,7 +42,7 @@ int perform(object me, object target)
         if (me->query("shen") < 10000)
                 return notify_fail("你正气不足，难以理解韦托伏魔的精髓。\n");
 
-	msg = HIY "$N" HIY "脸色柔和，尽显一派慈祥之意，手中的" + weapon->name() +
+    msg = HIY "$N" HIY "脸色柔和，尽显一派慈祥之意，手中的" + weapon->name() +
               HIY "轻旋，恍惚中显出佛家韦陀神像，神光四射，笼罩住$n" + HIY "！\n" NOR;
 
         if (target->is_bad())
@@ -55,7 +55,7 @@ int perform(object me, object target)
                 msg += HIR "$n" HIR "平日作恶不少，见了此情此景，心中不禁颤然！\n" NOR;
         } else
                 ap = 0;
-        ap += me->query_skill("staff"); 
+        ap += me->query_skill("club"); 
         dp = target->query_skill("force");
 
         if (ap / 2 + random(ap) > dp || !living(target))
@@ -75,7 +75,7 @@ int perform(object me, object target)
                 msg += CYN "可是$p" CYN "强摄心神，没有被$P"
                        CYN "所迷惑，硬生生的架住了$P" CYN "这一招！\n"NOR;
         }
-	message_combatd(msg, me, target);
+    message_combatd(msg, me, target);
 
-	return 1;
+    return 1;
 }
