@@ -527,7 +527,7 @@ void receive_report(object user, string verb, string arg)
                         {
                                 if (user->query("map_all"))
                                 {
-                                        msg = "据可靠消息，" + name + "刚才在" MAP_D->query_map_short(env->query("outdoors")) + "的" + env->short();
+                                        msg = "据可靠消息，" + name + "刚才在" + MAP_D->query_map_short(env->query("outdoors")) + "的" + env->short();
                                 }
                                 else
                                 {
