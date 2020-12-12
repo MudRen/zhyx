@@ -31,7 +31,7 @@ int exert(object me, object target)
         if ((int)me->query("neili") < 50)
                 return notify_fail("你的真气不够。\n");
 
-        if ((int)me->query("eff_qi") < (int)me->query("max_qi") / 5)
+        if (!me->query("special_skill/divine") && (int)me->query("eff_qi") < (int)me->query("max_qi") / 5)
                 return notify_fail("你已经受伤过重，只怕一运真气便有生命危险！\n");
 /*
         message_vision(HIW "$N" HIW "全身放松，坐下来开始运功疗伤。\n"
