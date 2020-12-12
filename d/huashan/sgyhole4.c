@@ -11,8 +11,8 @@ void create()
 人，全是用利器刻制，想见当初运力之人内力十分深厚。
 LONG );
         set("exits", ([ /* sizeof() == 4 */
-            "south"   : __DIR__"sgyhole4",
-			"north"   : __DIR__"sgyhole5",
+            "south"   : __DIR__"sgyhole3",
+            "north"   : __DIR__"sgyhole5",
 
         ]));
         set("item_desc", ([ 

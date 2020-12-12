@@ -154,8 +154,10 @@ int dispel(object me, object ob, mapping cnd)
         }
 
         need_lvl = cnd["level"] + 10;
-	if (ob->query("breakup"))
-		need_lvl = need_lvl * 7 / 10;
+        if (ob->query("breakup"))
+            need_lvl = need_lvl * 7 / 10;
+        if (ob->query("special_skill/divine"))
+            need_lvl = need_lvl * 7 / 10;
 
         if (ob->query("immune/poison") == -1)
                 need_lvl = 1;
@@ -198,8 +200,10 @@ int dispel(object me, object ob, mapping cnd)
         // È¥¶¾ÄÜÁ¦
         power = my_lvl + me->query_skill("dispel-poison", 1) +
                 me->query_temp("apply/dispel-poison");
-	if (ob->query("breakup"))
-		power += power * 3 / 10;
+        if (ob->query("breakup"))
+            power += power * 3 / 10;
+        if (ob->query("special_skill/divine"))
+            power += power * 3 / 10;
         if (me == ob)
         {
                 if (cnd["id"] == me->query("id"))
