@@ -384,7 +384,7 @@ int accept_object(object me, object ob)
                 return 1;
         }
 
-        if (ob->value() < 3000)
+        if (ob->value() < 10000)
         {
                 message_vision(CYN "$N" CYN "接过$n" CYN "递过去的" + ob->name() +
                                NOR + CYN "，皱了皱眉，道：就这点钱？算了，你不要就"
@@ -417,7 +417,7 @@ int ask_fee()
         me = this_player();
         if (me->query_temp("receive_rumor_time") < time())
         {
-                command("say 不贵不贵，三十两银子包管三分钟。");
+                command("say 不贵不贵，一百两银子包管十分钟。");
                 return 1;
         }
 

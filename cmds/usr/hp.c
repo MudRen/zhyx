@@ -214,6 +214,8 @@ int main(object me, string arg)
         if (my["max_jing"] < 1 || my["max_qi"] < 1)
                 return notify_fail("无法察看" + ob->name(1) + "的状态。\n");
 
+        my["experience"] = to_int(my["experience"]);
+
         sp = (ob == me ? "你" : ob->name()) + "目前的状态属性如下：\n";
         sp += HIC "≡" HIY "───────────────────────"
               "────────" HIC "≡\n" NOR;
@@ -244,7 +246,7 @@ int main(object me, string arg)
                 status_color(my["water"], ob->max_water_capacity()),
                 my["water"], ob->max_water_capacity(),
                 my["experience"] >= ob->query_experience_limit() ? HIM : HIY,
-                my["experience"] - my["learned_experience"]);
+                to_int(my["experience"] - my["learned_experience"]));
 
         if (craze = me->query_craze())
         {
