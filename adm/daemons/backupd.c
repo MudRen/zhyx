@@ -212,11 +212,11 @@ void remove_backup(mixed lt)
                         continue;
 
                 if (is_recent_time(y, m, d, lt[LT_YEAR], lt[LT_MON], lt[LT_MDAY]))
-                        // is the receant backup, won't delete
+                        // is the recent backup, won't delete
                         continue;
                 if (d == 1)
-                    // 每月1日备份不删除
-                    continue;
+                        // 每月1日备份不删除
+                        continue;
 
                 CMD_RM->rm_dir(BACKUP_DIR + file[i][0]);
                 sys_info(sprintf("备份(%s)已经被自动删除。", file[i][0]));
