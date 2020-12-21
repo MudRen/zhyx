@@ -1,7 +1,7 @@
 #include <weapon.h>
 #include <ansi.h>
 
-inherit SWORD;
+inherit DAGGER;
 
 void create()
 {
@@ -21,6 +21,6 @@ void create()
                 set("unwield_msg", HIR "$N" HIR "将手中的匕首插回靴中。\n" NOR);
                 set("stable", 100);
         }
-        init_sword(200);
+        init_dagger(200);
         setup();
 }
