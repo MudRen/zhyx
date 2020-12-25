@@ -16,7 +16,7 @@ int perform(object me, object target)
         string msg;
         int damage;
 
-        if (! wizardp(me) && me->query("id") != "vin")
+        if (! wizardp(me))
                 return notify_fail(LIGHTING "只能由巫师施展。\n");
 
         if (! me->is_fighting())

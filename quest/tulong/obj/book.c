@@ -21,33 +21,33 @@ void create()
             ]) );
         }
 }
+
 int query_autoload()
 {
         return 1;
 }
 
-void init()
-{
-    add_action("do_getblade","getblade");
-}
-int do_getblade(string arg)
-{
-  object me = this_player ();
-        object ob;
+// void init()
+// {
+//         add_action("do_getblade", "getblade");
+// }
 
-        if(!me->query_temp("spiritagree") && (string)me->query("id")!="night" ) 
-                return notify_fail("你没得到夜辰允许，精灵界怎么会为你开启呢？\n");  
-        if (  present("spirit blade", me) ) 
-                return notify_fail("你身上不是有一把吗？\n");  
-        if( (int)me->query("jing") < 100 )
-                return notify_fail("你的精神无法集中，不要勉强！\n");
-        message_vision(HIY"$N"+HIY"摊开"NOR+HIW"《精灵物语》"NOR+HIY"，口中念念有词。\n"NOR, me); 
-        message_vision(HIY"光芒乍起，一柄薄如羽翼，轻如晓风的精灵刀出现在光芒中。\n"NOR, me);
+// int do_getblade(string arg)
+// {
+//         object me = this_player();
+//         object ob;
 
-         me->receive_damage("jing", 90);
-        ob = new("/u/night/obj/blade");
-        ob->move(me);
-        return 1;
-}
+//         if (!me->query_temp("spiritagree") && (string)me->query("id") != "night")
+//                 return notify_fail("你没得到夜辰允许，精灵界怎么会为你开启呢？\n");
+//         if (present("spirit blade", me))
+//                 return notify_fail("你身上不是有一把吗？\n");
+//         if ((int)me->query("jing") < 100)
+//                 return notify_fail("你的精神无法集中，不要勉强！\n");
+//         message_vision(HIY "$N" + HIY "摊开" NOR + HIW "《精灵物语》" NOR + HIY "，口中念念有词。\n" NOR, me);
+//         message_vision(HIY "光芒乍起，一柄薄如羽翼，轻如晓风的精灵刀出现在光芒中。\n" NOR, me);
 
-
+//         me->receive_damage("jing", 90);
+//         ob = new ("/u/night/obj/blade");
+//         ob->move(me);
+//         return 1;
+// }

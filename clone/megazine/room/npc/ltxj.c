@@ -30,24 +30,24 @@ void create ()
 
         set("attitude","friendly");
         set("inquiry",([
-                "为什么" : "就是不...", 
-                "小桦" : "小混混一个，没什么好说的", 
-                "小二邮箱" : "这个人是新手的代言人。", 
-                "社长夫人" : "这个嘛.....我知道，但就是不告诉你们", 
-                "打你" : "你敢的话，就试一试啊！", 
-                "当心我扁你" : "你敢的话，就试一试啊！", 
-                "扁你" : "你敢的话，就试一试啊！", 
-                "你敢" : "我就敢！哼....", 
-                "男朋友" : "这是我的秘密！", 
-                "终极地狱" : "这个你都不知道？你现在玩得就是终极地狱！", 
-                "爱情" : "咯咯...这个不能告诉你哦！", 
-                "喝酒" : "不会.", 
-                "聊些什么呢" : "这个要你说啊！", 
-                "聊些什么" : "这个要你说啊！", 
-                "结婚了吗" : "我为什么要告诉你呢？", 
-                "结婚" : "我为什么要告诉你呢？", 
-                "风狐" : "这是我们尊敬的社长大人。", 
-                "聊什么" : "你想聊什么啊！", 
+                "为什么" : "就是不...",
+                "小桦" : "小混混一个，没什么好说的",
+                "小二邮箱" : "这个人是新手的代言人。",
+                "社长夫人" : "这个嘛.....我知道，但就是不告诉你们",
+                "打你" : "你敢的话，就试一试啊！",
+                "当心我扁你" : "你敢的话，就试一试啊！",
+                "扁你" : "你敢的话，就试一试啊！",
+                "你敢" : "我就敢！哼....",
+                "男朋友" : "这是我的秘密！",
+                "终极地狱" : "这个你都不知道？你现在玩得就是终极地狱！",
+                "爱情" : "咯咯...这个不能告诉你哦！",
+                "喝酒" : "不会.",
+                "聊些什么呢" : "这个要你说啊！",
+                "聊些什么" : "这个要你说啊！",
+                "结婚了吗" : "我为什么要告诉你呢？",
+                "结婚" : "我为什么要告诉你呢？",
+                "风狐" : "这是我们尊敬的社长大人。",
+                "聊什么" : "你想聊什么啊！",
                 "name" : "我就是专门和玩家聊天地聊天丫鬟。",
                 "工作" : "就是和你们这些无聊的人聊天。",
                 "屠人魔" : "这你也不知道呀，他是终极地狱的高手呀.",
@@ -118,18 +118,6 @@ void init()
 
 void greeting(object me)
 {
-        if (me->query("id") == "wfoxd" || me->query("id") == "miller")
-        {
-                command("jump " + me->query("id"));
-                if (me->query("id") == "miller")
-                {
-                        command("say 我好想你啊，你怎么现在才来啊？");
-                        return;
-                }
-                command("say 热烈欢迎风狐社长检查工作情况！\n");
-                return;
-        }
- 
         if (me->query("age") < 16)
         {
                  command("say 小孩子聊什么天，一边去玩！");
@@ -161,11 +149,11 @@ void greeting(object me)
 
 int do_look(string target)
 {
-	object me;
-	object ob=this_object();
+        object me;
+        object ob=this_object();
 
-	me = this_player();
-	if (target == "yahuan" || target == "liaotian yahuan" || target == "liaotian")
+        me = this_player();
+        if (target == "yahuan" || target == "liaotian yahuan" || target == "liaotian")
 
         {
                 command("angry " + me->query("id"));
@@ -175,12 +163,12 @@ int do_look(string target)
 
 int do_hug(string target)
 {
-	object me;
-	object ob=this_object();
+        object me;
+        object ob=this_object();
 
-	me = this_player();
-	if (id(target))
-        { 
+        me = this_player();
+        if (id(target))
+        {
                 if (me->query_temp("liumang") == 1)
                 {
                         message("vision", WHT + ob->query("name") + "(" +ob->query("id")+ ")：" +
@@ -202,14 +190,14 @@ int do_hug(string target)
 
 int do_kok(string target)
 {
-	object me;
-	object ob=this_object();
+        object me;
+        object ob=this_object();
 
-	me = this_player();
-	if (id(target))
-  	{
+        me = this_player();
+        if (id(target))
+          {
                 if (me->query_temp("liumang") == 1)
-	 	{
+                 {
                         message("vision", WHT + ob->query("name") + "(" +ob->query("id")+ ")：" +
                                           me->query("class") + me->query("name") + "真是恶习难改，现在又在欺负人了！\n" NOR,
                                           users());
@@ -219,7 +207,7 @@ int do_kok(string target)
                          return 1;
                 }
 
-	  	message("vision", WHT + ob->query("name") + "(" +ob->query("id")+ ")：" + "大家注意！！！" +
+                  message("vision", WHT + ob->query("name") + "(" +ob->query("id")+ ")：" + "大家注意！！！" +
                                   me->query("class") + me->query("name") + "又在欺负人了！\n"NOR, users() );
                 message_vision(HIG "聊天小姐轻轻的点了你一下，你只觉得有点晕了！\n" NOR, me);
                 me->add("jing", -300);
@@ -231,16 +219,16 @@ int do_kok(string target)
 
 int ask_me()
 {
-	object me , ob;
+        object me , ob;
 
-	me = this_player();
-	command("say 是吗？谢谢你的夸奖");
-	if (random(5) == 0)
+        me = this_player();
+        command("say 是吗？谢谢你的夸奖");
+        if (random(5) == 0)
         {
-	  	 command("say 既然你说的那么好听，我就给你点东西吧！");
+                   command("say 既然你说的那么好听，我就给你点东西吧！");
                  ob = new("/clone/megazine/obj/zazhi2");
-	  	 ob->move(me, 1);
-	  	 message_vision("聊天丫鬟给$N本〖地狱〗杂志。\n",me);
+                   ob->move(me, 1);
+                   message_vision("聊天丫鬟给$N本〖地狱〗杂志。\n",me);
         }
         return 1;
 }
@@ -249,7 +237,7 @@ int do_wuliao(string target)
 {
         object me;
 
-        if (id(target)) 
+        if (id(target))
                 command("say 当然可以啦！就让我们开始这段闲聊吧！");
 
         return 1;

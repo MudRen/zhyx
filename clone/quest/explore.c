@@ -88,11 +88,11 @@ void init_quest(object npc_ob, string qob_name, string zone, string *files)
         // 在房间中放置可搜索的对象，并去掉该房间可以找到的
         // 银两和铜板
         env->set_temp("no_search", ([ "/clone/money/coin" : 0,
-					"/clone/money/silver"     : 0,
-					"/clone/weapon/changjian" : 0,
-					"/clone/weapon/blade"     : 0,
-					"/clone/weapon/gangzhang" : 0,
-					"/clone/cloth/tiejia"     : 0,  ]));
+                                        "/clone/money/silver"     : 0,
+                                        "/clone/weapon/changjian" : 0,
+                                        "/clone/weapon/blade"     : 0,
+                                        "/clone/weapon/gangzhang" : 0,
+                                        "/clone/cloth/tiejia"     : 0,  ]));
         env->set_temp("search_objects", ([ (: search_qob :) : 10000 ]));
         env->set_temp("been/searched", -150);
         ENV_OB = env;
@@ -267,30 +267,30 @@ string ask_qob(object knower, object me)
                         str -= ({ 0 });
                         exits = "大概具有" + implode(str, "、") + "出口";
                 }
-		        
+
                 message("vision", WHT + knower->name() + "看了看四周，鬼鬼祟祟"
                                   "的在" + me->name() + WHT "耳边说了些什么。\n"
                                   NOR, environment(me), ({ me }));
 
-		if (me->query("id")=="xiner")
-		{
+                if (me->query("kar") > random(100))
+                {
                 tell_object(me, sort_msg(knower->name() + "看了看四"
                             "周，鬼鬼祟祟的在你耳边说道：“你可千万"
                             "别告诉别人呀！这可是我听到的秘密情报，"
-                            "今天我不要钱就告诉你了：据说那个东西在一个" 
+                            "今天我不要钱就告诉你了：据说那个东西在一个"
                           " "+ env->query("short")+ " "
-			    + exits + "的地方，离咱们这里也不算太远呢。你"
+                            + exits + "的地方，离咱们这里也不算太远呢。你"
                             "到那里仔细找找没准会有发现呢！”\n"));
-		}else
-		{
+                }else
+                {
                 tell_object(me, sort_msg(knower->name() + "看了看四"
                             "周，鬼鬼祟祟的在你耳边说道：“你可千万"
                             "别告诉别人呀！这可是我听到的秘密情报，"
-                            "今天我不要钱就告诉你了：据说那个东西在一个" 
+                            "今天我不要钱就告诉你了：据说那个东西在一个"
 //                          " "+ env->query("short")+ " "
-			    + exits + "的地方，离咱们这里也不算太远呢。你"
+                            + exits + "的地方，离咱们这里也不算太远呢。你"
                             "到那里仔细找找没准会有发现呢！”\n"));
-		}
+                }
 
                 if (! mapp(dq = me->query_temp("freequest")))
                         dq = ([ this_object() : 1 ]);
@@ -357,7 +357,7 @@ int npc_accept_object(object me, object who, object ob)
         int pot;
         int score;
         int weiwang;
-	int quest_count;
+        int quest_count;
 
         if (ob->is_character() || ob->is_item_make())
                 // 不接受人物和自造的兵器
@@ -409,45 +409,45 @@ int npc_accept_object(object me, object who, object ob)
                               "找到了" + QOB_NAME + HIM
                               "，领到了赏银。" NOR);
 
-	//增加这个手动任务个数的记录
-	if (!who->query("mask/freequest/explore"))
-		quest_count = 1;
-	else
-		quest_count = who->query("mask/freequest/explore") + 1;
-	if (quest_count > 50)
-		quest_count = 50;
-	who->set("mask/freequest/explore", quest_count);
+        //增加这个手动任务个数的记录
+        if (!who->query("mask/freequest/explore"))
+                quest_count = 1;
+        else
+                quest_count = who->query("mask/freequest/explore") + 1;
+        if (quest_count > 50)
+                quest_count = 50;
+        who->set("mask/freequest/explore", quest_count);
 
         message_vision("$N悄悄对$n说道：你已经连续助人"+ quest_count +
-			"次了。\n" NOR, me, who);
+                        "次了。\n" NOR, me, who);
 
-	//玩家达到一定次数随机给予特别奖励
-	if (quest_count + random(who->query("kar"))>55) //福缘50点的玩家至少要作六次任务
-	{
-	        string *ob_list = ({
-			"/u/xiner/obj/fojing",  //佛经
-			"/u/xiner/obj/jianpu",	//残月剑谱
-			"/u/xiner/obj/perwan",	//加容貌的仙丹
-	                "/u/xiner/obj/juhua",	//野菊花 神照经解密物品
-	                "/u/xiner/obj/hx_book",	//红袖添香 秘笈
-			"/u/xiner/obj/feature",	//孔雀羽衣 增加10点容貌
-        		});
-	        reward = new(ob_list[random(sizeof(ob_list))]);
-		who->set("mask/freequest/explore", 0);
-		CHANNEL_D->do_channel(this_object(), "rumor",
-			"听说" + who->name(1) +	"(" + who->query("id") +
-			")因为常常帮人找回丢失物品，受到了"+
-			me->name() +"的特别的奖励。" NOR);
+        //玩家达到一定次数随机给予特别奖励
+        if (quest_count + random(who->query("kar"))>55) //福缘50点的玩家至少要作六次任务
+        {
+                string *ob_list = ({
+                        "/u/xiner/obj/fojing",  //佛经
+                        "/u/xiner/obj/jianpu",	//残月剑谱
+                        "/u/xiner/obj/perwan",	//加容貌的仙丹
+                        "/u/xiner/obj/juhua",	//野菊花 神照经解密物品
+                        "/u/xiner/obj/hx_book",	//红袖添香 秘笈
+                        "/u/xiner/obj/feature",	//孔雀羽衣 增加10点容貌
+                        });
+                reward = new(ob_list[random(sizeof(ob_list))]);
+                who->set("mask/freequest/explore", 0);
+                CHANNEL_D->do_channel(this_object(), "rumor",
+                        "听说" + who->name(1) +	"(" + who->query("id") +
+                        ")因为常常帮人找回丢失物品，受到了"+
+                        me->name() +"的特别的奖励。" NOR);
 
-	        message_vision(HIC "$N" HIC "接着又说道：我这里有一"+ reward->query("unit") +
-				HIC "祖上传下来的"+ reward->name() +
-				HIC "就送给$n吧。\n" NOR, me, who);
+                message_vision(HIC "$N" HIC "接着又说道：我这里有一"+ reward->query("unit") +
+                                HIC "祖上传下来的"+ reward->name() +
+                                HIC "就送给$n吧。\n" NOR, me, who);
 
-        	reward->set_amount(1);
-	        reward->move(who, 1);
-        	log_file("static/freequest", sprintf("%s (%s) 获得奖励 %s at %s.\n",
-	        	who->name(1), who->query("id"), reward->name(), ctime(time())));
-	}
+                reward->set_amount(1);
+                reward->move(who, 1);
+                log_file("static/freequest", sprintf("%s (%s) 获得奖励 %s at %s.\n",
+                        who->name(1), who->query("id"), reward->name(), ctime(time())));
+        }
 
         destruct(ob);
         call_out("cancel_quest", 0);

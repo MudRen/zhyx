@@ -49,7 +49,7 @@ void init()
         add_action("do_ck","hjck");
         add_action("do_hjfull", "hjfull");
         add_action("do_del_yun", "delyun" );
-        if( getuid(this_player()) == "naihe" )
+        if( getuid(this_player()) == "mudren" )
         {
             add_action("do_dispersion", "dispersion" );
             add_action("do_delall", "delall");
@@ -91,7 +91,7 @@ int shows()
 <hjck ID / all>    查询 ID / all(境内玩家) 的幻境气息等资料。
 <hjfull ID>    full 该 ID hj气息，省略 id 时，full 自身气息
 <delyun ID>    清除该 ID 技能运用状态，省略 id 时，清除自身运用技能状态\n");
-    
+
     return 1;
 }
 
@@ -154,8 +154,7 @@ int do_cl(string arg)
         me->set_temp("hj_game_find",temp[ random( sizeof(temp) ) ] );
         me->set_temp("hj_game_mepower",10);
         me->set_temp("hj_score",1);
-        if(me->query("id") == "naihe")
-            me->delete("env/no_hj_wizmsg");
+
         // 本人不设置此值时，可接收当有玩家进入游戏的系统报告
         obj=new(__DIR__"shenren_ling");
         obj->waiting_delete( 300 );
@@ -182,8 +181,6 @@ int do_cl(string arg)
 
     if( arg == "piao" )
     {
-        if( getuid(me) != "naihe" )
-            return errs("本指令只能由奈何执行。\n");
         new( HJ_DIR +"other_obj/obj_menpiao")->move(environment(me));
         message_vision("$N「哇」地大叫一声，地上多了一张幻境的门票。\n",me);
         return 1;
@@ -294,7 +291,7 @@ NPC  %d 个 -- 怪物 %d 个，小精灵 %d 个，商贩及特殊型 %d 个，小矮人 %d 个，其他类
 道具 %d 个 -- 宝箱 %d 个，道具类 %d 个，剑和水晶 %d 件，
               技能石 %d 颗，果品或宝石 %d 枚，其他各类 %d 个。\n\n",
             room_amount,all_amount,
-            other_amount, 
+            other_amount,
             pler_amount,wiz_amount, ip_amount,
             npc_amount,kill_amount, jingling_amount, quest_amount,ashman_amount,
             npc_amount - (kill_amount+jingling_amount+quest_amount+ashman_amount),
@@ -343,7 +340,7 @@ NPC  %d 个 -- 怪物 %d 个，小精灵 %d 个，商贩及特殊型 %d 个，小矮人 %d 个，其他类
             { write("\n"); room_amount++; }
         }
         write(sprintf("\n共有 %d 个房间存在着游戏内NPC ，总计 %d 个。\n其中怪物 %d 个，小精灵 %d 个，商贩及特殊型 %d 个，小矮人 %d 个，其他人等 %d 个。\n",
-            room_amount,npc_amount, kill_amount, jingling_amount, 
+            room_amount,npc_amount, kill_amount, jingling_amount,
             quest_amount,ashman_amount,
             npc_amount-(kill_amount+jingling_amount+quest_amount+ashman_amount) ));
         return 1;
@@ -566,7 +563,7 @@ NPC  %d 个 -- 怪物 %d 个，小精灵 %d 个，商贩及特殊型 %d 个，小矮人 %d 个，其他类
         return 1;
     }
 
-        
+
     if(arg=="?")
     {
         write(HIG"
@@ -583,9 +580,6 @@ NPC  %d 个 -- 怪物 %d 个，小精灵 %d 个，商贩及特殊型 %d 个，小矮人 %d 个，其他类
     if( !all[arg] || !all_dir[arg] || !all_set[arg] ) return notify_fail("现在并没有这个物品可以复制。\n");
 
     write("将要复制的是："+ all[arg] +" .\n");
-
-    if( getuid(me) != "naihe" )
-        return errs("cl 物品，本指令只能由奈何执行。\n");
 
     obj = new(__DIR__+all_dir[arg]);
     if(all_set[arg] == 111) i = 0;
@@ -608,7 +602,7 @@ string hjck_player_info( object target )
     object *all_mine, env;
     int i, a, isks, iwea, itoo, ique, ioth, ispe;
 
-    if( !target || !environment( target ) ) 
+    if( !target || !environment( target ) )
         return "无该玩家或无该玩家所处环境(environment)。\n";
 
     env = environment( target );
@@ -622,7 +616,7 @@ string hjck_player_info( object target )
         target->query("huanjing2003/lv"),
         target->query_temp("hj_hp"),target->query_temp("hj_hp_max"),
         target->query_temp("hj_game_mepower"),
-        target->query_temp("hj_score"), 
+        target->query_temp("hj_score"),
         env->query("room_mark") ? env->query("room_mark") + "" : HIR"非境内"NOR,
         target->query_temp("hj_game_find"),
         target->query_temp("huanjing") );
