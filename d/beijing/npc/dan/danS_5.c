@@ -9,12 +9,12 @@ void create()
                 set_default_object(__FILE__);
         else {
                 set("base_unit", "粒");
-                set("no_drop", "这样东西不能离开你。\n");
-                set("no_sell", "这样东西不能离开你。\n");
-                set("no_put", "这样东西不能放在那儿。\n");
-                set("no_get", "这样东西不能离开那儿。\n");
-                set("no_steal", "这样东西不能离开那儿。\n");
-                set("no_beg", "这样东西不能离开那儿。\n");
+                //set("no_drop", "这样东西不能离开你。\n");
+                //set("no_sell", "这样东西不能离开你。\n");
+                //set("no_put", "这样东西不能放在那儿。\n");
+                //set("no_get", "这样东西不能离开那儿。\n");
+                //set("no_steal", "这样东西不能离开那儿。\n");
+                //set("no_beg", "这样东西不能离开那儿。\n");
                 set("base_value", 0);
                 set("only_do_effect", 1);
         }
