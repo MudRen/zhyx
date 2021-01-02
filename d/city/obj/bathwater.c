@@ -48,13 +48,13 @@ int do_use( string arg )
 	      if (me->query("tattoo/chest_long")=="托塔天王，站立于南天门之下，神威凛凛")
 	      	me->delete("special_skill/ironskin/");
 	      if (me->query("tattoo/chest_long")=="大慈大悲观世音菩萨，坐八宝莲花，千支手姿态各异")
-	      	me->delete("special_skill/recover/");
+	      	me->delete("special_skill/might/");
 	      if (me->query("tattoo/chest_long")=="万里江山，波澜壮阔，气势恢弘磅礴之极")
 	      	me->delete("special_skill/mystery/");
 	      if (me->query("tattoo/chest_long")=="后羿弯弓搭箭，九个太陽盘旋在空中")
 	      	me->delete("special_skill/self/");
 	      if (me->query("tattoo/chest_long")=="九仪天尊座于八宝莲花上，周身仙霞缭绕，似幻似真")
-	      	me->delete("special_skill/divine/");
+	      	me->delete("special_skill/herb/");
 	      	
 	      if (me->query("tattoo/back_long")=="七重冥王站立于炼狱白骨堆之上，无数冤魂围绕其身")
 	      	me->delete("special_skill/hatred/");
@@ -69,13 +69,13 @@ int do_use( string arg )
 	      if (me->query("tattoo/back_long")=="托塔天王，站立于南天门之下，神威凛凛")
 	      	me->delete("special_skill/ironskin/");
 	      if (me->query("tattoo/back_long")=="大慈大悲观世音菩萨，坐八宝莲花，千支手姿态各异")
-	      	me->delete("special_skill/recover/");
+	      	me->delete("special_skill/might/");
 	      if (me->query("tattoo/back_long")=="万里江山，波澜壮阔，气势恢弘磅礴之极")
 	      	me->delete("special_skill/mystery/");
 	      if (me->query("tattoo/back_long")=="后羿弯弓搭箭，九个太陽盘旋在空中")
 	      	me->delete("special_skill/self/");
 	      if (me->query("tattoo/back_long")=="九仪天尊座于八宝莲花上，周身仙霞缭绕，似幻似真")
-	      	me->delete("special_skill/divine/");
+	      	me->delete("special_skill/herb/");
 	 
 	      me->delete("tattoo/special/");
 	      
