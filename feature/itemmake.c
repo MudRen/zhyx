@@ -297,9 +297,9 @@ string weapon_long()
 		}
 		else
 		{
-	                result += HIY + name() + HIY "的等级：" + lvl + "/15\n" NOR;
+	                result += HIY + name() + HIY "的等级：" + lvl + "/15" NOR + YEL "(升级进度：" + attack_lvl + "/" + levels[lvl] +")\n" NOR;
 
- 	               if (query("magic/imbue_ok") && !query("magic/tessera") )
+ 	                if (query("magic/imbue_ok") && !query("magic/tessera") )
         	                result += HIM + name() + HIM "已经充分的浸入了，需要"
                 	                  "镶嵌以充分发挥威力。\n" NOR;
 	                else
