@@ -83,7 +83,7 @@ int perform(object me, object target)
         message_sort(msg, me, target);
                 me->start_busy(3);
         me->add_temp("apply/attack", lvl/2); 
-        me->add_temp("apply/damage", lvl/2);
+        me->add_temp("apply/unarmed_damage", lvl/2);
         for (i = 0; i < 4; i++) 
         { 
                 if (! me->is_fighting(target)) 
@@ -94,7 +94,7 @@ int perform(object me, object target)
                 COMBAT_D->do_attack(me, target, 0, 0); 
         } 
         me->add_temp("apply/attack", -lvl/2); 
-        me->add_temp("apply/damage", -lvl/2);
+        me->add_temp("apply/unarmed_damage", -lvl/2);
         return 1;
 }
 
