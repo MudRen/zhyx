@@ -98,12 +98,13 @@ int valid_learn(object me)
                 return notify_fail("你的内功火候不够，无法学神掌八打。\n"); 
      
         if (me->query("dex") < 26) 
-                return notify_fail("你的先天条件不够，无法学神掌八打。\n");        
+                return notify_fail("你的先天条件不够，无法学神掌八打。\n");   
+			
         if ((int)me->query("max_neili") < 3000) 
                 return notify_fail("你的内力太弱，无法练神掌八打。\n"); 
       
         if ((int)me->query_skill("strike", 1) < (int)me->query_skill("shenzhang-bada", 1))
-                return notify_fail("你的基本指法水平有限，无法领会更高深的大力金刚指。\n"); 
+                return notify_fail("你的基本掌法水平有限，无法领会更高深的神掌八打。\n"); 
       
         return 1; 
 } 
