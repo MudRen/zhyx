@@ -61,7 +61,7 @@ int do_pull(string arg)
                                "的一声响，拔了出来，剑柄下果"
                                "然连有剑身。\n", me);
         me->add("neili",-1500);
-	add("sword_count", -1);
+		add("sword_count", -1);
         return 1;
 }
 
