@@ -20,8 +20,8 @@ void create()
                 __DIR__"obj/kaoya",
                 "/clone/fam/pill/food",
                 "/clone/fam/pill/water",
-                  "/d/snowtu/obj/bomb",
-                "/clone/horse/mapi",
+                "/d/snowtu/obj/bomb",
+                // "/clone/horse/mapi",
                 "/clone/food/jinhua.c",
                 "/u/dgdg/obj/hanbao.c",
         }));
@@ -30,7 +30,7 @@ void create()
 }
 
 void init()
-{       
+{
         object ob;
 
         ::init();

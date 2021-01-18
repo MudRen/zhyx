@@ -17,10 +17,10 @@ LONG);
                 "/clone/horse/huangbiaoma": 1,
                 "/clone/horse/ziliuma": 1,
                 "/clone/npc/mafu": 1,
+                "clone/horse/mapi.c": 1 + random(5),
       ]));
       set("exits",([ /* sizeof() == 1 */
                 "northwest" : __DIR__"zhongxin",
       ]));
       setup();
 }
-

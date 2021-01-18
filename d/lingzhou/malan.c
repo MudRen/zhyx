@@ -16,6 +16,9 @@ LONG );
 	set("exits", ([
 		"east" : __DIR__"biaoqiyin",
 	]));
+	set("objects", ([
+			"clone/horse/mapi.c": 1 + random(5),
+	]));
 	set("no_clean_up", 0);
 	set("outdoors", "lingzhou");
 	set("coor/x",-3030);
@@ -24,4 +27,3 @@ LONG );
 	setup();
 	//replace_program(ROOM);
 }
-

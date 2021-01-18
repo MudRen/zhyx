@@ -22,9 +22,10 @@ LONG);
                 "/clone/horse/huangbiaoma": 1,
                 "/clone/horse/ziliuma": 1,
                 "/clone/npc/mafu": 1,
+                "clone/horse/mapi.c": 1 + random(5),
       ]));
       set("coor/x",210);
-	set("coor/y",-400);
-	set("coor/z",0);
-	setup();
+      set("coor/y",-400);
+      set("coor/z",0);
+      setup();
 }

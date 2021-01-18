@@ -3,8 +3,8 @@ inherit TRANS_ROOM;
 
 void create()
 {
-      set("short", "马厩");
-      set("long", @LONG
+        set("short", "马厩");
+        set("long", @LONG
 这是稻香居后的马厩，常年供应新鲜草料。开封府自古乃
 军事重地，历史悠久，民风淳朴。马夫们会把马牵到马厩好生
 照看，将它们喂饱饮足，再洗刷得干乾净净，一直伺候到客人
@@ -18,11 +18,12 @@ LONG);
                 "/clone/horse/huangbiaoma": 1,
                 "/clone/horse/ziliuma": 1,
                 "/clone/npc/mafu": 1,
+                "clone/horse/mapi.c": 1 + random(5),
         ]));
         set("exits",([
                "west" : __DIR__"daoxiang",
                "up"   : "/clone/shop/kaifeng_shop",
         ]));
         setup();
-        
+
 }

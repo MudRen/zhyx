@@ -3,8 +3,8 @@ inherit TRANS_ROOM;
 
 void create()
 {
-      set("short","马厩");
-      set("long",@LONG
+        set("short","马厩");
+        set("long",@LONG
 这是衡阳城南的马厩，常年供应新鲜草料。衡阳地狭人稀
 来往行人也很少。从这里可以乘马车到附近的城市，马厩雨檐
 下的烂木柱上钉着一块破木牌(paizi)。 马厩中堆放著几堆草
@@ -18,13 +18,13 @@ LONG);
                 "/clone/horse/huangbiaoma": 1,
                 "/clone/horse/ziliuma": 1,
                 "/clone/npc/mafu": 1,
+                "clone/horse/mapi.c": 1 + random(5),
         ]));
 
         set("exits",([
-               "north" : __DIR__"hengyang11",
+                "north" : __DIR__"hengyang11",
                 "up"   : "/clone/shop/hengyang_shop",
         ]));
 
         setup();
 }
-

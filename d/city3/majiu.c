@@ -17,14 +17,14 @@ LONG);
                 "/clone/horse/huangbiaoma": 1,
                 "/clone/horse/ziliuma": 1,
                 "/clone/npc/mafu": 1,
+                "clone/horse/mapi.c": 1 + random(5),
       ]));
       set("exits", ([
                 "west" : __DIR__"kedian",
                 "up"   : "/clone/shop/chengdu_shop",
       ]));
-	set("coor/x",-482);
-	set("coor/y",-194);
-	set("coor/z",0);
-	setup();
+      set("coor/x",-482);
+      set("coor/y",-194);
+      set("coor/z",0);
+      setup();
 }
-

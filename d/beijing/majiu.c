@@ -19,6 +19,7 @@ LONG);
                 "/clone/horse/ziliuma": 1,
                 "/clone/npc/mafu": 1,
                 "/d/guanwai/npc/shenke" : 1,
+                "clone/horse/mapi.c": 1 + random(5),
         ]));
 
         set("exits",([
@@ -26,8 +27,8 @@ LONG);
                 "up"   : "/clone/shop/beijing_shop",
         ]));
         set("coor/x",-70);
-	set("coor/y",1010);
-	set("coor/z",0);
-	setup();
+        set("coor/y",1010);
+        set("coor/z",0);
+        setup();
         //;
 }

@@ -17,10 +17,11 @@ LONG);
       set("no_fight", "1");
       set("no_beg", "1");
       set("objects", ([
-	    "/d/city/npc/zaohongma": 1,
-	    "/d/city/npc/huangbiaoma": 1,
-	    "/d/city/npc/ziliuma": 1,
+        "/d/city/npc/zaohongma": 1,
+        "/d/city/npc/huangbiaoma": 1,
+        "/d/city/npc/ziliuma": 1,
                __DIR__"npc/mafu": 1,
+        "clone/horse/mapi.c": 1 + random(5),
       ]));
       set("item_desc", ([
           "paizi": @TEXT
