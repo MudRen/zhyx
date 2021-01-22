@@ -43,7 +43,10 @@ void cai(object me)
 { 
         object ob;
         object ob1;
-        int skill;
+        int skill, n;
+		
+		if(	sscanf(file_name(environment(me)),"/d/beijing/liandan_lin%d",n) != 1)
+			return;
 
         if (! objectp(me) || ! living(me) || me->is_fighting())
                 return;
