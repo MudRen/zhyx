@@ -68,11 +68,11 @@ int do_liandan(string arg)
 
 // 特殊丹列表
 string *SM_LIST = ({ "danS_1", "danS_2", "danS_3", "danS_4", "danS_5",
-                     "danM_3", "danM_4", "danM_5", "danM_7", "danM_8",
-                     "danM_9", "danB_6", "danC_5", "danD_6", });
+                     "danM_5", "danM_9", "danB_6", "danC_5", "danD_6", });
 
 // 普通丹列表
-string *NORMAL_LIST = ({ "danM_1", "danM_2", "danM_6",
+string *NORMAL_LIST = ({ "danM_1", "danM_2", "danM_3", "danM_4", "danM_6",
+						 "danM_7", "danM_8",
                          "danA_1", "danA_2", "danA_3", "danA_4", "danA_5",
                          "danB_1", "danB_2", "danB_3", "danB_4", "danB_5",
                          "danC_1", "danC_2", "danC_3", "danC_4",
