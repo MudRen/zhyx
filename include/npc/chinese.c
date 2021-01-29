@@ -224,35 +224,46 @@ void generate_cn_name(object ob)
 {
         string sname, pname, pname2, id1, id2;
         string *ks, *kp;
+		object npc;
+
 
         ks = keys(cn_sname);
         kp = keys(cn_pname);
-        sname = ks[random(sizeof(ks))];
-        for (;;)
-        {
-                pname = kp[random(sizeof(kp))];
-                if (pname != cn_sname[sname]) break;
-        }
-        id1 = cn_sname[sname];
+		
+		while (1)
+		{
+				sname = ks[random(sizeof(ks))];
+				for (;;)
+				{
+						pname = kp[random(sizeof(kp))];
+						if (pname != cn_sname[sname]) break;
+				}
+				id1 = cn_sname[sname];
 
-        id2 = pname;
-        pname = cn_pname[pname];
-        pname = pname[(random(sizeof(pname)) & 0xFFFE)..<1];
-        pname = pname[0..1];
-        if (random(3) == 0)
-        {
-                for (;;)
-                {
-                        pname2 = kp[random(sizeof(kp))];
-                        if (pname2 != cn_sname[sname] &&
-                            pname2 != pname) break;
-                }
-                id2 += pname2;
-                pname2 = cn_pname[pname2];
-                pname2 = pname2[(random(sizeof(pname2)) & 0xFFFE)..<1];
-                pname2 = pname2[0..1];
-        } else
-                pname2 = "";
+				id2 = pname;
+				pname = cn_pname[pname];
+				pname = pname[(random(sizeof(pname)) & 0xFFFE)..<1];
+				pname = pname[0..1];
+				if (random(3) == 0)
+				{
+						for (;;)
+						{
+								pname2 = kp[random(sizeof(kp))];
+								if (pname2 != cn_sname[sname] &&
+									pname2 != pname) break;
+						}
+						id2 += pname2;
+						pname2 = cn_pname[pname2];
+						pname2 = pname2[(random(sizeof(pname2)) & 0xFFFE)..<1];
+						pname2 = pname2[0..1];
+				} else
+						pname2 = "";
+				if (! objectp(npc = find_living(id1 + " " + id2))) 
+						break;
+
+				if (npc->query("name") != sname + pname + pname2)
+						break;
+		}
 
         if (ob) ob->set_name(sname + pname + pname2,
                              ({ id1 + " " + id2, id1, id2 }));
