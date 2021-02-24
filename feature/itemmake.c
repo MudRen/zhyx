@@ -1,4 +1,4 @@
-// itemmake.c è‡ªåˆ¶é“å…·
+// itemmake.c ×ÔÖÆµÀ¾ß
 
 #include <dbase.h>
 #include <ansi.h>
@@ -41,15 +41,15 @@ int is_stay_in_room() { return attack_lvl >= LEVEL10; }
 
 string chinese_s(mixed arg)
 {
-      if (! stringp(arg))return "æ— ";
-      if (arg == "cold")return HIW "å†°";
-      if (arg == "fire")return HIR "ç«";
-      if (arg == "magic")return HIY "é­”";
-      if (arg == "lighting")return HIM "ç”µ";
+      if (! stringp(arg))return "ÎŞ";
+      if (arg == "cold")return HIW "±ù";
+      if (arg == "fire")return HIR "»ğ";
+      if (arg == "magic")return HIY "Ä§";
+      if (arg == "lighting")return HIM "µç";
 }
 
 
-// æ­¦å™¨çš„ä¸»äººID - é€šè¿‡æ–‡ä»¶çš„åå­—æ¥åˆ¤æ–­
+// ÎäÆ÷µÄÖ÷ÈËID - Í¨¹ıÎÄ¼şµÄÃû×ÖÀ´ÅĞ¶Ï
 string item_owner()
 {
         string owner;
@@ -59,7 +59,7 @@ string item_owner()
         return 0;
 }
 
-// åˆ¤æ–­è¯¥æ­¦å™¨æ˜¯å¦è¢«å½“å‰æŸäººæ‰€æŒæœ‰
+// ÅĞ¶Ï¸ÃÎäÆ÷ÊÇ·ñ±»µ±Ç°Ä³ÈËËù³ÖÓĞ
 int is_not_belong_me(object me)
 {
         string user;
@@ -71,7 +71,7 @@ int is_not_belong_me(object me)
         return 0;
 }
 
-// æ­¦å™¨è£…å¤‡çš„ç­‰çº§
+// ÎäÆ÷×°±¸µÄµÈ¼¶
 int weapon_level()
 {
         mapping o;
@@ -92,19 +92,19 @@ int weapon_level()
         if (lvl > MAX_LEVEL) lvl = MAX_LEVEL;
 
         /*if (lvl == MAX_LEVEL && query("magic/power"))
-                // å…·æœ‰é­”æ³•å±æ€§
+                // ¾ßÓĞÄ§·¨ÊôĞÔ
                 lvl = ULTRA_LEVEL;*/
         return lvl;
 }
 
-// é˜²å¾¡è£…å¤‡çš„ç­‰çº§
+// ·ÀÓù×°±¸µÄµÈ¼¶
 int armor_level()
 {
         // More to be added
         return 0;
 }
 
-// æ­¦å™¨è£…å¤‡çš„é•¿æè¿°
+// ÎäÆ÷×°±¸µÄ³¤ÃèÊö
 string weapon_long()
 {
         string  n;
@@ -118,7 +118,7 @@ string weapon_long()
         c = query("combat");
         n = query("unit") + name();
         if (! c)
-                return "è¿™" + n + "æ˜¾ç„¶è¿˜æ²¡æœ‰é¥®è¿‡äººè¡€ï¼Œä¸Šé¢çº¯æ´æ— æš‡ã€‚\n";
+                return "Õâ" + n + "ÏÔÈ»»¹Ã»ÓĞÒû¹ıÈËÑª£¬ÉÏÃæ´¿½àÎŞÏ¾¡£\n";
         k = c["MKS"] + c["PKS"];
 
         if (c["WPK_GOOD"] < k / 2 &&
@@ -131,7 +131,7 @@ string weapon_long()
                 type = 1;
 
         if (c["MKS"] + c["PKS"] < 10)
-                return "è¿™" + n + "çœ‹æ¥å·²ç»ç”¨è¿‡äººè¡€å¼€ç¥­ï¼Œä¸Šé¢éšç°è¡€ç—•ã€‚\n";
+                return "Õâ" + n + "¿´À´ÒÑ¾­ÓÃ¹ıÈËÑª¿ª¼À£¬ÉÏÃæÒşÏÖÑªºÛ¡£\n";
 
         attack_lvl = weapon_level();
         lvl = sizeof(levels);
@@ -144,193 +144,193 @@ string weapon_long()
         {
         case 1:
                 if (attack_lvl >= LEVEL14)
-                        result = HIY "å®ƒçœ‹ä¸Šå»å¹³å¹³å¸¸å¸¸ï¼Œæ²¡æœ‰åŠç‚¹ç‰¹æ®Šï¼Œåªæ˜¯"
-                                 "éšéšçš„è®©äººæ„Ÿåˆ°é‚£ä¸å‡¡çš„æ°”è´¨ã€‚\n" NOR;
+                        result = HIY "Ëü¿´ÉÏÈ¥Æ½Æ½³£³££¬Ã»ÓĞ°ëµãÌØÊâ£¬Ö»ÊÇ"
+                                 "ÒşÒşµÄÈÃÈË¸Ğµ½ÄÇ²»·²µÄÆøÖÊ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL9)
-                        result = HIY "å®ƒçœ‹ä¸Šå»è®©äººå‘è‡ªå†…å¿ƒæ— é™å´‡æ•¬ï¼Œä¸€è‚¡"
-                               "çš“ç„¶æ­£æ°”æ‚ ç„¶é•¿å­˜ï¼Œé¢‡å…·å¸ç‹é£èŒƒï¼Œå›ä¸´\n"
-                               "å¤©ä¸‹ï¼Œå¨é•‡è¯¸è·¯å‡¶ç¥æ¶ç…ã€éš¾é“è¿™å°±æ˜¯ä¼ è¯´ä¸­æ‰"
-                               "ä¼šå‡ºç°çš„è¯¸ç¥ä¹‹" + name() + HIY "ï¼Ÿ\n" NOR;
+                        result = HIY "Ëü¿´ÉÏÈ¥ÈÃÈË·¢×ÔÄÚĞÄÎŞÏŞ³ç¾´£¬Ò»¹É"
+                               "ğ©È»ÕıÆøÓÆÈ»³¤´æ£¬ÆÄ¾ßµÛÍõ·ç·¶£¬¾ıÁÙ\n"
+                               "ÌìÏÂ£¬ÍşÕòÖîÂ·Ğ×Éñ¶ñÉ·¡¢ÄÑµÀÕâ¾ÍÊÇ´«ËµÖĞ²Å"
+                               "»á³öÏÖµÄÖîÉñÖ®" + name() + HIY "£¿\n" NOR;
                 else
                 if (attack_lvl >= LEVEL8)
-                        result = HIC "ä¸€çœ¼æœ›å»ï¼Œä½ è§‰å¾—æœ‰æ— æ•°çš„å‡¶çµåœ¨ç–¯ç‹‚"
-                               "ä¹±èˆï¼Œå“­å¤©æŠ¢åœ°ï¼Œå‡„çƒˆä¹‹æï¼Œä¼¼ä¹è¦é‡è¿”\n"
-                               "äººé—´ã€‚ä½ å¿ä¸ä½è¦é•¿å¹ä¸€å£°ï¼Œæ˜”æ—¥å‡¶é­”ï¼Œä¹Ÿéš¾é€ƒæ­»åŠ«ã€‚\n" NOR;
+                        result = HIC "Ò»ÑÛÍûÈ¥£¬Äã¾õµÃÓĞÎŞÊıµÄĞ×ÁéÔÚ·è¿ñ"
+                               "ÂÒÎè£¬¿ŞÌìÇÀµØ£¬ÆàÁÒÖ®¼«£¬ËÆºõÒªÖØ·µ\n"
+                               "ÈË¼ä¡£ÄãÈÌ²»×¡Òª³¤Ì¾Ò»Éù£¬ÎôÈÕĞ×Ä§£¬Ò²ÄÑÌÓËÀ½Ù¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL7)
-                        result = HIC "å®ƒä¸Šé¢é™„ç€ç€ä¸çŸ¥å¤šå°‘å‡¶é­‚ï¼Œæ— æ•°é‚ªæ´¾"
-                               "å‡¶é­”æ¯™å‘½äºä¸‹ï¼Œä¸€è‚¡å“€æ°”çŠ¹ç„¶ä¸æ•£ï¼Œè®©ä½ \n"
-                               "å¿ä¸ä½æ‰“äº†ä¸ªå†·æˆ˜ã€‚\n" NOR;
+                        result = HIC "ËüÉÏÃæ¸½×Å×Å²»Öª¶àÉÙĞ×»ê£¬ÎŞÊıĞ°ÅÉ"
+                               "Ğ×Ä§±ĞÃüÓÚÏÂ£¬Ò»¹É°§ÆøÓÌÈ»²»É¢£¬ÈÃÄã\n"
+                               "ÈÌ²»×¡´òÁË¸öÀäÕ½¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL6)
-                        result = HIR "å®ƒçœ‹ä¸Šå»ä»¤äººæƒŠå¿ƒåŠ¨é­„ï¼Œè¿™å°±æ˜¯ååŠ¨æ±Ÿæ¹–çš„" + name() + HIR
-                               "ï¼Œå¤šå°‘å‡¶ç…å°±æ­¤æ¯™å‘½ï¼Œæˆå°±äººé—´æ­£ä¹‰ã€‚\n" NOR;
+                        result = HIR "Ëü¿´ÉÏÈ¥ÁîÈË¾ªĞÄ¶¯ÆÇ£¬Õâ¾ÍÊÇÃû¶¯½­ºşµÄ" + name() + HIR
+                               "£¬¶àÉÙĞ×É·¾Í´Ë±ĞÃü£¬³É¾ÍÈË¼äÕıÒå¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL5)
-                        result = HIR "å®ƒä¸Šé¢éšéšç„¶é€å‡ºä¸€è‚¡è¡€å…‰ï¼Œå¤šå¹´ä»¥æ¥ï¼Œè®¸å¤š"
-                               "æ±Ÿæ¹–ä¸Šé—»åä¸€æ—¶çš„å‡¶é­”éƒ½æˆäº†" + name() + HIR "ä¸‹çš„æ¸¸é­‚ã€‚\n" NOR;
+                        result = HIR "ËüÉÏÃæÒşÒşÈ»Í¸³öÒ»¹ÉÑª¹â£¬¶àÄêÒÔÀ´£¬Ğí¶à"
+                               "½­ºşÉÏÎÅÃûÒ»Ê±µÄĞ×Ä§¶¼³ÉÁË" + name() + HIR "ÏÂµÄÓÎ»ê¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL4)
-                        result = HIW "è¿™å°±æ˜¯æ±Ÿæ¹–ä¸Šè‘—åçš„ç¥å…µä¹‹ä¸€ï¼š" + name() + HIW
-                               "ï¼Œç©·å‡¶ææ¶ä¹‹å¾’è§æ­¤ç‰©æ— ä¸å¿ƒé©°ç¥æ‘‡ã€‚\n" NOR;
+                        result = HIW "Õâ¾ÍÊÇ½­ºşÉÏÖøÃûµÄÉñ±øÖ®Ò»£º" + name() + HIW
+                               "£¬ÇîĞ×¼«¶ñÖ®Í½¼û´ËÎïÎŞ²»ĞÄ³ÛÉñÒ¡¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL3)
-                        result = HIW "è¿™" + n + HIW "æœ‰ä¸€è‚¡æ­£æ°”æ•£å‘å‡ºæ¥ï¼Œçœ‹æ¥å®ƒä¸‹é¢å‡¶é­‚ä¸å°‘ã€‚\n" NOR;
+                        result = HIW "Õâ" + n + HIW "ÓĞÒ»¹ÉÕıÆøÉ¢·¢³öÀ´£¬¿´À´ËüÏÂÃæĞ×»ê²»ÉÙ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL2)
-                        result = RED "è¿™" + n + RED "éšç„¶é€å‡ºä¸€è‚¡æ­£æ°”ï¼Œ"
-                               "çœ‹æ¥å®ƒæ€äº†ä¸å°‘å‡¶æ¶ä¹‹å¾’ã€‚\n" NOR;
+                        result = RED "Õâ" + n + RED "ÒşÈ»Í¸³öÒ»¹ÉÕıÆø£¬"
+                               "¿´À´ËüÉ±ÁË²»ÉÙĞ×¶ñÖ®Í½¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL1)
-                        result = RED "ç»†è§‚ä¹‹ä¸‹ï¼Œåˆƒå£æœ‰ä¸€ä¸è¡€ç—•ï¼Œæƒ³å¿…æ˜¯å®ƒæ€äººä¸å°‘"
-                               "ï¼Œæ®·è¡€äºæ­¤å§ï¼\n" NOR;
+                        result = RED "Ï¸¹ÛÖ®ÏÂ£¬ÈĞ¿ÚÓĞÒ»Ë¿ÑªºÛ£¬Ïë±ØÊÇËüÉ±ÈË²»ÉÙ"
+                               "£¬ÒóÑªÓÚ´Ë°É£¡\n" NOR;
                 else
-                        result = CYN "çœ‹å¾—å‡ºè¿™" + n + CYN "æ›¾ç»æ€è¿‡ä¸å°‘å‡¶æ¶ä¹‹å¾’ã€‚\n" NOR;
+                        result = CYN "¿´µÃ³öÕâ" + n + CYN "Ôø¾­É±¹ı²»ÉÙĞ×¶ñÖ®Í½¡£\n" NOR;
                 break;
 
         case -1:
                 if (attack_lvl >= LEVEL14)
-                        result = HIR "å®ƒçœ‹ä¸Šå»å¹³å¹³å¸¸å¸¸ï¼Œæ²¡æœ‰åŠç‚¹ç‰¹æ®Šï¼Œä½†æ˜¯"
-                                 "ä¸çŸ¥ä¸ºä½•å´æ€»æ˜¯è®©äººæ„Ÿåˆ°æœ‰äº›ä¸å®‰ã€‚\n" NOR;
+                        result = HIR "Ëü¿´ÉÏÈ¥Æ½Æ½³£³££¬Ã»ÓĞ°ëµãÌØÊâ£¬µ«ÊÇ"
+                                 "²»ÖªÎªºÎÈ´×ÜÊÇÈÃÈË¸Ğµ½ÓĞĞ©²»°²¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL9)
-                        result = HIR "å®ƒçœ‹ä¸Šå»è®©äººæ‰“å¿ƒåº•æ³›å‡ºé˜µé˜µå¯’æ„ï¼Œéš"
-                               "éšç„¶ä¸Šé¢ä¼¼ä¹é™„ç€ç€æ— æ•°å†¤é­‚ï¼Œä½†æ˜¯å…¨ç„¶\nè¢«è¿™" + n + HIR
-                               "ä¸Šé¢çš„æ€æ°”æ‰€åˆ¶ï¼Œéš¾é“è¿™å°±æ˜¯ä¼ è¯´ä¸­æ‰ä¼šå‡ºç°çš„é‚ªç¥ä¹‹" + name() + HIR
-                               "ï¼Ÿ\n" NOR;
+                        result = HIR "Ëü¿´ÉÏÈ¥ÈÃÈË´òĞÄµ×·º³öÕóÕóº®Òâ£¬Òş"
+                               "ÒşÈ»ÉÏÃæËÆºõ¸½×Å×ÅÎŞÊıÔ©»ê£¬µ«ÊÇÈ«È»\n±»Õâ" + n + HIR
+                               "ÉÏÃæµÄÉ±ÆøËùÖÆ£¬ÄÑµÀÕâ¾ÍÊÇ´«ËµÖĞ²Å»á³öÏÖµÄĞ°ÉñÖ®" + name() + HIR
+                               "£¿\n" NOR;
                 else
                 if (attack_lvl >= LEVEL8)
-                        result = HIC "ä¸€çœ¼æœ›å»ï¼Œä½ è§‰å¾—æœ‰æ— æ•°çš„å†¤é­‚å‘ä½ æ‰‘"
-                               "æ¥ï¼Œå“­å¤©æŠ¢åœ°ï¼Œå‡„çƒˆä¹‹æï¼Œä½ å¿ä¸ä½æ‰“äº†\n"
-                               "ä¸ªå¯’æˆ˜ï¼Œä¸æ•¢å†çœ‹ç¬¬äºŒçœ¼ã€‚\n" NOR;
+                        result = HIC "Ò»ÑÛÍûÈ¥£¬Äã¾õµÃÓĞÎŞÊıµÄÔ©»êÏòÄãÆË"
+                               "À´£¬¿ŞÌìÇÀµØ£¬ÆàÁÒÖ®¼«£¬ÄãÈÌ²»×¡´òÁË\n"
+                               "¸öº®Õ½£¬²»¸ÒÔÙ¿´µÚ¶şÑÛ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL7)
-                        result = HIC "å®ƒä¸Šé¢é™„ç€ç€ä¸çŸ¥å¤šå°‘å†¤é­‚ï¼Œæ— æ•°é«˜æ‰‹"
-                               "é¥®æ¨äºä¸‹ï¼Œä¸€è‚¡æ€¨æ°”ç›´å†²éœ„æ±‰ï¼Œè®©ä½ å¿ä¸\n"
-                               "ä½æ‰“äº†ä¸ªå†·æˆ˜ã€‚\n" NOR;
+                        result = HIC "ËüÉÏÃæ¸½×Å×Å²»Öª¶àÉÙÔ©»ê£¬ÎŞÊı¸ßÊÖ"
+                               "ÒûºŞÓÚÏÂ£¬Ò»¹ÉÔ¹ÆøÖ±³åÏöºº£¬ÈÃÄãÈÌ²»\n"
+                               "×¡´òÁË¸öÀäÕ½¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL6)
-                        result = HIW "å®ƒçœ‹ä¸Šå»ä»¤äººæƒŠå¿ƒåŠ¨é­„ï¼Œè¿™å°±æ˜¯ååŠ¨æ±Ÿæ¹–çš„" + name() + HIW
-                               "ï¼Œä¸çŸ¥å¤šå°‘è‹±é›„å°±æ­¤é¥®æ¨ã€‚\n" NOR;
+                        result = HIW "Ëü¿´ÉÏÈ¥ÁîÈË¾ªĞÄ¶¯ÆÇ£¬Õâ¾ÍÊÇÃû¶¯½­ºşµÄ" + name() + HIW
+                               "£¬²»Öª¶àÉÙÓ¢ĞÛ¾Í´ËÒûºŞ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL5)
-                        result = HIW "å®ƒä¸Šé¢éšéšç„¶é€å‡ºä¸€è‚¡è¡€å…‰ï¼Œå¤šå¹´ä»¥æ¥ï¼Œè®¸å¤š"
-                               "æ±Ÿæ¹–ä¸Šé—»åä¸€æ—¶çš„é«˜æ‰‹éƒ½æˆäº†" + name() + HIW "ä¸‹çš„æ¸¸é­‚ã€‚\n" NOR;
+                        result = HIW "ËüÉÏÃæÒşÒşÈ»Í¸³öÒ»¹ÉÑª¹â£¬¶àÄêÒÔÀ´£¬Ğí¶à"
+                               "½­ºşÉÏÎÅÃûÒ»Ê±µÄ¸ßÊÖ¶¼³ÉÁË" + name() + HIW "ÏÂµÄÓÎ»ê¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL4)
-                        result = HIG "è¿™å°±æ˜¯æ±Ÿæ¹–ä¸Šè‘—åçš„å‡¶å™¨ä¹‹ä¸€ï¼š" + name() + HIG
-                               "ï¼Œè°æ›¾æƒ³é‚£ä¹ˆå¤šä»äººä¹‰å£«é¥®æ¨äºä¸‹ã€‚\n" NOR;
+                        result = HIG "Õâ¾ÍÊÇ½­ºşÉÏÖøÃûµÄĞ×Æ÷Ö®Ò»£º" + name() + HIG
+                               "£¬Ë­ÔøÏëÄÇÃ´¶àÈÊÈËÒåÊ¿ÒûºŞÓÚÏÂ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL3)
-                        result = HIG "è¿™" + n + HIG "æœ‰ä¸€è‚¡æˆ¾æ°”æ•£å‘å‡ºæ¥ï¼Œçœ‹æ¥å®ƒä¸‹é¢æ¸¸é­‚ä¸å°‘ã€‚\n" NOR;
+                        result = HIG "Õâ" + n + HIG "ÓĞÒ»¹ÉìåÆøÉ¢·¢³öÀ´£¬¿´À´ËüÏÂÃæÓÎ»ê²»ÉÙ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL2)
-                        result = RED "è¿™" + n + RED "éšç„¶é€å‡ºä¸€è‚¡æˆ¾æ°”ï¼Œçœ‹æ¥å®ƒæ€äº†ä¸å°‘äººã€‚\n" NOR;
+                        result = RED "Õâ" + n + RED "ÒşÈ»Í¸³öÒ»¹ÉìåÆø£¬¿´À´ËüÉ±ÁË²»ÉÙÈË¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL1)
-                        result = RED "ç»†è§‚ä¹‹ä¸‹ï¼Œåˆƒå£æœ‰ä¸€ä¸è¡€ç—•ï¼Œæƒ³å¿…æ˜¯å®ƒæ€äººä¸å°‘"
-                               "ï¼Œæ®·è¡€äºæ­¤å§ï¼\n" NOR;
+                        result = RED "Ï¸¹ÛÖ®ÏÂ£¬ÈĞ¿ÚÓĞÒ»Ë¿ÑªºÛ£¬Ïë±ØÊÇËüÉ±ÈË²»ÉÙ"
+                               "£¬ÒóÑªÓÚ´Ë°É£¡\n" NOR;
                 else
-                        result = CYN "çœ‹å¾—å‡ºè¿™" + n + CYN "æ›¾ç»æ€è¿‡ä¸å°‘ä¾ ä¹‰ä¹‹å£«ã€‚\n" NOR;
+                        result = CYN "¿´µÃ³öÕâ" + n + CYN "Ôø¾­É±¹ı²»ÉÙÏÀÒåÖ®Ê¿¡£\n" NOR;
                 break;
 
         default:
                 if (attack_lvl >= LEVEL14)
-                        result = HIC "å®ƒçœ‹ä¸Šå»å¹³å¹³å¸¸å¸¸ï¼Œæ²¡æœ‰åŠç‚¹ç‰¹æ®Šï¼Œåªæ˜¯ä¸€ä»¶"
-                                 "å¹³å‡¡ä¹‹æçš„å…µå™¨è€Œå·²ã€‚\n" NOR;
+                        result = HIC "Ëü¿´ÉÏÈ¥Æ½Æ½³£³££¬Ã»ÓĞ°ëµãÌØÊâ£¬Ö»ÊÇÒ»¼ş"
+                                 "Æ½·²Ö®¼«µÄ±øÆ÷¶øÒÑ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL9)
-                        result = HIC "å®ƒå®‰ç„¶ç•…æ„ï¼Œä¼¼ä¹å°±è¦è…¾ç©ºè€Œå»ï¼Œè·³å‡º"
-                               "ä¸‰ç•Œï¼Œä¸å…¥äº”è¡Œã€‚ä¸–é—´ä¸‡ç‰©ï¼Œä»¿ä½›ä¿±åœ¨å®ƒ\n"
-                               "éœ¸æ°”æ‰€åŠä¹‹å¤„ã€‚å†¤é­‚ä¸èˆã€ç¾¤é‚ªè¾Ÿæ˜“ï¼Œæ— ä¸è¢«è¿™" + n + HIC
-                               "ä¸Šå¤ç¥å…µçš„éœ¸æ°”æ‰€åˆ¶ã€‚\n" NOR;
+                        result = HIC "Ëü°²È»³©Òâ£¬ËÆºõ¾ÍÒªÌÚ¿Õ¶øÈ¥£¬Ìø³ö"
+                               "Èı½ç£¬²»ÈëÎåĞĞ¡£ÊÀ¼äÍòÎï£¬·Â·ğ¾ãÔÚËü\n"
+                               "°ÔÆøËù¼°Ö®´¦¡£Ô©»ê²»Îè¡¢ÈºĞ°±ÙÒ×£¬ÎŞ²»±»Õâ" + n + HIC
+                               "ÉÏ¹ÅÉñ±øµÄ°ÔÆøËùÖÆ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL8)
-                        result = HIM "ä¸€çœ¼æœ›å»ï¼Œä½ è§‰å¾—æœ‰æ— æ•°çš„æ¸¸é­‚å‘ä½ æ‰‘"
-                               "æ¥ï¼Œå“­å¤©æŠ¢åœ°ï¼Œå‡„çƒˆä¹‹æï¼Œä½ é¡¿æ—¶è§‰å¾—å®ƒ\n"
-                               "æ²‰é‡æ— æ¯”ï¼Œå‡ ä¹æ‹¿æä¸ä½ã€‚\n" NOR;
+                        result = HIM "Ò»ÑÛÍûÈ¥£¬Äã¾õµÃÓĞÎŞÊıµÄÓÎ»êÏòÄãÆË"
+                               "À´£¬¿ŞÌìÇÀµØ£¬ÆàÁÒÖ®¼«£¬Äã¶ÙÊ±¾õµÃËü\n"
+                               "³ÁÖØÎŞ±È£¬¼¸ºõÄÃÄó²»×¡¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL7)
-                        result = HIM "å®ƒä¸Šé¢é™„ç€ç€ä¸çŸ¥å¤šå°‘æ¸¸é­‚ï¼Œæ— æ•°æ­£é‚ª"
-                               "é«˜æ‰‹ä¸§å‘½äºä¸‹ï¼Œä¸€è‚¡æ€¨æ°”å“€æ„æ²¹ç„¶ä¸å°½ï¼Œ\n"
-                               "è®©ä½ å¿ä¸ä½æ‰“äº†ä¸ªå†·æˆ˜ã€‚\n" NOR;
+                        result = HIM "ËüÉÏÃæ¸½×Å×Å²»Öª¶àÉÙÓÎ»ê£¬ÎŞÊıÕıĞ°"
+                               "¸ßÊÖÉ¥ÃüÓÚÏÂ£¬Ò»¹ÉÔ¹Æø°§³îÓÍÈ»²»¾¡£¬\n"
+                               "ÈÃÄãÈÌ²»×¡´òÁË¸öÀäÕ½¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL6)
-                        result = HIR "å®ƒçœ‹ä¸Šå»ä»¤äººæƒŠå¿ƒåŠ¨é­„ï¼Œè¿™å°±æ˜¯ååŠ¨æ±Ÿæ¹–çš„" + name() + HIR
-                               "ï¼Œå¤šå°‘æ­£é‚ªé«˜æ‰‹éƒ½éš¾é€ƒæ­¤åŠ«ï¼Œå •å…¥è½®å›ã€‚\n" NOR;
+                        result = HIR "Ëü¿´ÉÏÈ¥ÁîÈË¾ªĞÄ¶¯ÆÇ£¬Õâ¾ÍÊÇÃû¶¯½­ºşµÄ" + name() + HIR
+                               "£¬¶àÉÙÕıĞ°¸ßÊÖ¶¼ÄÑÌÓ´Ë½Ù£¬¶éÈëÂÖ»Ø¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL5)
-                        result = HIR "å®ƒä¸Šé¢éšéšç„¶é€å‡ºä¸€è‚¡è¡€å…‰ï¼Œå¤šå¹´ä»¥æ¥ï¼Œè®¸å¤š"
-                               "æ±Ÿæ¹–ä¸Šé—»åä¸€æ—¶çš„é«˜æ‰‹éƒ½æˆäº†è¿™" + n + HIR "ä¸‹çš„æ¸¸é­‚ã€‚\n" NOR;
+                        result = HIR "ËüÉÏÃæÒşÒşÈ»Í¸³öÒ»¹ÉÑª¹â£¬¶àÄêÒÔÀ´£¬Ğí¶à"
+                               "½­ºşÉÏÎÅÃûÒ»Ê±µÄ¸ßÊÖ¶¼³ÉÁËÕâ" + n + HIR "ÏÂµÄÓÎ»ê¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL4)
-                        result = HIW "è¿™å°±æ˜¯æ±Ÿæ¹–ä¸Šè‘—åçš„åˆ©å™¨ä¹‹ä¸€ï¼š" + name() + HIW
-                               "ï¼Œè°èƒ½æƒ³åˆ°é‚£ä¹ˆå¤šé«˜æ‰‹é¥®æ¨äºä¸‹ã€‚\n" NOR;
+                        result = HIW "Õâ¾ÍÊÇ½­ºşÉÏÖøÃûµÄÀûÆ÷Ö®Ò»£º" + name() + HIW
+                               "£¬Ë­ÄÜÏëµ½ÄÇÃ´¶à¸ßÊÖÒûºŞÓÚÏÂ¡£\n" NOR;
                 else
                 if (attack_lvl >= LEVEL3)
-                        result = HIW "è¿™" + n + HIW "æœ‰ä¸€è‚¡æ€æ°”æ•£å‘å‡ºæ¥ï¼Œçœ‹æ¥å®ƒä¸‹é¢æ¸¸é­‚ä¸å°‘ã€‚\n" NOR;
+                        result = HIW "Õâ" + n + HIW "ÓĞÒ»¹ÉÉ±ÆøÉ¢·¢³öÀ´£¬¿´À´ËüÏÂÃæÓÎ»ê²»ÉÙ¡£\n" NOR;
 
                 else
                 if (attack_lvl >= LEVEL2)
-                        result = RED "è¿™" + n + RED "éšç„¶é€å‡ºä¸€è‚¡æ€æ°”ï¼Œçœ‹æ¥å®ƒæ€äº†ä¸å°‘äººã€‚\n" NOR;
+                        result = RED "Õâ" + n + RED "ÒşÈ»Í¸³öÒ»¹ÉÉ±Æø£¬¿´À´ËüÉ±ÁË²»ÉÙÈË¡£\n" NOR;
 
                 else
                 if (attack_lvl >= LEVEL1)
-                        result = RED "ç»†è§‚ä¹‹ä¸‹ï¼Œåˆƒå£æœ‰ä¸€ä¸è¡€ç—•ï¼Œæƒ³å¿…æ˜¯å®ƒæ€äººä¸å°‘"
-                               "ï¼Œæ®·è¡€äºæ­¤å§ï¼\n" NOR;
+                        result = RED "Ï¸¹ÛÖ®ÏÂ£¬ÈĞ¿ÚÓĞÒ»Ë¿ÑªºÛ£¬Ïë±ØÊÇËüÉ±ÈË²»ÉÙ"
+                               "£¬ÒóÑªÓÚ´Ë°É£¡\n" NOR;
                 else
-                        result = CYN "çœ‹å¾—å‡ºè¿™" + n + CYN "æ›¾ç»æ€è¿‡ä¸å°‘äººã€‚\n" NOR;
+                        result = CYN "¿´µÃ³öÕâ" + n + CYN "Ôø¾­É±¹ı²»ÉÙÈË¡£\n" NOR;
                 break;
         }
 
 
                 if (stringp(tessera_name = query("magic/tessera")))
-                        result += "å®ƒä¸Šé¢é•¶åµŒç€" + tessera_name + "ï¼Œé—ªçƒç€å¥‡å¼‚çš„å…‰èŠ’ã€‚\n";
+                        result += "ËüÉÏÃæÏâÇ¶×Å" + tessera_name + "£¬ÉÁË¸×ÅÆæÒìµÄ¹âÃ¢¡£\n";
 
 
         if (lvl)
         {
 		if (query("magic/tessera") && lvl > 14)
 		{
-		        result += HIY + name() + HIY "çš„ç­‰çº§ï¼šæ— ä¸Šç¥å“ LV15\n" NOR;
+		        result += HIY + name() + HIY "µÄµÈ¼¶£ºÎŞÉÏÉñÆ· LV15\n" NOR;
 		}
 		else
 		{
 	                if (lvl < 15)
-				result += HIY + name() + HIY "çš„ç­‰çº§ï¼š" + lvl + "/15" NOR + YEL "(å‡çº§è¿›åº¦ï¼š" + attack_lvl + "/" + levels[lvl] +")\n" NOR;
+				result += HIY + name() + HIY "µÄµÈ¼¶£º" + lvl + "/15" NOR + YEL "(Éı¼¶½ø¶È£º" + attack_lvl + "/" + levels[lvl] +")\n" NOR;
 			else
-				result += HIY + name() + HIY "çš„ç­‰çº§ï¼š" + lvl + "/15\n" NOR;
+				result += HIY + name() + HIY "µÄµÈ¼¶£º" + lvl + "/15\n" NOR;
 
  	                if (query("magic/imbue_ok") && !query("magic/tessera") )
-        	                result += HIM + name() + HIM "å·²ç»å……åˆ†çš„æµ¸å…¥äº†ï¼Œéœ€è¦"
-                	                  "é•¶åµŒä»¥å……åˆ†å‘æŒ¥å¨åŠ›ã€‚\n" NOR;
+        	                result += HIM + name() + HIM "ÒÑ¾­³ä·ÖµÄ½şÈëÁË£¬ĞèÒª"
+                	                  "ÏâÇ¶ÒÔ³ä·Ö·¢»ÓÍşÁ¦¡£\n" NOR;
 	                else
 	                if ((n = query("magic/imbue")) > 0 && !query("magic/tessera") )
-	                        result += HIM + name() + HIM "å·²ç»è¿ç”¨çµç‰©æµ¸å…¥äº†" +
-        	                          chinese_number(n) + "æ¬¡ï¼Œæ­£åœ¨æ¿€å‘å®ƒçš„æ½œèƒ½ã€‚\n" NOR;
+	                        result += HIM + name() + HIM "ÒÑ¾­ÔËÓÃÁéÎï½şÈëÁË" +
+        	                          chinese_number(n) + "´Î£¬ÕıÔÚ¼¤·¢ËüµÄÇ±ÄÜ¡£\n" NOR;
 		}
         }
 
               result += "-------------------------------------\n";
-              result += HIW "åšå›ºä¿®æ­£ï¼š " + query("bless") + "\t" NOR;
-              result += HIW "æ”»Â·é˜²ä¿®æ­£ï¼š" + query("bless") * 2 + "\n" NOR;
-              result += HIW "åœ£åŒ–æ¬¡æ•°ï¼š " + query("bless") + "\t" NOR;
-              result += HIW "é­”åŠ›æ”¹å–„å€¼ï¼š" + query("magic/power") + "\n" NOR;
-              result += HIW "é­”åŠ›å±æ€§ï¼š" + chinese_s(query("magic/type"))  + "\t" NOR;
-              result += HIW "äººå™¨èåˆåº¦ï¼š" + query("magic/blood") + "\n" NOR;
+              result += HIW "¼á¹ÌĞŞÕı£º " + query("bless") + "\t" NOR;
+              result += HIW "¹¥¡¤·ÀĞŞÕı£º" + query("bless") * 2 + "\n" NOR;
+              result += HIW "Ê¥»¯´ÎÊı£º " + query("bless") + "\t" NOR;
+              result += HIW "Ä§Á¦¸ÄÉÆÖµ£º" + query("magic/power") + "\n" NOR;
+              result += HIW "Ä§Á¦ÊôĞÔ£º" + chinese_s(query("magic/type"))  + "\t" NOR;
+              result += HIW "ÈËÆ÷ÈÚºÏ¶È£º" + query("magic/blood") + "\n" NOR;
               result += "-------------------------------------\n";
 
         return result;
 }
 
-// æ˜¯æ™®é€šæ­¦å™¨è£…å¤‡
+// ÊÇÆÕÍ¨ÎäÆ÷×°±¸
 int is_weapon()
 {
         return stringp(query("skill_type"));
 }
 
-// æ˜¯ç©ºæ‰‹æ­¦å™¨è£…å¤‡
+// ÊÇ¿ÕÊÖÎäÆ÷×°±¸
 int is_unarmed_weapon()
 {
         return query("armor_type") == "hands";
@@ -342,26 +342,26 @@ string armor_long()
 {       string result;
         mapping d;
 
-        //å¤©å­ç­‰ç‰¹æ®ŠæŠ¤ç”²ä¸è¿”å›ç­‰çº§æè¿°
+        //Ìì×ÓµÈÌØÊâ»¤¼×²»·µ»ØµÈ¼¶ÃèÊö
         if ( query("special") ) return "";
 
-        result = HIC"å¯ä»¥è¢«é•¶åµŒç‰©å“ï¼\n"NOR;
-             result += HIW"é˜²å…·åœ£åŒ–æ¬¡æ•°ï¼š" + query("bless") + " ã€‚\n"NOR;
+        result = HIC"¿ÉÒÔ±»ÏâÇ¶ÎïÆ·£¡\n"NOR;
+             result += HIW"·À¾ßÊ¥»¯´ÎÊı£º" + query("bless") + " ¡£\n"NOR;
         d = query("dazao");
         if(d)
         {
-              result += HIC "é˜²å…·ç›®å‰ç­‰çº§ï¼š"+query("dazao/lvl")+" ã€‚\n" NOR;
+              result += HIC "·À¾ßÄ¿Ç°µÈ¼¶£º"+query("dazao/lvl")+" ¡£\n" NOR;
         if (d["hongb"] || d["hongf"])
-              result += HIR "ä¸Šé¢éšéšé€ç€çº¢å…‰ã€‚\n" NOR;
+              result += HIR "ÉÏÃæÒşÒşÍ¸×Åºì¹â¡£\n" NOR;
         if (d["lvb"] || d["lvbf"])
-              result += HIG "ä¸Šé¢éšéšé€ç€ç»¿å…‰ã€‚\n" NOR;
+              result += HIG "ÉÏÃæÒşÒşÍ¸×ÅÂÌ¹â¡£\n" NOR;
         if (d["huangb"] || d["huangf"])
-              result += HIY "ä¸Šé¢éšéšé€ç€é»„å…‰ã€‚\n" NOR;
+              result += HIY "ÉÏÃæÒşÒşÍ¸×Å»Æ¹â¡£\n" NOR;
         }
 
         return result;
  }
-// é“å…·çš„é•¿æè¿°
+// µÀ¾ßµÄ³¤ÃèÊö
 string item_long()
 {
         if (is_weapon() || is_unarmed_weapon())
@@ -370,7 +370,7 @@ string item_long()
         return armor_long();
 }
 
-// æ­¦å™¨è£…å¤‡çš„ä¼¤å®³å€¼
+// ÎäÆ÷×°±¸µÄÉËº¦Öµ
 int apply_damage()
 {
         int d;
@@ -388,7 +388,7 @@ int apply_damage()
         return d + p;
 }
 
-// é˜²å¾¡è£…å¤‡çš„æœ‰æ•ˆå€¼
+// ·ÀÓù×°±¸µÄÓĞĞ§Öµ
 //by kan
 int apply_armor()
 {
@@ -402,7 +402,7 @@ int apply_armor()
         return d + p;
 }
 
-// è¿›è¡Œä¿å­˜æ•°æ®çš„æ¥å£å‡½æ•°
+// ½øĞĞ±£´æÊı¾İµÄ½Ó¿Úº¯Êı
 mixed save_dbase_data()
 {
         mapping data;
@@ -427,7 +427,7 @@ mixed save_dbase_data()
         return data;
 }
 
-// æ¥å—å­˜ç›˜æ•°æ®çš„æ¥å£å‡½æ•°
+// ½ÓÊÜ´æÅÌÊı¾İµÄ½Ó¿Úº¯Êı
 int receive_dbase_data(mixed data)
 {
         if (! mapp(data))
@@ -460,7 +460,7 @@ int receive_dbase_data(mixed data)
         return 1;
 }
 
-// è¯»å–å­˜ç›˜çš„æ•°æ®
+// ¶ÁÈ¡´æÅÌµÄÊı¾İ
 int restore()
 {
         int r;
@@ -476,7 +476,7 @@ int restore()
         return r;
 }
 
-// ä¿å­˜æ•°æ®
+// ±£´æÊı¾İ
 int save()
 {
 	int res;
@@ -487,7 +487,7 @@ int save()
 	return ::save();
 }
 
-// 9/10çº§å…µå™¨æ”»å‡»å¯¹æ‰‹
+// 9/10¼¶±øÆ÷¹¥»÷¶ÔÊÖ
 mixed weapon_hit_ob(object me, object victim, int damage_bonus)
 {
         int ap;
@@ -506,77 +506,77 @@ mixed weapon_hit_ob(object me, object victim, int damage_bonus)
         return;
 }
 
-// ä»¥ä¸‹çš„å‡½æ•°å› ä¸ºæ‰§è¡Œçš„é¢‘åº¦å¹¶ä¸é«˜ï¼Œè€Œä¸”å…·æœ‰é«˜åº¦é‡å¤çš„æ€§è´¨ï¼Œ
-// æ‰€ä»¥éƒ½è°ƒç”¨ITEM_Dä¸­çš„æ‰§è¡Œç¨‹åºã€‚
+// ÒÔÏÂµÄº¯ÊıÒòÎªÖ´ĞĞµÄÆµ¶È²¢²»¸ß£¬¶øÇÒ¾ßÓĞ¸ß¶ÈÖØ¸´µÄĞÔÖÊ£¬
+// ËùÒÔ¶¼µ÷ÓÃITEM_DÖĞµÄÖ´ĞĞ³ÌĞò¡£
 
-// æ€äº†äººä»¥åçš„å¥–åŠ±
+// É±ÁËÈËÒÔºóµÄ½±Àø
 void killer_reward(object me, object victim)
 {
 	ITEM_D->killer_reward(me, victim, this_object());
 }
 
-// å‘¼å”¤ç‰©å“
+// ºô»½ÎïÆ·
 int receive_summon(object me)
 {
 	return ITEM_D->receive_summon(me, this_object());
 }
 
-// éšè—ç‰©å“
+// Òş²ØÎïÆ·
 int hide_anywhere(object me)
 {
         return ITEM_D->hide_anywhere(me, this_object());
 }
 
-// è¿½å¯»ç‰©å“
+// ×·Ñ°ÎïÆ·
 int receive_miss(object me)
 {
         if (! is_weapon() && ! is_unarmed_weapon())
         {
-                write("ä½ æ— æ³•è¿½å¯»" + name() + "ã€‚\n");
+                write("ÄãÎŞ·¨×·Ñ°" + name() + "¡£\n");
                 return 0;
         }
 
         if (attack_lvl < LEVEL10)
         {
-                write(name() + "å°šæœªé€šçµï¼Œä½ éš¾ä»¥è‡ªå¦‚çš„æ„Ÿåº”ã€‚\n");
+                write(name() + "ÉĞÎ´Í¨Áé£¬ÄãÄÑÒÔ×ÔÈçµÄ¸ĞÓ¦¡£\n");
                 return 0;
         }
 
 	return ITEM_D->receive_miss(me, this_object());
 }
 
-// æ’åœ¨åœ°ä¸Š
+// ²åÔÚµØÉÏ
 int do_stab(object me)
 {
         return ITEM_D->do_stab(me, this_object());
 }
 
-// ç‰¹æ®Šèƒ½åŠ›
+// ÌØÊâÄÜÁ¦
 int do_touch(object me)
 {
 	 if (query("magic/tessera"))
 	        return ITEM_D->do_touch(me, this_object());
 	 else
-            return notify_fail("ä½ æ‘¸äº†åŠå¤©ï¼Œå¥½åƒæ²¡ä»€ä¹ˆååº”ã€‚\n");
+            return notify_fail("ÄãÃşÁË°ëÌì£¬ºÃÏñÃ»Ê²Ã´·´Ó¦¡£\n");
 }
 
-// åœ£åŒ–
+// Ê¥»¯
 int do_san(object me)
 {
         if ((is_weapon() || is_unarmed_weapon()) &&
             attack_lvl < LEVEL10)
-                return notify_fail("ä½ çš„æ­¦å™¨ç­‰çº§ä¸åˆ°ï¼Œæ— æ³•åœ£åŒ–ã€‚\n");
+                return notify_fail("ÄãµÄÎäÆ÷µÈ¼¶²»µ½£¬ÎŞ·¨Ê¥»¯¡£\n");
 
         return ITEM_D->do_san(me, this_object());
 }
 
-// æµ¸é€ç‰©å“
+// ½şÍ¸ÎïÆ·
 int do_imbue(object me, object imbue)
 {
         return ITEM_D->do_imbue(me, this_object(), imbue);
 }
 
-// é•¶åµŒç‰©å“
+// ÏâÇ¶ÎïÆ·
 int do_enchase(object me, object tessera)
 {
         return ITEM_D->do_enchase(me, this_object(), tessera);
