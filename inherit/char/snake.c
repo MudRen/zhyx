@@ -53,8 +53,7 @@ void init()
         // 自动攻击蛇毒奇巧等级不高的玩家
         if ((int)me->query_skill("shedu-qiqiao", 1) < 100 && me->query("age") > 15)
         {
-                remove_call_out("kill_ob");
-                call_out("kill_ob", 0, me);
+                kill_ob(me);
         }
 
         remove_call_out("disappear");

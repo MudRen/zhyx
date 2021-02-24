@@ -1,3 +1,4 @@
+// giftbox.c 礼品盒
 #include <ansi.h>
 inherit ITEM;
 
@@ -28,91 +29,77 @@ string *SP_LIST = ({ "con1", "con2", "dex1", "dex2",
 
 void create()
 {
-        set_name(HIY "礼盒" NOR, ({ "li he", "lihe", "he", "box" }));
-        set_weight(200);
-        if (clonep())
-                set_default_object(__FILE__);
-        else {
-                set("unit", "个");
-                set("long", HIG "这是一个包装精美的礼盒，里面好像有东西，不知装"
-                            "了些什么。\n" NOR);
-                set("no_drop", 1);
-                set("no_sell", 1);
-                set("value", 500);
-                set("material", "cloth");
-        }
-        set("gift_count", GIFT);
+	set_name(HIR"礼品盒"NOR, ({ "giftbox", "box" }));
+	set_weight(500);
+	set_max_encumbrance(10000);
+	if (clonep())
+		set_default_object(__FILE__);
+	else {
+		set("unit", "盒");
+		set("long", "一盒礼品盒，盒里装着新年贺礼。\n\n    "HIR"新年快乐！！\n\n"NOR);
+		set("value", 0);
+	}
 }
 
 void init()
 {
-        if (this_player() == environment())
-        {
-                add_action("do_open", "open");
-                add_action("do_open", "unpack");
-                add_action("do_open", "dakai");
-        }
+	if (this_player() == environment())
+	{
+		add_action("do_open", "open");
+		add_action("do_open", "unpack");
+		add_action("do_open", "dakai");
+	}
 }
 
 int do_open(string arg)
 {
-        object me, gift;
-        string un;
+	object me, gift;
+	string un;
+	int i;
 
-        if (! arg || ! id(arg))
-                return 0;
+	if (! arg || ! id(arg))
+			return 0;
 
-        if (query("gift_count") < 1)
-        {
-                write("礼盒里面什么也没有了。\n");
-                return 1;
-        }
+	me = this_player();
 
-        me = this_player();
-        if (query("gift_count") == GIFT)
-            message_vision(WHT "\n$N" WHT "拆开礼盒，发现里面留有张"
-                           "字条，写着「" HIR "祝游戏快乐"
-                           NOR + WHT "」。除此之\n外字条下好象还压"
-                           "着一些东西，被裹得很严密，$N" WHT "见状"
-                           "连忙取出。\n" NOR, me);
-
-        else
-            message_vision(WHT "\n$N" WHT "打开礼盒，发现里面还有"
-                           "东西，$N" WHT "乐呵呵的"
-                           "取了出来。\n" NOR, me);
-
+	message_vision(WHT "\n$N" WHT "拆开礼盒，发现里面留有张"
+				   "字条，写着「" HIR "祝游戏快乐"
+				   NOR + WHT "」。除此之\n外字条下好象还压"
+				   "着一些东西，被裹得很严密，$N" WHT "见状"
+				   "连忙取出。\n" NOR, me);
+	for (i = 0; i < GIFT; i++)
+	{
         if (random(30) >= me->query_kar())
-                gift = new(VA_DIR + VA_LIST[random(sizeof(VA_LIST))]);
+			gift = new(VA_DIR + VA_LIST[random(sizeof(VA_LIST))]);
         else
         if (random(2) == 1)
-                gift = new(GIFT_DIR + NORMAL_LIST[random(sizeof(NORMAL_LIST))]);
+			gift = new(GIFT_DIR + NORMAL_LIST[random(sizeof(NORMAL_LIST))]);
         else
         if (random(2) == 1)
-                gift = new(GIFT_DIR + SM_LIST[random(sizeof(SM_LIST))]);
+			gift = new(GIFT_DIR + SM_LIST[random(sizeof(SM_LIST))]);
         else
         if (random(5) <= 3)
-                gift = new(VA_DIR + VA_LIST2[random(sizeof(VA_LIST2))]);
+			gift = new(VA_DIR + VA_LIST2[random(sizeof(VA_LIST2))]);
         else
         if (random(5) <= 3)
-                gift = new(SP_DIR + SP_LIST[random(sizeof(SP_LIST))]);
+			gift = new(SP_DIR + SP_LIST[random(sizeof(SP_LIST))]);
         else
-                gift = new("/clone/fam/gift/perwan");
+			gift = new("/clone/fam/gift/perwan");
 
         if (gift->query("base_unit"))
-                un = gift->query("base_unit");
+			un = gift->query("base_unit");
         else
-                un = gift->query("unit");
+			un = gift->query("unit");
 
         tell_object(me, HIC "你获得了一" + un + HIC "「" + gift->name() +
                         HIC "」。\n" NOR);
 
         gift->move(me, 1);
-        add("gift_count", -1);
-        if (query("gift_count") < 1)
-        {
-            set("long", WHT "这是一个已被拆开的礼盒，里面空空的。\n" NOR);
-            set("value", 0);
-            set("no_drop", 0);
-        }
-        return 1;
+	}
+
+	message_vision(WHT "$N" WHT "乐呵呵的整理着东西，随手将礼盒扔了。\n" NOR, me);		
+	destruct(this_object());
+	
+	return 1;
 }
+

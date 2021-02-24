@@ -196,7 +196,7 @@ nomask void disable_player(string type)
         {
                 set_temp("disabled", 1);        //标记失效
                 disable_commands();                     //指令失效
-                enable_commands();                      //恢复指令防止add_action()产生
-        enabled = 0;                            //取消失效
+                // enable_commands();                      //恢复指令防止add_action()产生
+                enabled = 0;                            //取消失效
         }
 }

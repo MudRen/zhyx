@@ -1,42 +1,42 @@
-// giftbox.c ÀñÆ·ºĞ
+// giftbox.c ç¤¼å“ç›’
 #include <ansi.h>
 inherit ITEM;
 
-// GIFTÎªÀñºĞÖĞÎïÆ·µÄÊıÁ¿
+// GIFTä¸ºç¤¼ç›’ä¸­ç‰©å“çš„æ•°é‡
 #define GIFT            5
 #define VA_DIR          "/clone/fam/etc/"
 #define GIFT_DIR        "/clone/fam/pill/"
 #define SP_DIR          "/clone/fam/gift/"
 
-// ¹óÖØÎïÆ·ÁĞ±í
+// è´µé‡ç‰©å“åˆ—è¡¨
 string *VA_LIST = ({ "va1", "va2", "va3", "va4", "va5", "va6", });
 string *VA_LIST2 = ({ "lv5a", "lv5b", "lv5c", "lv5d", "lv5e", });
 
-// ÆÕÍ¨ÎïÆ·ÁĞ±í
+// æ™®é€šç‰©å“åˆ—è¡¨
 string *NORMAL_LIST = ({ "food1", "full1", "linghui1", "linghui2",
                          "lingzhi1", "lingzhi2", "neili1", "neili2",
                          "puti1", "puti2", "renshen1", "renshen2",
                          "sheli1", "sheli2", "xuelian1", "xuelian2", });
 
-// ÌØÊâÎïÆ·ÁĞ±í
+// ç‰¹æ®Šç‰©å“åˆ—è¡¨
 string *SM_LIST = ({ "dimai", "yulu", "lingzhi3", "lingzhi4",
                      "puti3", "puti4", "renshen3", "renshen4",
                      "sheli3", "sheli4", "xuelian3", "xuelian4", });
 
-// ÕäÏ¡ÎïÆ·ÁĞ±í
+// çç¨€ç‰©å“åˆ—è¡¨
 string *SP_LIST = ({ "con1", "con2", "dex1", "dex2",
                      "int1", "int2", "str1", "str2", });
 
 void create()
 {
-	set_name(HIR"ÀñÆ·ºĞ"NOR, ({ "giftbox", "box" }));
+	set_name(HIR"ç¤¼å“ç›’"NOR, ({ "giftbox", "box" }));
 	set_weight(500);
 	set_max_encumbrance(10000);
 	if (clonep())
 		set_default_object(__FILE__);
 	else {
-		set("unit", "ºĞ");
-		set("long", "Ò»ºĞÀñÆ·ºĞ£¬ºĞÀï×°×ÅĞÂÄêºØÀñ¡£\n\n    "HIR"ĞÂÄê¿ìÀÖ£¡£¡\n\n"NOR);
+		set("unit", "ç›’");
+		set("long", "ä¸€ç›’ç¤¼å“ç›’ï¼Œç›’é‡Œè£…ç€æ–°å¹´è´ºç¤¼ã€‚\n\n    "HIR"æ–°å¹´å¿«ä¹ï¼ï¼\n\n"NOR);
 		set("value", 0);
 	}
 }
@@ -62,11 +62,11 @@ int do_open(string arg)
 
 	me = this_player();
 
-	message_vision(WHT "\n$N" WHT "²ğ¿ªÀñºĞ£¬·¢ÏÖÀïÃæÁôÓĞÕÅ"
-				   "×ÖÌõ£¬Ğ´×Å¡¸" HIR "×£ÓÎÏ·¿ìÀÖ"
-				   NOR + WHT "¡¹¡£³ı´ËÖ®\nÍâ×ÖÌõÏÂºÃÏó»¹Ñ¹"
-				   "×ÅÒ»Ğ©¶«Î÷£¬±»¹üµÃºÜÑÏÃÜ£¬$N" WHT "¼û×´"
-				   "Á¬Ã¦È¡³ö¡£\n" NOR, me);
+	message_vision(WHT "\n$N" WHT "æ‹†å¼€ç¤¼ç›’ï¼Œå‘ç°é‡Œé¢ç•™æœ‰å¼ "
+				   "å­—æ¡ï¼Œå†™ç€ã€Œ" HIR "ç¥æ¸¸æˆå¿«ä¹"
+				   NOR + WHT "ã€ã€‚é™¤æ­¤ä¹‹\nå¤–å­—æ¡ä¸‹å¥½è±¡è¿˜å‹"
+				   "ç€ä¸€äº›ä¸œè¥¿ï¼Œè¢«è£¹å¾—å¾ˆä¸¥å¯†ï¼Œ$N" WHT "è§çŠ¶"
+				   "è¿å¿™å–å‡ºã€‚\n" NOR, me);
 	for (i = 0; i < GIFT; i++)
 	{
         if (random(30) >= me->query_kar())
@@ -91,13 +91,13 @@ int do_open(string arg)
         else
 			un = gift->query("unit");
 
-        tell_object(me, HIC "Äã»ñµÃÁËÒ»" + un + HIC "¡¸" + gift->name() +
-                        HIC "¡¹¡£\n" NOR);
+        tell_object(me, HIC "ä½ è·å¾—äº†ä¸€" + un + HIC "ã€Œ" + gift->name() +
+                        HIC "ã€ã€‚\n" NOR);
 
         gift->move(me, 1);
 	}
 
-	message_vision(WHT "$N" WHT "ÀÖºÇºÇµÄÕûÀí×Å¶«Î÷£¬ËæÊÖ½«ÀñºĞÈÓÁË¡£\n" NOR, me);		
+	message_vision(WHT "\n$N" WHT "ä¹å‘µå‘µçš„æ•´ç†ç€ä¸œè¥¿ï¼Œéšæ‰‹å°†ç¤¼ç›’æ‰”äº†ã€‚\n" NOR, me);		
 	destruct(this_object());
 	
 	return 1;
