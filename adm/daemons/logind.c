@@ -138,7 +138,7 @@ private void get_id(string arg, object ob)
         return;
     }
 
-    // 检查最大连接人数
+    /* 检查最大连接人数
     if (intp(MAX_USERS) && MAX_USERS > 0)
     {
         if ((string)SECURITY_D->get_status(arg) == "(player)" &&
@@ -157,7 +157,7 @@ private void get_id(string arg, object ob)
             }
         }
     }
-
+    */
     if (wiz_level(arg) < 1)
     {
         //               } else
