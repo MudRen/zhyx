@@ -46,13 +46,16 @@ int exert(object me, object target)
 
 void snake_hit(object me, object target)
 {
-    object weapon = me->query_temp("weapon");
+    object weapon;
 	object *victim;
 	string msg,name;
 	string *parts=({ "头部", "左手", "右手", "左腿", "右腿", "胸口", "背部"});
 	string part;
 	int damage,i;
-	
+
+	if (!objectp(me) || !objectp(weapon = me->query_temp("weapon")))
+       return;
+               
 	if (me->query_temp("snake") > 1)
 	{
 		me->set_temp("snake", me->query_temp("snake") -1);

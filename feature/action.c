@@ -22,7 +22,7 @@ varargs void start_busy(mixed new_busy, mixed new_interrupt)
                     //error("action: busy conflit.\n");
 
                 if (new_busy > 1 && random(10) < 4 &&
-                    me->query("character") == "ç‹¡é» å¤šå˜")
+                    me->query("character") == "½Æ÷ï¶à±ä")
                         new_busy--;
         }
 
