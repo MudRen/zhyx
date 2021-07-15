@@ -2,7 +2,7 @@
 #include <ansi.h>
 
 #define MAX_ENV_VARS	40
- 
+
 int help();
 
 #define LIST_TERM               1
@@ -44,6 +44,7 @@ mapping query_terms() { return ([
         "prompt"          : 0,
 		"public"          : 0,
         "pure_say"        : 0,
+        "quest_level"    : NUMBER_TERM | NON_NEG,
         "sign1"           : STRING_TERM,
         "sign2"           : STRING_TERM,
         "sign3"           : STRING_TERM,
@@ -94,12 +95,12 @@ int main(object me, string arg)
         mixed *bs;
 
         int opt_add, opt_del;
- 
+
 	env = me->query("env");
 
         term_map = query_terms();
         env_domains = query_env_domains();
- 
+
 	if (! arg || arg == "")
 	{
 		msg = "你目前设定的环境变数有：\n";
@@ -129,7 +130,7 @@ int main(object me, string arg)
                 write(msg);
 		return 1;
 	}
- 
+
         opt_add = 0;
         opt_del = 0;
 	if (sscanf(arg, "%s -a %s", term, data) == 2 ||
@@ -152,7 +153,7 @@ int main(object me, string arg)
                 else
 		        data = "YES";
 	}
- 
+
 	if (data == "")
 		return notify_fail("设定的参数值不能为空。\n");
 
@@ -247,12 +248,12 @@ int main(object me, string arg)
 	}
 	return help();
 }
- 
+
 int help()
 {
 	write(@TEXT
 指令格式：set <变数名> -a | -d [<参数>]
- 
+
 这个指令让你设定一些环境变数，不加参数时会显示你目前设定的环境变数，不指定
 变数值，则内定值为 "YES"。如果使用了-a参数，表示将参数加入到原有的参数中，
 如果使用了-d参数则表示将参数从原有的参数中去掉。只有具有多值属性的参数才能

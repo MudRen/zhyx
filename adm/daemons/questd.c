@@ -409,6 +409,9 @@ int ask_quest(object me, object who)
         int exp;                // WHO的经验
         int t;                  // 用来计算时间的变量
         int level;              // QUEST的等级
+        int quest_level;        // 设定的QUEST难度等级
+        int auto_level;         // QUEST的难度等级
+        float ratio;            // QUEST奖励系数
         string place;
 
         message_vision("$n向$N打听有关任务的情况。\n", me, who);
@@ -532,6 +535,7 @@ int ask_quest(object me, object who)
                 me->force_me("give letter to " + who->query("id"));
                 who->set("quest/info", letter->query("id"));
                 who->set("quest/type", "letter");
+                who->set("quest/ratio", 1);
         } else
         {
 
@@ -587,20 +591,52 @@ int ask_quest(object me, object who)
                 level = who->query_temp("quest/next_level");
                 if (level < 0 || level > MAX_QUEST_LEVEL)
                         level = 0;
+                quest_level = who->query("env/quest_level");
 
-				if (who->query("combat_exp") > 500000000)
-				{
-					ob = new(CLASS_D("generate") + "/killed_maxultra.c");
-                }
-				else if (who->query("combat_exp") > 100000000)
+                if (who->query("combat_exp") > 500000000)
                 {
-					ob = new(CLASS_D("generate") + "/killed_ultra.c");
+                        auto_level = 4;
                 }
-				else if (who->query("combat_exp") > 15000000)
+                else if (who->query("combat_exp") > 100000000)
                 {
-					ob = new(CLASS_D("generate") + "/killed_sp.c");
+                        auto_level = 3;
                 }
-                else ob = new(CLASS_D("generate") + "/killed.c");
+                else if (who->query("combat_exp") > 15000000)
+                {
+                        auto_level = 2;
+                }
+                else
+                        auto_level = 1;
+
+                if (quest_level == 0 || quest_level > auto_level)
+                        quest_level = auto_level;
+
+                ratio = 1;
+
+                if (quest_level == 4)
+                {
+                        ob = new (CLASS_D("generate") + "/killed_maxultra.c");
+                        ratio = 7;
+                }
+                else if (quest_level == 3)
+                {
+                        ob = new(CLASS_D("generate") + "/killed_ultra.c");
+                        ratio = 5;
+                }
+                else if (quest_level == 2)
+                {
+                        ob = new(CLASS_D("generate") + "/killed_sp.c");
+                }
+                else
+                {
+                        ob = new(CLASS_D("generate") + "/killed.c");
+                }
+
+                if (auto_level > quest_level)
+                        ratio *= pow(0.75, auto_level - quest_level);
+
+
+                who->set("quest/ratio", ratio);
 
                 NPC_D->place_npc(ob, who->query("combat_exp") < 500000  ? ({ "大理一带", "终南山", "关外", "西域" }) :
                                      who->query("combat_exp") < 800000 ? ({ "大理一带", "终南山", "西域" }) : 0);
@@ -628,7 +664,7 @@ int ask_quest(object me, object who)
                 if (me->is_good())
                 {
                         ob->set("shen", -ob->query("combat_exp") / 2000);
-if (me->query("family/family_name") == "少林派")
+                if (me->query("family/family_name") == "少林派")
 				tell_object(who, CYN + me->name() + CYN "对你道：虽"
                                                  "然我们出家人以慈悲为怀，但是对于大"
                                                  "凶大恶之徒也不能放过。\n最近" NOR +
@@ -753,12 +789,15 @@ int accept_object(object me, object who, object ob)
         int quest_count;        // 连续QUEST的数目
         int timeover;           // 标志：超时了？
         int added;              // 做任务的时候额外出现的敌人或敌人逃走
+        float ratio;            // QUEST任务奖励系数
         mixed special = 0;      // 是否有特殊奖励
+
 
         if (me->query("family/family_name") != who->query("family/family_name"))
                 return 0;
 
         q = who->query("quest");
+        ratio = q["ratio"];
         if (ob->is_letter())
         {
                 if (ob->query("send_from") != me->query("id"))
@@ -1146,16 +1185,9 @@ int accept_object(object me, object who, object ob)
         if (who->query("special_skill/cunning") && random(2) < 1)
                 gongxian = gongxian + random(2);
 
-	if (who->query("combat_exp") > 500000000)
-	{
-		   exp=exp*7;
-		   pot=pot*7;
-        }
-	else if (who->query("combat_exp") > 100000000)
-        {
-		   exp=exp*5;
-		   pot=pot*5;
-        }
+
+        exp = exp * ratio;
+        pot = pot * ratio;
 
         message("vision", sprintf(HIC "通过这次锻炼你获得了%s点经验，"
                                   "%s点潜能及%s点实战体会。\n同时还增"

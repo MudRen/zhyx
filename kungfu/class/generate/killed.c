@@ -39,6 +39,10 @@ void set_from_me(object me)
         mapping my;
 
         NPC_D->init_npc_skill(this_object(), NPC_D->check_level(me));
+
+        if (arrayp(query("from")) && sizeof(query("from")))
+                set("long",query("from")[random(sizeof(query("from")))] + "\n");
+
         my = query_entire_dbase();
 
         if (my["max_qi"] > 6000)
@@ -552,7 +556,7 @@ void random_move()
                         if (! living(this_object()))
                                 message_vision("$N缓缓的醒了过来。\n",
                                                this_object());
-                        
+
                         message_vision("$N看看四周，急匆匆的逃走了。\n",
                                        this_object());
                         destruct(this_object());

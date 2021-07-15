@@ -17,8 +17,8 @@ void create()
 		{
 			set("gender", "男性");
 		}
-		else 
-		{	
+		else
+		{
 			set("gender", "女性");
 		}
         set("age", 30 + random(30));
@@ -49,6 +49,10 @@ void set_from_me(object me)
         mapping my;
 
         NPC_D->init_npc_skill(this_object(), NPC_D->check_level(me));
+
+        if (arrayp(query("from")) && sizeof(query("from")))
+                set("long",query("from")[random(sizeof(query("from")))] + "\n");
+
 	//限制知识类技能的等级
 	if (query_skill("chess",1) >900)	set_skill("chess", 500);
 	if (query_skill("count",1) >900)	set_skill("count", 500);
@@ -59,11 +63,11 @@ void set_from_me(object me)
 	if (query_skill("qimen-wuxing",1) >900)	set_skill("qimen-wuxing", 400);
 
         my = query_entire_dbase();
-       
+
 
         if (my["max_jing"] < my["max_qi"] / 2)
                 my["max_jing"] = my["max_qi"] / 2;
-        
+
 
         my["eff_jing"] = my["max_jing"];
         my["jing"] = my["max_jing"];
@@ -640,7 +644,7 @@ void random_move()
                         if (! living(this_object()))
                                 message_vision("$N缓缓的醒了过来。\n",
                                                this_object());
-                        
+
                         message_vision("$N看看四周，急匆匆的逃走了。\n",
                                        this_object());
                         destruct(this_object());

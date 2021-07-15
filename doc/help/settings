@@ -11,6 +11,13 @@ $HIY$以下是游戏目前认识的环境变量$NOR$
 
 $HIG$变量              数值          用途$NOR$
 
+$HIC$quest_level$NOR$      <0-4>   设定 MasterQuest 难度系数，默认值为0。
+                                0. 根据玩家经验自动选择。
+                                1. 师门任务战斗对象为普通 NPC。
+                                2. 师门任务战斗对象为 SP 级 NPC。
+                                3. 师门任务战斗对象为 ULTRA 级 NPC。
+                                4. 师门任务战斗对象为 MAXULTRA 级 NPC。
+
 $HIC$auto_reply$NOR$       <字符串>       当你不在的时候自动回复消息。
 
 $HIC$auto_ban$NOR$         <玩家ID>       当你建立聊天室的时候自动邀请的玩家。这
@@ -170,7 +177,7 @@ $HIC$wimpy_apply$NOR$      <道具ID>       这个设置是当你逃命时自动选择使用辅助工
                                 几个烟雾弹并不是坏事。这个设置能自动使
                                 用烟雾弹、麝香粉一类的物品。
 
-$HIC$no_literate$NOR$      <任意非零值>   这个设置使你当前不能学习读书写字。      
+$HIC$no_literate$NOR$      <任意非零值>   这个设置使你当前不能学习读书写字。
 
 $HIY$巫师专用设置$NOR$
 
@@ -183,4 +190,3 @@ $HIC$immortal$NOR$         <任意非零值>   不会晕倒或死亡。
 $HIC$msg_out$NOR$          <描述字符串>   使用$HIY$goto$NOR$离开时候的描述。
 
 $HIC$msg_in$NOR$           <描述字符串>   使用$HIY$goto$NOR$到达时的描述。
-
