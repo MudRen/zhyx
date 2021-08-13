@@ -52,7 +52,7 @@ int accept_fight(object who)
         switch(att)
         {
                 case "heroism":
-                if (perqi >= 50)                
+                if (perqi >= 50)
                 {
                         command("say ºß£¡³öÕÐ°É£¡");
                         return 1;
@@ -471,7 +471,7 @@ int exert_function(string func)
         return SKILL_D("force")->exert_function(this_object(), func);
 }
 
-// Default chat function: Let the npc perform special action with 
+// Default chat function: Let the npc perform special action with
 // his/her enabled martial art
 int perform_action(string action)
 {
@@ -487,7 +487,7 @@ int perform_action(string action)
 
         martial_skill = query_skill_mapped(martial_skill);
         if (stringp(martial_skill))
-                return SKILL_D(martial_skill)->perform_action(this_object(), act);              
+                return SKILL_D(martial_skill)->perform_action(this_object(), act);
 }
 
 // Check the player wether is belong a family
@@ -507,6 +507,14 @@ int check_family(object ob, string fam)
 void remove()
 {
         function *fun;
+        mapping npc_chinese;
+
+        npc_chinese = NPC_D->query("npc_chinese");
+        if (mapp(npc_chinese)) {
+                map_delete(npc_chinese, this_object()->query("name"));
+
+                NPC_D->set("npc_chinese", npc_chinese);
+        }
 
         if (functionp(fun = query_temp("override/destruct", 1)))
                 catch(evaluate(fun, this_object()));
