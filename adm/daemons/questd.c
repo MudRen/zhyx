@@ -797,7 +797,6 @@ int accept_object(object me, object who, object ob)
                 return 0;
 
         q = who->query("quest");
-        ratio = q["ratio"];
         if (ob->is_letter())
         {
                 if (ob->query("send_from") != me->query("id"))
@@ -862,11 +861,14 @@ int accept_object(object me, object who, object ob)
                 score = 6 + random(5);
                 weiwang = 1;
                 gongxian = 1;
+                ratio = 1;
                 destruct(ob);
         } else
         {
                 if (! mapp(q) || ! ob->is_corpse() && ! ob->is_head())
                         return 0;
+
+                ratio = q["ratio"];
 
                 if (! stringp(ob->query("owner_id")))
                 {
