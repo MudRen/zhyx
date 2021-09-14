@@ -58,7 +58,7 @@ int do_effect(object me)
 
         // 福星高照提升成功几率
         if (me->query("special_skill/lucky"))
-                point = query("gift_point")+15;
+                point = query("gift_point")+10;
 
         message_vision(WHT "$N" WHT "一仰脖，吞下了一" +
                        query("base_unit") + name() + WHT
