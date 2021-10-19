@@ -5,13 +5,13 @@
 
 int help();
 
-#define LIST_TERM 1
-#define STRING_TERM 2
-#define NUMBER_TERM 4
-#define NON_ZERO 8
-#define ENABLE_COLOR 16
-#define NON_NEG 0x10
-#define WIZ_ONLY 0x80
+#define LIST_TERM 0x1
+#define STRING_TERM 0x2
+#define NUMBER_TERM 0x4
+#define NON_ZERO 0x8
+#define ENABLE_COLOR 0x10
+#define NON_NEG 0x20
+#define WIZ_ONLY 0x40
 
 mapping query_terms()
 {
@@ -19,17 +19,17 @@ mapping query_terms()
                "auto_ban":LIST_TERM,
           "auto_drinkout":0,
                "auto_get":0,
-             "auto_reply":STRING_TERM,
             "auto_invite":LIST_TERM,
         "auto_regenerate":0,
+             "auto_reply":STRING_TERM,
                "auto_say":0,
                   "brief":0,
-                "combatd":0,
-                "careful":0,
              "can_accept":LIST_TERM,
               "can_emote":LIST_TERM,
               "can_snoop":LIST_TERM,
                "can_tell":LIST_TERM,
+                "careful":0,
+                "combatd":0,
            "default_sign":NUMBER_TERM | NON_NEG | NON_ZERO,
                "halt_age":0,
                "jam_talk":0,
