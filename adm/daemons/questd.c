@@ -1190,6 +1190,7 @@ int accept_object(object me, object who, object ob)
 
         exp = exp * ratio;
         pot = pot * ratio;
+        mar = mar * ratio / 2;
 
         message("vision", sprintf(HIC "通过这次锻炼你获得了%s点经验，"
                                   "%s点潜能及%s点实战体会。\n同时还增"
