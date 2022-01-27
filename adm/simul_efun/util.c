@@ -481,3 +481,19 @@ int file_valid(string file)
         return file_size(file) > 0;
 #endif
 }
+
+// ÅĞ¶ÏÊÇ·ñÊÇÊı×Ö×Ö·û´®
+int is_numeric(string str)
+{
+    int i;
+
+    if (nullp(str) || !str[0])
+        return 0;
+
+    i = strlen(str);
+    while (i--)
+        if (str[i] < '0' || str[i] > '9')
+            return 0;
+
+    return 1;
+}

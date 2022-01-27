@@ -2,3 +2,4 @@
 !e2c_dict.o
 !emoted.o
 !.gitignore
+.env

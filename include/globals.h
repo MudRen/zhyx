@@ -51,6 +51,7 @@
 #define DBASE_D         "/adm/daemons/dbased"
 #define DEFEND_D        "/adm/daemons/defend"
 #define EMOTE_D         "/adm/daemons/emoted"
+#define ENV_D           "/adm/daemons/env_d"
 #define EVENT_D         "/adm/daemons/eventd"
 #define EXAMINE_D       "/adm/daemons/examined"
 #define FAMILY_D        "/adm/daemons/familyd"
@@ -198,6 +199,8 @@
 
 // music instructment
 #define F_XIAO          "/inherit/misc/_xiao.c"
+// database
+// #define DATABASE     "/inherit/misc/database.c"
 
 // Others
 // How many item does the user can carried, this value will

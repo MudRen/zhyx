@@ -147,3 +147,45 @@ void tail(string file)
         write(read_file(file, start, line));
     }
 }
+
+// Function name:   read_lines
+// Description:     reads in a file, ignoring lines that begin with '#'
+// Arguements:      file: a string that shows what file to read in.
+// Return:          Array of nonblank lines that don't begin with '#'
+// Note:            must be declared nosave (else a security hole)
+string *read_lines(string file)
+{
+    string *list;
+    string str;
+    int i;
+
+    str = read_file(file);
+    if (!str)
+        return ({});
+
+    list = explode(str, "\n");
+    for (i = 0; i < sizeof(list); i++)
+        if (list[i][0] == '#' || list[i][0] == ';')
+            list[i] = 0;
+
+    list -= ({ 0 });
+    return list;
+}
+
+// 游戏配置内容的读取或设置
+varargs mixed env(string key, mixed value)
+{
+    if (nullp(key))
+    {
+        return ENV_D->query_entire_dbase();
+    }
+
+    if (nullp(value))
+    {
+        return ENV_D->query(key);
+    }
+    else
+    {
+        return ENV_D->set(key, value);
+    }
+}
