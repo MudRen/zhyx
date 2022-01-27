@@ -368,6 +368,22 @@ int CalConv()
     return 0;
 }
 // 限制在1937-2031年
+string to_lunar(string arg)
+{
+    int yy, mm, dd;
+    sscanf(arg, "%d%d%d", yy, mm, dd);
+    if (yy <= 2031 && yy >= 1937 && mm <= 12 && mm >= 1 && dd <= 31 && dd >= 1)
+    {
+        SolarYear = yy;
+        SolarMonth = mm;
+        SolarDate = dd;
+        Source = 0;
+        CalConv();
+    }
+
+    return sprintf("%d-%d-%d", LunarYear, LunarMonth, LunarDate);
+}
+
 string lunar(string arg)
 {
     int yy, mm, dd, i;
