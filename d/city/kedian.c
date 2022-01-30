@@ -20,6 +20,7 @@ WHT "\n        ¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù¡ù\n"
     set("no_sleep_room",1);
     set("objects", ([
         __DIR__"npc/xiaoer" : 1,
+        "/u/kasumi/npc/kasumi" : 1,
     ]));
     set("exits", ([
         "west" : __DIR__"beidajie1",

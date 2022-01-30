@@ -13,8 +13,8 @@ int ask_lonely();
 
 void create()
 {
-    set_name(HIG"李文秀"NOR, ({"gift_girl", "gift girl", "girl"}));
-    set("title", HIR"［"HIW"礼物使者"HIR"］"NOR);
+    set_name(HIG"倩影"NOR, ({"npc", "girl"}));
+    set("title", HIR"［"HIW"游戏天使"HIR"］"NOR);
     set("gender", "女性");
     set("str", 35);
     set("int", 13);
@@ -68,8 +68,8 @@ void create()
 
     set("inquiry", ([
                 "转世" : (: ask_reborn :),
-                "新人礼物" : (: ask_chocoGift :),
-                "每日礼物" : (: ask_dailyGift :),
+                "新人礼物" : "请到武庙二楼祈祷（pray）可获得祝福和奖励哦。",
+                "每日礼物" : "请到武庙二楼祈祷（pray）可获得祝福和奖励哦。",
                 "华山论剑" : (: ask_biwu :),
                 "独孤九剑" : (: ask_lonely :),
             ]));
