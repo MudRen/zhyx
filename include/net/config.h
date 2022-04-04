@@ -13,10 +13,10 @@
  */
 // Elon (07-01-95) updated LISTNODES to current
 // The TMI-2
-#define MUDLIST_DNS  ({ "118.190.104.241", 5556 })
+#define MUDLIST_DNS  ({ "118.190.104.241", 5567 })
 // The Eastern Stories
 //#define MUDLIST_BAK  ({ "140.113.204.42", 8008 })
-#define MUDLIST_BAK  ({"118.190.104.241", 5557 })
+#define MUDLIST_BAK  ({"118.190.104.241", 5556 })
 
 
 /*#define LISTNODES ([ \
@@ -28,7 +28,7 @@
 ])
 */
 
-#define LISTNODES (["MUD.REN":"118.190.104.241 5556",])
+#define LISTNODES (["MUD.REN":"118.190.104.241 5567",])
 
 #define NO_ES_CHANNEL ({ "NITAN.WZ" })
 
