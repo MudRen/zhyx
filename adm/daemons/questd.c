@@ -207,7 +207,7 @@ private void special_bonus(object me, object who, mixed arg)
                 "/clone/fam/gift/dex3",
                 "/clone/fam/item/yanluo",
                 "/clone/fam/item/lihuo",
-		"/clone/fam/item/xuantie",
+                "/clone/fam/item/xuantie",
         });
 
         string un, gift;
@@ -296,7 +296,7 @@ private void special_bonus(object me, object who, mixed arg)
 //	CHANNEL_D->do_channel( this_object(), "wiz", who->name() + "任务获得奖励物品 "+gift+"需要贡献"+ gongxian +"\n");//修正bug临时添加的东西
 
         ob = new(gift);
-		if (!ob) {ob=new("/clone/fam/gift/str3");}
+                if (!ob) {ob=new("/clone/fam/gift/str3");}
 
         if (ob->query("base_unit"))
                 un = ob->query("base_unit");
@@ -436,43 +436,44 @@ int ask_quest(object me, object who)
         q = who->query("quest");
         if (mapp(q))
         {
-        	if (q["freequest"] > 0)
-                {
-                        message_vision(CYN "$N" CYN "对$n" CYN "说道：我这里暂"
-                                       "时也没什么事情，你还是自己锻炼一段时间"
-                                       "吧。\n" NOR, me, who);
-                        tell_object(who, HIY "你突然想到：现在江湖正值动乱，何"
-                                         "不四处走访，也许可提高自己的经验阅历"
-                                         "。\n" NOR);
-                        return 1;
-                }
-
-                if (q["master_id"] && q["master_id"] != me->query("id"))
-                {
-                        message_vision(CYN "$N" CYN "看了看$n" CYN "，"
-                                       "哼了一声，没有理会$n" CYN "。\n"
-                                       NOR, me, who);
-                        return 1;
-                }
-
+            if (q["freequest"] > 0)
+            {
+                message_vision(CYN "$N" CYN "对$n" CYN "说道：我这里暂"
+                                "时也没什么事情，你还是自己锻炼一段时间"
+                                "吧。\n" NOR, me, who);
+                tell_object(who, HIY "你突然想到：现在江湖正值动乱，何"
+                                    "不四处走访，也许可提高自己的经验阅历"
+                                    "。\n" NOR);
+                return 1;
+            }
+            else if (q["master_id"] && q["master_id"] != me->query("id"))
+            {
+                message_vision(CYN "$N" CYN "看了看$n" CYN "，"
+                                "哼了一声，没有理会$n" CYN "。\n"
+                                NOR, me, who);
+                return 1;
+            }
+            else if (q["type"])
+            {
                 switch (q["type"])
                 {
-                case "kill":
-                        message_vision(CYN "$N" CYN "一脸怒容对$n" CYN "道：我不是让"
-                                       "你" + CHINESE_D->chinese_monthday(q["limit"]) +
-                                       "之前杀了" NOR + HIR + q["name"] + NOR + CYN
-                                       "的吗？现在是" + CHINESE_D->chinese_monthday(time()) +
-                                       "，他的人头呢？\n" NOR, me, who);
-                        break;
-                case "letter":
-                        message_vision(CYN "$N" CYN "一脸怒容对$n" CYN "道：我不是让"
-                                       "你" + CHINESE_D->chinese_monthday(q["limit"]) +
-                                       "之前把信送到" NOR + HIC + q["name"] + NOR + CYN
-                                       "那里的吗？现在是" + CHINESE_D->chinese_monthday(time()) +
-                                       "，他的回执呢？\n" NOR, me, who);
-                        break;
+                    case "kill":
+                            message_vision(CYN "$N" CYN "一脸怒容对$n" CYN "道：我不是让"
+                                        "你" + CHINESE_D->chinese_monthday(q["limit"]) +
+                                        "之前杀了" NOR + HIR + q["name"] + NOR + CYN
+                                        "的吗？现在是" + CHINESE_D->chinese_monthday(time()) +
+                                        "，他的人头呢？\n" NOR, me, who);
+                            break;
+                    case "letter":
+                            message_vision(CYN "$N" CYN "一脸怒容对$n" CYN "道：我不是让"
+                                        "你" + CHINESE_D->chinese_monthday(q["limit"]) +
+                                        "之前把信送到" NOR + HIC + q["name"] + NOR + CYN
+                                        "那里的吗？现在是" + CHINESE_D->chinese_monthday(time()) +
+                                        "，他的回执呢？\n" NOR, me, who);
+                            break;
                 }
                 return 1;
+            }
         }
 
         if (me->query("eff_qi") * 2 < me->query("max_qi") ||
@@ -643,11 +644,11 @@ int ask_quest(object me, object who)
                 NPC_D->set_from_me(ob, who, 100);
 
                 ob->add_temp("apply/attack", ob->query_skill("force") *
-					     (level - 1) / 15);
+                                             (level - 1) / 15);
                 ob->add_temp("apply/dodge", ob->query_skill("force") *
-					    (level - 1) / 15);
+                                            (level - 1) / 15);
                 ob->add_temp("apply/parry", ob->query_skill("force") *
-					    (level - 1) / 15);
+                                            (level - 1) / 15);
                 ob->add_temp("apply/damage", 5 + level * 7);
                 ob->add_temp("apply/unarmed_damage", 5 + level * 7);
                 ob->add_temp("apply/armor", 10 + level * 15);
@@ -665,14 +666,14 @@ int ask_quest(object me, object who)
                 {
                         ob->set("shen", -ob->query("combat_exp") / 2000);
                 if (me->query("family/family_name") == "少林派")
-				tell_object(who, CYN + me->name() + CYN "对你道：虽"
+                                tell_object(who, CYN + me->name() + CYN "对你道：虽"
                                                  "然我们出家人以慈悲为怀，但是对于大"
                                                  "凶大恶之徒也不能放过。\n最近" NOR +
                                                  HIR + ob->name() + NOR + CYN "在" +
                                                  place + "作恶多端，你去把他除了，提"
                                                  "头来见。\n" NOR);
-			else
-                        	tell_object(who, CYN + me->name() + CYN"对你道：" NOR
+                        else
+                                tell_object(who, CYN + me->name() + CYN"对你道：" NOR
                                                  + HIR + ob->name() + NOR + CYN "这个"
                                                  "败类打家劫舍，无恶不作，听说他最近"
                                                  "在" + place +	"，你去除掉他，提头来"
@@ -1174,7 +1175,7 @@ int accept_object(object me, object who, object ob)
         {
                 // 百分之一的几率直接赠送物品奖励
                 if ((quest_count >= 100 && random(200) == 1) || special)
-			special_bonus(me, who, special);
+                        special_bonus(me, who, special);
         }
 
         if (who->query("potential") >= who->query_potential_limit())
@@ -1254,7 +1255,7 @@ int cancel_quest(object me, object who)
                         who->delete("quest_count");
                 }
 
-	            who->delete_temp("quest/next_level");
+                    who->delete_temp("quest/next_level");
                 n = (40 + random(40) + NPC_D->check_level(who) * 5);
                 g = (10 + random(10) + NPC_D->check_level(who));
 
