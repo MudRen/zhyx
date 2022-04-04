@@ -5,7 +5,7 @@
 #ifndef GLOBALS_H
 #define GLOBALS_H
 
-#ifndef SENSIBLE_MODIFIERS
+#ifndef __SENSIBLE_MODIFIERS__
 #define nosave static
 #define protected static
 #endif
